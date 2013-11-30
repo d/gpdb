@@ -1591,7 +1591,7 @@ fi
 
 if test "$PORTNAME" = "win32" ; then
    AC_CHECK_HEADERS(crtdefs.h)
-fi 
+fi
 
 # OpenBSD requires libexecinfo from ports for backtrace() as it's a glibc addition
 if test "$PORTNAME" = "openbsd"; then
@@ -1606,11 +1606,8 @@ m4_defun([AC_PROG_CC_STDC], []) dnl We don't want that.
 AC_C_BIGENDIAN
 PGAC_C_INLINE
 PGAC_PRINTF_ARCHETYPE
-AC_C_CONST
-AC_C_STRINGIZE
 AC_C_FLEXIBLE_ARRAY_MEMBER
 PGAC_C_SIGNED
-AC_C_VOLATILE
 PGAC_C_FUNCNAME_SUPPORT
 PGAC_C_STATIC_ASSERT
 PGAC_C_TYPES_COMPATIBLE
@@ -2280,9 +2277,6 @@ if test "$ac_cv_sizeof_off_t" -lt 8 -a "$segsize" != "1"; then
    AC_MSG_ERROR([Large file support is not enabled. Segment size cannot be larger than 1GB.])
 fi
 fi
-
-# SunOS doesn't handle negative byte comparisons properly with +/- return
-AC_FUNC_MEMCMP
 
 
 # Select semaphore implementation type.
