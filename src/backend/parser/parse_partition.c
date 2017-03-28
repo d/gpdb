@@ -1411,38 +1411,6 @@ make_partition_rules(ParseState *pstate,
 				pCRef->location = -1;
 				pCRef->fields = list_make1(pColConst);
 
-				if (!(IsA(pValConst, A_Const)))
-				{
-					Const	   *c = (Const *) pValConst;
-					Type		typ;
-					Form_pg_type pgtype;
-					Datum		dat;
-					A_Const    *aconst;
-					Value	   *val;
-
-					Assert(IsA(c, Const));
-
-					if (c->constisnull)
-					{
-						isnull = true;
-						aconst = NULL;
-					}
-					else
-					{
-						aconst = makeNode(A_Const);
-						typ = typeidType(c->consttype);
-						pgtype = (Form_pg_type) GETSTRUCT(typ);
-						dat = OidFunctionCall1(pgtype->typoutput, c->constvalue);
-
-						ReleaseSysCache(typ);
-						val = makeString(DatumGetCString(dat));
-						aconst->val = *val;
-						aconst->location = -1;
-					}
-
-					pValConst = aconst;
-				}
-
 				if (isnull)
 				{
 					NullTest   *nt = makeNode(NullTest);
