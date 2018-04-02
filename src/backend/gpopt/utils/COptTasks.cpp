@@ -749,24 +749,22 @@ COptTasks::PoconfCreate
 	ULONG ulJoinOrderThreshold = (ULONG) optimizer_join_order_threshold;
 	ULONG ulBroadcastThreshold = (ULONG) optimizer_penalize_broadcast_threshold;
 
-	return GPOS_NEW(pmp) COptimizerConfig
-						(
-						GPOS_NEW(pmp) CEnumeratorConfig(pmp, ullPlanId, ullSamples, dCostThreshold),
-						GPOS_NEW(pmp) CStatisticsConfig(pmp, dDampingFactorFilter, dDampingFactorJoin, dDampingFactorGroupBy),
-						GPOS_NEW(pmp) CCTEConfig(ulCTEInliningCutoff),
-						pcm,
-						GPOS_NEW(pmp) CHint
-								(
-								GPOS_INT_MAX /* optimizer_parts_to_force_sort_on_insert */,
-								ulJoinArityForAssociativityCommutativity,
-								ulArrayExpansionThreshold,
-								ulJoinOrderThreshold,
-								ulBroadcastThreshold,
-								false /* don't create Assert nodes for constraints, we'll
+	return GPOS_NEW(pmp) COptimizerConfig(
+		GPOS_NEW(pmp)
+			CEnumeratorConfig(pmp, ullPlanId, ullSamples, dCostThreshold),
+		GPOS_NEW(pmp)
+			CStatisticsConfig(pmp, dDampingFactorFilter, dDampingFactorJoin,
+							  dDampingFactorGroupBy),
+		GPOS_NEW(pmp) CCTEConfig(ulCTEInliningCutoff), pcm,
+		GPOS_NEW(pmp) CHint(
+			GPOS_INT_MAX /* optimizer_parts_to_force_sort_on_insert */,
+			ulJoinArityForAssociativityCommutativity, ulArrayExpansionThreshold,
+			ulJoinOrderThreshold, ulBroadcastThreshold,
+			false /* don't create Assert nodes for constraints, we'll
 								      * enforce them ourselves in the executor */
-								),
-						GPOS_NEW(pmp) CWindowOids(OID(F_WINDOW_ROW_NUMBER), OID(F_WINDOW_RANK))
-						);
+			),
+		GPOS_NEW(pmp)
+			CWindowOids(OID(F_WINDOW_ROW_NUMBER), OID(F_WINDOW_RANK)));
 }
 
 
@@ -1744,7 +1742,8 @@ COptTasks::DumpMDObjs
 	const char *szFilename
 	)
 {
-	SContextRelcacheToDXL ctxrelcache(plistOids, GPOS_ULONG_MAX /*ulCmpt*/, szFilename);
+	SContextRelcacheToDXL ctxrelcache(plistOids, GPOS_ULONG_MAX /*ulCmpt*/,
+									  szFilename);
 	Execute(&PvDXLFromMDObjsTask, &ctxrelcache);
 }
 
@@ -1763,7 +1762,8 @@ COptTasks::SzMDObjs
 	List *plistOids
 	)
 {
-	SContextRelcacheToDXL ctxrelcache(plistOids, GPOS_ULONG_MAX /*ulCmpt*/, NULL /*szFilename*/);
+	SContextRelcacheToDXL ctxrelcache(plistOids, GPOS_ULONG_MAX /*ulCmpt*/,
+									  NULL /*szFilename*/);
 	Execute(&PvDXLFromMDObjsTask, &ctxrelcache);
 
 	return ctxrelcache.m_szDXL;
@@ -1783,7 +1783,8 @@ COptTasks::SzMDCast
 	List *plistOids
 	)
 {
-	SContextRelcacheToDXL ctxrelcache(plistOids, GPOS_ULONG_MAX /*ulCmpt*/, NULL /*szFilename*/);
+	SContextRelcacheToDXL ctxrelcache(plistOids, GPOS_ULONG_MAX /*ulCmpt*/,
+									  NULL /*szFilename*/);
 	Execute(&PvMDCast, &ctxrelcache);
 
 	return ctxrelcache.m_szDXL;
@@ -1825,7 +1826,8 @@ COptTasks::SzRelStats
 	List *plistOids
 	)
 {
-	SContextRelcacheToDXL ctxrelcache(plistOids, GPOS_ULONG_MAX /*ulCmpt*/, NULL /*szFilename*/);
+	SContextRelcacheToDXL ctxrelcache(plistOids, GPOS_ULONG_MAX /*ulCmpt*/,
+									  NULL /*szFilename*/);
 	Execute(&PvDXLFromRelStatsTask, &ctxrelcache);
 
 	return ctxrelcache.m_szDXL;

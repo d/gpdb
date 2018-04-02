@@ -2022,7 +2022,7 @@ CTranslatorDXLToPlStmt::PplanResultHashFilters
 		{
 			CDXLNode *pdxlnHashExpr = (*pdxlnHashExprList)[ul];
 			CDXLNode *pdxlnExpr = (*pdxlnHashExpr)[0];
-			
+
 			INT iResno = GPOS_INT_MAX;
 			if (EdxlopScalarIdent == pdxlnExpr->Pdxlop()->Edxlop())
 			{
@@ -2061,7 +2061,7 @@ CTranslatorDXLToPlStmt::PplanResultHashFilters
 				iResno = pte->resno;
 			}
 			GPOS_ASSERT(GPOS_INT_MAX != iResno);
-			
+
 			presult->hashList = gpdb::PlAppendInt(presult->hashList, iResno);
 		}
 	}

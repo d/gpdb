@@ -2651,26 +2651,26 @@ CTranslatorRelcacheToDXL::UlTableCount
        OID oidRelation
        )
 {
-       GPOS_ASSERT(InvalidOid != oidRelation);
+	GPOS_ASSERT(InvalidOid != oidRelation);
 
-       ULONG ulTableCount = GPOS_ULONG_MAX;
-       if (gpdb::FRelPartIsNone(oidRelation))
-       {
-    	   // not a partitioned table
-            ulTableCount = 1;
-       }
-       else if (gpdb::FLeafPartition(oidRelation))
-       {
-           // leaf partition
-           ulTableCount = 1;
-       }
-       else
-       {
-           ulTableCount = gpdb::UlLeafPartitions(oidRelation);
-       }
-       GPOS_ASSERT(GPOS_ULONG_MAX != ulTableCount);
+	ULONG ulTableCount = GPOS_ULONG_MAX;
+	if (gpdb::FRelPartIsNone(oidRelation))
+	{
+		// not a partitioned table
+		ulTableCount = 1;
+	}
+	else if (gpdb::FLeafPartition(oidRelation))
+	{
+		// leaf partition
+		ulTableCount = 1;
+	}
+	else
+	{
+		ulTableCount = gpdb::UlLeafPartitions(oidRelation);
+	}
+	GPOS_ASSERT(GPOS_ULONG_MAX != ulTableCount);
 
-       return ulTableCount;
+	return ulTableCount;
 }
 
 

@@ -3084,7 +3084,7 @@ CTranslatorQueryToDXL::PdxlnFromValues
 			Expr *pexpr = (Expr *) lfirst(plcColumn);
 
 			CHAR *szColName = (CHAR *) strVal(gpdb::PvListNth(plColnames, ulColPos));
-			ULONG ulColId = GPOS_ULONG_MAX;	
+			ULONG ulColId = GPOS_ULONG_MAX;
 			if (IsA(pexpr, Const))
 			{
 				// extract the datum

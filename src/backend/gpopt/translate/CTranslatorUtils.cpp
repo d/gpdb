@@ -1390,7 +1390,7 @@ CTranslatorUtils::PdrgpulGenerateColIds
 				ulColId = *(*pdrgpulInput)[ulColPos];
 			}
 			GPOS_ASSERT(GPOS_ULONG_MAX != ulColId);
-			
+
 			pdrgpul->Append(GPOS_NEW(pmp) ULONG(ulColId));
 
 			ulColPos++;
