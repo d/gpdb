@@ -98,7 +98,7 @@ namespace gpdxl
 					m_plTENewGroupByQuery(plTENewGroupByQuery),
 					m_ulCurrLevelsUp(0),
 					m_fAggregateArg(false),
-					m_ulAggregateLevelUp(ULONG_MAX),
+					m_ulAggregateLevelUp(GPOS_ULONG_MAX),
 					m_fFallbackToPlanner(false)
 				{
 					GPOS_ASSERT(NULL != plTENewGroupByQuery);

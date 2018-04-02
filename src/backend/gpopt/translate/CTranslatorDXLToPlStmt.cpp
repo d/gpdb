@@ -543,7 +543,7 @@ CTranslatorDXLToPlStmt::FSetIndexVarAttno
 		const IMDRelation *pmdrel = pctxtidxvarattno->m_pmdrel;
 		const IMDIndex *pmdindex = pctxtidxvarattno->m_pmdindex;
 
-		ULONG ulIndexColPos = ULONG_MAX;
+		ULONG ulIndexColPos = GPOS_ULONG_MAX;
 		const ULONG ulArity = pmdrel->UlColumns();
 		for (ULONG ulColPos = 0; ulColPos < ulArity; ulColPos++)
 		{
@@ -555,7 +555,7 @@ CTranslatorDXLToPlStmt::FSetIndexVarAttno
 			}
 		}
 
-		if (ULONG_MAX > ulIndexColPos)
+		if (GPOS_ULONG_MAX > ulIndexColPos)
 		{
 			((Var *)pnode)->varattno =  1 + pmdindex->UlPosInKey(ulIndexColPos);
 		}
@@ -2023,7 +2023,7 @@ CTranslatorDXLToPlStmt::PplanResultHashFilters
 			CDXLNode *pdxlnHashExpr = (*pdxlnHashExprList)[ul];
 			CDXLNode *pdxlnExpr = (*pdxlnHashExpr)[0];
 			
-			INT iResno = INT_MAX;
+			INT iResno = GPOS_INT_MAX;
 			if (EdxlopScalarIdent == pdxlnExpr->Pdxlop()->Edxlop())
 			{
 				ULONG ulColId = CDXLScalarIdent::PdxlopConvert(pdxlnExpr->Pdxlop())->Pdxlcr()->UlID();
@@ -2060,7 +2060,7 @@ CTranslatorDXLToPlStmt::PplanResultHashFilters
 
 				iResno = pte->resno;
 			}
-			GPOS_ASSERT(INT_MAX != iResno);
+			GPOS_ASSERT(GPOS_INT_MAX != iResno);
 			
 			presult->hashList = gpdb::PlAppendInt(presult->hashList, iResno);
 		}
