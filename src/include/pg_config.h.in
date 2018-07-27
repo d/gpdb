@@ -175,6 +175,9 @@
 /* Define to 1 if you have the <event.h> header file. */
 #undef HAVE_EVENT_H
 
+/* Define to 1 if you have the <execinfo.h> header file. */
+#undef HAVE_EXECINFO_H
+
 /* Define to 1 if you have the `fcvt' function. */
 #undef HAVE_FCVT
 
@@ -352,6 +355,9 @@
 
 /* Define to 1 if you have the `eay32' library (-leay32). */
 #undef HAVE_LIBEAY32
+
+/* Define to 1 if you have the `execinfo' library (-lexecinfo). */
+#undef HAVE_LIBEXECINFO
 
 /* Define to 1 if you have the `gpdbcost' library (-lgpdbcost). */
 #undef HAVE_LIBGPDBCOST
