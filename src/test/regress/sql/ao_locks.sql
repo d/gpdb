@@ -52,7 +52,7 @@ SELECT coalesce(
   locktype,
   case when count(*) = 1 then '1 segment'
        else 'n segments' end as node
-  FROM gp_dist_random('locktest_segments_dist')
+  FROM locktest_segments_dist
   group by relname, relation, mode, locktype;
 
 -- Actual test begins
