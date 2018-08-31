@@ -223,7 +223,6 @@ hashDatum(Datum datum, Oid type, datumHashFunction hashFn, void *clientData)
 	char		char_buf;
 	Name		namebuf;
 
-	ArrayType  *arrbuf;
 	inet	   *inetptr;		/* inet/cidr */
 	unsigned char inet_hkey[sizeof(inet_struct)];
 	macaddr    *macptr;			/* MAC address */
@@ -573,9 +572,8 @@ hashDatum(Datum datum, Oid type, datumHashFunction hashFn, void *clientData)
 			 * (INSERT and COPY do so).
 			 */
 		case ANYARRAYOID:
-			arrbuf = DatumGetArrayTypeP(datum);
-			len = VARSIZE(arrbuf) - VARHDRSZ;
-			buf = VARDATA(arrbuf);
+			ereport(ERROR,(errmsg("naughty arrays busted!")));
+			pg_unreachable();
 			break;
 
 		case OIDVECTOROID:
@@ -774,10 +772,6 @@ typeIsRangeType(Oid typeoid)
 bool
 isGreenplumDbHashable(Oid typid)
 {
-	/* we can hash all arrays */
-	if (typeIsArrayType(typid))
-		return true;
-
 	/* if this type is a domain type, get its base type */
 	if (get_typtype(typid) == 'd')
 		typid = getBaseType(typid);
@@ -842,7 +836,6 @@ isGreenplumDbHashable(Oid typid)
 		case BITOID:
 		case VARBITOID:
 		case BOOLOID:
-		case ANYARRAYOID:
 		case OIDVECTOROID:
 		case CASHOID:
 		case UUIDOID:
