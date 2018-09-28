@@ -97,10 +97,13 @@ Ensure(cdbutil, dbid_exists_raises_exception_when_not_run_in_qd)
 	PG_END_TRY();
 }
 
+#include <unistd.h>
+
 Ensure(cdbutil,
 	   dbid_exists_when_run_in_qd_throw_exception_if_segment_does_not_exist)
 {
-	sleep(20);
+//	sleep(5);
+
 	GpIdentity.segindex = MASTER_CONTENT_ID;
 	RelationData relation = {};
 	ScanKeyData scanKeyData = {};
@@ -111,15 +114,15 @@ Ensure(cdbutil,
 	expect(
 		ScanKeyInit,
 		
-		will_set_contents_of_parameter(_entry, &scanKeyData, sizeof(ScanKey)));
+		will_set_contents_of_parameter(entry, &scanKeyData, sizeof(ScanKeyData)));
 	
 	expect(systable_beginscan, 
-		when(_key, &scanKeyData),
+		when(key, is_equal_to_contents_of(&scanKeyData, sizeof(ScanKeyData))),
 		will_return(&sysScanDesc));
 	expect(systable_getnext, will_return(NULL));
 
 	always_expect(elog_start);
-	always_expect(elog_finish, with_sideeffect(&_ExceptionalCondition, NULL));
+	expect(elog_finish, with_sideeffect(&_ExceptionalCondition, NULL));
 
 	PG_TRY();
 	{
@@ -132,6 +135,7 @@ Ensure(cdbutil,
 	PG_END_TRY();
 }
 
+
 int
 main(int argc, char **argv)
 {
@@ -142,5 +146,8 @@ main(int argc, char **argv)
 		suite,
 		cdbutil,
 		dbid_exists_when_run_in_qd_throw_exception_if_segment_does_not_exist);
-	return run_test_suite(suite, create_text_reporter());
+	TestReporter *reporter = create_text_reporter();
+	TextReporterOptions options = {.use_colours = true, .quiet_mode = false};
+	set_reporter_options(reporter, &options);
+	return run_test_suite(suite, reporter);
 }

@@ -271,24 +271,7 @@ class FuncSignature(object):
         # Currently, local function doesn't check arguments.
         if self.is_local():
             buf = []
-        print "working on: ", self.funcname
-        for arg in self.args:
-            if self.is_variadic(arg):
-                continue
-            print "looking at argument: ", arg[1]
-            if self._is_malloc_required(arg[0], arg[1]):
-                argname = arg[1]
-                multiplier = 1
-                found_array = subscript.search(argname)
-                if found_array:
-                    multiplier = found_array.group(1)
-                    argname = subscript.sub('', argname)
-                add_to_buf = """
-    void * _{argname} = malloc(sizeof({type}) * {multiplier});
-    memcpy(_{argname}, &{argname}, sizeof({type}) * {multiplier});
-""".format(type=arg[0], argname=argname, multiplier=multiplier)
-                buf.append(add_to_buf)
-        
+
         return_statement = ''
         # if special.ByValStructs.has(self.rettype):
         #     ret = ('\t{rettype} *ret = ({rettype} *) mock(').format(rettype=self.rettype)
@@ -308,12 +291,11 @@ class FuncSignature(object):
             if add_command:
                 buf.append(', ')
             add_command = True
+            argtype = arg[0]
             argname = arg[1]
             argname = subscript.sub('', argname)
-            if self._is_malloc_required(arg[0], arg[1]):
-                buf.append('_{arg}'.format(arg=argname))
-            else:
-                buf.append('{arg}'.format(arg=argname))
+            ref = '&' if special.ByValStructs.has(argtype) else ''
+            buf.append('{ref}{arg}'.format(arg=argname, ref=ref))
         
         buf.append(');')
         buf.append(return_statement)

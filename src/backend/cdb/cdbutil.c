@@ -1047,9 +1047,11 @@ dbid_exists(int16 dbid) {
 		Anum_gp_segment_configuration_dbid,
 		BTEqualStrategyNumber, F_INT2EQ,
 		Int16GetDatum(dbid));
-	systable_beginscan(relation, GpSegmentConfigDbidIndexId, true,
-	                   SnapshotNow, 1, &scankey);
-	
+	SysScanDesc scan = systable_beginscan(relation, GpSegmentConfigDbidIndexId, true,
+										  SnapshotNow, 1, &scankey);
+
+	systable_getnext(scan);
+	elog(ERROR, "could not find configuration entry for dbid %i", dbid);
 	return false;
 }
 
