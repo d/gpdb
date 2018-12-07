@@ -20,6 +20,7 @@ static void check_external_partition(void);
 static void check_covering_aoindex(void);
 static void check_partition_indexes(void);
 static void check_orphaned_toastrels(void);
+static void check_partition_columns(void);
 
 /*
  *	check_greenplum
@@ -33,9 +34,87 @@ void
 check_greenplum(void)
 {
 	check_external_partition();
+	check_partition_columns();
 	check_covering_aoindex();
 	check_partition_indexes();
 	check_orphaned_toastrels();
+}
+
+void
+check_partition_columns(void)
+{
+	char		output_path[MAXPGPATH];
+	FILE	   *script = NULL;
+	bool		found = false;
+	int			dbnum;
+
+	prep_status("Checking for missing columns in root partitioned tables");
+
+	snprintf(output_path, sizeof(output_path), "partition_columns.txt");
+	/*
+	 * We need to query the inheritance catalog rather than the partitioning
+	 * catalogs since they are not available on the segments.
+	 */
+
+	for (dbnum = 0; dbnum < old_cluster.dbarr.ndbs; dbnum++)
+	{
+		PGresult   *res;
+		int			ntups;
+		int			rowno;
+		DbInfo	   *active_db = &old_cluster.dbarr.dbs[dbnum];
+		PGconn	   *conn;
+
+		conn = connectToServer(&old_cluster, active_db->db_name);
+		res = executeQueryOrDie(conn,
+								"SELECT nspname, relname, "
+								"pg_catalog.array_to_string(pg_catalog.array_agg(DISTINCT attname), ', ') AS column_names "
+								"FROM pg_catalog.pg_partition p "
+								"JOIN pg_catalog.pg_class c ON p.parrelid = c.oid "
+								"JOIN pg_catalog.pg_namespace n ON c.relnamespace = n.oid "
+								"JOIN pg_catalog.pg_partition_rule r ON p.oid = r.paroid "
+								"JOIN pg_catalog.pg_attribute att ON att.attrelid = r.parchildrelid "
+								"WHERE att.attnum > 0 AND att.attinhcount = 0 "
+								"GROUP BY p.parrelid, nspname, relname");
+
+		ntups = PQntuples(res);
+
+		if (ntups > 0)
+		{
+			found = true;
+
+			if (script == NULL && (script = fopen(output_path, "w")) == NULL)
+				pg_log(PG_FATAL, "Could not create necessary file:  %s\n",
+					   output_path);
+
+			fprintf(script,
+					"Database \"%s\" contains partitioned tables with missing columns\n",
+					active_db->db_name);
+
+			for (rowno = 0; rowno < ntups; rowno++)
+			{
+				fprintf(script,
+						"  %s.%s: columns %s\n",
+						PQgetvalue(res, rowno, PQfnumber(res, "nspname")),
+						PQgetvalue(res, rowno, PQfnumber(res, "relname")),
+						PQgetvalue(res, rowno, PQfnumber(res, "column_names")));
+			}
+		}
+
+		PQclear(res);
+		PQfinish(conn);
+	}
+	if (found)
+	{
+		fclose(script);
+		pg_log(PG_REPORT, "fatal\n");
+		pg_fatal("Your installation contains partitioned tables that are missing columns that are\n"
+				 "present in their child partitions.  The columns must be either readded (using\n"
+				 "ALTER TABLE ADD COLUMN) or fully dropped (using ALTER TABLE DROP COLUMN after\n"
+				 "readding the column).  The list of tables and their missing columns is in the file:\n"
+				 "\t%s\n\n", output_path);
+	}
+	else
+		check_ok();
 }
 
 /*
