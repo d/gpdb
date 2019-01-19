@@ -145,6 +145,20 @@ CatalogIndexInsert(CatalogIndexState indstate, HeapTuple heapTuple)
 	ExecDropSingleTupleTableSlot(slot);
 }
 
+/* GPDB_10_MERGE_FIXME: In 2f5c9d9c9ce CatalogUpdateIndexes will go away and be
+ * replaced:
+ *
+ * A simple_heap_insert followed by CatalogUpdateIndexes can be replaced by
+ * CatalogTupleInsert;
+ *
+ * A simple_heap_update followed by CatalogUpdateIndexes can be replaced by
+ * CatalogTupleUpdate
+ *
+ * We are keeping CatalogUpdateIndexes here to appease all its existing call
+ * sites in Greenplum 6 (based on Postgres 9.4). But we should ensure that we
+ * remove CatalogUpdateIndexes once we catch up to Postgres 10
+ */
+
 /*
  * CatalogUpdateIndexes - do all the indexing work for a new catalog tuple
  *
@@ -160,5 +174,53 @@ CatalogUpdateIndexes(Relation heapRel, HeapTuple heapTuple)
 
 	indstate = CatalogOpenIndexes(heapRel);
 	CatalogIndexInsert(indstate, heapTuple);
+	CatalogCloseIndexes(indstate);
+}
+
+/*
+ * CatalogTupleInsert - do heap and indexing work for a new catalog tuple
+ *
+ * This is a convenience routine for the common case of inserting a single
+ * tuple in a system catalog; it inserts a new heap tuple, keeping indexes
+ * current.  Avoid using it for multiple tuples, since opening the indexes and
+ * building the index info structures is moderately expensive.
+ *
+ * The Oid of the inserted tuple is returned.
+ */
+Oid
+CatalogTupleInsert(Relation heapRel, HeapTuple tup)
+{
+	CatalogIndexState indstate;
+	Oid		oid;
+
+	indstate = CatalogOpenIndexes(heapRel);
+
+	oid = simple_heap_insert(heapRel, tup);
+
+	CatalogIndexInsert(indstate, tup);
+	CatalogCloseIndexes(indstate);
+
+	return oid;
+}
+
+/*
+ * CatalogTupleUpdate - do heap and indexing work for updating a catalog tuple
+ *
+ * This is a convenience routine for the common case of updating a single
+ * tuple in a system catalog; it updates one heap tuple (identified by otid)
+ * with tup, keeping indexes current.  Avoid using it for multiple tuples,
+ * since opening the indexes and building the index info structures is
+ * moderately expensive.
+ */
+void
+CatalogTupleUpdate(Relation heapRel, ItemPointer otid, HeapTuple tup)
+{
+	CatalogIndexState indstate;
+
+	indstate = CatalogOpenIndexes(heapRel);
+
+	simple_heap_update(heapRel, otid, tup);
+
+	CatalogIndexInsert(indstate, tup);
 	CatalogCloseIndexes(indstate);
 }

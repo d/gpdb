@@ -35,6 +35,9 @@ extern void CatalogCloseIndexes(CatalogIndexState indstate);
 extern void CatalogIndexInsert(CatalogIndexState indstate,
 				   HeapTuple heapTuple);
 extern void CatalogUpdateIndexes(Relation heapRel, HeapTuple heapTuple);
+extern Oid CatalogTupleInsert(Relation heapRel, HeapTuple tup);
+extern void CatalogTupleUpdate(Relation heapRel, ItemPointer otid,
+				   HeapTuple tup);
 
 
 /*
