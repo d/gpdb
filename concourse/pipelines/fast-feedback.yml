@@ -1,0 +1,29 @@
+resources:
+  - name: gpdb_src
+    type: git
+    source:
+      branch: fast-feedback
+      uri: https://github.com/d/gpdb
+      ignore_paths:
+        - gpdb-doc/*
+        - README*
+
+  - name: ubuntu
+    type: docker-image
+    source:
+      repository: yolo/gpdb-yolo
+      tag: ubuntu
+
+jobs:
+  - name: awesome
+    build_logs_to_retain: 2048
+    plan:
+      - aggregate:
+        - get: gpdb_src
+          params:
+            submodules: none
+        - get: image
+          resource: ubuntu
+      - task: regress_parallel
+        image: image
+        file: gpdb_src/concourse/tasks/awesome.yml

@@ -1,0 +1,16 @@
+platform: linux
+image_resource:
+  type: docker-image
+  source:
+    repository: yolo/gpdb-yolo # override this in the pipeline
+    tag: ubuntu
+
+inputs: 
+- name: gpdb_src
+  path: .
+
+caches:
+  - path: .ccache
+
+run:
+  path: concourse/scripts/awesome.bash
