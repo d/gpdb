@@ -87,7 +87,7 @@ workaround_concourse_file_uids() {
 		# we're likely in a `fly execute`
 		sudo chown -R "${USER}:${USER}" .
 	fi
-	time find .ccache '!' -user "${USER}" -print0 | xargs -0 --no-run-if-empty sudo chown "${USER}:${USER}"
+	time find .ccache '!' -user "${USER}" -print0 | xargs -0 --verbose --no-run-if-empty sudo chown "${USER}:${USER}"
 }
 
 make_cluster() {
