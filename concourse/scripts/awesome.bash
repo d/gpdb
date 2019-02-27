@@ -92,19 +92,19 @@ workaround_concourse_file_uids() {
 
 make_cluster() {
 	(
-	set -e
-	source "${PREFIX}/greenplum_path.sh"
-	env BLDWRAP_POSTGRES_CONF_ADDONS='fsync=off statement_mem=250MB' make -C gpAux/gpdemo DEFAULT_QD_MAX_CONNECT=150
+		set -e
+		source "${PREFIX}/greenplum_path.sh"
+		env BLDWRAP_POSTGRES_CONF_ADDONS='fsync=off statement_mem=250MB' make -C gpAux/gpdemo DEFAULT_QD_MAX_CONNECT=150
 	)
 }
 
 icg() {
 	(
-	set -e
-	source "${PREFIX}/greenplum_path.sh"
-	source gpAux/gpdemo/gpdemo-env.sh
+		set -e
+		source "${PREFIX}/greenplum_path.sh"
+		source gpAux/gpdemo/gpdemo-env.sh
 
-	make installcheck
+		env PGOPTIONS='-c optimizer=off' make installcheck
 	)
 }
 
@@ -119,7 +119,6 @@ _main() {
 
 	time compile
 
-	return 0
 	/start-sshd.bash
 
 	make_cluster
