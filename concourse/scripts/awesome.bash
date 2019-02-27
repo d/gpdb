@@ -87,6 +87,7 @@ workaround_concourse_file_uids() {
 		# we're likely in a `fly execute`
 		sudo chown -R "${USER}:${USER}" .
 	fi
+	find .ccache '!' -user "${USER}" | wc -l
 	time sudo chown -R "${USER}:${USER}" .ccache
 }
 
@@ -118,6 +119,8 @@ _main() {
 	set_up_ccache_env
 
 	ccache_show_stats
+
+	return 0
 
 	fetch_and_build_orca
 
