@@ -127,6 +127,8 @@ _main() {
 
 	ccache_show_stats
 
+	return 0
+
 	/start-sshd.bash
 
 	make_cluster
