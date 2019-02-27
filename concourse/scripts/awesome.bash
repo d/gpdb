@@ -120,8 +120,6 @@ _main() {
 
 	ccache_show_stats
 
-	return 0
-
 	fetch_and_build_orca
 
 	configure
