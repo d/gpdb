@@ -102,6 +102,8 @@ _main() {
 
 	time compile
 
+	/start-sshd.bash
+
 	make_cluster
 }
 
