@@ -102,7 +102,7 @@ icg() {
 }
 
 _main() {
-	workaround_concourse_file_uids
+	time workaround_concourse_file_uids
 
 	set_up_ccache_env
 
@@ -112,6 +112,7 @@ _main() {
 
 	time compile
 
+	return 0
 	/start-sshd.bash
 
 	make_cluster
