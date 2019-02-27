@@ -6,6 +6,8 @@ set -x
 NCPU=$(getconf _NPROCESSORS_CONF)
 readonly NCPU
 
+readonly PREFIX=/usr/local/gpdb
+
 : ${USER:=$(whoami)}
 
 make_install() {
@@ -29,7 +31,16 @@ set_up_ccache_env() {
 }
 
 configure() {
-	./configure --enable-depend --enable-debug --enable-cassert --with-libxml --with-zstd --with-python
+	local FLAGS=(
+		--enable-depend
+		--enable-debug
+		--enable-cassert
+		--with-libxml
+		--with-zstd
+		--with-python
+		--prefix="${PREFIX}"
+	)
+	./configure "${FLAGS[@]}"
 }
 
 compile() {
@@ -64,10 +75,20 @@ fetch_and_build_orca() {
 	cmake -GNinja -H"${ORCA_SRC}" -B"${ORCA_BUILD}"
 	ninja -C "${ORCA_BUILD}"
 	sudo ninja install -C "${ORCA_BUILD}"
+
+	sudo ldconfig
 }
 
 workaround_concourse_file_uids() {
 	sudo chown -R "${USER}:${USER}" .
+}
+
+make_cluster() {
+	(
+	set -e
+	source "${PREFIX}/greenplum_path.sh"
+	env BLDWRAP_POSTGRES_CONF_ADDONS='fsync=off statement_mem=250MB' make -C gpAux/gpdemo DEFAULT_QD_MAX_CONNECT=150
+	)
 }
 
 _main() {
@@ -80,6 +101,8 @@ _main() {
 	configure
 
 	time compile
+
+	make_cluster
 }
 
 _main "$@"
