@@ -108,16 +108,24 @@ icg() {
 	)
 }
 
+ccache_show_stats() {
+	ccache --show-stats
+}
+
 _main() {
 	time workaround_concourse_file_uids
 
 	set_up_ccache_env
+
+	ccache_show_stats
 
 	fetch_and_build_orca
 
 	configure
 
 	time compile
+
+	ccache_show_stats
 
 	/start-sshd.bash
 
