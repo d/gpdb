@@ -80,7 +80,14 @@ fetch_and_build_orca() {
 }
 
 workaround_concourse_file_uids() {
-	sudo chown -R "${USER}:${USER}" .
+	if git rev-parse --is-inside-work-tree 2>/dev/null; then
+		sudo chown "${USER}:${USER}" .
+		git ls-tree -rt --name-only HEAD | xargs --no-run-if-empty sudo chown "${USER}:${USER}"
+	else
+		# we're likely in a `fly execute`
+		sudo chown -R "${USER}:${USER}" .
+	fi
+	time sudo chown -R "${USER}:${USER}" .ccache
 }
 
 make_cluster() {
