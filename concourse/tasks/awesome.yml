@@ -3,7 +3,7 @@ image_resource:
   type: docker-image
   source:
     repository: yolo/gpdb-yolo # override this in the pipeline
-    tag: ubuntu
+    tag: user
 
 inputs: 
 - name: gpdb_src
