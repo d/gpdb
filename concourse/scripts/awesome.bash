@@ -91,6 +91,16 @@ make_cluster() {
 	)
 }
 
+icg() {
+	(
+	set -e
+	source "${PREFIX}/greenplum_path.sh"
+	source gpAux/gpdemo/gpdemo-env.sh
+
+	make installcheck
+	)
+}
+
 _main() {
 	workaround_concourse_file_uids
 
@@ -105,6 +115,8 @@ _main() {
 	/start-sshd.bash
 
 	make_cluster
+
+	icg
 }
 
 _main "$@"
