@@ -6,13 +6,14 @@
 #include "upgrade-helpers.h"
 
 
-static void copy_file_from_backup_to_datadir(char *filename, char *segment_path)
+static void
+copy_file_from_backup_to_datadir(char *filename, char *segment_path)
 {
-	char buffer[2000];
+	char		buffer[2000];
 
 	sprintf(buffer,
-	        "cp gpdb6-data-copy/%s/%s gpdb6-data/%s/%s",
-	        segment_path, filename, segment_path, filename);
+			"cp gpdb6-data-copy/%s/%s gpdb6-data/%s/%s",
+			segment_path, filename, segment_path, filename);
 
 	system(buffer);
 }
@@ -20,7 +21,7 @@ static void copy_file_from_backup_to_datadir(char *filename, char *segment_path)
 static void
 copy_configuration_files_from_backup_to_datadirs(char *segment_path)
 {
-	char * files_to_copy[] = {
+	char	   *files_to_copy[] = {
 		"internal.auto.conf",
 		"postgresql.conf",
 		"pg_hba.conf",
@@ -28,8 +29,10 @@ copy_configuration_files_from_backup_to_datadirs(char *segment_path)
 		"postgresql.auto.conf"
 	};
 
-	for (int i = 0; i < 5; i++) {
-		char *filename = files_to_copy[i];
+	for (int i = 0; i < 5; i++)
+	{
+		char	   *filename = files_to_copy[i];
+
 		copy_file_from_backup_to_datadir(filename, segment_path);
 	}
 }
@@ -90,40 +93,43 @@ static void
 upgradeSegment(char *segment_path)
 {
 	copy_master_data_directory_into_segment_data_directory(segment_path);
-	execute_pg_upgrade_for(segment_path);
+	execute_pg_upgrade_for_primary(segment_path);
 	copy_configuration_files_from_backup_to_datadirs(
-		segment_path);
+													 segment_path);
 }
 
 static void
 upgradeMaster(void)
 {
-	char *master_data_directory_path = "qddir/demoDataDir-1";
+	char	   *master_data_directory_path = "qddir/demoDataDir-1";
 
-	execute_pg_upgrade_for(master_data_directory_path);
+	execute_pg_upgrade_for_qd(master_data_directory_path);
 
 	copy_configuration_files_from_backup_to_datadirs(
-		master_data_directory_path);
+													 master_data_directory_path);
 }
 
 static void
 upgradeContentId0(void)
 {
-	char *segment_path = "dbfast1/demoDataDir0";
+	char	   *segment_path = "dbfast1/demoDataDir0";
+
 	upgradeSegment(segment_path);
 }
 
 static void
 upgradeContentId1(void)
 {
-	char *segment_path = "dbfast2/demoDataDir1";
+	char	   *segment_path = "dbfast2/demoDataDir1";
+
 	upgradeSegment(segment_path);
 }
 
 static void
 upgradeContentId2(void)
 {
-	char *segment_path = "dbfast3/demoDataDir2";
+	char	   *segment_path = "dbfast3/demoDataDir2";
+
 	upgradeSegment(segment_path);
 }
 
