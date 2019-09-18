@@ -16,17 +16,16 @@ create_symlink_to_installation() {
 }
 
 create_demo_cluster() {
-  local gpdb_source_path=$1;
-  local installation_path=$2;
-  local gpdb_version=$3;
+	local gpdb_source_path=$1
+	local installation_path=$2
+	local gpdb_version=$3
 
-  source "./configuration/$gpdb_version-env.sh";
-  source "./$installation_path/greenplum_path.sh";
-
-  make -C "$gpdb_source_path/gpAux/gpdemo";
-
-  # ensure cluster is stopped
-  "./$installation_path/bin/gpstop" -a;
+	source "./configuration/$gpdb_version-env.sh" &&
+		source "./$installation_path/greenplum_path.sh" &&
+		make -C "$gpdb_source_path/gpAux/gpdemo" &&
+		source "$gpdb_source_path/gpAux/gpdemo/gpdemo-env.sh" &&
+		remove_gphdfs_permissions &&
+		"./$installation_path/bin/gpstop" -a
 }
 
 create_backup_of_data_dirs() {
@@ -35,6 +34,11 @@ create_backup_of_data_dirs() {
 
   rm -rf "$backup_directory"
   cp -r "$source_directory" "$backup_directory"
+}
+
+remove_gphdfs_permissions() {
+	psql postgres -c "alter role $USER NOCREATEEXTTABLE(protocol='gphdfs',type='readable');"
+	psql postgres -c "alter role $USER NOCREATEEXTTABLE(protocol='gphdfs',type='writable');"
 }
 
 #
