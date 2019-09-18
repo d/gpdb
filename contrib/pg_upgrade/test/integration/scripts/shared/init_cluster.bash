@@ -2,7 +2,7 @@
 
 remove_existing_symlink_to_installation() {
   local installation_link_name=$1
-  rm $1
+  rm -f $1
 }
 
 #
