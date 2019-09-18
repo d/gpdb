@@ -34,20 +34,38 @@ copy_configuration_files_from_backup_to_datadirs(char *segment_path)
 	}
 }
 
-static void 
-execute_pg_upgrade_for(char *segment_path)
+static void
+execute_pg_upgrade_for_qd(char *segment_path)
 {
-	char buffer[2000];
+	char		buffer[2000];
 
 	sprintf(buffer, ""
-	        "./gpdb6/bin/pg_upgrade "
-	        "--mode=dispatcher "
-	        "--link "
-	        "--old-bindir=./gpdb5/bin "
-	        "--new-bindir=./gpdb6/bin "
-	        "--old-datadir=./gpdb5-data/%s "
-	        "--new-datadir=./gpdb6-data/%s "
-	, segment_path, segment_path);
+			"./gpdb6/bin/pg_upgrade "
+			"--mode=dispatcher "
+			"--link "
+			"--old-bindir=./gpdb5/bin "
+			"--new-bindir=./gpdb6/bin "
+			"--old-datadir=./gpdb5-data/%s "
+			"--new-datadir=./gpdb6-data/%s "
+			,segment_path, segment_path);
+
+	system(buffer);
+}
+
+static void
+execute_pg_upgrade_for_primary(char *segment_path)
+{
+	char		buffer[2000];
+
+	sprintf(buffer, ""
+			"./gpdb6/bin/pg_upgrade "
+			"--mode=segment "
+			"--link "
+			"--old-bindir=./gpdb5/bin "
+			"--new-bindir=./gpdb6/bin "
+			"--old-datadir=./gpdb5-data/%s "
+			"--new-datadir=./gpdb6-data/%s "
+			,segment_path, segment_path);
 
 	system(buffer);
 }
@@ -55,15 +73,15 @@ execute_pg_upgrade_for(char *segment_path)
 static void
 copy_master_data_directory_into_segment_data_directory(char *segment_path)
 {
-	char buffer[2000];
-	char *master_data_directory_path = "qddir/demoDataDir-1";
+	char		buffer[2000];
+	char	   *master_data_directory_path = "qddir/demoDataDir-1";
 
-	sprintf(buffer, 
-		"rsync -a --delete "
-            "./gpdb6-data-copy/%s/ "
-            "./gpdb6-data/%s ", 
-            master_data_directory_path,
-            segment_path);
+	sprintf(buffer,
+			"rsync -a --delete "
+			"./gpdb6-data/%s/ "
+			"./gpdb6-data/%s ",
+			master_data_directory_path,
+			segment_path);
 
 	system(buffer);
 }
