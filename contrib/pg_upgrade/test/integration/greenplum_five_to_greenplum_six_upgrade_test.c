@@ -253,7 +253,7 @@ anAdministratorPerformsAnUpgrade()
 }
 
 static void 
-given((* arrangeFunction)(void))
+given(void (* arrangeFunction)(void))
 {
 	startGpdbFiveCluster();
 	arrangeFunction();
@@ -261,7 +261,7 @@ given((* arrangeFunction)(void))
 }
 
 static void
-then((* assertionFunction)(void))
+then(void (* assertionFunction)(void))
 {
 	startGpdbSixCluster();
 	assertionFunction();
@@ -269,13 +269,13 @@ then((* assertionFunction)(void))
 }
 
 static void
-when((* actFunction)(void))
+when(void (* actFunction)(void))
 {
 	actFunction();
 }
 
 static void 
-and((* assertionFunction)(void))
+and(void (* assertionFunction)(void))
 {
 	/* and has the same behavior as then */
 	then(assertionFunction);
