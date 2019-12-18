@@ -19,30 +19,30 @@
 
 typedef struct DtxContextInfo
 {
-	DistributedTransactionTimeStamp	distributedTimeStamp;
-	
-	DistributedTransactionId 		distributedXid;
-	
-	bool							haveDistributedSnapshot;
-	bool							cursorContext;
-	
-	DistributedSnapshot		 		distributedSnapshot;
+	DistributedTransactionTimeStamp distributedTimeStamp;
 
-	int 							distributedTxnOptions;
+	DistributedTransactionId distributedXid;
 
-	uint32							segmateSync;
-	uint32							nestingLevel;
+	bool		haveDistributedSnapshot;
+	bool		cursorContext;
+
+	DistributedSnapshot distributedSnapshot;
+
+	int			distributedTxnOptions;
+
+	uint32		segmateSync;
+	uint32		nestingLevel;
 
 	/* currentCommandId of QD, for debugging only */
-	CommandId				 		curcid;	
+	CommandId	curcid;
 } DtxContextInfo;
 
-extern DtxContextInfo QEDtxContextInfo;	
+extern DtxContextInfo QEDtxContextInfo;
 
 extern void DtxContextInfo_Reset(DtxContextInfo *dtxContextInfo);
 extern void DtxContextInfo_CreateOnMaster(DtxContextInfo *dtxContextInfo, bool inCursor,
 										  int txnOptions, Snapshot snapshot);
-extern int DtxContextInfo_SerializeSize(DtxContextInfo *dtxContextInfo);
+extern int	DtxContextInfo_SerializeSize(DtxContextInfo *dtxContextInfo);
 
 extern void DtxContextInfo_Serialize(char *buffer, DtxContextInfo *dtxContextInfo);
 extern void DtxContextInfo_Deserialize(const char *serializedDtxContextInfo,
@@ -50,4 +50,4 @@ extern void DtxContextInfo_Deserialize(const char *serializedDtxContextInfo,
 									   DtxContextInfo *dtxContextInfo);
 
 extern void DtxContextInfo_Copy(DtxContextInfo *target, DtxContextInfo *source);
-#endif   /* CDBDTXCONTEXTINFO_H */
+#endif							/* CDBDTXCONTEXTINFO_H */
