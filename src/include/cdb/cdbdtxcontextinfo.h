@@ -22,6 +22,7 @@
 		.haveDistributedSnapshot = false, .cursorContext = false,              \
 		.distributedSnapshot = DistributedSnapshot_StaticInit,                 \
 		.distributedTxnOptions = 0, .segmateSync = 0, .nestingLevel = 0,       \
+		.curcid = 0                                                            \
 	}
 
 typedef struct DtxContextInfo
