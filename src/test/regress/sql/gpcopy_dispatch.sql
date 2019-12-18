@@ -110,3 +110,22 @@ COPY partdisttest FROM stdin;
 \.
 
 DROP TABLE partdisttest;
+
+CREATE TABLE partdisttest (dropped bool, a smallint, b smallint)
+  DISTRIBUTED BY (a)
+  PARTITION BY RANGE(a)
+  (PARTITION segundo START(5));
+ALTER TABLE partdisttest DROP dropped;
+ALTER TABLE partdisttest ADD PARTITION primero START(0) END(5);
+
+-- after QD processes MAX_BUFFERED_TUPLES tuples, it will reset the memory where the buffer
+COPY (
+    SELECT 2,1
+    FROM (
+        SELECT generate_series(1, MAX_BUFFERED_TUPLES + 1)
+        FROM (VALUES (1000)) t(MAX_BUFFERED_TUPLES)
+        ) t
+    ) TO '/tmp/thousand-and-one-lines.txt';
+COPY partdisttest FROM '/tmp/thousand-and-one-lines.txt';
+
+SELECT tableoid::regclass, count(*) FROM partdisttest GROUP BY 1;
