@@ -15,7 +15,14 @@
 #define CDBDTXCONTEXTINFO_H
 #include "utils/tqual.h"
 
-#define DtxContextInfo_StaticInit {0,InvalidDistributedTransactionId,false,false,DistributedSnapshot_StaticInit,0,0,0}
+#define DtxContextInfo_StaticInit                                              \
+	{                                                                          \
+		.distributedTimeStamp = 0,                                             \
+		.distributedXid = InvalidDistributedTransactionId,                     \
+		.haveDistributedSnapshot = false, .cursorContext = false,              \
+		.distributedSnapshot = DistributedSnapshot_StaticInit,                 \
+		.distributedTxnOptions = 0, .segmateSync = 0, .nestingLevel = 0,       \
+	}
 
 typedef struct DtxContextInfo
 {
