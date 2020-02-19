@@ -109,7 +109,6 @@ typedef struct ApplyShareInputContext
 	List *qdShares;
 
 	ShareInputScan **producers;
-	int		   *sliceMarks;			/* one for each producer */
 	int			producer_count;
 
 	PlanSlice  *slices;

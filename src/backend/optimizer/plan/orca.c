@@ -101,7 +101,6 @@ optimize_query(Query *parse, ParamListInfo boundParams)
 	glob->oneoffPlan = false;
 	glob->share.producers = NULL;
 	glob->share.producer_count = 0;
-	glob->share.sliceMarks = NULL;
 	glob->share.motStack = NIL;
 	glob->share.qdShares = NIL;
 	/* these will be filled in below, in the pre- and post-processing steps */

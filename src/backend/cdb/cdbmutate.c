@@ -910,7 +910,6 @@ replace_shareinput_targetlists_walker(Node *node, PlannerInfo *root, bool fPop)
 typedef struct ShareNodeWithSliceMark
 {
 	Plan	   *plan;
-	int			slice_mark;
 } ShareNodeWithSliceMark;
 
 static bool
@@ -935,7 +934,6 @@ shareinput_find_sharenode(ApplyShareInputContext *ctxt, int share_id, ShareNodeW
 	if (result)
 	{
 		result->plan = plan;
-		result->slice_mark = ctxt->sliceMarks[share_id];
 	}
 
 	return true;
@@ -944,8 +942,7 @@ shareinput_find_sharenode(ApplyShareInputContext *ctxt, int share_id, ShareNodeW
 /*
  * First walk on shareinput xslice.  It does the following:
  *
- * 1. Build the sliceMarks in context.
- * 2. Build a list a share on QD
+ * 1. Build a list a share on QD
  */
 static bool
 shareinput_mutator_xslice_1(Node *node, PlannerInfo *root, bool fPop)
@@ -994,7 +991,6 @@ shareinput_mutator_xslice_1(Node *node, PlannerInfo *root, bool fPop)
 			 * here, destroying the producers array in the process.
 			 */
 			ctxt->producers[sisc->share_id] = sisc;
-			ctxt->sliceMarks[sisc->share_id] = motId;
 		}
 	}
 
@@ -1035,7 +1031,7 @@ shareinput_mutator_xslice_2(Node *node, PlannerInfo *root, bool fPop)
 
 		if (!shared)
 		{
-			ShareNodeWithSliceMark plan_slicemark = {NULL /* plan */ , 0 /* slice_mark */ };
+			ShareNodeWithSliceMark plan_slicemark = {.plan=NULL};
 			int			shareSliceId = 0;
 
 			shareinput_find_sharenode(ctxt, sisc->share_id, &plan_slicemark);
@@ -1092,7 +1088,7 @@ shareinput_mutator_xslice_3(Node *node, PlannerInfo *root, bool fPop)
 		ShareInputScan *sisc = (ShareInputScan *) plan;
 		int			motId = shareinput_peekmot(ctxt);
 
-		ShareNodeWithSliceMark plan_slicemark = {NULL, 0};
+		ShareNodeWithSliceMark plan_slicemark = {.plan=NULL};
 		ShareType	stype = SHARE_NOTSHARED;
 
 		shareinput_find_sharenode(ctxt, sisc->share_id, &plan_slicemark);
@@ -1153,8 +1149,6 @@ apply_shareinput_xslice(Plan *plan, PlannerInfo *root, PlanSlice *sliceTable)
 	ctxt->motStack = NULL;
 	ctxt->qdShares = NULL;
 	ctxt->slices = sliceTable;
-
-	ctxt->sliceMarks = palloc0(ctxt->producer_count * sizeof(int));
 
 	shareinput_pushmot(ctxt, 0);
 
