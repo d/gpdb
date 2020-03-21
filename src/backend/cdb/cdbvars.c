@@ -335,11 +335,6 @@ int			cdb_total_plans = 0;
 int			cdb_max_slices = 0;
 
 /*
- * Local macro to provide string values of numeric defines.
- */
-#define CppNumericAsString(s) CppAsString(s)
-
-/*
  *	Forward declarations of local function.
  */
 static GpRoleValue string_to_role(const char *string);
