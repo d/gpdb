@@ -43,9 +43,6 @@ namespace gpdxl
 	// fwd decl
 	class CDXLTranslateContext;
 
-	typedef CHashMap<ULONG, CDXLTranslateContext, gpos::HashValue<ULONG>, gpos::Equals<ULONG>,
-			CleanupDelete<ULONG>, CleanupDelete<CDXLTranslateContext> > HMUlDxltrctx;
-
 	//---------------------------------------------------------------------------
 	//	@class:
 	//		CContextDXLToPlStmt
