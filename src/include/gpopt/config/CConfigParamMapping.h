@@ -55,9 +55,6 @@ namespace gpdxl
 
 				// if true, we negate the config param value before setting traceflag value
 				BOOL m_negate_param;
-
-				// description
-				const WCHAR *description_str;
 			};
 
 			// array of mapping elements
