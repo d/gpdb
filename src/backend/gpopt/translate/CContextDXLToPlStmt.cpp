@@ -41,14 +41,12 @@ CContextDXLToPlStmt::CContextDXLToPlStmt
 	(
 	CMemoryPool *mp,
 	CIdGenerator *plan_id_counter,
-	CIdGenerator *motion_id_counter,
 	CIdGenerator *param_id_counter,
 	DistributionHashOpsKind distribution_hashops
 	)
 	:
 	m_mp(mp),
 	m_plan_id_counter(plan_id_counter),
-	m_motion_id_counter(motion_id_counter),
 	m_param_id_counter(param_id_counter),
 	m_distribution_hashops(distribution_hashops),
 	m_rtable_entries_list(NULL),
@@ -91,34 +89,6 @@ ULONG
 CContextDXLToPlStmt::GetNextPlanId()
 {
 	return m_plan_id_counter->next_id();
-}
-
-//---------------------------------------------------------------------------
-//	@function:
-//		CContextDXLToPlStmt::GetCurrentMotionId
-//
-//	@doc:
-//		Get the current motion id
-//
-//---------------------------------------------------------------------------
-ULONG
-CContextDXLToPlStmt::GetCurrentMotionId()
-{
-	return m_motion_id_counter->current_id();
-}
-
-//---------------------------------------------------------------------------
-//	@function:
-//		CContextDXLToPlStmt::GetNextMotionId
-//
-//	@doc:
-//		Get the next motion id
-//
-//---------------------------------------------------------------------------
-ULONG
-CContextDXLToPlStmt::GetNextMotionId()
-{
-	return m_motion_id_counter->next_id();
 }
 
 //---------------------------------------------------------------------------

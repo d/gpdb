@@ -331,14 +331,12 @@ COptTasks::ConvertToPlanStmtFromDXL
 	 * GPDB 6 and lower had plan node IDs starting from 0.
 	 */
 	CIdGenerator plan_id_generator(0 /* ulStartId */);
-	CIdGenerator motion_id_generator(1 /* ulStartId */);
 	CIdGenerator param_id_generator(0 /* ulStartId */);
 
 	CContextDXLToPlStmt dxl_to_plan_stmt_ctxt
 							(
 							mp,
 							&plan_id_generator,
-							&motion_id_generator,
 							&param_id_generator,
 							distribution_hashops
 							);

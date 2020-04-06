@@ -100,9 +100,6 @@ namespace gpdxl
 			// counter for generating plan ids
 			CIdGenerator *m_plan_id_counter;
 
-			// counter for generating motion ids
-			CIdGenerator *m_motion_id_counter;
-
 			// counter for generating unique param ids
 			CIdGenerator *m_param_id_counter;
 
@@ -145,7 +142,6 @@ namespace gpdxl
 						(
 						CMemoryPool *mp,
 						CIdGenerator *plan_id_counter,
-						CIdGenerator *motion_id_counter,
 						CIdGenerator *param_id_counter,
 						DistributionHashOpsKind distribution_hashops
 						)
@@ -156,12 +152,6 @@ namespace gpdxl
 
 			// retrieve the next plan id
 			ULONG GetNextPlanId();
-
-			// retrieve the current motion id
-			ULONG GetCurrentMotionId();
-
-			// retrieve the next motion id
-			ULONG GetNextMotionId();
 
 			// retrieve the current parameter id
 			ULONG GetCurrentParamId();
