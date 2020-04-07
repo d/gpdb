@@ -56,7 +56,6 @@ CContextDXLToPlStmt::CContextDXLToPlStmt
 	m_subplan_sliceids_list(NULL),
 	m_slices_list(NULL),
 	m_result_relation_index(0),
-	m_into_clause(NULL),
 	m_distribution_policy(NULL)
 {
 	m_cte_consumer_info = GPOS_NEW(m_mp) HMUlCTEConsumerInfo(m_mp);
@@ -380,14 +379,12 @@ CContextDXLToPlStmt::AddSlice(PlanSlice *slice)
 void
 CContextDXLToPlStmt::AddCtasInfo
 	(
-	IntoClause *into_clause,
+	IntoClause *into_clause pg_attribute_unused(),
 	GpPolicy *distribution_policy
 	)
 {
-//	GPOS_ASSERT(NULL != into_clause);
 	GPOS_ASSERT(NULL != distribution_policy);
 	
-	m_into_clause = into_clause;
 	m_distribution_policy = distribution_policy;
 }
 
