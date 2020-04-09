@@ -464,9 +464,6 @@ typedef struct MotionNodeEntry
 
 typedef struct MotionLayerState
 {
-	/* The host ID that this segment-database is on. */
-	int			host_id;
-
 	/*
 	 * Memory context for the whole motion layer.  This is a child context of
 	 * the Executor State Context, so the if it fails to get cleaned up the
