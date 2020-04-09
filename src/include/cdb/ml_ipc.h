@@ -142,18 +142,6 @@ extern bool SendTupleChunkToAMS(MotionLayerState *mlStates,
 								int16 targetRoute, 
 								TupleChunkListItem tcItem);
 
-/* The SendEosToAMS() function is used to send an "End Of Stream" message to
- * all connected receivers (generally this is a broadcast)
- *
- * PARAMETERS:
- *	 - motNodeID:	motion node Id that the tcItem belongs to.
- *	 - tcItem:		The tuple-chunk data to send.
- *
- */
-extern void SendEosToAMS(MotionLayerState *mlStates,
-						 ChunkTransportState *transportStates, 
-						 int motNodeID, 
-						 TupleChunkListItem tcItem);
 
 /* The RecvTupleChunkFromAny() function attempts to receive one or more tuple
  * chunks from any of the incoming connections.  This function blocks until
