@@ -353,8 +353,6 @@ typedef struct ChunkTransportStateEntry
 
 }	ChunkTransportStateEntry;
 
-/* ChunkTransportState array initial size */
-#define CTS_INITIAL_SIZE (10)
 
 /*
  * This structure is used to keep track of partially completed tuples,

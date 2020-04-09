@@ -3042,8 +3042,8 @@ SetupUDPIFCInterconnect_Internal(SliceTable *sliceTable)
 
 	/* initialize state variables */
 	Assert(interconnect_context->size == 0);
-	interconnect_context->size = CTS_INITIAL_SIZE;
-	interconnect_context->states = palloc0(CTS_INITIAL_SIZE * sizeof(ChunkTransportStateEntry));
+	interconnect_context->size = sliceTable->numSlices;
+	interconnect_context->states = palloc0(sliceTable->numSlices * sizeof(ChunkTransportStateEntry));
 
 	interconnect_context->networkTimeoutIsLogged = false;
 	interconnect_context->teardownActive = false;

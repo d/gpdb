@@ -601,17 +601,7 @@ createChunkTransportState(ChunkTransportState *transportStates,
 	Assert(sendSlice->sliceIndex > 0);
 
 	motNodeID = sendSlice->sliceIndex;
-	if (motNodeID > transportStates->size)
-	{
-		/* increase size of our table */
-		ChunkTransportStateEntry *newTable;
-
-		newTable = repalloc(transportStates->states, motNodeID * sizeof(ChunkTransportStateEntry));
-		transportStates->states = newTable;
-		/* zero-out the new piece at the end */
-		MemSet(&transportStates->states[transportStates->size], 0, (motNodeID - transportStates->size) * sizeof(ChunkTransportStateEntry));
-		transportStates->size = motNodeID;
-	}
+	Assert(motNodeID <= transportStates->size);
 
 	pEntry = &transportStates->states[motNodeID - 1];
 
