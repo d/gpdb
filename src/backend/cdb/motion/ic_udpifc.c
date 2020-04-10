@@ -3327,10 +3327,8 @@ static bool
 chunkTransportStateEntryInitialized(ChunkTransportState *transportStates,
 									int16 motNodeID)
 {
-	if (motNodeID > transportStates->size || !transportStates->states[motNodeID - 1].valid)
-		return false;
-
-	return true;
+	AssertArg(motNodeID <= transportStates->size);
+	return transportStates->states[motNodeID - 1].valid;
 }
 
 /*
