@@ -127,7 +127,7 @@ CTranslatorUtils::GetTableDescr
 	// generate an MDId for the table desc.
 	OID rel_oid = rte->relid;
 
-	if (gpdb::HasExternalPartition(rel_oid))
+	if (!GPOS_FTRACE(EopttraceEnableExternalPartitionedTables) && gpdb::HasExternalPartition(rel_oid))
 	{
 		// fall back to the planner for queries with partition tables that has an external table in one of its leaf
 		// partitions.

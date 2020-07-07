@@ -212,6 +212,9 @@ namespace gpos
 		// Use legacy (cdbhash) opfamilies for compatibility
 		EopttraceUseLegacyOpfamilies = 103039,
 
+		// Enable handling external partitioned tables
+		EopttraceEnableExternalPartitionedTables = 103040,
+
 		///////////////////////////////////////////////////////
 		///////////////////// statistics flags ////////////////
 		//////////////////////////////////////////////////////
