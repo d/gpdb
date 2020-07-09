@@ -25,5 +25,51 @@ void CRefCount::DbgPrint() const
 }
 #endif // GPOS_DEBUG
 
+void
+CRefCount::AddRef()
+{
+#ifdef GPOS_DEBUG
+	Check();
+#endif // GPOS_DEBUG
+	m_refs++;
+}
+
+void
+CRefCount::Release()
+{
+#ifdef GPOS_DEBUG
+	Check();
+#endif // GPOS_DEBUG
+	m_refs--;
+
+	if (0 == m_refs)
+	{
+		if (!Deletable())
+		{
+			// restore ref-count
+			AddRef();
+
+			// deletion is not allowed
+			GPOS_RAISE(CException::ExmaSystem, CException::ExmiInvalidDeletion);
+		}
+
+		GPOS_DELETE(this);
+	}
+}
+
+CRefCount::CRefCount()
+	:
+	m_refs(1)
+{}
+
+CRefCount::~CRefCount() noexcept(false)
+{
+	// enforce strict ref-counting unless we're in a pending exception,
+	// e.g., a ctor has thrown
+	GPOS_ASSERT(NULL == ITask::Self() ||
+		            ITask::Self()->HasPendingExceptions() ||
+		            0 == m_refs);
+}
+
 // EOF
 

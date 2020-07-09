@@ -58,21 +58,11 @@ namespace gpos
 		public:
 		
 			// ctor
-			CRefCount() 
-				: 
-				m_refs(1)
-			{}
+			CRefCount();
 
 			// FIXME: should mark this noexcept in non-assert builds
 			// dtor
-			virtual ~CRefCount() noexcept(false)
-			{
-				// enforce strict ref-counting unless we're in a pending exception,
-				// e.g., a ctor has thrown
-				GPOS_ASSERT(NULL == ITask::Self() ||
-							ITask::Self()->HasPendingExceptions() ||
-							0 == m_refs);
-			}
+			virtual ~CRefCount() noexcept(false);
 
 			// return ref-count
 			ULONG_PTR RefCount() const
@@ -88,36 +78,10 @@ namespace gpos
 			}
 
 			// count up
-			void AddRef()
-			{
-#ifdef GPOS_DEBUG
-				Check();
-#endif // GPOS_DEBUG				
-				m_refs++;
-			}
+			void AddRef();
 
 			// count down
-			void Release()
-			{
-#ifdef GPOS_DEBUG	
-				Check();
-#endif // GPOS_DEBUG
-				m_refs--;
-
-				if (0 == m_refs)
-				{
-					if (!Deletable())
-					{
-						// restore ref-count
-						AddRef();
-
-						// deletion is not allowed
-						GPOS_RAISE(CException::ExmaSystem, CException::ExmiInvalidDeletion);
-					}
-
-					GPOS_DELETE(this);
-				}	
-			}
+			void Release();
 
 			// safe version of Release -- handles NULL pointers
 			static
