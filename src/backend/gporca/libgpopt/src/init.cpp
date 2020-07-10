@@ -66,13 +66,11 @@ void gpopt_init()
 //---------------------------------------------------------------------------
 void gpopt_terminate()
 {
-#ifdef GPOS_DEBUG
 	CMDCache::Shutdown();
 
 	CMemoryPoolManager::GetMemoryPoolMgr()->Destroy(mp);
 
 	CXformFactory::Pxff()->Shutdown();
-#endif // GPOS_DEBUG
 }
 
 // EOF
