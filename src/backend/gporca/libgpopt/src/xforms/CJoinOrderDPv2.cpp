@@ -133,10 +133,6 @@ CJoinOrderDPv2::CJoinOrderDPv2
 //---------------------------------------------------------------------------
 CJoinOrderDPv2::~CJoinOrderDPv2()
 {
-#ifdef GPOS_DEBUG
-	// in optimized build, we flush-down memory pools without leak checking,
-	// we can save time in optimized build by skipping all de-allocations here,
-	// we still have all de-allocations enabled in debug-build to detect any possible leaks
 	CRefCount::SafeRelease(m_non_inner_join_dependencies);
 	CRefCount::SafeRelease(m_child_pred_indexes);
 	m_bitset_to_group_info_map->Release();
@@ -144,7 +140,6 @@ CJoinOrderDPv2::~CJoinOrderDPv2()
 	m_top_k_expressions->Release();
 	m_join_levels->Release();
 	m_on_pred_conjuncts->Release();
-#endif // GPOS_DEBUG
 }
 
 

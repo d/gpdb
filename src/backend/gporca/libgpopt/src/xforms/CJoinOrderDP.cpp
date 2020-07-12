@@ -158,16 +158,11 @@ CJoinOrderDP::CJoinOrderDP
 //---------------------------------------------------------------------------
 CJoinOrderDP::~CJoinOrderDP()
 {
-#ifdef GPOS_DEBUG
-	// in optimized build, we flush-down memory pools without leak checking,
-	// we can save time in optimized build by skipping all de-allocations here,
-	// we still have all de-llocations enabled in debug-build to detect any possible leaks
 	m_phmcomplink->Release();
 	m_phmbsexpr->Release();
 	m_phmexprcost->Release();
 	m_pdrgpexprTopKOrders->Release();
 	m_pexprDummy->Release();
-#endif // GPOS_DEBUG
 }
 
 
