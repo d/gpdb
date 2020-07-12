@@ -1366,8 +1366,7 @@ namespace gpopt
 		for (ULONG ul = ulStart; ul < size; ul++)
 		{
 			T *pt = (*pdrgptInput)[ul];
-			CRefCount *prc = dynamic_cast<CRefCount *>(pt);
-			prc->AddRef();
+			pt->AddRef();
 			pdrgptOutput->Append(pt);
 		}
 	}

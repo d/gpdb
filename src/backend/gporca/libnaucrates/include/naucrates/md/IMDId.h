@@ -48,7 +48,7 @@ namespace gpmd
 	//		Abstract class for representing metadata objects ids
 	//
 	//---------------------------------------------------------------------------
-	class IMDId : public CRefCount
+	class IMDId : public CRefCount<IMDId>
 	{
 		
 		private:

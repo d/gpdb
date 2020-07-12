@@ -137,10 +137,10 @@ CJoinOrderDPv2::~CJoinOrderDPv2()
 	// in optimized build, we flush-down memory pools without leak checking,
 	// we can save time in optimized build by skipping all de-allocations here,
 	// we still have all de-allocations enabled in debug-build to detect any possible leaks
-	CRefCount::SafeRelease(m_non_inner_join_dependencies);
-	CRefCount::SafeRelease(m_child_pred_indexes);
+	gpos::SafeRelease(m_non_inner_join_dependencies);
+	gpos::SafeRelease(m_child_pred_indexes);
 	m_bitset_to_group_info_map->Release();
-	CRefCount::SafeRelease(m_expression_to_edge_map);
+	gpos::SafeRelease(m_expression_to_edge_map);
 	m_top_k_expressions->Release();
 	m_join_levels->Release();
 	m_on_pred_conjuncts->Release();
@@ -980,7 +980,7 @@ CJoinOrderDPv2::GreedySearchJoinOrders
 			if (NULL == best_expr_info_in_level || join_cost < best_cost_in_level)
 			{
 				best_group_info_in_level = join_group_info;
-				CRefCount::SafeRelease(best_expr_info_in_level);
+				gpos::SafeRelease(best_expr_info_in_level);
 				best_expr_info_in_level  = join_expr_info;
 				best_cost_in_level       = join_cost;
 			}

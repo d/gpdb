@@ -43,7 +43,7 @@ CDXLPhysicalNLJoin::CDXLPhysicalNLJoin
 
 CDXLPhysicalNLJoin::~CDXLPhysicalNLJoin()
 {
-	CRefCount::SafeRelease(m_nest_params_col_refs);
+	gpos::SafeRelease(m_nest_params_col_refs);
 }
 
 //---------------------------------------------------------------------------

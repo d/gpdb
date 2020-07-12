@@ -27,7 +27,7 @@ namespace gpdxl
 	//		Class for representing DXL window key
 	//
 	//---------------------------------------------------------------------------
-	class CDXLWindowKey : public CRefCount
+	class CDXLWindowKey : public CRefCount<CDXLWindowKey>
 	{
 		private:
 

@@ -34,7 +34,7 @@ namespace gpopt
 	//		Description of window frame
 	//
 	//---------------------------------------------------------------------------
-	class CWindowFrame : public CRefCount
+	class CWindowFrame : public CRefCount<CWindowFrame>
 	{
 
 		public:

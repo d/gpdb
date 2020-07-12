@@ -66,7 +66,7 @@ CDXLPhysicalTableScan::CDXLPhysicalTableScan
 //---------------------------------------------------------------------------
 CDXLPhysicalTableScan::~CDXLPhysicalTableScan()
 {
-	CRefCount::SafeRelease(m_dxl_table_descr);
+	gpos::SafeRelease(m_dxl_table_descr);
 }
 
 

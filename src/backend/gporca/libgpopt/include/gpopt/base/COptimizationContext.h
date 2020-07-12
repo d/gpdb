@@ -47,7 +47,7 @@ namespace gpopt
 	//		Optimization context
 	//
 	//---------------------------------------------------------------------------
-	class COptimizationContext : public CRefCount
+	class COptimizationContext : public CRefCount<COptimizationContext>
 	{
 
 		public:

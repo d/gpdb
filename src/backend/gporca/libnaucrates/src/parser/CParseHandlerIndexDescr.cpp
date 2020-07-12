@@ -58,7 +58,7 @@ CParseHandlerIndexDescr::CParseHandlerIndexDescr
 //---------------------------------------------------------------------------
 CParseHandlerIndexDescr::~CParseHandlerIndexDescr()
 {
-	CRefCount::SafeRelease(m_dxl_index_descr);
+	gpos::SafeRelease(m_dxl_index_descr);
 }
 
 //---------------------------------------------------------------------------

@@ -90,8 +90,8 @@ namespace gpopt
 			~CScalarAggFunc()
 			{
 				m_pmdidAggFunc->Release();
-				CRefCount::SafeRelease(m_pmdidResolvedRetType);
-				CRefCount::SafeRelease(m_return_type_mdid);
+				gpos::SafeRelease(m_pmdidResolvedRetType);
+				gpos::SafeRelease(m_return_type_mdid);
 				GPOS_DELETE(m_pstrAggFunc);
 			}
 

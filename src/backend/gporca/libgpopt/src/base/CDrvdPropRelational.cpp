@@ -69,16 +69,16 @@ CDrvdPropRelational::~CDrvdPropRelational()
 	{
 		CAutoSuspendAbort asa;
 
-		CRefCount::SafeRelease(m_is_prop_derived);
-		CRefCount::SafeRelease(m_pcrsOutput);
-		CRefCount::SafeRelease(m_pcrsOuter);
-		CRefCount::SafeRelease(m_pcrsNotNull);
-		CRefCount::SafeRelease(m_pcrsCorrelatedApply);
-		CRefCount::SafeRelease(m_pkc);
-		CRefCount::SafeRelease(m_pdrgpfd);
-		CRefCount::SafeRelease(m_ppartinfo);
-		CRefCount::SafeRelease(m_ppc);
-		CRefCount::SafeRelease(m_pfp);
+		gpos::SafeRelease(m_is_prop_derived);
+		gpos::SafeRelease(m_pcrsOutput);
+		gpos::SafeRelease(m_pcrsOuter);
+		gpos::SafeRelease(m_pcrsNotNull);
+		gpos::SafeRelease(m_pcrsCorrelatedApply);
+		gpos::SafeRelease(m_pkc);
+		gpos::SafeRelease(m_pdrgpfd);
+		gpos::SafeRelease(m_ppartinfo);
+		gpos::SafeRelease(m_ppc);
+		gpos::SafeRelease(m_pfp);
 	}
 }
 
@@ -289,7 +289,7 @@ CDrvdPropRelational::DeriveLocalFunctionalDependencies
 
 		pcrsKey->Release();
 		pcrsDetermined->Release();
-		CRefCount::SafeRelease(pdrgpcrKey);
+		gpos::SafeRelease(pdrgpcrKey);
 	}
 
 	return pdrgpfd;

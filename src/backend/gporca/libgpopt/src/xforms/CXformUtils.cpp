@@ -567,7 +567,7 @@ CXformUtils::PexprPushGbBelowJoin
 	BOOL fCanPush = FCanPushGbAggBelowJoin(pcrsGrpCols, pcrsOuterOutput, pcrsScalarFromOuter, pcrsAggOutput, pcrsUsed, pcrsFKey);
 
 	// cleanup
-	CRefCount::SafeRelease(pcrsFKey);
+	gpos::SafeRelease(pcrsFKey);
 	pcrsScalarFromOuter->Release();
 
 	if (!fCanPush)
@@ -2902,7 +2902,7 @@ CXformUtils::PexprBuildIndexPlan
 
 	if (!fAllowPartialIndex && fPartialIndex)
 	{
-		CRefCount::SafeRelease(ppartcnstrIndex);
+		gpos::SafeRelease(ppartcnstrIndex);
 
 		// partial indexes are not allowed
 		return NULL;
@@ -2911,7 +2911,7 @@ CXformUtils::PexprBuildIndexPlan
 	if (ptabdesc->RetrieveRelStorageType() != IMDRelation::ErelstorageHeap &&
 		pmdindex->IndexType() == IMDIndex::EmdindGist)
 	{
-		CRefCount::SafeRelease(ppartcnstrIndex);
+		gpos::SafeRelease(ppartcnstrIndex);
 
 		// Non-heap tables not supported for GiST
 		return NULL;
@@ -2940,7 +2940,7 @@ CXformUtils::PexprBuildIndexPlan
 	if (!FIndexApplicable(mp, pmdindex, pmdrel, pdrgpcrOutput, pcrsReqd, pcrsScalarExpr, emdindtype))
 	{
 		GPOS_DELETE(alias);
-		CRefCount::SafeRelease(ppartcnstrIndex);
+		gpos::SafeRelease(ppartcnstrIndex);
 
 		return NULL;
 	}
@@ -2967,7 +2967,7 @@ CXformUtils::PexprBuildIndexPlan
 		pdrgppcrIndexCols->Release();
 		pdrgpexprResidual->Release();
 		pdrgpexprIndex->Release();
-		CRefCount::SafeRelease(ppartcnstrIndex);
+		gpos::SafeRelease(ppartcnstrIndex);
 		outer_refs_in_index_get->Release();
 
 		return NULL;
@@ -3165,7 +3165,7 @@ CXformUtils::ComputeBitmapTableScanResidualPredicate
 		// the whole predicate rather than just k < 100:
 		// ik1 = 1 or (ik2=2 and k<100)
 		pexprOriginalPred->AddRef();
-		CRefCount::SafeRelease(*ppexprResidual);
+		gpos::SafeRelease(*ppexprResidual);
 		*ppexprResidual = pexprOriginalPred;
 		return;
 	}
@@ -3508,7 +3508,7 @@ CXformUtils::PexprBitmapSelectBestIndex
 													(bestNumResiduals == numResiduals && bestNumIndexCols >
 																						 numIndexCols))))
 			{
-				CRefCount::SafeRelease((*ppexprResidual));
+				gpos::SafeRelease((*ppexprResidual));
 				pdrgpexprResidual->AddRef();
 				(*ppexprResidual) = CPredicateUtils::PexprConjDisj(mp, pdrgpexprResidual, true /* fConjunction */);
 
@@ -3525,7 +3525,7 @@ CXformUtils::PexprBitmapSelectBestIndex
 				bestNumResiduals = numResiduals;
 				bestNumIndexCols = numIndexCols;
 				pdrgpexprIndex->AddRef();
-				CRefCount::SafeRelease(pexprIndexFinal);
+				gpos::SafeRelease(pexprIndexFinal);
 				pexprIndexFinal = CPredicateUtils::PexprConjunction(mp, pdrgpexprIndex);
 			}
 
@@ -3759,7 +3759,7 @@ CXformUtils::CreateBitmapIndexProbesWithOrWithoutPredBreakdown
 			}
 		}
 
-		CRefCount::SafeRelease(pexprPred);
+		gpos::SafeRelease(pexprPred);
 
 		if (NULL != pexprBitmapLocal)
 		{
@@ -3807,8 +3807,8 @@ CXformUtils::CreateBitmapIndexProbesWithOrWithoutPredBreakdown
 	}
 
 	// cleanup
-	CRefCount::SafeRelease(pdrgpexprBitmapTemp);
-	CRefCount::SafeRelease(pdrgpexprRecheckTemp);
+	gpos::SafeRelease(pdrgpexprBitmapTemp);
+	gpos::SafeRelease(pdrgpexprRecheckTemp);
 }
 
 // combine the individual bitmap access paths to form a bitmap bool op expression
@@ -4151,7 +4151,7 @@ CXformUtils::PdrgpdrgppartdigCandidates
 			continue;
 		}
 
-		CRefCount::SafeRelease(ppartcnstrCovered);
+		gpos::SafeRelease(ppartcnstrCovered);
 		ppartcnstrCovered = ppartcnstrNewlyCovered;
 
 		pdrgppartdig->Append(GPOS_NEW(mp) SPartDynamicIndexGetInfo(pmdindex, ppartcnstr, pdrgpexprIndex, pdrgpexprResidual));
@@ -4163,7 +4163,7 @@ CXformUtils::PdrgpdrgppartdigCandidates
 		SPartDynamicIndexGetInfo *ppartdig = PpartdigDynamicGet(mp, pdrgpexprScalar, ppartcnstrCovered, ppartcnstrRel);
 		if (NULL == ppartdig)
 		{
-			CRefCount::SafeRelease(ppartcnstrCovered);
+			gpos::SafeRelease(ppartcnstrCovered);
 			pdrgppartdig->Release();
 			return pdrgpdrgppartdig;
 		}
@@ -4171,7 +4171,7 @@ CXformUtils::PdrgpdrgppartdigCandidates
 		pdrgppartdig->Append(ppartdig);
 	}
 
-	CRefCount::SafeRelease(ppartcnstrCovered);
+	gpos::SafeRelease(ppartcnstrCovered);
 
 	pdrgpdrgppartdig->Append(pdrgppartdig);
 	return pdrgpdrgppartdig;
@@ -4449,7 +4449,7 @@ CXformUtils::PexprPartialDynamicIndexGet
 	CExpression *pexprResidualCond = CPredicateUtils::PexprConjunction(mp, pdrgpexprResidualRemapped);
 
 	// cleanup
-	CRefCount::SafeRelease(colref_mapping);
+	gpos::SafeRelease(colref_mapping);
 	pdrgpcrIndexCols->Release();
 
 	// create the expression containing the logical index get operator

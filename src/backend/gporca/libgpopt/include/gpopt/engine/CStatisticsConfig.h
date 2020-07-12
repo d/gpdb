@@ -34,7 +34,7 @@ namespace gpopt
 	//		Statistics configurations
 	//
 	//---------------------------------------------------------------------------
-	class CStatisticsConfig : public CRefCount
+	class CStatisticsConfig : public CRefCount<CStatisticsConfig>
 	{
 
 		private:

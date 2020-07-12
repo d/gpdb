@@ -34,7 +34,7 @@ namespace gpopt
 		typedef CDynamicPtrArray<CNode, CleanupRelease<CNode> > CNodeArray;
 
 		// struct for resulting trees
-		class CNode : public CRefCount
+		class CNode : public CRefCount<CNode>
 		{
 			private: 
 			

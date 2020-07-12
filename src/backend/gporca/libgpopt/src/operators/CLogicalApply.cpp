@@ -69,7 +69,7 @@ CLogicalApply::CLogicalApply
 //---------------------------------------------------------------------------
 CLogicalApply::~CLogicalApply()
 {
-	CRefCount::SafeRelease(m_pdrgpcrInner);
+	gpos::SafeRelease(m_pdrgpcrInner);
 }
 
 

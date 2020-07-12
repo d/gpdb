@@ -547,7 +547,7 @@ CJoinOrderDP::PexprBestJoinOrderDP
 				{
 					// this is the first solution, or we found a better solution
 					dMinCost = dCost;
-					CRefCount::SafeRelease(pexprResult);
+					gpos::SafeRelease(pexprResult);
 					pexprJoin->AddRef();
 					pexprResult = pexprJoin;
 				}

@@ -64,7 +64,7 @@ CDXLLogicalGroupBy::CDXLLogicalGroupBy
 //---------------------------------------------------------------------------
 CDXLLogicalGroupBy::~CDXLLogicalGroupBy()
 {
-	CRefCount::SafeRelease(m_grouping_colid_array);
+	gpos::SafeRelease(m_grouping_colid_array);
 }
 
 //---------------------------------------------------------------------------

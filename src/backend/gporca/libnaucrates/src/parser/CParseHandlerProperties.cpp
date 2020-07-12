@@ -50,8 +50,8 @@ CParseHandlerProperties::CParseHandlerProperties
 //---------------------------------------------------------------------------
 CParseHandlerProperties::~CParseHandlerProperties()
 {
-	CRefCount::SafeRelease(m_dxl_properties);
-	CRefCount::SafeRelease(m_dxl_stats_derived_relation);
+	gpos::SafeRelease(m_dxl_properties);
+	gpos::SafeRelease(m_dxl_stats_derived_relation);
 }
 
 //---------------------------------------------------------------------------

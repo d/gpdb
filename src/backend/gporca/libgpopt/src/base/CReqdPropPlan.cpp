@@ -113,12 +113,12 @@ CReqdPropPlan::CReqdPropPlan
 //---------------------------------------------------------------------------
 CReqdPropPlan::~CReqdPropPlan()
 {
-	CRefCount::SafeRelease(m_pcrs);
-	CRefCount::SafeRelease(m_peo);
-	CRefCount::SafeRelease(m_ped);
-	CRefCount::SafeRelease(m_per);
-	CRefCount::SafeRelease(m_pepp);
-	CRefCount::SafeRelease(m_pcter);
+	gpos::SafeRelease(m_pcrs);
+	gpos::SafeRelease(m_peo);
+	gpos::SafeRelease(m_ped);
+	gpos::SafeRelease(m_per);
+	gpos::SafeRelease(m_pepp);
+	gpos::SafeRelease(m_pcter);
 }
 
 

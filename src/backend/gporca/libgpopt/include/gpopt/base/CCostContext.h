@@ -51,7 +51,7 @@ namespace gpopt
 	//		Cost context
 	//
 	//---------------------------------------------------------------------------
-	class CCostContext : public CRefCount
+	class CCostContext : public CRefCount<CCostContext>
 	{
 
 		public:

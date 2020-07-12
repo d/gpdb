@@ -48,7 +48,7 @@ CDXLScalarHashExpr::CDXLScalarHashExpr
 //---------------------------------------------------------------------------
 CDXLScalarHashExpr::~CDXLScalarHashExpr()
 {
-	CRefCount::SafeRelease(m_mdid_opfamily);
+	gpos::SafeRelease(m_mdid_opfamily);
 }
 
 //---------------------------------------------------------------------------

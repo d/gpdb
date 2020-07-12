@@ -91,8 +91,8 @@ CXformSubqueryUnnest::PexprSubqueryUnnest
 	CSubqueryHandler sh(mp, fEnforceCorrelatedApply);
 	if (!sh.FProcess(pexprOuter, pexprScalar, esqctxt, &pexprNewOuter, &pexprResidualScalar))
 	{
-		CRefCount::SafeRelease(pexprNewOuter);
-		CRefCount::SafeRelease(pexprResidualScalar);
+		gpos::SafeRelease(pexprNewOuter);
+		gpos::SafeRelease(pexprResidualScalar);
 
 		return NULL;
 	}

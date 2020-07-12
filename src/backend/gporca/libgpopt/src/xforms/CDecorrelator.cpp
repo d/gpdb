@@ -541,7 +541,7 @@ CDecorrelator::FProcessJoin
 	else
 	{
 		pdrgpexpr->Release();
-		CRefCount::SafeRelease(pexprPredicate);
+		gpos::SafeRelease(pexprPredicate);
 	}
 	
 	return fSuccess;

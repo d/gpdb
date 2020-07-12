@@ -194,7 +194,7 @@ CPartInfo::CPartInfo
 //---------------------------------------------------------------------------
 CPartInfo::~CPartInfo()
 {
-	CRefCount::SafeRelease(m_pdrgppartentries);
+	gpos::SafeRelease(m_pdrgppartentries);
 }
 
 //---------------------------------------------------------------------------

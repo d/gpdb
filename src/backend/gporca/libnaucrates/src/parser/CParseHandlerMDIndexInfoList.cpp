@@ -39,7 +39,7 @@ CParseHandlerMDIndexInfoList::CParseHandlerMDIndexInfoList
 // dtor
 CParseHandlerMDIndexInfoList::~CParseHandlerMDIndexInfoList()
 {
-	CRefCount::SafeRelease(m_mdindex_info_array);
+	gpos::SafeRelease(m_mdindex_info_array);
 }
 
 // returns array of indexinfo

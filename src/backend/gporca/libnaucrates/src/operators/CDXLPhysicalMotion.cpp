@@ -37,8 +37,8 @@ CDXLPhysicalMotion::CDXLPhysicalMotion
 
 CDXLPhysicalMotion::~CDXLPhysicalMotion()
 {
-	CRefCount::SafeRelease(m_input_segids_array);
-	CRefCount::SafeRelease(m_output_segids_array);
+	gpos::SafeRelease(m_input_segids_array);
+	gpos::SafeRelease(m_output_segids_array);
 }
 
 //---------------------------------------------------------------------------

@@ -60,7 +60,7 @@ CSearchStage::CSearchStage
 CSearchStage::~CSearchStage()
 {
 	m_xforms->Release();
-	CRefCount::SafeRelease(m_pexprBest);
+	gpos::SafeRelease(m_pexprBest);
 }
 
 

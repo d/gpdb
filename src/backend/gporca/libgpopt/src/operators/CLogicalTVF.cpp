@@ -139,10 +139,10 @@ CLogicalTVF::CLogicalTVF
 //---------------------------------------------------------------------------
 CLogicalTVF::~CLogicalTVF()
 {
-	CRefCount::SafeRelease(m_func_mdid);
-	CRefCount::SafeRelease(m_return_type_mdid);
-	CRefCount::SafeRelease(m_pdrgpcoldesc);
-	CRefCount::SafeRelease(m_pdrgpcrOutput);
+	gpos::SafeRelease(m_func_mdid);
+	gpos::SafeRelease(m_return_type_mdid);
+	gpos::SafeRelease(m_pdrgpcoldesc);
+	gpos::SafeRelease(m_pdrgpcrOutput);
 	GPOS_DELETE(m_pstr);
 }
 

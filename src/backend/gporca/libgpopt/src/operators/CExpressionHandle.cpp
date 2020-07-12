@@ -82,13 +82,13 @@ CExpressionHandle::CExpressionHandle
 //---------------------------------------------------------------------------
 CExpressionHandle::~CExpressionHandle()
 {
-	CRefCount::SafeRelease(m_pexpr);
-	CRefCount::SafeRelease(m_pgexpr);
-	CRefCount::SafeRelease(m_pstats);
-	CRefCount::SafeRelease(m_prp);
-	CRefCount::SafeRelease(m_pdpplan);
-	CRefCount::SafeRelease(m_pdrgpstat);
-	CRefCount::SafeRelease(m_pdrgprp);
+	gpos::SafeRelease(m_pexpr);
+	gpos::SafeRelease(m_pgexpr);
+	gpos::SafeRelease(m_pstats);
+	gpos::SafeRelease(m_prp);
+	gpos::SafeRelease(m_pdpplan);
+	gpos::SafeRelease(m_pdrgpstat);
+	gpos::SafeRelease(m_pdrgprp);
 }
 
 
@@ -553,7 +553,7 @@ CExpressionHandle::DeriveCostContextStats()
 		if (NULL == m_pstats || m_pstats->Rows() > pstatsDS->Rows())
 		{
 			// Replace the group stats with our newly derived DPE stats
-			CRefCount::SafeRelease(m_pstats);
+			gpos::SafeRelease(m_pstats);
 			m_pstats = pstatsDS;
 		}
 		else
@@ -568,11 +568,11 @@ CExpressionHandle::DeriveCostContextStats()
 	}
 
 	// release current stats since we will derive new stats
-	CRefCount::SafeRelease(m_pstats);
+	gpos::SafeRelease(m_pstats);
 	m_pstats = NULL;
 
 	// load stats from child cost context(s) -- these may be different from child groups stats
-	CRefCount::SafeRelease(m_pdrgpstat);
+	gpos::SafeRelease(m_pdrgpstat);
 	m_pdrgpstat = NULL;
 
 	m_pdrgpstat = GPOS_NEW(m_mp) IStatisticsArray(m_mp);

@@ -47,7 +47,7 @@ namespace gpopt
 	//		base class for all transformations
 	//
 	//---------------------------------------------------------------------------
-	class CXform : public CRefCount
+	class CXform : public CRefCount<CXform>
 	{
 
 		private:

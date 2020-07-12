@@ -58,7 +58,7 @@ CEnfdRewindability::CEnfdRewindability
 //---------------------------------------------------------------------------
 CEnfdRewindability::~CEnfdRewindability()
 {
-	CRefCount::SafeRelease(m_prs);
+	gpos::SafeRelease(m_prs);
 }
 
 

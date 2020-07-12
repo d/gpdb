@@ -94,7 +94,7 @@ CLogicalGbAggDeduplicate::CLogicalGbAggDeduplicate
 CLogicalGbAggDeduplicate::~CLogicalGbAggDeduplicate()
 {
 	// safe release -- to allow for instances used in patterns
-	CRefCount::SafeRelease(m_pdrgpcrKeys);
+	gpos::SafeRelease(m_pdrgpcrKeys);
 }
 
 //---------------------------------------------------------------------------

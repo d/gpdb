@@ -37,7 +37,7 @@ namespace gpopt
 	//		database)
 	//
 	//---------------------------------------------------------------------------
-	class IConstExprEvaluator : public CRefCount
+	class IConstExprEvaluator : public CRefCount<IConstExprEvaluator>
 	{
 		public:
 			// dtor

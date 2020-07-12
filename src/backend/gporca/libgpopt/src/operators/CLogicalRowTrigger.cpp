@@ -86,9 +86,9 @@ CLogicalRowTrigger::CLogicalRowTrigger
 //---------------------------------------------------------------------------
 CLogicalRowTrigger::~CLogicalRowTrigger()
 {
-	CRefCount::SafeRelease(m_rel_mdid);
-	CRefCount::SafeRelease(m_pdrgpcrOld);
-	CRefCount::SafeRelease(m_pdrgpcrNew);
+	gpos::SafeRelease(m_rel_mdid);
+	gpos::SafeRelease(m_pdrgpcrOld);
+	gpos::SafeRelease(m_pdrgpcrNew);
 }
 
 //---------------------------------------------------------------------------

@@ -138,10 +138,10 @@ CPartConstraint::CPartConstraint
 //---------------------------------------------------------------------------
 CPartConstraint::~CPartConstraint()
 {
-	CRefCount::SafeRelease(m_phmulcnstr);
-	CRefCount::SafeRelease(m_pbsDefaultParts);
-	CRefCount::SafeRelease(m_pdrgpdrgpcr);
-	CRefCount::SafeRelease(m_pcnstrCombined);
+	gpos::SafeRelease(m_phmulcnstr);
+	gpos::SafeRelease(m_pbsDefaultParts);
+	gpos::SafeRelease(m_pdrgpdrgpcr);
+	gpos::SafeRelease(m_pcnstrCombined);
 }
 
 //---------------------------------------------------------------------------

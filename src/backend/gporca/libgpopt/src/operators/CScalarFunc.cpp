@@ -101,8 +101,8 @@ CScalarFunc::CScalarFunc
 //---------------------------------------------------------------------------
 CScalarFunc::~CScalarFunc()
 {
-	CRefCount::SafeRelease(m_func_mdid);
-	CRefCount::SafeRelease(m_return_type_mdid);
+	gpos::SafeRelease(m_func_mdid);
+	gpos::SafeRelease(m_return_type_mdid);
 	GPOS_DELETE(m_pstrFunc);
 }
 

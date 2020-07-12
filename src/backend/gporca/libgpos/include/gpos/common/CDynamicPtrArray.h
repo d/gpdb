@@ -48,7 +48,7 @@ namespace gpos
 	template<class T>
 	inline void CleanupRelease(T *elem)
 	{
-		(dynamic_cast<CRefCount*>(elem))->Release();
+		elem->Release();
 	}
 
 	// commonly used array types
@@ -76,7 +76,7 @@ namespace gpos
 	//
 	//---------------------------------------------------------------------------
 	template <class T, void (*CleanupFn)(T*)>
-	class CDynamicPtrArray : public CRefCount
+	class CDynamicPtrArray : public CRefCount<CDynamicPtrArray<T,CleanupFn>>
 	{
 		private:
 		

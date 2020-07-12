@@ -26,7 +26,7 @@ namespace gpnaucrates
 	//	@doc:
 	//		Filter on statistics
 	//---------------------------------------------------------------------------
-	class CStatsPred : public CRefCount
+	class CStatsPred : public CRefCount<CStatsPred>
 	{
 		public:
 

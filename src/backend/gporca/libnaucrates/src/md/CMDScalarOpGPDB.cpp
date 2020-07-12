@@ -82,12 +82,12 @@ CMDScalarOpGPDB::~CMDScalarOpGPDB()
 	m_mdid_type_result->Release();
 	m_func_mdid->Release();	
 
-	CRefCount::SafeRelease(m_mdid_type_left);
-	CRefCount::SafeRelease(m_mdid_type_right);
-	CRefCount::SafeRelease(m_mdid_commute_opr);
-	CRefCount::SafeRelease(m_mdid_inverse_opr);
-	CRefCount::SafeRelease(m_mdid_hash_opfamily);
-	CRefCount::SafeRelease(m_mdid_legacy_hash_opfamily);
+	gpos::SafeRelease(m_mdid_type_left);
+	gpos::SafeRelease(m_mdid_type_right);
+	gpos::SafeRelease(m_mdid_commute_opr);
+	gpos::SafeRelease(m_mdid_inverse_opr);
+	gpos::SafeRelease(m_mdid_hash_opfamily);
+	gpos::SafeRelease(m_mdid_legacy_hash_opfamily);
 	
 	GPOS_DELETE(m_mdname);
 	GPOS_DELETE(m_dxl_str);

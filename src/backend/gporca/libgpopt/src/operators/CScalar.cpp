@@ -346,7 +346,7 @@ CScalar::EberEvaluate
 	}
 
 	EBoolEvalResult eber = PopConvert(pop)->Eber(pdrgpulChildren);
-	CRefCount::SafeRelease(pdrgpulChildren);
+	gpos::SafeRelease(pdrgpulChildren);
 
 	return eber;
 }

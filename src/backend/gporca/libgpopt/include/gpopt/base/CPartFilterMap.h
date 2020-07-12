@@ -40,7 +40,7 @@ namespace gpopt
 	//		Partitioned table filter map used in required and derived properties
 	//
 	//---------------------------------------------------------------------------
-	class CPartFilterMap : public CRefCount
+	class CPartFilterMap : public CRefCount<CPartFilterMap>
 	{
 		private:
 
@@ -52,7 +52,7 @@ namespace gpopt
 			//		Single entry of CPartFilterMap
 			//
 			//-------------------------------------------------------------------
-			class CPartFilter : public CRefCount
+			class CPartFilter : public CRefCount<CPartFilter>
 			{
 				private:
 

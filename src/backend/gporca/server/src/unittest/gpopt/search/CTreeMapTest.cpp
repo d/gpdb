@@ -140,7 +140,7 @@ CTreeMapTest::CNode::CNode
 //---------------------------------------------------------------------------
 CTreeMapTest::CNode::~CNode()
 {
-	CRefCount::SafeRelease(m_pdrgpnd);
+	gpos::SafeRelease(m_pdrgpnd);
 }
 
 
@@ -430,16 +430,16 @@ CTreeMapTest::EresUnittest_Memo()
 					GPOS_RESET_EX;
 				}
 				GPOS_CATCH_END;
-				CRefCount::SafeRelease(pexprAlt);
-				CRefCount::SafeRelease(pdpctxtplan);
+				gpos::SafeRelease(pexprAlt);
+				gpos::SafeRelease(pdpctxtplan);
 			}
 		}
 	}
 
 	// clean up
-	CRefCount::SafeRelease(pexprPlan);
+	gpos::SafeRelease(pexprPlan);
 	GPOS_DELETE(pqc);
-	CRefCount::SafeRelease(pexpr);
+	gpos::SafeRelease(pexpr);
 	GPOS_DELETE(peng);
 
 	return GPOS_OK;

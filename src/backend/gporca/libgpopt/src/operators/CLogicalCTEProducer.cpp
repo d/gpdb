@@ -74,8 +74,8 @@ CLogicalCTEProducer::CLogicalCTEProducer
 //---------------------------------------------------------------------------
 CLogicalCTEProducer::~CLogicalCTEProducer()
 {
-	CRefCount::SafeRelease(m_pdrgpcr);
-	CRefCount::SafeRelease(m_pcrsOutput);
+	gpos::SafeRelease(m_pdrgpcr);
+	gpos::SafeRelease(m_pcrsOutput);
 }
 
 //---------------------------------------------------------------------------

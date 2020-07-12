@@ -215,7 +215,7 @@ namespace gpdxl
 	//		Base class for operators in a DXL tree
 	//
 	//---------------------------------------------------------------------------
-	class CDXLOperator : public CRefCount
+	class CDXLOperator : public CRefCount<CDXLOperator>
 	{
 		private:
 			// private copy constructor

@@ -78,7 +78,7 @@ CTaskContext::CTaskContext
 //---------------------------------------------------------------------------
 CTaskContext::~CTaskContext()
 {
-    CRefCount::SafeRelease(m_bitset);
+    gpos::SafeRelease(m_bitset);
 }
 
 

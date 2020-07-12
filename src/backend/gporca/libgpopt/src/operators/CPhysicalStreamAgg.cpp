@@ -82,7 +82,7 @@ CPhysicalStreamAgg::InitOrderSpec
 {
 	GPOS_ASSERT(NULL != pdrgpcrOrder);
 
-	CRefCount::SafeRelease(m_pos);
+	gpos::SafeRelease(m_pos);
 	m_pos = GPOS_NEW(mp) COrderSpec(mp);
 	const ULONG size = pdrgpcrOrder->Size();
 	for (ULONG ul = 0; ul < size; ul++)

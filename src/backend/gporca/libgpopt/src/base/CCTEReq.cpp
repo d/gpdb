@@ -50,7 +50,7 @@ CCTEReq::CCTEReqEntry::CCTEReqEntry
 //---------------------------------------------------------------------------
 CCTEReq::CCTEReqEntry::~CCTEReqEntry()
 {
-	CRefCount::SafeRelease(m_pdpplan);
+	gpos::SafeRelease(m_pdpplan);
 }
 
 //---------------------------------------------------------------------------

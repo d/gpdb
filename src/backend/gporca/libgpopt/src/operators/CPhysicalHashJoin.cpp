@@ -116,8 +116,8 @@ CPhysicalHashJoin::~CPhysicalHashJoin()
 {
 	m_pdrgpexprOuterKeys->Release();
 	m_pdrgpexprInnerKeys->Release();
-	CRefCount::SafeRelease(m_hash_opfamilies);
-	CRefCount::SafeRelease(m_pdrgpdsRedistributeRequests);
+	gpos::SafeRelease(m_hash_opfamilies);
+	gpos::SafeRelease(m_pdrgpdsRedistributeRequests);
 }
 
 //---------------------------------------------------------------------------

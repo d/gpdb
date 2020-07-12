@@ -50,7 +50,7 @@ CParseHandlerCost::CParseHandlerCost
 //---------------------------------------------------------------------------
 CParseHandlerCost::~CParseHandlerCost()
 {
-	CRefCount::SafeRelease(m_operator_cost_dxl);	
+	gpos::SafeRelease(m_operator_cost_dxl);
 }
 
 //---------------------------------------------------------------------------

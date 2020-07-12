@@ -72,7 +72,7 @@ CConstraint::CConstraint
 //---------------------------------------------------------------------------
 CConstraint::~CConstraint()
 {
-	CRefCount::SafeRelease(m_pexprScalar);
+	gpos::SafeRelease(m_pexprScalar);
 	m_phmcontain->Release();
 }
 
@@ -528,8 +528,8 @@ CConstraint::PcnstrFromScalarBoolOp
 		CConstraint *pcnstrChild = PcnstrFromScalarExpr(mp, (*pexpr)[ul], &pdrgpcrsChild, infer_nulls_as);
 		if (NULL == pcnstrChild || pcnstrChild->IsConstraintUnbounded())
 		{
-			CRefCount::SafeRelease(pcnstrChild);
-			CRefCount::SafeRelease(pdrgpcrsChild);
+			gpos::SafeRelease(pcnstrChild);
+			gpos::SafeRelease(pdrgpcrsChild);
 			if (CPredicateUtils::FOr(pexpr))
 			{
 				pdrgpcnstr->Release();
@@ -983,7 +983,7 @@ CConstraint::Contains
 		pciThis->Release();
 		pciOther->Release();
 		pcnstrColThis->Release();
-		CRefCount::SafeRelease(pcnstrColOther);
+		gpos::SafeRelease(pcnstrColOther);
 	}
 
 	// insert containment query into the local map

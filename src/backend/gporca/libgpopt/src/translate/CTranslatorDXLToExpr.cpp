@@ -118,8 +118,8 @@ CTranslatorDXLToExpr::~CTranslatorDXLToExpr()
 {
 	m_phmulcr->Release();
 	m_phmululCTE->Release();
-	CRefCount::SafeRelease(m_pdrgpulOutputColRefs);
-	CRefCount::SafeRelease(m_pdrgpmdname);
+	gpos::SafeRelease(m_pdrgpulOutputColRefs);
+	gpos::SafeRelease(m_pdrgpmdname);
 }
 
 //---------------------------------------------------------------------------

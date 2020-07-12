@@ -46,7 +46,7 @@ namespace gpdxl
 	//		Class for representing DXL window frame
 	//
 	//---------------------------------------------------------------------------
-	class CDXLWindowFrame : public CRefCount
+	class CDXLWindowFrame : public CRefCount<CDXLWindowFrame>
 	{
 		private:
 

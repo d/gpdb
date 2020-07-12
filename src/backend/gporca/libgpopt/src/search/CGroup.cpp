@@ -71,8 +71,8 @@ CGroup::SContextLink::SContextLink
 //---------------------------------------------------------------------------
 CGroup::SContextLink::~SContextLink()
 {
-	CRefCount::SafeRelease(m_pccParent);
-	CRefCount::SafeRelease(m_poc);
+	gpos::SafeRelease(m_pccParent);
+	gpos::SafeRelease(m_poc);
 }
 
 
@@ -220,13 +220,13 @@ CGroup::CGroup
 //---------------------------------------------------------------------------
 CGroup::~CGroup()
 {
-	CRefCount::SafeRelease(m_pdrgpexprJoinKeysOuter);
-	CRefCount::SafeRelease(m_pdrgpexprJoinKeysInner);
-	CRefCount::SafeRelease(m_join_opfamilies);
-	CRefCount::SafeRelease(m_pdp);
-	CRefCount::SafeRelease(m_pexprScalar);
-	CRefCount::SafeRelease(m_pccDummy);
-	CRefCount::SafeRelease(m_pstats);
+	gpos::SafeRelease(m_pdrgpexprJoinKeysOuter);
+	gpos::SafeRelease(m_pdrgpexprJoinKeysInner);
+	gpos::SafeRelease(m_join_opfamilies);
+	gpos::SafeRelease(m_pdp);
+	gpos::SafeRelease(m_pexprScalar);
+	gpos::SafeRelease(m_pccDummy);
+	gpos::SafeRelease(m_pstats);
 	m_plinkmap->Release();
 	m_pstatsmap->Release();
 	m_pcostmap->Release();
@@ -278,7 +278,7 @@ CGroup::CleanupContexts()
 
 		while (NULL != poc || shtit.Advance())
 		{
-			CRefCount::SafeRelease(poc);
+			gpos::SafeRelease(poc);
 
 			// iter's accessor scope
 			{
@@ -1493,7 +1493,7 @@ CGroup::EspDerive
 		// we only aim here at triggering stat derivation on child groups recursively,
 		// there is no need to compute stats for group expression's root operator
 		IStatistics *stats = pgexpr->PstatsRecursiveDerive(pmpLocal, pmpGlobal, prprel, stats_ctxt, false /*fComputeRootStats*/);
-		CRefCount::SafeRelease(stats);
+		gpos::SafeRelease(stats);
 	}
 
 	return esp;
@@ -1952,7 +1952,7 @@ CGroup::ResetStats()
 		stats = m_pstats;
 		m_pstats = NULL;
 	}
- 	CRefCount::SafeRelease(stats);
+ 	gpos::SafeRelease(stats);
  	stats = NULL;
 }
 

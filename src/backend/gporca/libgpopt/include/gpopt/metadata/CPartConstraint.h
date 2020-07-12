@@ -43,7 +43,7 @@ namespace gpopt
 	//		metadata abstraction for tables
 	//
 	//---------------------------------------------------------------------------
-	class CPartConstraint : public CRefCount
+	class CPartConstraint : public CRefCount<CPartConstraint>
 	{
 		private:
 			

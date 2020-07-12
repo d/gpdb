@@ -31,7 +31,7 @@ namespace gpopt
 	//		Property specification
 	//
 	//---------------------------------------------------------------------------
-	class CPropSpec : public CRefCount
+	class CPropSpec : public CRefCount<CPropSpec>
 	{
 		public:
 
@@ -51,17 +51,8 @@ namespace gpopt
 			// private copy ctor
 			CPropSpec(const CPropSpec &);
 
-		protected:
-
-			// ctor
-			CPropSpec()
-			{}
-
-			// dtor
-			~CPropSpec()
-			{}
-
 		public:
+			CPropSpec() = default;
 
 			// append enforcers to dynamic array for the given plan properties
 			virtual

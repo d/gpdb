@@ -31,7 +31,7 @@ namespace gpdxl
 	//		Class for representing table descriptors in a DXL tablescan node.
 	//
 	//---------------------------------------------------------------------------
-	class CDXLTableDescr : public CRefCount
+	class CDXLTableDescr : public CRefCount<CDXLTableDescr>
 	{
 		private:
 			// memory pool

@@ -61,9 +61,9 @@ CParseHandlerQuery::CParseHandlerQuery
 //---------------------------------------------------------------------------
 CParseHandlerQuery::~CParseHandlerQuery()
 {
-	CRefCount::SafeRelease(m_dxl_node);
-	CRefCount::SafeRelease(m_output_colums_dxl_array);
-	CRefCount::SafeRelease(m_cte_producers);
+	gpos::SafeRelease(m_dxl_node);
+	gpos::SafeRelease(m_output_colums_dxl_array);
+	gpos::SafeRelease(m_cte_producers);
 }
 
 //---------------------------------------------------------------------------

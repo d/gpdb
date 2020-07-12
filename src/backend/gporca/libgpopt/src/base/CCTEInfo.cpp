@@ -196,8 +196,8 @@ CCTEInfo::CCTEInfo
 //---------------------------------------------------------------------------
 CCTEInfo::~CCTEInfo()
 {
-	CRefCount::SafeRelease(m_phmulcteinfoentry);
-	CRefCount::SafeRelease(m_phmulprodconsmap);
+	gpos::SafeRelease(m_phmulcteinfoentry);
+	gpos::SafeRelease(m_phmulprodconsmap);
 }
 
 

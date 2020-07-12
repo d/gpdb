@@ -102,7 +102,7 @@ CQueryContext::~CQueryContext()
 	m_prpp->Release();
 	m_pdrgpcr->Release();
 	m_pdrgpmdname->Release();
-	CRefCount::SafeRelease(m_pdrgpcrSystemCols);
+	gpos::SafeRelease(m_pdrgpcrSystemCols);
 }
 
 

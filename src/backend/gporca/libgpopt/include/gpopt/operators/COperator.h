@@ -45,7 +45,7 @@ namespace gpopt
 	//		base class for all operators
 	//
 	//---------------------------------------------------------------------------
-	class COperator : public CRefCount
+	class COperator : public CRefCount<COperator>
 	{
 
 		private:

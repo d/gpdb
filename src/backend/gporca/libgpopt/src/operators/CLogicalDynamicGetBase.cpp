@@ -162,12 +162,12 @@ CLogicalDynamicGetBase::CLogicalDynamicGetBase
 //---------------------------------------------------------------------------
 CLogicalDynamicGetBase::~CLogicalDynamicGetBase()
 {
-	CRefCount::SafeRelease(m_ptabdesc);
-	CRefCount::SafeRelease(m_pdrgpcrOutput);
-	CRefCount::SafeRelease(m_pdrgpdrgpcrPart);
-	CRefCount::SafeRelease(m_part_constraint);
-	CRefCount::SafeRelease(m_ppartcnstrRel);
-	CRefCount::SafeRelease(m_pcrsDist);
+	gpos::SafeRelease(m_ptabdesc);
+	gpos::SafeRelease(m_pdrgpcrOutput);
+	gpos::SafeRelease(m_pdrgpdrgpcrPart);
+	gpos::SafeRelease(m_part_constraint);
+	gpos::SafeRelease(m_ppartcnstrRel);
+	gpos::SafeRelease(m_pcrsDist);
 
 	GPOS_DELETE(m_pnameAlias);
 }

@@ -1417,7 +1417,7 @@ CStatsPredUtils::ExtractJoinStatsFromExpr
 
 	// TODO:  May 15 2014, handle unsupported predicates for LASJ, LOJ and LS joins
 	// clean up
-	CRefCount::SafeRelease(unsupported_pred_stats);
+	gpos::SafeRelease(unsupported_pred_stats);
 	scalar_expr->Release();
 
 	return join_pred_stats;

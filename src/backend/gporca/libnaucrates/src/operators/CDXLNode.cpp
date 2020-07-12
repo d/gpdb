@@ -191,9 +191,9 @@ CDXLNode::CDXLNode
 CDXLNode::~CDXLNode()
 {
 	m_dxl_array->Release();
-	CRefCount::SafeRelease(m_dxl_op);
-	CRefCount::SafeRelease(m_dxl_properties);
-	CRefCount::SafeRelease(m_direct_dispatch_info);
+	gpos::SafeRelease(m_dxl_op);
+	gpos::SafeRelease(m_dxl_properties);
+	gpos::SafeRelease(m_direct_dispatch_info);
 }
 
 //---------------------------------------------------------------------------

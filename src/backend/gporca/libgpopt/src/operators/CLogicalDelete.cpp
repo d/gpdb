@@ -87,8 +87,8 @@ CLogicalDelete::CLogicalDelete
 //---------------------------------------------------------------------------
 CLogicalDelete::~CLogicalDelete()
 {
-	CRefCount::SafeRelease(m_ptabdesc);
-	CRefCount::SafeRelease(m_pdrgpcr);
+	gpos::SafeRelease(m_ptabdesc);
+	gpos::SafeRelease(m_pdrgpcr);
 }
 
 //---------------------------------------------------------------------------

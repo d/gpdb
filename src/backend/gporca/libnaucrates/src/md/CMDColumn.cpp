@@ -61,7 +61,7 @@ CMDColumn::~CMDColumn()
 {
 	GPOS_DELETE(m_mdname);
 	m_mdid_type->Release();
-	CRefCount::SafeRelease(m_dxl_default_val);
+	gpos::SafeRelease(m_dxl_default_val);
 }
 
 

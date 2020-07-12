@@ -47,7 +47,7 @@ CParseHandlerOp::CParseHandlerOp
 //---------------------------------------------------------------------------
 CParseHandlerOp::~CParseHandlerOp()
 {
-	CRefCount::SafeRelease(m_dxl_node);
+	gpos::SafeRelease(m_dxl_node);
 }
 
 //---------------------------------------------------------------------------

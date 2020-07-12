@@ -35,7 +35,7 @@ namespace gpopt
 	//		Abstract base class for all enforceable properties.
 	//
 	//---------------------------------------------------------------------------
-	class CEnfdProp : public CRefCount
+	class CEnfdProp : public CRefCount<CEnfdProp>
 	{
 
 		public:

@@ -52,7 +52,7 @@ namespace gpopt
 	//		Base class for representing constraints
 	//
 	//---------------------------------------------------------------------------
-	class CConstraint : public CRefCount
+	class CConstraint : public CRefCount<CConstraint>
 	{
 		public:
 

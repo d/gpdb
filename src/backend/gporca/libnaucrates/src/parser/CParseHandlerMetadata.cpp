@@ -57,9 +57,9 @@ CParseHandlerMetadata::CParseHandlerMetadata
 //---------------------------------------------------------------------------
 CParseHandlerMetadata::~CParseHandlerMetadata()
 {
-	CRefCount::SafeRelease(m_mdid_cached_obj_array);
-	CRefCount::SafeRelease(m_mdid_array);
-	CRefCount::SafeRelease(m_system_id_array);
+	gpos::SafeRelease(m_mdid_cached_obj_array);
+	gpos::SafeRelease(m_mdid_array);
+	gpos::SafeRelease(m_system_id_array);
 }
 
 //---------------------------------------------------------------------------

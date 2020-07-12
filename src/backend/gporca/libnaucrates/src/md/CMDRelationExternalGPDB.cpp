@@ -130,18 +130,18 @@ CMDRelationExternalGPDB::~CMDRelationExternalGPDB()
 	GPOS_DELETE(m_dxl_str);
 	m_mdid->Release();
 	m_md_col_array->Release();
-	CRefCount::SafeRelease(m_distr_col_array);
-	CRefCount::SafeRelease(m_distr_opfamilies);
-	CRefCount::SafeRelease(m_keyset_array);
+	gpos::SafeRelease(m_distr_col_array);
+	gpos::SafeRelease(m_distr_opfamilies);
+	gpos::SafeRelease(m_keyset_array);
 	m_mdindex_info_array->Release();
 	m_mdid_trigger_array->Release();
 	m_col_width_array->Release();
 	m_mdid_check_constraint_array->Release();
-	CRefCount::SafeRelease(m_mdid_fmt_err_table);
+	gpos::SafeRelease(m_mdid_fmt_err_table);
 
-	CRefCount::SafeRelease(m_colpos_nondrop_colpos_map);
-	CRefCount::SafeRelease(m_attrno_nondrop_col_pos_map);
-	CRefCount::SafeRelease(m_nondrop_col_pos_array);
+	gpos::SafeRelease(m_colpos_nondrop_colpos_map);
+	gpos::SafeRelease(m_attrno_nondrop_col_pos_map);
+	gpos::SafeRelease(m_nondrop_col_pos_array);
 }
 
 //---------------------------------------------------------------------------

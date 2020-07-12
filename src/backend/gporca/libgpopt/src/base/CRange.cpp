@@ -139,8 +139,8 @@ CRange::CRange
 CRange::~CRange()
 {
 	m_mdid->Release();
-	CRefCount::SafeRelease(m_pdatumLeft);
-	CRefCount::SafeRelease(m_pdatumRight);
+	gpos::SafeRelease(m_pdatumLeft);
+	gpos::SafeRelease(m_pdatumRight);
 }
 
 //---------------------------------------------------------------------------

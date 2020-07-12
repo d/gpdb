@@ -44,7 +44,7 @@ namespace gpopt
 	//		Configurations of plan enumerator
 	//
 	//---------------------------------------------------------------------------
-	class CEnumeratorConfig : public CRefCount
+	class CEnumeratorConfig : public CRefCount<CEnumeratorConfig>
 	{
 
 		private:

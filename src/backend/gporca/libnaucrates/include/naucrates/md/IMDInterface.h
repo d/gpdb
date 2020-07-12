@@ -29,7 +29,7 @@ namespace gpmd
 	//		Base interface for metadata-related objects
 	//
 	//---------------------------------------------------------------------------
-	class IMDInterface : public CRefCount
+	class IMDInterface : public CRefCount<IMDInterface>
 	{		
 		public:
 			virtual ~IMDInterface(){}

@@ -60,12 +60,12 @@ CDrvdPropScalar::CDrvdPropScalar
 //---------------------------------------------------------------------------
 CDrvdPropScalar::~CDrvdPropScalar()
 {
-	CRefCount::SafeRelease(m_is_prop_derived);
-	CRefCount::SafeRelease(m_pcrsDefined);
-	CRefCount::SafeRelease(m_pcrsSetReturningFunction);
-	CRefCount::SafeRelease(m_pcrsUsed);
-	CRefCount::SafeRelease(m_ppartinfo);
-	CRefCount::SafeRelease(m_pfp);
+	gpos::SafeRelease(m_is_prop_derived);
+	gpos::SafeRelease(m_pcrsDefined);
+	gpos::SafeRelease(m_pcrsSetReturningFunction);
+	gpos::SafeRelease(m_pcrsUsed);
+	gpos::SafeRelease(m_ppartinfo);
+	gpos::SafeRelease(m_pfp);
 }
 
 

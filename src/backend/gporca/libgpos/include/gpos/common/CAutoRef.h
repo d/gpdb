@@ -77,7 +77,7 @@ namespace gpos
 	{
 		if (NULL != CAutoP<T>::m_object)
 		{
-			reinterpret_cast<CRefCount*>(CAutoP<T>::m_object)->Release();
+			CAutoP<T>::m_object->Release();
 		}
 
 		// null out pointer before ~CAutoP() gets called

@@ -35,7 +35,7 @@ namespace gpopt
 	//		Functional dependency representation
 	//
 	//---------------------------------------------------------------------------
-	class CFunctionalDependency : public CRefCount
+	class CFunctionalDependency : public CRefCount<CFunctionalDependency>
 	{
 
 		private:

@@ -96,8 +96,8 @@ CMDTypeInt8GPDB::CMDTypeInt8GPDB
 CMDTypeInt8GPDB::~CMDTypeInt8GPDB()
 {
 	m_mdid->Release();
-	CRefCount::SafeRelease(m_distr_opfamily);
-	CRefCount::SafeRelease(m_legacy_distr_opfamily);
+	gpos::SafeRelease(m_distr_opfamily);
+	gpos::SafeRelease(m_legacy_distr_opfamily);
 	m_mdid_op_eq->Release();
 	m_mdid_op_neq->Release();
 	m_mdid_op_lt->Release();

@@ -41,7 +41,7 @@ namespace gpopt
 	//		metadata abstraction for tables
 	//
 	//---------------------------------------------------------------------------
-	class CTableDescriptor : public CRefCount
+	class CTableDescriptor : public CRefCount<CTableDescriptor>
 	{
 		private:
 			

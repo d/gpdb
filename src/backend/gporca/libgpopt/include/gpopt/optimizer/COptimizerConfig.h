@@ -44,7 +44,7 @@ namespace gpopt
 	//		<dxl:OptimizerConfig> element
 	//
 	//---------------------------------------------------------------------------
-	class COptimizerConfig : public CRefCount
+	class COptimizerConfig : public CRefCount<COptimizerConfig>
 	{
 
 		private:

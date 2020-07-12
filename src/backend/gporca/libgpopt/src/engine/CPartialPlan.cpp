@@ -61,7 +61,7 @@ CPartialPlan::CPartialPlan
 CPartialPlan::~CPartialPlan()
 {
 	m_prpp->Release();
-	CRefCount::SafeRelease(m_pccChild);
+	gpos::SafeRelease(m_pccChild);
 }
 
 //---------------------------------------------------------------------------

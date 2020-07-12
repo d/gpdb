@@ -113,10 +113,10 @@ CLogicalSetOp::CLogicalSetOp
 //---------------------------------------------------------------------------
 CLogicalSetOp::~CLogicalSetOp()
 {
-	CRefCount::SafeRelease(m_pdrgpcrOutput);
-	CRefCount::SafeRelease(m_pdrgpdrgpcrInput);
-	CRefCount::SafeRelease(m_pcrsOutput);
-	CRefCount::SafeRelease(m_pdrgpcrsInput);
+	gpos::SafeRelease(m_pdrgpcrOutput);
+	gpos::SafeRelease(m_pdrgpdrgpcrInput);
+	gpos::SafeRelease(m_pcrsOutput);
+	gpos::SafeRelease(m_pdrgpcrsInput);
 }
 
 

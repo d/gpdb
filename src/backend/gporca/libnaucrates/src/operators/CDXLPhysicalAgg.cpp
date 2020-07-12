@@ -50,7 +50,7 @@ CDXLPhysicalAgg::CDXLPhysicalAgg
 //---------------------------------------------------------------------------
 CDXLPhysicalAgg::~CDXLPhysicalAgg()
 {
-	CRefCount::SafeRelease(m_grouping_colids_array);
+	gpos::SafeRelease(m_grouping_colids_array);
 }
 
 

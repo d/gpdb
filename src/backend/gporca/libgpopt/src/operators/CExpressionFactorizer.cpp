@@ -823,7 +823,7 @@ CExpressionFactorizer::PexprExtractInferredFiltersFromDisj
 		{
 			psrc2array->Release();
 			pcol2array->Release();
-			CRefCount::SafeRelease(pcrsProducedByChildren);
+			gpos::SafeRelease(pcrsProducedByChildren);
 			pexpr->AddRef();
 			return pexpr;
 		}
@@ -832,7 +832,7 @@ CExpressionFactorizer::PexprExtractInferredFiltersFromDisj
 	CExpression *pexprWithPrefilters = PexprAddInferredFilters(mp, pexpr, psrc2array, pcol2array);
 	psrc2array->Release();
 	pcol2array->Release();
-	CRefCount::SafeRelease(pcrsProducedByChildren);
+	gpos::SafeRelease(pcrsProducedByChildren);
 	CExpression *pexprDeduped = CExpressionUtils::PexprDedupChildren(mp, pexprWithPrefilters);
 	pexprWithPrefilters->Release();
 

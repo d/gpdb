@@ -42,7 +42,7 @@ namespace gpos
 				BOOL (*EqFn)(const K*, const K*),
 				void (*DestroyKFn)(K*),
 				void (*DestroyTFn)(T*)>
-	class CHashMap : public CRefCount
+	class CHashMap : public CRefCount<CHashMap<K,T,HashFn,EqFn,DestroyKFn,DestroyTFn>>
 	{
 		// fwd declaration
 		friend class CHashMapIter<K, T, HashFn, EqFn, DestroyKFn, DestroyTFn>;

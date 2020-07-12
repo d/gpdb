@@ -83,10 +83,10 @@ CLogicalCTEConsumer::CLogicalCTEConsumer
 //---------------------------------------------------------------------------
 CLogicalCTEConsumer::~CLogicalCTEConsumer()
 {
-	CRefCount::SafeRelease(m_pdrgpcr);
-	CRefCount::SafeRelease(m_pexprInlined);
-	CRefCount::SafeRelease(m_phmulcr);
-	CRefCount::SafeRelease(m_pcrsOutput);
+	gpos::SafeRelease(m_pdrgpcr);
+	gpos::SafeRelease(m_pexprInlined);
+	gpos::SafeRelease(m_phmulcr);
+	gpos::SafeRelease(m_pcrsOutput);
 }
 
 //---------------------------------------------------------------------------

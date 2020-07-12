@@ -35,7 +35,7 @@ namespace gpopt
 	//		Expression representation inside Memo structure
 	//
 	//---------------------------------------------------------------------------
-	class CGroupExpression : public CRefCount
+	class CGroupExpression : public CRefCount<CGroupExpression>
 	{
 
 		public:

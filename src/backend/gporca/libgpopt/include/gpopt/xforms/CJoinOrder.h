@@ -51,7 +51,7 @@ namespace gpopt
 			//		Struct to capture edge
 			//
 			//---------------------------------------------------------------------------
-			struct SEdge : public CRefCount
+			struct SEdge : public CRefCount<SEdge>
 			{
 				// cover of edge
 				CBitSet *m_pbs;
@@ -88,7 +88,7 @@ namespace gpopt
 			//		Struct to capture component
 			//
 			//---------------------------------------------------------------------------
-			struct SComponent : public CRefCount
+			struct SComponent : public CRefCount<SComponent>
 			{
 				// cover
 				CBitSet *m_pbs;

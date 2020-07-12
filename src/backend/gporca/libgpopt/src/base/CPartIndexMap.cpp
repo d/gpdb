@@ -77,7 +77,7 @@ CPartIndexMap::CPartTableInfo::CPartTableInfo
 //---------------------------------------------------------------------------
 CPartIndexMap::CPartTableInfo::~CPartTableInfo()
 {
-	CRefCount::SafeRelease(m_ppartcnstrmap);
+	gpos::SafeRelease(m_ppartcnstrmap);
 	m_mdid->Release();
 	m_pdrgppartkeys->Release();
 	m_ppartcnstrRel->Release();

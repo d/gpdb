@@ -49,7 +49,7 @@ CDXLCtasStorageOptions::CDXLCtasStorageOptions
 CDXLCtasStorageOptions::~CDXLCtasStorageOptions()
 {
 	GPOS_DELETE(m_mdname_tablespace);
-	CRefCount::SafeRelease(m_ctas_storage_option_array);
+	gpos::SafeRelease(m_ctas_storage_option_array);
 }
 
 //---------------------------------------------------------------------------

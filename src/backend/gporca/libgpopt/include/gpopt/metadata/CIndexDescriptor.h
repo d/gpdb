@@ -34,7 +34,7 @@ namespace gpopt
 	//		Base class for index descriptor
 	//
 	//---------------------------------------------------------------------------
-	class CIndexDescriptor : public CRefCount
+	class CIndexDescriptor : public CRefCount<CIndexDescriptor>
 	{
 		private:
 

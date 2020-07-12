@@ -61,7 +61,7 @@ CDXLScalarAggref::CDXLScalarAggref
 CDXLScalarAggref::~CDXLScalarAggref()
 {
 	m_agg_func_mdid->Release();
-	CRefCount::SafeRelease(m_resolved_rettype_mdid);
+	gpos::SafeRelease(m_resolved_rettype_mdid);
 }
 
 

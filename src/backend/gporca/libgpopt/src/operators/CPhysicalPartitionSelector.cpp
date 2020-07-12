@@ -108,14 +108,14 @@ CPhysicalPartitionSelector::CPhysicalPartitionSelector
 //---------------------------------------------------------------------------
 CPhysicalPartitionSelector::~CPhysicalPartitionSelector()
 {
-	CRefCount::SafeRelease(m_pdrgpdrgpcr);
-	CRefCount::SafeRelease(m_part_constraint);
-	CRefCount::SafeRelease(m_ppartcnstrmap);
+	gpos::SafeRelease(m_pdrgpdrgpcr);
+	gpos::SafeRelease(m_part_constraint);
+	gpos::SafeRelease(m_ppartcnstrmap);
 	m_phmulexprPredicates->Release();
 	m_mdid->Release();
 	m_phmulexprEqPredicates->Release();
-	CRefCount::SafeRelease(m_pexprResidual);
-	CRefCount::SafeRelease(m_pexprCombinedPredicate);
+	gpos::SafeRelease(m_pexprResidual);
+	gpos::SafeRelease(m_pexprCombinedPredicate);
 }
 
 //---------------------------------------------------------------------------

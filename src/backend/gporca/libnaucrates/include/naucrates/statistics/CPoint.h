@@ -33,7 +33,7 @@ namespace gpnaucrates
 	//	@doc:
 	//		One dimensional point in the datum space
 	//---------------------------------------------------------------------------
-	class CPoint: public CRefCount
+	class CPoint : public CRefCount<CPoint>
 	{
 		private:
 

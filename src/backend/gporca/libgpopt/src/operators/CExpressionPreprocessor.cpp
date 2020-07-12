@@ -812,7 +812,7 @@ CExpressionPreprocessor::PexprConvert2In
 
 			pexprPostCollapse->AddRef();
 			pdrgpexprRemainder->Append(pexprPostCollapse);
-			CRefCount::SafeRelease(colref_array);
+			gpos::SafeRelease(colref_array);
 		}
 		else
 		{
@@ -1701,7 +1701,7 @@ CExpressionPreprocessor::PexprWithImpliedPredsOnLOJInnerChild
 		pexprSelect->Release();
 		pexprInner = pexprInnerNormalized;
 	}
-	CRefCount::SafeRelease(pexprPred);
+	gpos::SafeRelease(pexprPred);
 
 	// recursively process inner child
 	CExpression *pexprNewInner = PexprOuterJoinInferPredsFromOuterChildToInnerChild(mp, pexprInner, pfAddedPredicates);

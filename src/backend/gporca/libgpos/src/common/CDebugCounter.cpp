@@ -49,7 +49,7 @@ CDebugCounter::CDebugCounter(CMemoryPool *mp) :
 
 CDebugCounter::~CDebugCounter()
 {
-  CRefCount::SafeRelease(m_hashmap);
+  gpos::SafeRelease(m_hashmap);
   m_hashmap = NULL;
 }
 

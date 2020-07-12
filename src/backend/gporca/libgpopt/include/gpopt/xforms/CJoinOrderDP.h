@@ -45,7 +45,7 @@ namespace gpopt
 			//		Struct to capture a pair of components
 			//
 			//---------------------------------------------------------------------------
-			struct SComponentPair : public CRefCount
+			struct SComponentPair : public CRefCount<SComponentPair>
 			{
 				// first component
 				CBitSet *m_pbsFst;

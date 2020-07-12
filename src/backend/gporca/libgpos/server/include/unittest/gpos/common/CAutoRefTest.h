@@ -30,7 +30,7 @@ namespace gpos
 	{
 		public:
 
-			class CElem : public CRefCount
+			class CElem : public CRefCount<CElem>
 			{
 				public:
 

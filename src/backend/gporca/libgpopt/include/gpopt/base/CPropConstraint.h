@@ -33,7 +33,7 @@ namespace gpopt
 	//		Representation of constraint property
 	//
 	//---------------------------------------------------------------------------
-	class CPropConstraint : public CRefCount
+	class CPropConstraint : public CRefCount<CPropConstraint>
 	{
 		private:
 

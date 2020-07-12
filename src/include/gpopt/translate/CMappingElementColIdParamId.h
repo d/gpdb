@@ -33,7 +33,7 @@ namespace gpdxl
 	//		ColId and ParamId during DXL->PlStmt translation
 	//
 	//---------------------------------------------------------------------------
-	class CMappingElementColIdParamId : public CRefCount
+	class CMappingElementColIdParamId : public CRefCount<CMappingElementColIdParamId>
 	{
 		private:
 

@@ -130,9 +130,9 @@ CLogicalDML::CLogicalDML
 //---------------------------------------------------------------------------
 CLogicalDML::~CLogicalDML()
 {
-	CRefCount::SafeRelease(m_ptabdesc);
-	CRefCount::SafeRelease(m_pdrgpcrSource);
-	CRefCount::SafeRelease(m_pbsModified);
+	gpos::SafeRelease(m_ptabdesc);
+	gpos::SafeRelease(m_pdrgpcrSource);
+	gpos::SafeRelease(m_pbsModified);
 }
 			
 //---------------------------------------------------------------------------

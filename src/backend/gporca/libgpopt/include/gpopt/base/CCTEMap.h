@@ -46,7 +46,7 @@ namespace gpopt
 	//		CTE map that is derived as part of plan properties
 	//
 	//---------------------------------------------------------------------------
-	class CCTEMap : public CRefCount
+	class CCTEMap : public CRefCount<CCTEMap>
 	{
 		public:
 			// CTE types
@@ -70,7 +70,7 @@ namespace gpopt
 			//		the plan rooted by producer node.
 			//
 			//---------------------------------------------------------------------------
-			class CCTEMapEntry : public CRefCount
+			class CCTEMapEntry : public CRefCount<CCTEMapEntry>
 			{
 
 				private:
@@ -109,7 +109,7 @@ namespace gpopt
 					virtual
 					~CCTEMapEntry()
 					{
-						CRefCount::SafeRelease(m_pdpplan);
+						gpos::SafeRelease(m_pdpplan);
 					}
 
 					// cte id

@@ -26,7 +26,7 @@ namespace gpopt
 	//		result container
 	//
 	//---------------------------------------------------------------------------
-	class CXformResult : public CRefCount
+	class CXformResult : public CRefCount<CXformResult>
 	{
 
 		private:

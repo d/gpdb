@@ -70,7 +70,7 @@ namespace gpnaucrates
 	//		Abstract statistics API
 	//
 	//---------------------------------------------------------------------------
-	class IStatistics: public CRefCount
+	class IStatistics : public CRefCount<IStatistics>
 	{
 		private:
 
@@ -243,7 +243,7 @@ namespace gpnaucrates
 	{
 		if (NULL != stats)
 		{
-			(dynamic_cast<CRefCount*>(stats))->Release();
+			stats->Release();
 		}
 	}
 

@@ -81,11 +81,11 @@ CMDIndexGPDB::~CMDIndexGPDB()
 	GPOS_DELETE(m_mdname);
 	GPOS_DELETE(m_dxl_str);
 	m_mdid->Release();
-	CRefCount::SafeRelease(m_mdid_item_type);
+	gpos::SafeRelease(m_mdid_item_type);
 	m_index_key_cols_array->Release();
 	m_included_cols_array->Release();
 	m_mdid_opfamilies_array->Release();
-	CRefCount::SafeRelease(m_mdpart_constraint);
+	gpos::SafeRelease(m_mdpart_constraint);
 }
 
 //---------------------------------------------------------------------------

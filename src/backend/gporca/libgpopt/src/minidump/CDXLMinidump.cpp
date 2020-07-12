@@ -67,14 +67,14 @@ CDXLMinidump::CDXLMinidump
 CDXLMinidump::~CDXLMinidump()
 {
 	// some of the structures may be NULL as they are not included in the minidump
-	CRefCount::SafeRelease(m_pbs);
-	CRefCount::SafeRelease(m_optimizer_config);
-	CRefCount::SafeRelease(m_query_dxl_root);
-	CRefCount::SafeRelease(m_query_output);
-	CRefCount::SafeRelease(m_cte_producers);
-	CRefCount::SafeRelease(m_plan_dxl_root);
-	CRefCount::SafeRelease(m_mdid_cached_obj_array);
-	CRefCount::SafeRelease(m_system_id_array);
+	gpos::SafeRelease(m_pbs);
+	gpos::SafeRelease(m_optimizer_config);
+	gpos::SafeRelease(m_query_dxl_root);
+	gpos::SafeRelease(m_query_output);
+	gpos::SafeRelease(m_cte_producers);
+	gpos::SafeRelease(m_plan_dxl_root);
+	gpos::SafeRelease(m_mdid_cached_obj_array);
+	gpos::SafeRelease(m_system_id_array);
 }
 
 //---------------------------------------------------------------------------

@@ -53,7 +53,7 @@ namespace gpopt
 	//		Simply dynamic array for pointer types
 	//
 	//---------------------------------------------------------------------------
-	class CExpression : public CRefCount
+	class CExpression : public CRefCount<CExpression>
 	{
 		friend class CExpressionHandle;
 

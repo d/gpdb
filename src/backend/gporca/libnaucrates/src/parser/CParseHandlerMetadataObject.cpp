@@ -49,7 +49,7 @@ CParseHandlerMetadataObject::CParseHandlerMetadataObject
 //---------------------------------------------------------------------------
 CParseHandlerMetadataObject::~CParseHandlerMetadataObject()
 {
-	CRefCount::SafeRelease(m_imd_obj);
+	gpos::SafeRelease(m_imd_obj);
 }
 
 //---------------------------------------------------------------------------

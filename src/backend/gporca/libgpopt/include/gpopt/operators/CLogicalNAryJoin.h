@@ -56,7 +56,7 @@ namespace gpopt
 			virtual
 			~CLogicalNAryJoin() 
 			{
-				CRefCount::SafeRelease(m_lojChildPredIndexes);
+				gpos::SafeRelease(m_lojChildPredIndexes);
 			}
 
 			// ident accessors

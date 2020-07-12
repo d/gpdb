@@ -53,7 +53,7 @@ CParseHandlerStatistics::CParseHandlerStatistics
 //---------------------------------------------------------------------------
 CParseHandlerStatistics::~CParseHandlerStatistics()
 {
-	CRefCount::SafeRelease(m_dxl_stats_derived_rel_array);
+	gpos::SafeRelease(m_dxl_stats_derived_rel_array);
 }
 
 //---------------------------------------------------------------------------

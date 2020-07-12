@@ -32,7 +32,7 @@ namespace gpdxl
 	//		Class to represent pair of GPDB var info to optimizer col info
 	//
 	//---------------------------------------------------------------------------
-	class CGPDBAttOptCol: public CRefCount
+	class CGPDBAttOptCol : public CRefCount<CGPDBAttOptCol>
 	{
 		private:
 

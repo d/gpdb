@@ -2134,7 +2134,7 @@ CTranslatorExprToDXLUtils::GetDXLDirectDispatchInfo
 		CConstraint *pcnstrDistrCol = pcnstr->Pcnstr(mp, pcrDistrCol);
 		
 		CDXLDatum *dxl_datum = PdxldatumFromPointConstraint(mp, md_accessor, pcrDistrCol, pcnstrDistrCol);
-		CRefCount::SafeRelease(pcnstrDistrCol);
+		gpos::SafeRelease(pcnstrDistrCol);
 
 		if (NULL != dxl_datum && FDirectDispatchable(pcrDistrCol, dxl_datum))
 		{
@@ -2142,7 +2142,7 @@ CTranslatorExprToDXLUtils::GetDXLDirectDispatchInfo
 		}
 		else
 		{
-			CRefCount::SafeRelease(dxl_datum);
+			gpos::SafeRelease(dxl_datum);
 
 			fSuccess = false;
 			break;
@@ -2214,7 +2214,7 @@ CTranslatorExprToDXLUtils::PdxlddinfoSingleDistrKey
 		pdrgpdrgpdxldatum = PdrgpdrgpdxldatumFromDisjPointConstraint(mp, md_accessor, pcrDistrCol, pcnstrDistrCol);
 	}
 	
-	CRefCount::SafeRelease(pcnstrDistrCol);
+	gpos::SafeRelease(pcnstrDistrCol);
 
 	if (NULL == pdrgpdrgpdxldatum)
 	{

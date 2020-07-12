@@ -37,7 +37,7 @@ namespace gpopt
 	//		Derived partition information at the logical level
 	//
 	//---------------------------------------------------------------------------
-	class CPartInfo : public CRefCount
+	class CPartInfo : public CRefCount<CPartInfo>
 	{
 		private:
 
@@ -49,7 +49,7 @@ namespace gpopt
 			//		A single entry of the CPartInfo
 			//
 			//---------------------------------------------------------------------------
-			class CPartInfoEntry : public CRefCount
+			class CPartInfoEntry : public CRefCount<CPartInfoEntry>
 			{
 
 				private:

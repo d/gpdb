@@ -101,9 +101,9 @@ CLogicalUpdate::CLogicalUpdate
 //---------------------------------------------------------------------------
 CLogicalUpdate::~CLogicalUpdate()
 {
-	CRefCount::SafeRelease(m_ptabdesc);
-	CRefCount::SafeRelease(m_pdrgpcrDelete);
-	CRefCount::SafeRelease(m_pdrgpcrInsert);
+	gpos::SafeRelease(m_ptabdesc);
+	gpos::SafeRelease(m_pdrgpcrDelete);
+	gpos::SafeRelease(m_pdrgpcrInsert);
 }
 
 //---------------------------------------------------------------------------

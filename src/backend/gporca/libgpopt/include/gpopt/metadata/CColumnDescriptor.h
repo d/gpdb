@@ -32,7 +32,7 @@ namespace gpopt
 	//		column descriptor;
 	//
 	//---------------------------------------------------------------------------
-	class CColumnDescriptor : public CRefCount
+	class CColumnDescriptor : public CRefCount<CColumnDescriptor>
 	{
 		private:
 

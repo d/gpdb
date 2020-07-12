@@ -35,7 +35,7 @@ namespace gpopt
 	//		CTE requirements
 	//
 	//---------------------------------------------------------------------------
-	class CCTEReq : public CRefCount
+	class CCTEReq : public CRefCount<CCTEReq>
 	{
 
 		private:
@@ -48,7 +48,7 @@ namespace gpopt
 			//		A single entry in the CTE requirement
 			//
 			//---------------------------------------------------------------------------
-			class CCTEReqEntry : public CRefCount
+			class CCTEReqEntry : public CRefCount<CCTEReqEntry>
 			{
 
 				private:

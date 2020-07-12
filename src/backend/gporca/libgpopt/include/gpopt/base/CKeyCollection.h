@@ -30,7 +30,7 @@ namespace gpopt
 	//		Captures sets of keys for a relation
 	//
 	//---------------------------------------------------------------------------
-	class CKeyCollection : public CRefCount
+	class CKeyCollection : public CRefCount<CKeyCollection>
 	{
 
 		private:

@@ -191,10 +191,10 @@ CEngineTest::EresOptimize
 		m_ulTestCounter = 0;
 
 		(*pdrgpexprCrossProducts)[ulRels - 1]->Release();
-		CRefCount::SafeRelease(pdrgpexprCrossProducts);
+		gpos::SafeRelease(pdrgpexprCrossProducts);
 
 		(*pdrgpexpr)[ulRels - 1]->Release();
-		CRefCount::SafeRelease(pdrgpexpr);
+		gpos::SafeRelease(pdrgpexpr);
 	}
 
 	return GPOS_OK;

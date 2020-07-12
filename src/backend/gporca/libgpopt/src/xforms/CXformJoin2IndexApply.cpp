@@ -644,7 +644,7 @@ CXformJoin2IndexApply::CreatePartialIndexApplyPlan
 								);
 		}
 
-		CRefCount::SafeRelease(pdrgpcrIndexGet);
+		gpos::SafeRelease(pdrgpcrIndexGet);
 
 		// if we failed to create a DynamicIndexScan, we give up
 		GPOS_ASSERT(NULL != pexprUnionAllChild);
@@ -674,7 +674,7 @@ CXformJoin2IndexApply::CreatePartialIndexApplyPlan
 		pdrgpdrgpcrInput->Append(pdrgpcrNew);
 		pdrgpexprInput->Append(pexprUnionAllChild);
 
-		CRefCount::SafeRelease(colref_mapping);
+		gpos::SafeRelease(colref_mapping);
 	}
 
 	GPOS_ASSERT(pdrgpexprInput->Size() == pdrgpdrgpcrInput->Size());

@@ -38,7 +38,7 @@ namespace gpnaucrates
 	//		Base abstract class for datum representation inside optimizer
 	//
 	//---------------------------------------------------------------------------
-	class IDatum: public CRefCount
+	class IDatum : public CRefCount<IDatum>
 	{
 		private:
 

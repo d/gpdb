@@ -56,7 +56,7 @@ CPartFilterMap::CPartFilter::CPartFilter
 CPartFilterMap::CPartFilter::~CPartFilter()
 {
 	m_pexpr->Release();
-	CRefCount::SafeRelease(m_pstats);
+	gpos::SafeRelease(m_pstats);
 }
 
 //---------------------------------------------------------------------------
@@ -154,7 +154,7 @@ CPartFilterMap::CPartFilterMap
 //---------------------------------------------------------------------------
 CPartFilterMap::~CPartFilterMap()
 {
-	CRefCount::SafeRelease(m_phmulpf);
+	gpos::SafeRelease(m_phmulpf);
 }
 
 //---------------------------------------------------------------------------

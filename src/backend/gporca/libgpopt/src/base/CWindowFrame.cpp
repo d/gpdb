@@ -114,9 +114,9 @@ CWindowFrame::CWindowFrame()
 //---------------------------------------------------------------------------
 CWindowFrame::~CWindowFrame()
 {
-	CRefCount::SafeRelease(m_pexprLeading);
-	CRefCount::SafeRelease(m_pexprTrailing);
-	CRefCount::SafeRelease(m_pcrsUsed);
+	gpos::SafeRelease(m_pexprLeading);
+	gpos::SafeRelease(m_pexprTrailing);
+	gpos::SafeRelease(m_pcrsUsed);
 }
 
 

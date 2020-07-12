@@ -140,7 +140,7 @@ CXformLeftSemiApplyWithExternalCorrs2InnerJoin::FDecorrelate
 	{
 		// decorrelation failed
 		pdrgpexpr->Release();
-		CRefCount::SafeRelease(*ppexprInnerNew);
+		gpos::SafeRelease(*ppexprInnerNew);
 
 		return false;
 	}
@@ -220,7 +220,7 @@ CXformLeftSemiApplyWithExternalCorrs2InnerJoin::PexprDecorrelate
 	{
 		// splitting correlations failed
 		pdrgpexprAllCorr->Release();
-		CRefCount::SafeRelease(pexprInnerNew);
+		gpos::SafeRelease(pexprInnerNew);
 
 		return NULL;
 	}

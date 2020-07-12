@@ -52,7 +52,7 @@ CParseHandlerMetadataIdList::CParseHandlerMetadataIdList
 //---------------------------------------------------------------------------
 CParseHandlerMetadataIdList::~CParseHandlerMetadataIdList()
 {
-	CRefCount::SafeRelease(m_mdid_array);
+	gpos::SafeRelease(m_mdid_array);
 }
 
 

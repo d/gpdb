@@ -186,7 +186,7 @@ namespace gpopt
 				{
 					// It is a left outer join, but we can't do outer index apply,
 					// stop transforming and return immediately.
-					CRefCount::SafeRelease(pexprAllPredicates);
+					gpos::SafeRelease(pexprAllPredicates);
 					return;
 				}
 
@@ -226,7 +226,7 @@ namespace gpopt
 						eidxtype
 						);
 				}
-				CRefCount::SafeRelease(pexprAllPredicates);
+				gpos::SafeRelease(pexprAllPredicates);
 			}
 
 			// return true if xform should be applied only once

@@ -113,9 +113,9 @@ CLogicalSequenceProject::CLogicalSequenceProject
 //---------------------------------------------------------------------------
 CLogicalSequenceProject::~CLogicalSequenceProject()
 {
-	CRefCount::SafeRelease(m_pds);
-	CRefCount::SafeRelease(m_pdrgpos);
-	CRefCount::SafeRelease(m_pdrgpwf);
+	gpos::SafeRelease(m_pds);
+	gpos::SafeRelease(m_pdrgpos);
+	gpos::SafeRelease(m_pdrgpwf);
 }
 
 //---------------------------------------------------------------------------

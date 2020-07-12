@@ -116,9 +116,9 @@ CMDRelationCtasGPDB::~CMDRelationCtasGPDB()
 	m_md_col_array->Release();
 	m_keyset_array->Release();
 	m_col_width_array->Release();
-	CRefCount::SafeRelease(m_distr_col_array);
-	CRefCount::SafeRelease(m_attrno_nondrop_col_pos_map);
-	CRefCount::SafeRelease(m_nondrop_col_pos_array);
+	gpos::SafeRelease(m_distr_col_array);
+	gpos::SafeRelease(m_attrno_nondrop_col_pos_map);
+	gpos::SafeRelease(m_nondrop_col_pos_array);
 	m_dxl_ctas_storage_option->Release();
 	m_vartypemod_array->Release();
 }

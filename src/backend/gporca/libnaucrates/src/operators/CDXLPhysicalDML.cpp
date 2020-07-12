@@ -73,7 +73,7 @@ CDXLPhysicalDML::~CDXLPhysicalDML()
 {
 	m_dxl_table_descr->Release();
 	m_src_colids_array->Release();
-	CRefCount::SafeRelease(m_direct_dispatch_info);
+	gpos::SafeRelease(m_direct_dispatch_info);
 }
 
 //---------------------------------------------------------------------------

@@ -135,10 +135,10 @@ CLogicalGet::CLogicalGet
 //---------------------------------------------------------------------------
 CLogicalGet::~CLogicalGet()
 {
-	CRefCount::SafeRelease(m_ptabdesc);
-	CRefCount::SafeRelease(m_pdrgpcrOutput);
-	CRefCount::SafeRelease(m_pdrgpdrgpcrPart);
-	CRefCount::SafeRelease(m_pcrsDist);
+	gpos::SafeRelease(m_ptabdesc);
+	gpos::SafeRelease(m_pdrgpcrOutput);
+	gpos::SafeRelease(m_pdrgpdrgpcrPart);
+	gpos::SafeRelease(m_pcrsDist);
 	
 	GPOS_DELETE(m_pnameAlias);
 }

@@ -260,7 +260,7 @@ namespace gpopt
 			{
 				GPOS_ASSERT(NULL != pdrgpcrSystemCols);
 
-				CRefCount::SafeRelease(m_pdrgpcrSystemCols);
+				gpos::SafeRelease(m_pdrgpcrSystemCols);
 				m_pdrgpcrSystemCols = pdrgpcrSystemCols;
 			}
 

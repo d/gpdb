@@ -701,7 +701,7 @@ CLogical::PpcDeriveConstraintFromPredicates
 			{
 				pexprScalar->Release();
 			}
-			CRefCount::SafeRelease(pdrgpcrsChild);
+			gpos::SafeRelease(pdrgpcrsChild);
 		}
 		else
 		{
@@ -820,7 +820,7 @@ CLogical::PpcDeriveConstraintFromTable
 			pdrgpcrs->Release();
 			pdrgpcrs = pdrgpcrsMerged;
 		}
-		CRefCount::SafeRelease(pdrgpcrsChild);
+		gpos::SafeRelease(pdrgpcrsChild);
 		pexprCheckConstraint->Release();
 	}
 

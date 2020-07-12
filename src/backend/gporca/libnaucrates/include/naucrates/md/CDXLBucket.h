@@ -37,7 +37,7 @@ namespace gpmd
 	//		Class representing a bucket in DXL column stats
 	//
 	//---------------------------------------------------------------------------
-	class CDXLBucket : public CRefCount
+	class CDXLBucket : public CRefCount<CDXLBucket>
 	{		
 		private:
 		

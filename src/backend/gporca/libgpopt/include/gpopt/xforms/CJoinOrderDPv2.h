@@ -171,7 +171,7 @@ namespace gpopt
 			// description of an expression in the DP environment
 			// left and right child of join expressions point to
 			// child groups + expressions
-			struct SExpressionInfo : public CRefCount
+			struct SExpressionInfo : public CRefCount<SExpressionInfo>
 			{
 				// the expression
 				CExpression *m_expr;
@@ -235,7 +235,7 @@ namespace gpopt
 			//		Struct containing a bitset, representing a group, its best expression, and cost
 			//
 			//---------------------------------------------------------------------------
-			struct SGroupInfo : public CRefCount
+			struct SGroupInfo : public CRefCount<SGroupInfo>
 				{
 					// the set of atoms, this uniquely identifies the group
 					CBitSet *m_atoms;
@@ -269,7 +269,7 @@ namespace gpopt
 			typedef CDynamicPtrArray<SGroupInfo, CleanupRelease<SGroupInfo> > SGroupInfoArray;
 
 			// info for a join level, the set of all groups representing <m_level>-way joins
-			struct SLevelInfo : public CRefCount
+			struct SLevelInfo : public CRefCount<SLevelInfo>
 				{
 					ULONG m_level;
 					SGroupInfoArray *m_groups;
@@ -284,7 +284,7 @@ namespace gpopt
 					~SLevelInfo()
 					{
 						m_groups->Release();
-						CRefCount::SafeRelease(m_top_k_groups);
+						gpos::SafeRelease(m_top_k_groups);
 					}
 				};
 

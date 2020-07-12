@@ -34,7 +34,7 @@ namespace gpdxl
 	//		Container for the properties of an operator node, such as stats
 	//
 	//---------------------------------------------------------------------------
-	class CDXLProperties : public CRefCount
+	class CDXLProperties : public CRefCount<CDXLProperties>
 	{
 		private:
 

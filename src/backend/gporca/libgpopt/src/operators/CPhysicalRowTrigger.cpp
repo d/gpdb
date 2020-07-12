@@ -72,8 +72,8 @@ CPhysicalRowTrigger::CPhysicalRowTrigger
 CPhysicalRowTrigger::~CPhysicalRowTrigger()
 {
 	m_rel_mdid->Release();
-	CRefCount::SafeRelease(m_pdrgpcrOld);
-	CRefCount::SafeRelease(m_pdrgpcrNew);
+	gpos::SafeRelease(m_pdrgpcrOld);
+	gpos::SafeRelease(m_pdrgpcrNew);
 	m_pcrsRequiredLocal->Release();
 }
 

@@ -125,9 +125,9 @@ CLogicalConstTableGet::CLogicalConstTableGet
 //---------------------------------------------------------------------------
 CLogicalConstTableGet::~CLogicalConstTableGet()
 {
-	CRefCount::SafeRelease(m_pdrgpcoldesc);
-	CRefCount::SafeRelease(m_pdrgpdrgpdatum);
-	CRefCount::SafeRelease(m_pdrgpcrOutput);
+	gpos::SafeRelease(m_pdrgpcoldesc);
+	gpos::SafeRelease(m_pdrgpdrgpdatum);
+	gpos::SafeRelease(m_pdrgpcrOutput);
 }
 
 //---------------------------------------------------------------------------

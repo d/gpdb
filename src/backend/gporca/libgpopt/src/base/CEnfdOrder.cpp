@@ -58,7 +58,7 @@ CEnfdOrder::CEnfdOrder
 //---------------------------------------------------------------------------
 CEnfdOrder::~CEnfdOrder()
 {
-	CRefCount::SafeRelease(m_pos);
+	gpos::SafeRelease(m_pos);
 }
 
 

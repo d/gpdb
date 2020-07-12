@@ -33,7 +33,7 @@ namespace gpos
 
 		private:
 			// A simple object (no deep structures)
-			struct SSimpleObject : public CRefCount
+			struct SSimpleObject : public CRefCount<SSimpleObject>
 			{
 				ULONG m_ulKey;
 
@@ -101,7 +101,7 @@ namespace gpos
 
 
 			// An object with a deep structure
-			class CDeepObject : public CRefCount
+			class CDeepObject : public CRefCount<CDeepObject>
 			{
 
 				private:

@@ -62,7 +62,7 @@ namespace gpopt
 	//		CExpressionHandle::DeriveProps().
 	//
 	//---------------------------------------------------------------------------
-	class CDrvdProp : public CRefCount
+	class CDrvdProp : public CRefCount<CDrvdProp>
 	{
 
 		public:

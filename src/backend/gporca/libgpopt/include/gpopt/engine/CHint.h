@@ -32,7 +32,7 @@ namespace gpopt
 	//		Hint configurations
 	//
 	//---------------------------------------------------------------------------
-	class CHint : public CRefCount
+	class CHint : public CRefCount<CHint>
 	{
 
 		private:

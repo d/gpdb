@@ -29,7 +29,7 @@ namespace gpopt
 	//		GPDB specific oids
 	//
 	//---------------------------------------------------------------------------
-	class CWindowOids : public CRefCount
+	class CWindowOids : public CRefCount<CWindowOids>
 	{
 		private:
 

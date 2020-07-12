@@ -96,12 +96,12 @@ CCostContext::CCostContext
 //---------------------------------------------------------------------------
 CCostContext::~CCostContext()
 {
-	CRefCount::SafeRelease(m_pgexpr);
-	CRefCount::SafeRelease(m_pgexprForStats);
-	CRefCount::SafeRelease(m_poc);
-	CRefCount::SafeRelease(m_pdrgpoc);
-	CRefCount::SafeRelease(m_pdpplan);
-	CRefCount::SafeRelease(m_pstats);
+	gpos::SafeRelease(m_pgexpr);
+	gpos::SafeRelease(m_pgexprForStats);
+	gpos::SafeRelease(m_poc);
+	gpos::SafeRelease(m_pdrgpoc);
+	gpos::SafeRelease(m_pdpplan);
+	gpos::SafeRelease(m_pstats);
 }
 
 

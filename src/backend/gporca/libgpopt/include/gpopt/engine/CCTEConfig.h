@@ -28,7 +28,7 @@ namespace gpopt
 	//		CTE configurations
 	//
 	//---------------------------------------------------------------------------
-	class CCTEConfig : public CRefCount
+	class CCTEConfig : public CRefCount<CCTEConfig>
 	{
 
 		private:

@@ -78,20 +78,20 @@ CParseHandlerDXL::CParseHandlerDXL
 //---------------------------------------------------------------------------
 CParseHandlerDXL::~CParseHandlerDXL()
 {
-	CRefCount::SafeRelease(m_trace_flags_bitset);
-	CRefCount::SafeRelease(m_optimizer_config);
-	CRefCount::SafeRelease(m_mdrequest);
-	CRefCount::SafeRelease(m_query_dxl_root);
-	CRefCount::SafeRelease(m_output_colums_dxl_array);
-	CRefCount::SafeRelease(m_cte_producers);
-	CRefCount::SafeRelease(m_plan_dxl_root);
-	CRefCount::SafeRelease(m_mdid_cached_obj_array);
-	CRefCount::SafeRelease(m_mdid_array);
-	CRefCount::SafeRelease(m_scalar_expr_dxl);
-	CRefCount::SafeRelease(m_system_id_array);
-	CRefCount::SafeRelease(m_dxl_stats_derived_rel_array);
-	CRefCount::SafeRelease(m_search_stage_array);
-	CRefCount::SafeRelease(m_cost_model_params);
+	gpos::SafeRelease(m_trace_flags_bitset);
+	gpos::SafeRelease(m_optimizer_config);
+	gpos::SafeRelease(m_mdrequest);
+	gpos::SafeRelease(m_query_dxl_root);
+	gpos::SafeRelease(m_output_colums_dxl_array);
+	gpos::SafeRelease(m_cte_producers);
+	gpos::SafeRelease(m_plan_dxl_root);
+	gpos::SafeRelease(m_mdid_cached_obj_array);
+	gpos::SafeRelease(m_mdid_array);
+	gpos::SafeRelease(m_scalar_expr_dxl);
+	gpos::SafeRelease(m_system_id_array);
+	gpos::SafeRelease(m_dxl_stats_derived_rel_array);
+	gpos::SafeRelease(m_search_stage_array);
+	gpos::SafeRelease(m_cost_model_params);
 
 }
 

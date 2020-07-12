@@ -44,7 +44,7 @@ namespace gpdxl
 	//		Each node specifies an operator at that node, and has an array of children nodes.
 	//
 	//---------------------------------------------------------------------------
-	class CDXLNode : public CRefCount
+	class CDXLNode : public CRefCount<CDXLNode>
 	{
 		private:
 		

@@ -28,7 +28,7 @@ namespace gpos
 	//		Linked list of CBitSetLink's
 	//
 	//---------------------------------------------------------------------------
-	class CBitSet : public CRefCount
+	class CBitSet : public CRefCount<CBitSet>
 	{
 		// bitset iter needs to access internals
 		friend class CBitSetIter;

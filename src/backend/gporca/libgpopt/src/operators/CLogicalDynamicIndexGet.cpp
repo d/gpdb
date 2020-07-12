@@ -95,8 +95,8 @@ CLogicalDynamicIndexGet::CLogicalDynamicIndexGet
 //---------------------------------------------------------------------------
 CLogicalDynamicIndexGet::~CLogicalDynamicIndexGet()
 {
-	CRefCount::SafeRelease(m_pindexdesc);
-	CRefCount::SafeRelease(m_pos);
+	gpos::SafeRelease(m_pindexdesc);
+	gpos::SafeRelease(m_pos);
 }
 
 //---------------------------------------------------------------------------

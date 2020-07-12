@@ -169,7 +169,7 @@ CConstraintConjunction::Pcnstr
 		CConstraint *pcnstrCol = (*pdrgpcnstrCol)[ul]->Pcnstr(mp, colref);
 		if (NULL == pcnstrCol || pcnstrCol->IsConstraintUnbounded())
 		{
-			CRefCount::SafeRelease(pcnstrCol);
+			gpos::SafeRelease(pcnstrCol);
 			continue;
 		}
 		pdrgpcnstr->Append(pcnstrCol);

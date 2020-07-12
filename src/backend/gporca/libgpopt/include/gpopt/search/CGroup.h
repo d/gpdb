@@ -69,7 +69,7 @@ namespace gpopt
 	//		Group of equivalent expressions in the Memo structure
 	//
 	//---------------------------------------------------------------------------
-	class CGroup : public CRefCount
+	class CGroup : public CRefCount<CGroup>
 	{	
 
 		friend class CGroupProxy;

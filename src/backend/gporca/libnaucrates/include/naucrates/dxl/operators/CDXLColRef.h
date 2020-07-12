@@ -41,7 +41,7 @@ namespace gpdxl
 	//		Class for representing references to columns in DXL trees
 	//
 	//---------------------------------------------------------------------------
-	class CDXLColRef : public CRefCount
+	class CDXLColRef : public CRefCount<CDXLColRef>
 	{
 		private:
 			// memory pool

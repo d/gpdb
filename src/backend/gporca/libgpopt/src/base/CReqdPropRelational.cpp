@@ -85,8 +85,8 @@ CReqdPropRelational::CReqdPropRelational
 //---------------------------------------------------------------------------
 CReqdPropRelational::~CReqdPropRelational()
 {
-	CRefCount::SafeRelease(m_pcrsStat);
-	CRefCount::SafeRelease(m_pexprPartPred);
+	gpos::SafeRelease(m_pcrsStat);
+	gpos::SafeRelease(m_pexprPartPred);
 }
 
 //---------------------------------------------------------------------------

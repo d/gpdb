@@ -188,7 +188,7 @@ CMDAccessor::SMDProviderElem::SMDProviderElem
 //---------------------------------------------------------------------------
 CMDAccessor::SMDProviderElem::~SMDProviderElem()
 {
-	CRefCount::SafeRelease(m_pmdp);
+	gpos::SafeRelease(m_pmdp);
 }
 
 //---------------------------------------------------------------------------

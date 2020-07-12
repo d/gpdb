@@ -53,12 +53,12 @@ CDrvdPropPlan::CDrvdPropPlan
 //---------------------------------------------------------------------------
 CDrvdPropPlan::~CDrvdPropPlan()
 {
-	CRefCount::SafeRelease(m_pos);
-	CRefCount::SafeRelease(m_pds);
-	CRefCount::SafeRelease(m_prs);
-	CRefCount::SafeRelease(m_ppim);
-	CRefCount::SafeRelease(m_ppfm);
-	CRefCount::SafeRelease(m_pcm);
+	gpos::SafeRelease(m_pos);
+	gpos::SafeRelease(m_pds);
+	gpos::SafeRelease(m_prs);
+	gpos::SafeRelease(m_ppim);
+	gpos::SafeRelease(m_ppfm);
+	gpos::SafeRelease(m_pcm);
 }
 
 

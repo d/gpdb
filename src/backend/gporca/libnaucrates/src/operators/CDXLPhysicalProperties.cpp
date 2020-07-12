@@ -41,7 +41,7 @@ CDXLPhysicalProperties::CDXLPhysicalProperties
 //---------------------------------------------------------------------------
 CDXLPhysicalProperties::~CDXLPhysicalProperties()
 {
-	CRefCount::SafeRelease(m_operator_cost_dxl);
+	gpos::SafeRelease(m_operator_cost_dxl);
 }
 
 //---------------------------------------------------------------------------

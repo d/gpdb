@@ -78,8 +78,8 @@ namespace gpopt
 		~SPartDynamicIndexGetInfo()
 		{
 			m_part_constraint->Release();
-			CRefCount::SafeRelease(m_pdrgpexprIndex);
-			CRefCount::SafeRelease(m_pdrgpexprResidual);
+			gpos::SafeRelease(m_pdrgpexprIndex);
+			gpos::SafeRelease(m_pdrgpexprResidual);
 		}
 	};
 
@@ -1243,7 +1243,7 @@ namespace gpopt
 				// no reason to try to do the same again
 				pdrgpexprOuter->Release();
 				pdrgpexprInner->Release();
-				CRefCount::SafeRelease(join_opfamilies);
+				gpos::SafeRelease(join_opfamilies);
 			}
 			else
 			{
@@ -1321,7 +1321,7 @@ namespace gpopt
 			// clean up
 			pdrgpexprOuter->Release();
 			pdrgpexprInner->Release();
-			CRefCount::SafeRelease(join_opfamilies);
+			gpos::SafeRelease(join_opfamilies);
 		}
 
 		pexprResult->Release();
@@ -1362,7 +1362,7 @@ namespace gpopt
 				// no reason to try to do the same again
 				pdrgpexprOuter->Release();
 				pdrgpexprInner->Release();
-				CRefCount::SafeRelease(join_opfamilies);
+				gpos::SafeRelease(join_opfamilies);
 			}
 			else
 			{
@@ -1421,7 +1421,7 @@ namespace gpopt
 				pdrgpexpr->Release();
 				pdrgpexprOuter->Release();
 				pdrgpexprInner->Release();
-				CRefCount::SafeRelease(join_opfamilies);
+				gpos::SafeRelease(join_opfamilies);
 				return;
 			}
 		}
@@ -1450,7 +1450,7 @@ namespace gpopt
 			// clean up
 			pdrgpexprOuter->Release();
 			pdrgpexprInner->Release();
-			CRefCount::SafeRelease(join_opfamilies);
+			gpos::SafeRelease(join_opfamilies);
 		}
 
 		pexprResult->Release();

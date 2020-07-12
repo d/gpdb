@@ -453,8 +453,8 @@ CSubqueryHandler::FRemoveScalarSubquery
 			*ppexprResidualScalar = CUtils::PexprScalarIdent(m_mp, pcrSubquery);
 		}
 
-		CRefCount::SafeRelease(pexprNewSubq);
-		CRefCount::SafeRelease(pexprResidualScalar);
+		gpos::SafeRelease(pexprNewSubq);
+		gpos::SafeRelease(pexprResidualScalar);
 	}
 	else
 	{

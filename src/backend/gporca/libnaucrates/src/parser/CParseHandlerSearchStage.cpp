@@ -52,7 +52,7 @@ CParseHandlerSearchStage::CParseHandlerSearchStage
 //---------------------------------------------------------------------------
 CParseHandlerSearchStage::~CParseHandlerSearchStage()
 {
-	CRefCount::SafeRelease(m_xforms);
+	gpos::SafeRelease(m_xforms);
 }
 
 

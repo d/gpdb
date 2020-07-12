@@ -91,7 +91,7 @@ CLogicalLimit::CLogicalLimit
 //---------------------------------------------------------------------------
 CLogicalLimit::~CLogicalLimit()
 {
-	CRefCount::SafeRelease(m_pos);
+	gpos::SafeRelease(m_pos);
 }
 
 

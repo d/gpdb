@@ -69,7 +69,7 @@ CEnfdDistribution::CEnfdDistribution
 //---------------------------------------------------------------------------
 CEnfdDistribution::~CEnfdDistribution()
 {
-	CRefCount::SafeRelease(m_pds);
+	gpos::SafeRelease(m_pds);
 }
 
 

@@ -64,7 +64,7 @@ namespace gpopt
 	//		children.
 	//
 	//---------------------------------------------------------------------------
-	class CReqdProp : public CRefCount
+	class CReqdProp : public CRefCount<CReqdProp>
 	{
 
 		public:

@@ -55,7 +55,7 @@ CParseHandlerHint::CParseHandlerHint
 //---------------------------------------------------------------------------
 CParseHandlerHint::~CParseHandlerHint()
 {
-	CRefCount::SafeRelease(m_hint);
+	gpos::SafeRelease(m_hint);
 }
 
 //---------------------------------------------------------------------------

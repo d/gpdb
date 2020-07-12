@@ -46,7 +46,7 @@ namespace gpopt
 	//		Interface for the underlying cost model
 	//
 	//---------------------------------------------------------------------------
-	class ICostModel : public CRefCount
+	class ICostModel : public CRefCount<ICostModel>
 	{
 		public:
 
@@ -66,7 +66,7 @@ namespace gpopt
 			//		Stast information used during cost computation
 			//
 			//---------------------------------------------------------------------------
-			class CCostingStats : public CRefCount
+			class CCostingStats : public CRefCount<CCostingStats>
 			{
 				private:
 					// stats of the root
@@ -193,7 +193,7 @@ namespace gpopt
 
 						for ( ULONG ul=0; ul < m_ulChildren; ul++)
 						{
-							CRefCount::SafeRelease(m_pdrgstatsChildren[ul]);
+							gpos::SafeRelease(m_pdrgstatsChildren[ul]);
 						}
 
 						GPOS_DELETE_ARRAY(m_pdrgstatsChildren);

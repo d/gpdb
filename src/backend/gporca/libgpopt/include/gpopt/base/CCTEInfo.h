@@ -40,7 +40,7 @@ namespace gpopt
 	//		- a mapping from consumer columns to producer columns
 	//
 	//---------------------------------------------------------------------------
-	class CCTEInfo : public CRefCount
+	class CCTEInfo : public CRefCount<CCTEInfo>
 	{
 		private:
 
@@ -115,7 +115,7 @@ namespace gpopt
 			//		A single entry for CTEInfo, representing a single CTE producer
 			//
 			//-------------------------------------------------------------------
-			class CCTEInfoEntry : public CRefCount
+			class CCTEInfoEntry : public CRefCount<CCTEInfoEntry>
 			{
 				private:
 

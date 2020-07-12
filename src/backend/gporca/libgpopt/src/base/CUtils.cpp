@@ -4356,7 +4356,7 @@ CUtils::PpartcnstrFromMDPartCnstr
 	{
 		CColRefSetArray *pdrgpcrs = NULL;
 		CConstraint *pcnstr = CConstraint::PcnstrFromScalarExpr(mp, pexprPartCnstr, &pdrgpcrs);
-		CRefCount::SafeRelease(pdrgpcrs);
+		gpos::SafeRelease(pdrgpcrs);
 
 		phmulcnstr = GPOS_NEW(mp) UlongToConstraintMap(mp);
 		for (ULONG ul = 0; ul < ulLevels && NULL != pcnstr; ul++)
@@ -4377,7 +4377,7 @@ CUtils::PpartcnstrFromMDPartCnstr
 				GPOS_ASSERT(result);
 			}
 		}
-		CRefCount::SafeRelease(pcnstr);
+		gpos::SafeRelease(pcnstr);
 	}
 
 	pexprPartCnstr->Release();

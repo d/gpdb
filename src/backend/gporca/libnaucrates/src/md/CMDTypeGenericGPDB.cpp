@@ -127,8 +127,8 @@ CMDTypeGenericGPDB::CMDTypeGenericGPDB
 CMDTypeGenericGPDB::~CMDTypeGenericGPDB()
 {
 	m_mdid->Release();
-	CRefCount::SafeRelease(m_distr_opfamily);
-	CRefCount::SafeRelease(m_legacy_distr_opfamily);
+	gpos::SafeRelease(m_distr_opfamily);
+	gpos::SafeRelease(m_legacy_distr_opfamily);
 	m_mdid_op_eq->Release();
 	m_mdid_op_neq->Release();
 	m_mdid_op_lt->Release();
@@ -142,7 +142,7 @@ CMDTypeGenericGPDB::~CMDTypeGenericGPDB()
 	m_mdid_avg->Release();
 	m_mdid_sum->Release();
 	m_mdid_count->Release();
-	CRefCount::SafeRelease(m_mdid_base_relation);
+	gpos::SafeRelease(m_mdid_base_relation);
 	GPOS_DELETE(m_mdname);
 	GPOS_DELETE(m_dxl_str);
 	m_datum_null->Release();

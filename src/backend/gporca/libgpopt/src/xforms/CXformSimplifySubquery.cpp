@@ -208,7 +208,7 @@ CXformSimplifySubquery::FSimplify
 		}
 		else
 		{
-			CRefCount::SafeRelease(pexprChild);
+			gpos::SafeRelease(pexprChild);
 		}
 	}
 
@@ -260,7 +260,7 @@ CXformSimplifySubquery::Transform
 
 		if (!FSimplify(mp, pexprScalar, &pexprNewScalar, m_rgssm[ul].m_pfnsimplify, m_rgssm[ul].m_pfnmatch))
 		{
-			CRefCount::SafeRelease(pexprNewScalar);
+			gpos::SafeRelease(pexprNewScalar);
 			continue;
 		}
 

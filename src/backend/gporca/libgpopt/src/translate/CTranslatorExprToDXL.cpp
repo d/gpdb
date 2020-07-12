@@ -113,10 +113,10 @@ CTranslatorExprToDXL::CTranslatorExprToDXL
 //---------------------------------------------------------------------------
 CTranslatorExprToDXL::~CTranslatorExprToDXL()
 {
-	CRefCount::SafeRelease(m_pdrgpiSegments);
+	gpos::SafeRelease(m_pdrgpiSegments);
 	m_phmcrdxln->Release();
 	m_phmcrdxlnIndexLookup->Release();
-	CRefCount::SafeRelease(m_pdpplan);
+	gpos::SafeRelease(m_pdpplan);
 }
 
 //---------------------------------------------------------------------------
@@ -5729,7 +5729,7 @@ CTranslatorExprToDXL::GetDXLDirectDispatchInfo
 	CConstraint *pcnstrDistrCol = ppc->Pcnstr()->Pcnstr(m_mp, pcrDistrCol);
 	if (!CPredicateUtils::FConstColumn(pcnstrDistrCol, pcrDistrCol))
 	{
-		CRefCount::SafeRelease(pcnstrDistrCol);
+		gpos::SafeRelease(pcnstrDistrCol);
 		return NULL;
 	}
 

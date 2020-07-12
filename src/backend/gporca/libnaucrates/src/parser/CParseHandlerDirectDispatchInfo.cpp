@@ -57,8 +57,8 @@ CParseHandlerDirectDispatchInfo::CParseHandlerDirectDispatchInfo
 //---------------------------------------------------------------------------
 CParseHandlerDirectDispatchInfo::~CParseHandlerDirectDispatchInfo()
 {
-	CRefCount::SafeRelease(m_dxl_datum_array);
-	CRefCount::SafeRelease(m_direct_dispatch_info);
+	gpos::SafeRelease(m_dxl_datum_array);
+	gpos::SafeRelease(m_direct_dispatch_info);
 }
 
 
@@ -85,7 +85,7 @@ CParseHandlerDirectDispatchInfo::StartElement
 	}
 	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenDirectDispatchKeyValue), element_local_name))
 	{
-		CRefCount::SafeRelease(m_dxl_datum_array);
+		gpos::SafeRelease(m_dxl_datum_array);
 		m_dxl_datum_array = GPOS_NEW(m_mp) CDXLDatumArray(m_mp);
 	}
 	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenDatum), element_local_name))

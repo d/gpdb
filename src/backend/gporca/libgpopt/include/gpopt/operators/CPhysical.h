@@ -80,7 +80,7 @@ namespace gpopt
 			//		Representation of incoming column requests during optimization
 			//
 			//---------------------------------------------------------------------------
-			class CReqdColsRequest : public CRefCount
+			class CReqdColsRequest : public CRefCount<CReqdColsRequest>
 			{
 
 				private:
@@ -405,8 +405,8 @@ namespace gpopt
 			virtual 
 			~CPhysical()
 			{
-				CRefCount::SafeRelease(m_phmrcr);
-				CRefCount::SafeRelease(m_pdrgpulpOptReqsExpanded);
+				gpos::SafeRelease(m_phmrcr);
+				gpos::SafeRelease(m_pdrgpulpOptReqsExpanded);
 			}
 
 			// type of operator

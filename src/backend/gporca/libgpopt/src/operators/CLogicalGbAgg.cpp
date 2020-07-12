@@ -270,9 +270,9 @@ CLogicalGbAgg::CLogicalGbAgg
 CLogicalGbAgg::~CLogicalGbAgg()
 {
 	// safe release -- to allow for instances used in patterns
-	CRefCount::SafeRelease(m_pdrgpcr);
-	CRefCount::SafeRelease(m_pdrgpcrMinimal);
-	CRefCount::SafeRelease(m_pdrgpcrArgDQA);
+	gpos::SafeRelease(m_pdrgpcr);
+	gpos::SafeRelease(m_pdrgpcrMinimal);
+	gpos::SafeRelease(m_pdrgpcrArgDQA);
 }
 
 //---------------------------------------------------------------------------

@@ -58,8 +58,8 @@ CDXLPhysicalRowTrigger::CDXLPhysicalRowTrigger
 CDXLPhysicalRowTrigger::~CDXLPhysicalRowTrigger()
 {
 	m_rel_mdid->Release();
-	CRefCount::SafeRelease(m_colids_old);
-	CRefCount::SafeRelease(m_colids_new);
+	gpos::SafeRelease(m_colids_old);
+	gpos::SafeRelease(m_colids_new);
 }
 
 //---------------------------------------------------------------------------

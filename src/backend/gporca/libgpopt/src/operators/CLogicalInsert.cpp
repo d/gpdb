@@ -77,8 +77,8 @@ CLogicalInsert::CLogicalInsert
 //---------------------------------------------------------------------------
 CLogicalInsert::~CLogicalInsert()
 {
-	CRefCount::SafeRelease(m_ptabdesc);
-	CRefCount::SafeRelease(m_pdrgpcrSource);
+	gpos::SafeRelease(m_ptabdesc);
+	gpos::SafeRelease(m_pdrgpcrSource);
 }
 
 //---------------------------------------------------------------------------

@@ -63,7 +63,7 @@ CJoinOrderGreedy::CJoinOrderGreedy
 //---------------------------------------------------------------------------
 CJoinOrderGreedy::~CJoinOrderGreedy()
 {
-	CRefCount::SafeRelease(m_pcompResult);
+	gpos::SafeRelease(m_pcompResult);
 }
 
 
@@ -105,7 +105,7 @@ CJoinOrderGreedy::GetStartingJoins()
 				ul2Counter = ul2;
 				dMinRows = dRows;
 				compTemp->AddRef();
-				CRefCount::SafeRelease(pcompBest);
+				gpos::SafeRelease(pcompBest);
 				pcompBest = compTemp;
 			}
 			compTemp->Release();
@@ -254,7 +254,7 @@ CJoinOrderGreedy::PickBestJoin
 			best_comp_idx = iter.Bit();
 			pcompBestComponent = pcompCurrent;
 			pcompTemp->AddRef();
-			CRefCount::SafeRelease(pcompBest);
+			gpos::SafeRelease(pcompBest);
 			pcompBest = pcompTemp;
 		}
 		pcompTemp->Release();

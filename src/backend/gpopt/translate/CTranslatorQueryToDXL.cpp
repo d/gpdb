@@ -293,7 +293,7 @@ CTranslatorQueryToDXL::~CTranslatorQueryToDXL()
 	m_query_level_to_cte_map->Release();
 	m_dxl_cte_producers->Release();
 	m_cteid_at_current_query_level_map->Release();
-	CRefCount::SafeRelease(m_dxl_query_output_cols);
+	gpos::SafeRelease(m_dxl_query_output_cols);
 
 	if (m_query_level == 0)
 		GPOS_DELETE(m_context);
@@ -624,7 +624,7 @@ CTranslatorQueryToDXL::TranslateSelectQueryToDXL()
 	}
 
 	// cleanup
-	CRefCount::SafeRelease(sort_group_attno_to_colid_mapping);
+	gpos::SafeRelease(sort_group_attno_to_colid_mapping);
 
 	output_attno_to_colid_mapping->Release();
 	
@@ -2228,7 +2228,7 @@ CTranslatorQueryToDXL::TranslateGroupingSets
 
 		// cleanup
 		child_attno_colid_mapping->Release();
-		CRefCount::SafeRelease(bitset);
+		gpos::SafeRelease(bitset);
 		return result_dxlnode;
 	}
 

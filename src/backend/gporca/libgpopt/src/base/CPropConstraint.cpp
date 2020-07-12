@@ -52,8 +52,8 @@ CPropConstraint::CPropConstraint
 CPropConstraint::~CPropConstraint()
 {
 	m_pdrgpcrs->Release();
-	CRefCount::SafeRelease(m_phmcrcrs);
-	CRefCount::SafeRelease(m_pcnstr);
+	gpos::SafeRelease(m_phmcrcrs);
+	gpos::SafeRelease(m_pcnstr);
 }
 
 //---------------------------------------------------------------------------

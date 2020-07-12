@@ -42,7 +42,7 @@ namespace gpopt
 	//		Mapping of partition index to a manipulator type
 	//
 	//---------------------------------------------------------------------------
-	class CPartIndexMap : public CRefCount
+	class CPartIndexMap : public CRefCount<CPartIndexMap>
 	{
 		public:
 			// types of partition index id manipulators
@@ -73,7 +73,7 @@ namespace gpopt
 			//		Partition index map entry
 			//
 			//---------------------------------------------------------------------------
-			class CPartTableInfo : public CRefCount
+			class CPartTableInfo : public CRefCount<CPartTableInfo>
 			{
 				private:
 

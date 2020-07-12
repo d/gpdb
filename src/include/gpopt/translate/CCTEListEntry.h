@@ -60,7 +60,7 @@ namespace gpdxl
 	//		query level
 	//
 	//---------------------------------------------------------------------------
-	class CCTEListEntry : public CRefCount
+	class CCTEListEntry : public CRefCount<CCTEListEntry>
 	{
 		private:
 

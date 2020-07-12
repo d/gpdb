@@ -154,7 +154,7 @@ CPhysicalUnionAll::~CPhysicalUnionAll()
 	m_pdrgpcrOutput->Release();
 	m_pdrgpdrgpcrInput->Release();
 	m_pdrgpcrsInput->Release();
-	CRefCount::SafeRelease(m_pdrgpds);
+	gpos::SafeRelease(m_pdrgpds);
 }
 
 // accessor of output column array
@@ -776,7 +776,7 @@ const
 			pdrgpulChild = PdrgpulMap(mp, CDistributionSpecHashed::PdsConvert(pdsChildHashed)->Pdrgpexpr(), ulChild);
 			// match mapped column positions of current child with outer child
 			equi_hash_spec_matches = (NULL != pdrgpulChild) && Equals(pdrgpulOuter, pdrgpulChild);
-			CRefCount::SafeRelease(pdrgpulChild);
+			gpos::SafeRelease(pdrgpulChild);
 			pdsChildHashed = pdsChildHashed->PdshashedEquiv();
 		}
 		fSuccess = equi_hash_spec_matches;

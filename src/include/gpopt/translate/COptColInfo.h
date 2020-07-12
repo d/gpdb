@@ -32,7 +32,7 @@ namespace gpdxl
 	//		pair of column id and column name
 	//
 	//---------------------------------------------------------------------------
-	class COptColInfo: public CRefCount
+	class COptColInfo : public CRefCount<COptColInfo>
 	{
 		private:
 

@@ -54,7 +54,7 @@ CParseHandlerPlan::CParseHandlerPlan
 //---------------------------------------------------------------------------
 CParseHandlerPlan::~CParseHandlerPlan()
 {
-	CRefCount::SafeRelease(m_dxl_node);
+	gpos::SafeRelease(m_dxl_node);
 }
 
 //---------------------------------------------------------------------------

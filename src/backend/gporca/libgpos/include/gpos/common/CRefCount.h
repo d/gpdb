@@ -36,7 +36,8 @@ namespace gpos
 	//		Basic reference counting
 	//
 	//---------------------------------------------------------------------------
-	class CRefCount : public CHeapObject
+	template <typename Derived>
+	class CRefCount
 	{
 		private:
 		
@@ -65,7 +66,8 @@ namespace gpos
 
 			// FIXME: should mark this noexcept in non-assert builds
 			// dtor
-			virtual ~CRefCount() noexcept(false)
+#ifdef GPOS_DEBUG
+			~CRefCount() /* noexcept(false) */
 			{
 				// enforce strict ref-counting unless we're in a pending exception,
 				// e.g., a ctor has thrown
@@ -73,18 +75,12 @@ namespace gpos
 							ITask::Self()->HasPendingExceptions() ||
 							0 == m_refs);
 			}
+#endif
 
 			// return ref-count
 			ULONG_PTR RefCount() const
 			{
 				return m_refs;
-			}
-
-			// return true if calling object's destructor is allowed
-			virtual
-			BOOL Deletable() const
-			{
-				return true;
 			}
 
 			// count up
@@ -106,30 +102,8 @@ namespace gpos
 
 				if (0 == m_refs)
 				{
-					if (!Deletable())
-					{
-						// restore ref-count
-						AddRef();
-
-						// deletion is not allowed
-						GPOS_RAISE(CException::ExmaSystem, CException::ExmiInvalidDeletion);
-					}
-
-					GPOS_DELETE(this);
+					GPOS_DELETE(static_cast<Derived *>(this));
 				}	
-			}
-
-			// safe version of Release -- handles NULL pointers
-			static
-			void SafeRelease
-				(
-				CRefCount *rc
-				)
-			{
-				if (NULL != rc)
-				{
-					rc->Release();
-				}
 			}
 
 #ifdef GPOS_DEBUG
@@ -138,7 +112,6 @@ namespace gpos
 #endif // GPOS_DEBUG
 
 			// print function
-			virtual
 			IOstream &OsPrint(IOstream &os) const
 			{
 				return os;
@@ -146,6 +119,21 @@ namespace gpos
 
 
 	}; // class CRefCount
+
+
+// safe version of Release -- handles NULL pointers
+template <typename Derived>
+static
+void SafeRelease
+	(
+		CRefCount<Derived> *rc
+	)
+{
+	if (NULL != rc)
+	{
+		rc->Release();
+	}
+}
 }
 
 #endif // !GPOS_CRefCount_H

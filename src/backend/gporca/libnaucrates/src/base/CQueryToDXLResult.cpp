@@ -49,8 +49,8 @@ CQueryToDXLResult::CQueryToDXLResult
 CQueryToDXLResult::~CQueryToDXLResult()
 {
 	m_query_dxl->Release();
-	CRefCount::SafeRelease(m_query_output);
-	CRefCount::SafeRelease(m_cte_producers);
+	gpos::SafeRelease(m_query_output);
+	gpos::SafeRelease(m_cte_producers);
 
 }
 

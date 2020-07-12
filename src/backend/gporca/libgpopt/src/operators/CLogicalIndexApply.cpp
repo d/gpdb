@@ -40,7 +40,7 @@ CLogicalIndexApply::CLogicalIndexApply
 
 CLogicalIndexApply::~CLogicalIndexApply()
 {
-	CRefCount::SafeRelease(m_pdrgpcrOuterRefs);
+	gpos::SafeRelease(m_pdrgpcrOuterRefs);
 }
 
 

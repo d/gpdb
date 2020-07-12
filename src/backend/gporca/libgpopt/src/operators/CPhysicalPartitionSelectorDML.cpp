@@ -143,7 +143,7 @@ CPhysicalPartitionSelectorDML::PdsRequired
 	}
 
 	BOOL fUsesDefinedCols = (NULL != pcrs && pcrs->FMember(m_pcrOid));
-	CRefCount::SafeRelease(pcrs);
+	gpos::SafeRelease(pcrs);
 	if (fUsesDefinedCols)
 	{
 		return GPOS_NEW(mp) CDistributionSpecAny(this->Eopid());

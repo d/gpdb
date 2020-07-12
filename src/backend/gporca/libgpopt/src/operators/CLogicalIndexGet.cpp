@@ -107,12 +107,12 @@ CLogicalIndexGet::CLogicalIndexGet
 //---------------------------------------------------------------------------
 CLogicalIndexGet::~CLogicalIndexGet()
 {
-	CRefCount::SafeRelease(m_ptabdesc);
-	CRefCount::SafeRelease(m_pindexdesc);
-	CRefCount::SafeRelease(m_pdrgpcrOutput);
-	CRefCount::SafeRelease(m_pcrsOutput);
-	CRefCount::SafeRelease(m_pos);
-	CRefCount::SafeRelease(m_pcrsDist);
+	gpos::SafeRelease(m_ptabdesc);
+	gpos::SafeRelease(m_pindexdesc);
+	gpos::SafeRelease(m_pdrgpcrOutput);
+	gpos::SafeRelease(m_pcrsOutput);
+	gpos::SafeRelease(m_pos);
+	gpos::SafeRelease(m_pcrsDist);
 	
 	GPOS_DELETE(m_pnameAlias);
 }
