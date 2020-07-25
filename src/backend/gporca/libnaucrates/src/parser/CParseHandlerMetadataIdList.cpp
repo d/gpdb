@@ -146,6 +146,18 @@ CParseHandlerMetadataIdList::StartElement(const XMLCh *const,  // element_uri,
 			EdxltokenRelDistrOpfamily);
 		m_mdid_array->Append(mdid);
 	}
+	else if (0 == XMLString::compareString(
+					  CDXLTokens::XmlstrToken(EdxltokenRelExternalPartition),
+					  element_local_name))
+	{
+		// partition metadata id: array must be initialized already
+		GPOS_ASSERT(NULL != m_mdid_array);
+
+		IMDId *mdid = CDXLOperatorFactory::ExtractConvertAttrValueToMdId(
+			m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenMdid,
+			EdxltokenRelExternalPartition);
+		m_mdid_array->Append(mdid);
+	}
 	else
 	{
 		CWStringDynamic *str = CDXLUtils::CreateDynamicStringFromXMLChArray(
@@ -183,6 +195,9 @@ CParseHandlerMetadataIdList::EndElement(const XMLCh *const,	 // element_uri,
 				 element_local_name) ||
 		0 == XMLString::compareString(
 				 CDXLTokens::XmlstrToken(EdxltokenRelDistrOpfamilies),
+				 element_local_name) ||
+		0 == XMLString::compareString(
+				 CDXLTokens::XmlstrToken(EdxltokenRelExternalPartitions),
 				 element_local_name))
 	{
 		// end the index or partition metadata id list
@@ -223,7 +238,10 @@ CParseHandlerMetadataIdList::FSupportedElem(const XMLCh *const xml_str)
 		0 == XMLString::compareString(
 				 CDXLTokens::XmlstrToken(EdxltokenOpfamily), xml_str) ||
 		0 == XMLString::compareString(
-				 CDXLTokens::XmlstrToken(EdxltokenRelDistrOpfamily), xml_str));
+				 CDXLTokens::XmlstrToken(EdxltokenRelDistrOpfamily), xml_str) ||
+		0 == XMLString::compareString(
+				 CDXLTokens::XmlstrToken(EdxltokenRelExternalPartition),
+				 xml_str));
 }
 
 //---------------------------------------------------------------------------
@@ -246,9 +264,12 @@ CParseHandlerMetadataIdList::FSupportedListType(const XMLCh *const xml_str)
 				 CDXLTokens::XmlstrToken(EdxltokenCheckConstraints), xml_str) ||
 		0 == XMLString::compareString(
 				 CDXLTokens::XmlstrToken(EdxltokenOpfamilies), xml_str) ||
-		0 ==
-			XMLString::compareString(
-				CDXLTokens::XmlstrToken(EdxltokenRelDistrOpfamilies), xml_str));
+		0 == XMLString::compareString(
+				 CDXLTokens::XmlstrToken(EdxltokenRelDistrOpfamilies),
+				 xml_str) ||
+		0 == XMLString::compareString(
+				 CDXLTokens::XmlstrToken(EdxltokenRelExternalPartitions),
+				 xml_str));
 }
 
 //---------------------------------------------------------------------------
