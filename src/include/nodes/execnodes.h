@@ -2168,7 +2168,8 @@ typedef struct DynamicSeqScanState
 	 */
 	MemoryContext partitionMemoryContext;
 
-
+	int nOids;
+	int *partOids;
 } DynamicSeqScanState;
 
 /* ----------------

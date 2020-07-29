@@ -37,7 +37,6 @@
 #include "parser/parsetree.h"
 #include "utils/memutils.h"
 #include "cdb/cdbvars.h"
-#include "cdb/partitionselection.h"
 
 static void CleanupOnePartition(DynamicSeqScanState *node);
 
@@ -53,22 +52,19 @@ ExecInitDynamicSeqScan(DynamicSeqScan *node, EState *estate, int eflags)
 	state->eflags = eflags;
 	state->ss.ps.plan = (Plan *) node;
 	state->ss.ps.state = estate;
+	state->ss.ps.ExecProcNode = ExecDynamicSeqScan;
 
 	state->scan_state = SCAN_INIT;
 
 	/* Initialize child expressions. This is needed to find subplans. */
-	state->ss.ps.qual = (List *)
-		ExecInitExpr((Expr *) node->seqscan.plan.qual,
-					 (PlanState *) state);
-	state->ss.ps.targetlist = (List *)
-		ExecInitExpr((Expr *) node->seqscan.plan.targetlist,
-					 (PlanState *) state);
+	state->ss.ps.qual =
+		ExecInitQual(node->seqscan.plan.qual, (PlanState *) state);
 
 	/* Initialize result tuple type. */
-	ExecInitResultTupleSlot(estate, &state->ss.ps);
-	ExecAssignResultTypeFromTL(&state->ss.ps);
+	ExecInitResultTypeTL(&state->ss.ps);
+	ExecAssignScanProjectionInfo(&state->ss);
 
-	reloid = getrelid(node->seqscan.scanrelid, estate->es_range_table);
+	reloid = exec_rt_fetch(node->seqscan.scanrelid, estate)->relid;
 	Assert(OidIsValid(reloid));
 
 	state->firstPartition = true;
@@ -206,8 +202,9 @@ setPidIndex(DynamicSeqScanState *node)
 }
 
 TupleTableSlot *
-ExecDynamicSeqScan(DynamicSeqScanState *node)
+ExecDynamicSeqScan(PlanState *pstate)
 {
+	DynamicSeqScanState *node = castNode(DynamicSeqScanState, pstate);
 	TupleTableSlot *slot = NULL;
 
 	/*
