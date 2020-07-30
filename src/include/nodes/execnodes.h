@@ -2123,6 +2123,7 @@ typedef struct DynamicSeqScanState
 	int			eflags;
 	SeqScanState *seqScanState;
 
+#ifdef DYNAMIC_SEQSCAN_TEMP_ERASE
 	/*
 	 * Pid index that maintains all unique partition pids for this dynamic
 	 * table scan to scan.
@@ -2142,6 +2143,7 @@ typedef struct DynamicSeqScanState
 	 * hash_seq_term() on a NULL hash table.
 	 */
 	bool		shouldCallHashSeqTerm;
+#endif
 
 	/*
 	 * The first partition requires initialization of expression states,
@@ -2169,7 +2171,8 @@ typedef struct DynamicSeqScanState
 	MemoryContext partitionMemoryContext;
 
 	int nOids;
-	int *partOids;
+	Oid *partOids;
+	int whichpart;
 } DynamicSeqScanState;
 
 /* ----------------
