@@ -834,12 +834,9 @@ ExecEndNode(PlanState *node)
 			ExecEndSeqScan((SeqScanState *) node);
 			break;
 
-/* GPDB_12_MERGE_FIXME */
-#if 0
 		case T_DynamicSeqScanState:
 			ExecEndDynamicSeqScan((DynamicSeqScanState *) node);
 			break;
-#endif
 
 		case T_SampleScanState:
 			ExecEndSampleScan((SampleScanState *) node);
