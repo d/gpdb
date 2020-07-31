@@ -3225,7 +3225,7 @@ CTranslatorDXLToPlStmt::TranslateDXLPartSelector
 	// selector
 	const bool dynamic_pruning = (EdxlpsIndexChild == partition_selector_dxlnode->Arity() - 1);
 	if (!dynamic_pruning)
-		return reinterpret_cast<Plan *>(MakeNode(PartitionSelector));
+		return reinterpret_cast<Plan *>(MakeNode(Result));
 	else
 		return nullptr;
 
@@ -3759,10 +3759,6 @@ CTranslatorDXLToPlStmt::TranslateDXLSequence
 		CDXLNode *child_dxlnode = (*sequence_dxlnode)[ul];
 
 		Plan *child_plan = TranslateDXLOperatorToPlan(child_dxlnode, &child_context, ctxt_translation_prev_siblings);
-
-		// FIXME: drop partition selector, wink wink
-		if (IsA(child_plan, PartitionSelector))
-			continue;
 
 		psequence->subplans = gpdb::LAppend(psequence->subplans, child_plan);
 	}
