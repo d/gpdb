@@ -40,6 +40,7 @@
 #include "utils/rel.h"
 #include "cdb/cdbvars.h"
 #include "access/table.h"
+#include "access/tableam.h"
 
 static void CleanupOnePartition(DynamicSeqScanState *node);
 
@@ -125,6 +126,9 @@ ExecInitDynamicSeqScan(DynamicSeqScan *node, EState *estate, int eflags)
 	/* Initialize child expressions. This is needed to find subplans. */
 	state->ss.ps.qual =
 		ExecInitQual(node->seqscan.plan.qual, (PlanState *) state);
+
+	Relation grandma = ExecOpenScanRelation(estate, node->seqscan.scanrelid, eflags);
+	ExecInitScanTupleSlot(estate, &state->ss, RelationGetDescr(grandma), table_slot_callbacks(grandma));
 
 	/* Initialize result tuple type. */
 	ExecInitResultTypeTL(&state->ss.ps);
