@@ -142,6 +142,7 @@ public:
 		EopLogicalPartitionSelector,
 		EopLogicalAssert,
 		EopLogicalMaxOneRow,
+		EopLogicalMultiExternalGet,
 
 		EopScalarCmp,
 		EopScalarIsDistinctFrom,
@@ -258,6 +259,7 @@ public:
 
 		EopLogicalDynamicBitmapTableGet,
 		EopPhysicalDynamicBitmapTableScan,
+		EopPhysicalMultiExternalScan,
 
 		EopSentinel
 	};

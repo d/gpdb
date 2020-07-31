@@ -220,6 +220,8 @@ public:
 		ExfLeftOuterJoinWithInnerSelect2DynamicBitmapIndexGetApply,
 		ExfLeftOuterJoinWithInnerSelect2DynamicIndexGetApply,
 		ExfIndexGet2IndexOnlyScan,
+		ExfMultiExternalGet2MultiExternalScan,
+		ExfExpandDynamicGetWithExternalPartitions,
 		ExfInvalid,
 		ExfSentinel = ExfInvalid
 	};
