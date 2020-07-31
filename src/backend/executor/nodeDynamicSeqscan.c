@@ -348,9 +348,6 @@ CleanupOnePartition(DynamicSeqScanState *scanState)
 	{
 		ExecEndSeqScan(scanState->seqScanState);
 		scanState->seqScanState = NULL;
-	}
-	if ((scanState->scan_state & SCAN_SCAN) != 0)
-	{
 		Assert(scanState->ss.ss_currentRelation != NULL);
 		table_close(scanState->ss.ss_currentRelation, NoLock);
 		scanState->ss.ss_currentRelation = NULL;
