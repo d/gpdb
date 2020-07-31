@@ -277,13 +277,10 @@ ExecInitNode(Plan *node, EState *estate, int eflags)
 													 estate, eflags);
 			break;
 
-/* GPDB_12_MERGE_FIXME */
-#if 0
 		case T_DynamicSeqScan:
 			result = (PlanState *) ExecInitDynamicSeqScan((DynamicSeqScan *) node,
 												   estate, eflags);
 			break;
-#endif
 
 		case T_SampleScan:
 			result = (PlanState *) ExecInitSampleScan((SampleScan *) node,
