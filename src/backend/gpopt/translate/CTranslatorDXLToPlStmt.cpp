@@ -3760,6 +3760,10 @@ CTranslatorDXLToPlStmt::TranslateDXLSequence
 
 		Plan *child_plan = TranslateDXLOperatorToPlan(child_dxlnode, &child_context, ctxt_translation_prev_siblings);
 
+		// FIXME: drop partition selector, wink wink
+		if (IsA(child_plan, PartitionSelector))
+			continue;
+
 		psequence->subplans = gpdb::LAppend(psequence->subplans, child_plan);
 	}
 
@@ -3845,6 +3849,8 @@ CTranslatorDXLToPlStmt::TranslateDXLDynTblScan
 		);
 
 	SetParamIds(plan);
+
+	dyn_seq_scan->partOids = gpdb::RelLeafPartitions(rte->relid);
 
 	return (Plan *) dyn_seq_scan;
 }
