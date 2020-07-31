@@ -382,7 +382,8 @@ ExecEndDynamicSeqScan(DynamicSeqScanState *node)
 {
 	DynamicSeqScanEndCurrentScan(node);
 
-	ExecClearTuple(node->ss.ps.ps_ResultTupleSlot);
+	if (node->ss.ps.ps_ResultTupleSlot)
+		ExecClearTuple(node->ss.ps.ps_ResultTupleSlot);
 }
 
 /*
