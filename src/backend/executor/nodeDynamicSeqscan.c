@@ -185,7 +185,10 @@ initNextTableToScan(DynamicSeqScanState *node)
 	Oid		   *pid;
 	Relation	currentRelation;
 
-	pid = &node->partOids[++node->whichpart];
+	if (++node->whichpart < node->nOids)
+		pid = &node->partOids[node->whichpart];
+	else
+		return false;
 
 #ifdef DYNAMIC_SEQSCAN_TEMP_ERASE
 	pid = hash_seq_search(&node->pidStatus);
