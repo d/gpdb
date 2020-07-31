@@ -4505,7 +4505,7 @@ relation_get_leaf_partitions(Oid oid)
 	{
 		const Oid descendant = lfirst_oid(lc);
 		if (get_rel_relkind(descendant) != RELKIND_PARTITIONED_TABLE)
-			lappend_oid(leaves, descendant);
+			leaves = lappend_oid(leaves, descendant);
 	}
 	return leaves;
 }
