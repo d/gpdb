@@ -559,6 +559,7 @@ CDXLTokens::Init
 			{EdxltokenCheckConstraint, GPOS_WSZ_LIT("CheckConstraint")},
 
 			{EdxltokenPartConstraint, GPOS_WSZ_LIT("PartConstraint")},
+			{EdxltokenPartConstraintExprAbsent, GPOS_WSZ_LIT("ExprAbsent")},
 			{EdxltokenDefaultPartition, GPOS_WSZ_LIT("DefaultPartition")},
 			{EdxltokenPartConstraintUnbounded, GPOS_WSZ_LIT("Unbounded")},
 			

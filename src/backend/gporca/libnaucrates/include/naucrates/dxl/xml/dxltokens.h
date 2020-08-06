@@ -519,6 +519,7 @@ namespace gpdxl
 		EdxltokenCheckConstraints,
 		EdxltokenCheckConstraint,
 		EdxltokenPartConstraint,
+		EdxltokenPartConstraintExprAbsent,
 		EdxltokenDefaultPartition,
 		EdxltokenPartConstraintUnbounded,
 		
