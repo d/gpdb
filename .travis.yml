@@ -199,6 +199,38 @@ script:
             --enable-orafce \
             --enable-ic-proxy \
             $C
+
+        make -C src/include
+        make -C src/common
+        make -C src/timezone
+
+        make generated-headers -C src/backend
+        make -C src/bin
+        make -C src/backend/access
+        make -C src/backend/bootstrap
+        make -C src/backend/catalog
+        make -C src/backend/parser
+        make -C src/backend/commands
+        make -C src/backend/executor
+        make -C src/backend/foreign
+        make -C src/backend/fts
+        make -C src/backend/lib
+        make -C src/backend/libpq
+        make -C src/backend/main
+        make -C src/backend/nodes
+        make -C src/backend/optimizer
+        make -C src/backend/port
+        make -C src/backend/postmaster
+        make -C src/backend/regex
+        make -C src/backend/replication
+        make -C src/backend/rewrite
+        make -C src/backend/storage
+        make -C src/backend/tcop
+        make -C src/backend/tsearch
+        make -C src/backend/utils
+        make -C src/backend/cdb
+        make -C src/backend
+
         travis_wait 50 make -s
         make -s install
         source ${TRAVIS_BUILD_DIR}/gpsql/greenplum_path.sh
