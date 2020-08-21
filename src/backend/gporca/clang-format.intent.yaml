@@ -8,6 +8,7 @@ UseTab:          Always
 AccessModifierOffset: -4
 IndentCaseLabels: true
 IndentWidth:     4
+ColumnLimit:     120
 # Interesting options we should keep an eye out in the next release:
 # this is currently overridden by BS_Allman in version 11, but hope they'll
 # change it
