@@ -476,7 +476,10 @@ namespace gpdxl
 
 		EdxltokenRelDistrOpfamilies,
 		EdxltokenRelDistrOpfamily,
-		
+
+		EdxltokenRelDistrOpclasses,
+		EdxltokenRelDistrOpclass,
+
 		EdxltokenExtRelRejLimit,
 		EdxltokenExtRelRejLimitInRows,
 		EdxltokenExtRelFmtErrRel,

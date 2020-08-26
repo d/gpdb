@@ -62,7 +62,10 @@ namespace gpdxl
 
 			// list of distribution column opfamilies
 			IMdIdArray *m_distr_opfamilies;
-			
+
+			// list of distribution column opclasses
+			IMdIdArray *m_distr_opclasses;
+
 			// is this a temporary table
 			BOOL m_is_temp_table;
 			
@@ -91,11 +94,12 @@ namespace gpdxl
 				IMDId *mdid,
 				CMDName *mdname_schema, 
 				CMDName *mdname_rel, 
-						CDXLColDescrArray *dxl_col_descr_array,
+				CDXLColDescrArray *dxl_col_descr_array,
 				CDXLCtasStorageOptions *dxl_ctas_storage_option,
 				IMDRelation::Ereldistrpolicy rel_distr_policy,
 				ULongPtrArray *distr_column_pos_array,
 				IMdIdArray *distr_opfamilies,
+				IMdIdArray *distr_opclasses,
 				BOOL fTemporary, 
 				BOOL fHasOids, 
 				IMDRelation::Erelstoragetype rel_storage_type,
@@ -159,6 +163,12 @@ namespace gpdxl
 			IMdIdArray *GetDistrOpfamilies() const
 			{
 				return m_distr_opfamilies;
+			}
+
+			// distribution column opclasses
+			IMdIdArray *GetDistrOpclasses() const
+			{
+				return m_distr_opclasses;
 			}
 		
 			// source column ids

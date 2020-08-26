@@ -36,10 +36,11 @@ CDXLPhysicalCTAS::CDXLPhysicalCTAS
 	CMemoryPool *mp,
 	CMDName *mdname_schema,
 	CMDName *mdname_rel,
-								   CDXLColDescrArray *dxl_col_descr_array,
+	CDXLColDescrArray *dxl_col_descr_array,
 	CDXLCtasStorageOptions *dxl_ctas_opt,
 	IMDRelation::Ereldistrpolicy rel_distr_policy,
 	ULongPtrArray *distr_column_pos_array,
+	IMdIdArray *distr_opclasses,
 	BOOL is_temporary,
 	BOOL has_oids,
 	IMDRelation::Erelstoragetype rel_storage_type,
@@ -50,10 +51,11 @@ CDXLPhysicalCTAS::CDXLPhysicalCTAS
 	CDXLPhysical(mp), 
 	m_mdname_schema(mdname_schema),
 	m_mdname_rel(mdname_rel),
-	  m_col_descr_array(dxl_col_descr_array),
+	m_col_descr_array(dxl_col_descr_array),
 	m_dxl_ctas_storage_option(dxl_ctas_opt),
 	m_rel_distr_policy(rel_distr_policy),
 	m_distr_column_pos_array(distr_column_pos_array),
+	m_distr_opclasses(distr_opclasses),
 	m_is_temp_table(is_temporary),
 	m_has_oids(has_oids),
 	m_rel_storage_type(rel_storage_type),
@@ -159,6 +161,7 @@ CDXLPhysicalCTAS::SerializeToDXL
 		
 		xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenDistrColumns), str_distribution_columns);
 		GPOS_DELETE(str_distribution_columns);
+
 	}
 
 	// serialize input columns
@@ -177,7 +180,16 @@ CDXLPhysicalCTAS::SerializeToDXL
 
 	// serialize properties
 	dxlnode->SerializePropertiesToDXL(xml_serializer);
-	
+
+	// serialize opclasses list
+	if (IMDRelation::EreldistrHash == m_rel_distr_policy)
+	{
+		GPOS_ASSERT(NULL != m_distr_opclasses);
+		IMDCacheObject::SerializeMDIdList(xml_serializer, m_distr_opclasses,
+										  CDXLTokens::GetDXLTokenStr(EdxltokenRelDistrOpclasses),
+										  CDXLTokens::GetDXLTokenStr(EdxltokenRelDistrOpclass));
+	}
+
 	// serialize column descriptors
 	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), CDXLTokens::GetDXLTokenStr(EdxltokenColumns));
 	

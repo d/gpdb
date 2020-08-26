@@ -48,7 +48,8 @@ CParseHandlerLogicalCTAS::CParseHandlerLogicalCTAS
 	m_src_colids_array(NULL),
 	m_vartypemod_array(NULL),
 	m_is_temp_table(false),
-	m_opfamilies_parse_handler(NULL)
+	m_opfamilies_parse_handler(NULL),
+	m_opclasses_parse_handler(NULL)
 {
 }
 
@@ -77,6 +78,18 @@ CParseHandlerLogicalCTAS::StartElement
 		m_parse_handler_mgr->ActivateParseHandler(m_opfamilies_parse_handler);
 		this->Append(m_opfamilies_parse_handler);
 		m_opfamilies_parse_handler->startElement(element_uri, element_local_name, element_qname, attrs);
+
+		return;
+	}
+
+	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenRelDistrOpclasses), element_local_name))
+	{
+		// parse handler for check constraints
+		m_opclasses_parse_handler = CParseHandlerFactory::GetParseHandler(m_mp, CDXLTokens::XmlstrToken(EdxltokenMetadataIdList),
+																		   m_parse_handler_mgr, this);
+		m_parse_handler_mgr->ActivateParseHandler(m_opclasses_parse_handler);
+		this->Append(m_opclasses_parse_handler);
+		m_opclasses_parse_handler->startElement(element_uri, element_local_name, element_qname, attrs);
 
 		return;
 	}
@@ -197,6 +210,13 @@ CParseHandlerLogicalCTAS::EndElement
 		distr_opfamilies = dynamic_cast<CParseHandlerMetadataIdList*>(m_opfamilies_parse_handler)->GetMdIdArray();
 		distr_opfamilies->AddRef();
 	}
+
+	IMdIdArray *distr_opclasses = NULL;
+	if (m_opclasses_parse_handler != NULL)
+	{
+		distr_opclasses = dynamic_cast<CParseHandlerMetadataIdList*>(m_opclasses_parse_handler)->GetMdIdArray();
+		distr_opclasses->AddRef();
+	}
 	
 	m_dxl_node = GPOS_NEW(m_mp) CDXLNode
 							(
@@ -212,6 +232,7 @@ CParseHandlerLogicalCTAS::EndElement
 										m_rel_distr_policy, 
 										m_distr_column_pos_array,
 										distr_opfamilies,
+										distr_opclasses,
 										m_is_temp_table, 
 										m_has_oids, 
 										m_rel_storage_type, 

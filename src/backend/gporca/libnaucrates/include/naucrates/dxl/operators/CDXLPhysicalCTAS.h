@@ -44,7 +44,7 @@ namespace gpdxl
 			CMDName *m_mdname_rel;
 			
 			// list of columns
-		CDXLColDescrArray *m_col_descr_array;
+			CDXLColDescrArray *m_col_descr_array;
 			
 			// storage options
 			CDXLCtasStorageOptions *m_dxl_ctas_storage_option;
@@ -54,6 +54,9 @@ namespace gpdxl
 	
 			// list of distribution column positions		
 			ULongPtrArray *m_distr_column_pos_array;
+
+			// list of distriution column opclasses
+			IMdIdArray *m_distr_opclasses;
 			
 			// is this a temporary table
 			BOOL m_is_temp_table;
@@ -80,10 +83,11 @@ namespace gpdxl
 				CMemoryPool *mp, 
 				CMDName *mdname_schema, 
 				CMDName *mdname_rel, 
-						 CDXLColDescrArray *dxl_col_descr_array,
+				CDXLColDescrArray *dxl_col_descr_array,
 				CDXLCtasStorageOptions *dxl_ctas_storage_options,
 				IMDRelation::Ereldistrpolicy rel_distr_policy,
-				ULongPtrArray *distr_column_pos_array, 
+				ULongPtrArray *distr_column_pos_array,
+				IMdIdArray *distr_opclasses,
 				BOOL is_temporary,
 				BOOL has_oids,
 				IMDRelation::Erelstoragetype rel_storage_type,
@@ -155,6 +159,10 @@ namespace gpdxl
 				return m_dxl_ctas_storage_option;
 			}
 			
+			IMdIdArray *GetDistrOpclasses() const
+			{
+				return m_distr_opclasses;
+			}
 			// serialize operator in DXL format
 			virtual
 			void SerializeToDXL(CXMLSerializer *xml_serializer, const CDXLNode *dxlnode) const;

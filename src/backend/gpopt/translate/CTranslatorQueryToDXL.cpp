@@ -912,6 +912,8 @@ CTranslatorQueryToDXL::TranslateCTASToDXL()
 	IMDRelation::Ereldistrpolicy rel_distr_policy = IMDRelation::EreldistrRandom;
 	ULongPtrArray *distribution_colids = NULL;
 	IMdIdArray *distr_opfamilies = NULL;
+	IMdIdArray *distr_opclasses = NULL;
+
 	
 	if (NULL != m_query->intoPolicy)
 	{
@@ -921,6 +923,8 @@ CTranslatorQueryToDXL::TranslateCTASToDXL()
 		{
 			distribution_colids = GPOS_NEW(m_mp) ULongPtrArray(m_mp);
 			distr_opfamilies = GPOS_NEW(m_mp) IMdIdArray(m_mp);
+			distr_opclasses = GPOS_NEW(m_mp) IMdIdArray(m_mp);
+
 
 			for (ULONG ul = 0; ul < (ULONG) m_query->intoPolicy->nattrs; ul++)
 			{
@@ -931,6 +935,7 @@ CTranslatorQueryToDXL::TranslateCTASToDXL()
 				Oid opfamily = gpdb::GetOpclassFamily(m_query->intoPolicy->opclasses[ul]);
 				GPOS_ASSERT(InvalidOid != opfamily);
 				distr_opfamilies->Append(GPOS_NEW(m_mp) CMDIdGPDB(opfamily));
+				distr_opclasses->Append(GPOS_NEW(m_mp) CMDIdGPDB(m_query->intoPolicy->opclasses[ul]));
 			}
 		}
 	}
@@ -983,6 +988,7 @@ CTranslatorQueryToDXL::TranslateCTASToDXL()
 									rel_distr_policy,
 									distribution_colids,
 									distr_opfamilies,
+									distr_opclasses,
 									fTempTable,
 									has_oids,
 									rel_storage_type,

@@ -76,7 +76,7 @@ namespace gpmd
 			ULongPtrArray *m_distr_col_array;
 
 			IMdIdArray *m_distr_opfamilies;
-			
+
 			// do we need to consider a hash distributed table as random distributed
 			BOOL m_convert_hash_to_random;
 

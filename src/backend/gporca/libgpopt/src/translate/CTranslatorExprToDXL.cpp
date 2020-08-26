@@ -5763,6 +5763,7 @@ CTranslatorExprToDXL::PdxlnCTAS
 									pmdrel->GetDxlCtasStorageOption(),
 									pmdrel->GetRelDistribution(),
 									pdrgpulDistr,
+									pmdrel->GetDistrOpClasses(),
 									pmdrel->IsTemporary(),
 									pmdrel->HasOids(),
 									pmdrel->RetrieveRelStorageType(),

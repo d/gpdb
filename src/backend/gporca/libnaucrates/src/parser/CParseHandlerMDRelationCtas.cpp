@@ -49,7 +49,8 @@ CParseHandlerMDRelationCtas::CParseHandlerMDRelationCtas
 	:
 	CParseHandlerMDRelation(mp, parse_handler_mgr, parse_handler_root),
 	m_vartypemod_array(NULL),
-	m_opfamilies_parse_handler(NULL)
+	m_opfamilies_parse_handler(NULL),
+	m_opclasses_parse_handler(NULL)
 {
 }
 
@@ -77,6 +78,17 @@ CParseHandlerMDRelationCtas::StartElement
 		m_parse_handler_mgr->ActivateParseHandler(m_opfamilies_parse_handler);
 		this->Append(m_opfamilies_parse_handler);
 		m_opfamilies_parse_handler->startElement(element_uri, element_local_name, element_qname, attrs);
+
+		return;
+	}
+
+	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenRelDistrOpclasses), element_local_name))
+	{
+		// parse handler for check constraints
+		m_opclasses_parse_handler = CParseHandlerFactory::GetParseHandler(m_mp, CDXLTokens::XmlstrToken(EdxltokenMetadataIdList), m_parse_handler_mgr, this);
+		m_parse_handler_mgr->ActivateParseHandler(m_opclasses_parse_handler);
+		this->Append(m_opclasses_parse_handler);
+		m_opclasses_parse_handler->startElement(element_uri, element_local_name, element_qname, attrs);
 
 		return;
 	}
@@ -186,10 +198,13 @@ CParseHandlerMDRelationCtas::EndElement
 	dxl_ctas_storage_options->AddRef();
 
 	IMdIdArray *distr_opfamilies = NULL;
+	IMdIdArray *distr_opclasses = NULL;
 	if (m_rel_distr_policy == IMDRelation::EreldistrHash && m_opfamilies_parse_handler != NULL)
 	{
 		distr_opfamilies = dynamic_cast<CParseHandlerMetadataIdList*>(m_opfamilies_parse_handler)->GetMdIdArray();
 		distr_opfamilies->AddRef();
+		distr_opclasses = dynamic_cast<CParseHandlerMetadataIdList*>(m_opclasses_parse_handler)->GetMdIdArray();
+		distr_opclasses->AddRef();
 	}
 
 	m_imd_obj = GPOS_NEW(m_mp) CMDRelationCtasGPDB
@@ -205,6 +220,7 @@ CParseHandlerMDRelationCtas::EndElement
 									md_col_array,
 									m_distr_col_array,
 									distr_opfamilies,
+									distr_opclasses,
 									m_key_sets_arrays,									
 									dxl_ctas_storage_options,
 									m_vartypemod_array

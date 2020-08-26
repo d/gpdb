@@ -72,14 +72,17 @@ namespace gpmd
 			Ereldistrpolicy m_rel_distr_policy;
 
 			// columns
-		CMDColumnArray *m_md_col_array;
+			CMDColumnArray *m_md_col_array;
 
 			// indices of distribution columns
 			ULongPtrArray *m_distr_col_array;
 
 			// distribution opfamilies
 			IMdIdArray *m_distr_opfamilies;
-			
+
+			// distribution opclasses
+			IMdIdArray *m_distr_opclasses;
+
 			// array of key sets
 			ULongPtr2dArray *m_keyset_array;
 
@@ -118,9 +121,10 @@ namespace gpmd
 				BOOL fHasOids,
 				Erelstoragetype rel_storage_type,
 				Ereldistrpolicy rel_distr_policy,
-							CMDColumnArray *mdcol_array,
+				CMDColumnArray *mdcol_array,
 				ULongPtrArray *distr_col_array,
 				IMdIdArray *distr_opfamilies,
+				IMdIdArray *distr_opclasses,
 				ULongPtr2dArray *keyset_array,
 				CDXLCtasStorageOptions *dxl_ctas_storage_options,
 				IntPtrArray *vartypemod_array
@@ -253,6 +257,12 @@ namespace gpmd
 			 // return the position of a column in the metadata object given the attribute number in the system catalog
 			virtual
 			ULONG GetPosFromAttno(INT attno) const;
+
+			virtual
+			IMdIdArray *GetDistrOpClasses() const
+			{
+				return m_distr_opclasses;
+			}
 
 			// retrieve the id of the metadata cache index at the given position
 			virtual
