@@ -23,7 +23,8 @@ OBJS        = CAutoTimer.o \
               CTimerUser.o \
               CWallClock.o \
               clibwrapper.o \
-              syslibwrapper.o
+              syslibwrapper.o \
+              ULongArray.o
 
 include $(top_srcdir)/src/backend/common.mk
 
