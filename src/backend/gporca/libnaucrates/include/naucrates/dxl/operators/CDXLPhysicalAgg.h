@@ -15,6 +15,7 @@
 #define GPDXL_CDXLPhysicalAgg_H
 
 #include "gpos/base.h"
+#include "gpos/common/ULongArray.h"
 #include "naucrates/dxl/operators/CDXLNode.h"
 #include "naucrates/dxl/operators/CDXLPhysical.h"
 
@@ -52,7 +53,7 @@ private:
 	CDXLPhysicalAgg(const CDXLPhysicalAgg &);
 
 	// grouping column ids
-	ULongPtrArray *m_grouping_colids_array;
+	ULongArray m_grouping_colids_array;
 
 	EdxlAggStrategy m_dxl_agg_strategy;
 
@@ -68,7 +69,7 @@ public:
 					BOOL stream_safe);
 
 	// dtor
-	~CDXLPhysicalAgg() override;
+	~CDXLPhysicalAgg() override = default;
 
 	// accessors
 	Edxlopid GetDXLOperator() const override;
@@ -77,10 +78,10 @@ public:
 	const CWStringConst *GetOpNameStr() const override;
 	const CWStringConst *GetAggStrategyNameStr() const;
 	const CWStringConst *PstrAggLevel() const;
-	const ULongPtrArray *GetGroupingColidArray() const;
+	ULongArray GetGroupingColidArray() const;
 
 	// set grouping column indices
-	void SetGroupingCols(ULongPtrArray *);
+	void SetGroupingCols(ULongArray);
 
 	// is aggregate a hash aggregate that it safe to stream
 	BOOL

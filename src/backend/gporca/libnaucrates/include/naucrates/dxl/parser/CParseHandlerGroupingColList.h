@@ -14,6 +14,7 @@
 #define GPDXL_CParseHandlerGroupingColList_H
 
 #include "gpos/base.h"
+#include "gpos/common/ULongArray.h"
 #include "naucrates/dxl/parser/CParseHandlerBase.h"
 
 namespace gpdxl
@@ -35,7 +36,7 @@ class CParseHandlerGroupingColList : public CParseHandlerBase
 {
 private:
 	// array of grouping column ids
-	ULongPtrArray *m_grouping_colids_array;
+	ULongArray m_grouping_colids_array;
 
 	// process the start of an element
 	void StartElement(
@@ -60,10 +61,10 @@ public:
 								 CParseHandlerManager *parse_handler_mgr,
 								 CParseHandlerBase *parse_handler_root);
 
-	~CParseHandlerGroupingColList() override;
+	~CParseHandlerGroupingColList() override = default;
 
 	// accessor
-	ULongPtrArray *GetGroupingColidArray();
+	ULongArray GetGroupingColidArray();
 };
 }  // namespace gpdxl
 

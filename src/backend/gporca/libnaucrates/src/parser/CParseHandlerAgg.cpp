@@ -156,12 +156,11 @@ CParseHandlerAgg::EndElement(const XMLCh *const,  // element_uri,
 		dynamic_cast<CParseHandlerPhysicalOp *>((*this)[4]);
 
 	// set grouping cols list
-	GPOS_ASSERT(NULL !=
-				grouping_col_list_parse_handler->GetGroupingColidArray());
+	GPOS_ASSERT(
+		!grouping_col_list_parse_handler->GetGroupingColidArray().empty());
 
-	ULongPtrArray *grouping_colid_array =
+	auto grouping_colid_array =
 		grouping_col_list_parse_handler->GetGroupingColidArray();
-	grouping_colid_array->AddRef();
 	m_dxl_op->SetGroupingCols(grouping_colid_array);
 
 	m_dxl_node = GPOS_NEW(m_mp) CDXLNode(m_mp, m_dxl_op);

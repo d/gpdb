@@ -25,7 +25,7 @@ using namespace gpdxl;
 //
 //---------------------------------------------------------------------------
 CDXLLogicalGroupBy::CDXLLogicalGroupBy(CMemoryPool *mp)
-	: CDXLLogical(mp), m_grouping_colid_array(NULL)
+	: CDXLLogical(mp), m_grouping_colid_array(mp)
 {
 }
 
@@ -44,18 +44,6 @@ CDXLLogicalGroupBy::CDXLLogicalGroupBy(CMemoryPool *mp,
 	GPOS_ASSERT(NULL != pdrgpulGrpColIds);
 }
 
-//---------------------------------------------------------------------------
-//	@function:
-//		CDXLLogicalGroupBy::~CDXLLogicalGroupBy
-//
-//	@doc:
-//		Destructor
-//
-//---------------------------------------------------------------------------
-CDXLLogicalGroupBy::~CDXLLogicalGroupBy()
-{
-	CRefCount::SafeRelease(m_grouping_colid_array);
-}
 
 //---------------------------------------------------------------------------
 //	@function:
@@ -94,10 +82,10 @@ CDXLLogicalGroupBy::GetOpNameStr() const
 //
 //---------------------------------------------------------------------------
 void
-CDXLLogicalGroupBy::SetGroupingColumns(ULongPtrArray *grouping_colid_array)
+CDXLLogicalGroupBy::SetGroupingColumns(gpos::ULongArray grouping_colid_array)
 {
-	GPOS_ASSERT(NULL != grouping_colid_array);
-	m_grouping_colid_array = grouping_colid_array;
+	GPOS_ASSERT(!grouping_colid_array.empty());
+	m_grouping_colid_array = std::move(grouping_colid_array);
 }
 
 //---------------------------------------------------------------------------
@@ -108,7 +96,7 @@ CDXLLogicalGroupBy::SetGroupingColumns(ULongPtrArray *grouping_colid_array)
 //		Grouping column indices
 //
 //---------------------------------------------------------------------------
-const ULongPtrArray *
+ULongArray
 CDXLLogicalGroupBy::GetGroupingColidArray() const
 {
 	return m_grouping_colid_array;
@@ -125,37 +113,33 @@ CDXLLogicalGroupBy::GetGroupingColidArray() const
 void
 CDXLLogicalGroupBy::SerializeGrpColsToDXL(CXMLSerializer *xml_serializer) const
 {
-	if (NULL != m_grouping_colid_array)
+	const CWStringConst *grouping_cols_str =
+		CDXLTokens::GetDXLTokenStr(EdxltokenGroupingCols);
+	const CWStringConst *grouping_col_str =
+		CDXLTokens::GetDXLTokenStr(EdxltokenGroupingCol);
+
+	xml_serializer->OpenElement(
+		CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix),
+		grouping_cols_str);
+
+	for (ULONG idx = 0; idx < m_grouping_colid_array.size(); idx++)
 	{
-		const CWStringConst *grouping_cols_str =
-			CDXLTokens::GetDXLTokenStr(EdxltokenGroupingCols);
-		const CWStringConst *grouping_col_str =
-			CDXLTokens::GetDXLTokenStr(EdxltokenGroupingCol);
+		ULONG grouping_col = m_grouping_colid_array[idx];
 
 		xml_serializer->OpenElement(
 			CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix),
-			grouping_cols_str);
-
-		for (ULONG idx = 0; idx < m_grouping_colid_array->Size(); idx++)
-		{
-			GPOS_ASSERT(NULL != (*m_grouping_colid_array)[idx]);
-			ULONG grouping_col = *((*m_grouping_colid_array)[idx]);
-
-			xml_serializer->OpenElement(
-				CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix),
-				grouping_col_str);
-			xml_serializer->AddAttribute(
-				CDXLTokens::GetDXLTokenStr(EdxltokenColId), grouping_col);
-
-			xml_serializer->CloseElement(
-				CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix),
-				grouping_col_str);
-		}
+			grouping_col_str);
+		xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenColId),
+									 grouping_col);
 
 		xml_serializer->CloseElement(
 			CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix),
-			grouping_cols_str);
+			grouping_col_str);
 	}
+
+	xml_serializer->CloseElement(
+		CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix),
+		grouping_cols_str);
 }
 
 //---------------------------------------------------------------------------

@@ -34,21 +34,8 @@ CParseHandlerGroupingColList::CParseHandlerGroupingColList(
 	CMemoryPool *mp, CParseHandlerManager *parse_handler_mgr,
 	CParseHandlerBase *parse_handler_root)
 	: CParseHandlerBase(mp, parse_handler_mgr, parse_handler_root),
-	  m_grouping_colids_array(NULL)
+	  m_grouping_colids_array(mp)
 {
-}
-
-//---------------------------------------------------------------------------
-//	@function:
-//		CParseHandlerGroupingColList::~CParseHandlerGroupingColList
-//
-//	@doc:
-//		Destructor
-//
-//---------------------------------------------------------------------------
-CParseHandlerGroupingColList::~CParseHandlerGroupingColList()
-{
-	CRefCount::SafeRelease(m_grouping_colids_array);
 }
 
 //---------------------------------------------------------------------------
@@ -70,22 +57,20 @@ CParseHandlerGroupingColList::StartElement(
 				 CDXLTokens::XmlstrToken(EdxltokenScalarGroupingColList),
 				 element_local_name))
 	{
-		// start the grouping column list
-		m_grouping_colids_array = GPOS_NEW(m_mp) ULongPtrArray(m_mp);
 	}
 	else if (0 == XMLString::compareString(
 					  CDXLTokens::XmlstrToken(EdxltokenGroupingCol),
 					  element_local_name))
 	{
 		// we must have seen a grouping cols list already and initialized the grouping cols array
-		GPOS_ASSERT(NULL != m_grouping_colids_array);
+		GPOS_ASSERT(!m_grouping_colids_array.empty());
 
 		// parse grouping col id
 		ULONG *pulColId =
 			GPOS_NEW(m_mp) ULONG(CDXLOperatorFactory::ParseGroupingColId(
 				m_parse_handler_mgr->GetDXLMemoryManager(), attrs));
 
-		m_grouping_colids_array->Append(pulColId);
+		m_grouping_colids_array.Append(pulColId);
 	}
 	else
 	{
@@ -136,7 +121,7 @@ CParseHandlerGroupingColList::EndElement(const XMLCh *const,  // element_uri,
 //		Returns the array of parsed grouping column ids
 //
 //---------------------------------------------------------------------------
-ULongPtrArray *
+ULongArray
 CParseHandlerGroupingColList::GetGroupingColidArray()
 {
 	return m_grouping_colids_array;

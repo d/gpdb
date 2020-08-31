@@ -144,11 +144,10 @@ CParseHandlerLogicalGroupBy::EndElement(const XMLCh *const,	 // element_uri,
 		static_cast<CDXLLogicalGroupBy *>(m_dxl_node->GetOperator());
 
 	// set grouping cols list
-	GPOS_ASSERT(NULL != grouping_col_parse_handler->GetGroupingColidArray());
+	GPOS_ASSERT(!grouping_col_parse_handler->GetGroupingColidArray().empty());
 
-	ULongPtrArray *grouping_col_array =
+	auto grouping_col_array =
 		grouping_col_parse_handler->GetGroupingColidArray();
-	grouping_col_array->AddRef();
 	lg_group_by_dxl->SetGroupingColumns(grouping_col_array);
 
 
