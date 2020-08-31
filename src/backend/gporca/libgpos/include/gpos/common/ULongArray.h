@@ -7,6 +7,7 @@
 #define GPOS_ULongArray_H
 #include <vector>
 
+#include "gpos/common/CDynamicPtrArray.h"
 #include "gpos/common/CRefCount.h"
 #include "gpos/memory/CMemoryPool.h"
 #include "gpos/memory/MemoryPoolAllocator.h"
@@ -17,6 +18,8 @@ class ULongArray : public std::vector<ULONG, gpos::MemoryPoolAllocator<ULONG>>
 {
 public:
 	explicit ULongArray(CMemoryPool *mp);
+	explicit ULongArray(
+		CDynamicPtrArray<ULONG, gpos::CleanupDelete<ULONG>> *dynamic_ptr_array);
 	void Append(ULONG *);
 
 private:

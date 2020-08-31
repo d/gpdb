@@ -396,6 +396,7 @@ public:
 		return result;
 	}
 
+	friend class ULongArray;
 };	// class CDynamicPtrArray
 }  // namespace gpos
 
