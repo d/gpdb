@@ -5753,6 +5753,9 @@ CTranslatorExprToDXL::PdxlnCTAS
 		mdname_schema = GPOS_NEW(m_mp) CMDName(m_mp, pmdrel->GetMdNameSchema()->GetMDName());
 	}
 
+	IMdIdArray *distr_opclasses = pmdrel->GetDistrOpClasses();
+	distr_opclasses->AddRef();
+
 	vartypemod_array->AddRef();
 	CDXLPhysicalCTAS *pdxlopCTAS = GPOS_NEW(m_mp) CDXLPhysicalCTAS
 									(
