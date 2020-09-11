@@ -145,7 +145,16 @@ CXformSplitDQA::Transform(CXformContext *pxfctxt, CXformResult *pxfres,
 
 	pxfres->Add(pexprThreeStageDQA);
 
-	if (fScalarDQA)
+	// FIXME: Postgres 9.6 merge commit 38d881555207 replaced Greenplum
+	// multi-stage aggregate executor code with upstream. In the process, we
+	// lost the intermediate aggregate stage which is useful when we have a
+	// 'ride-along' aggregate. For example,
+	//
+	//     SELECT SUM(a), COUNT(DISTINCT b) FROM foo;
+	//
+	// After we re-implement intermediate aggregate stage in executor we should
+	// be able to re-enable the following transform optimization.
+	if (fScalarDQA && false)
 	{
 		// generate two-stage agg for scalar DQA case
 		// this transform is useful for cases where distinct column is same as distributed column.
