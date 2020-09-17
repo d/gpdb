@@ -1243,10 +1243,10 @@ CExpressionTest::EresUnittest_ReqdCols()
 {
 	const CHAR *rgszTests[] =
 	{
-		"../data/dxl/tpch/q1.mdp",
-		"../data/dxl/tpch/q3.mdp",
-		"../data/dxl/expressiontests/WinFunc-OuterRef-Partition-Query.xml",
-		"../data/dxl/expressiontests/WinFunc-OuterRef-Partition-Order-Query.xml",
+		"data/dxl/tpch/q1.mdp",
+		"data/dxl/tpch/q3.mdp",
+		"data/dxl/expressiontests/WinFunc-OuterRef-Partition-Query.xml",
+		"data/dxl/expressiontests/WinFunc-OuterRef-Partition-Order-Query.xml",
 	};
 
 	GPOS_RESULT eres = GPOS_OK;

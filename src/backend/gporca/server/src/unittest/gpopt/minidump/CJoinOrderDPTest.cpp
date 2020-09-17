@@ -28,9 +28,9 @@ CJoinOrderDPTest::EresUnittest()
 	ULONG ulTestCounter = 0;
 	const CHAR *rgszFileNames[] =
 	{
-			"../data/dxl/minidump/CJoinOrderDPTest/JoinOrderWithDP.mdp",
-			"../data/dxl/minidump/CJoinOrderDPTest/JoinOrderWithOutDP.mdp",
-			"../data/dxl/minidump/JoinOptimizationLevelQuery3WayHashJoinPartTbl.mdp"
+			"data/dxl/minidump/CJoinOrderDPTest/JoinOrderWithDP.mdp",
+			"data/dxl/minidump/CJoinOrderDPTest/JoinOrderWithOutDP.mdp",
+			"data/dxl/minidump/JoinOptimizationLevelQuery3WayHashJoinPartTbl.mdp"
 	};
 
 	return CTestUtils::EresUnittest_RunTestsWithoutAdditionalTraceFlags

@@ -27,9 +27,9 @@ ULONG CEscapeMechanismTest::m_ulEscapeMechanismTestCounter = 0;  // start from f
 // minidump files
 const CHAR *rgszEscapeMechanismFileNames[] =
 	{
-	"../data/dxl/minidump/JoinArityAssociativityCommutativityAtLimit.mdp",
-	"../data/dxl/minidump/JoinArityAssociativityCommutativityAboveLimit.mdp",
-	"../data/dxl/minidump/JoinArityAssociativityCommutativityBelowLimit.mdp",
+	"data/dxl/minidump/JoinArityAssociativityCommutativityAtLimit.mdp",
+	"data/dxl/minidump/JoinArityAssociativityCommutativityAboveLimit.mdp",
+	"data/dxl/minidump/JoinArityAssociativityCommutativityBelowLimit.mdp",
 	};
 
 

@@ -32,7 +32,7 @@ ULONG CTreeMapTest::m_ulTestCounter = 0; // start from first test
 // minidump files that fail during plan enumeration because of large plan space
 const CHAR *rgszFailedPlanEnumerationTests[] =
 {
-	"../data/dxl/minidump/106-way-join.mdp",
+	"data/dxl/minidump/106-way-join.mdp",
 };
 
 

@@ -13,7 +13,7 @@ namespace gpopt
 		ULONG ulTestCounter = 0;
 		const CHAR *rgszFileNames[] =
 			{
-				"../data/dxl/minidump/SubqueryNoPullUpTableValueFunction.mdp",
+				"data/dxl/minidump/SubqueryNoPullUpTableValueFunction.mdp",
 			};
 
 		return CTestUtils::EresUnittest_RunTestsWithoutAdditionalTraceFlags

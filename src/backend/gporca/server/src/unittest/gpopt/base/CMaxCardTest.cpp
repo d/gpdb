@@ -84,10 +84,10 @@ CMaxCardTest::EresUnittest_RunMinidumpTests()
 	// minidump files
 	const CHAR *rgszFileNames[] =
 	{
-		"../data/dxl/minidump/FullOuterJoinMaxCardRightChild.mdp",
-		"../data/dxl/minidump/FullOuterJoinMaxCardLeftChild.mdp",
-		"../data/dxl/minidump/FullOuterJoinZeroMaxCard.mdp",
-		"../data/dxl/minidump/FullOuterJoinLeftMultiplyRightMaxCard.mdp",
+		"data/dxl/minidump/FullOuterJoinMaxCardRightChild.mdp",
+		"data/dxl/minidump/FullOuterJoinMaxCardLeftChild.mdp",
+		"data/dxl/minidump/FullOuterJoinZeroMaxCard.mdp",
+		"data/dxl/minidump/FullOuterJoinLeftMultiplyRightMaxCard.mdp",
 	};
 
 	return CTestUtils::EresUnittest_RunTests(rgszFileNames, &ulTestCounter, GPOS_ARRAY_SIZE(rgszFileNames));
