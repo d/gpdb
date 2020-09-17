@@ -28,12 +28,7 @@ using namespace gpopt;
 //		ctor
 //
 //---------------------------------------------------------------------------
-CLogicalLeftOuterJoin::CLogicalLeftOuterJoin
-	(
-	CMemoryPool *mp
-	)
-	:
-	CLogicalJoin(mp)
+CLogicalLeftOuterJoin::CLogicalLeftOuterJoin(CMemoryPool *mp) : CLogicalJoin(mp)
 {
 	GPOS_ASSERT(NULL != mp);
 }
@@ -48,12 +43,8 @@ CLogicalLeftOuterJoin::CLogicalLeftOuterJoin
 //
 //---------------------------------------------------------------------------
 CMaxCard
-CLogicalLeftOuterJoin::DeriveMaxCard
-	(
-	CMemoryPool *, // mp
-	CExpressionHandle &exprhdl
-	)
-	const
+CLogicalLeftOuterJoin::DeriveMaxCard(CMemoryPool *,	 // mp
+									 CExpressionHandle &exprhdl) const
 {
 	CMaxCard maxCard = exprhdl.DeriveMaxCard(0);
 	CMaxCard maxCardInner = exprhdl.DeriveMaxCard(1);
@@ -77,11 +68,7 @@ CLogicalLeftOuterJoin::DeriveMaxCard
 //
 //---------------------------------------------------------------------------
 CXformSet *
-CLogicalLeftOuterJoin::PxfsCandidates
-	(
-	CMemoryPool *mp
-	) 
-	const
+CLogicalLeftOuterJoin::PxfsCandidates(CMemoryPool *mp) const
 {
 	CXformSet *xform_set = GPOS_NEW(mp) CXformSet(mp);
 
@@ -96,7 +83,8 @@ CLogicalLeftOuterJoin::PxfsCandidates
 	(void) xform_set->ExchangeSet(CXform::ExfLeftOuterJoinWithInnerSelect2IndexGetApply);
 	(void) xform_set->ExchangeSet(CXform::ExfLeftOuterJoin2DynamicBitmapIndexGetApply);
 	(void) xform_set->ExchangeSet(CXform::ExfLeftOuterJoin2DynamicIndexGetApply);
-	(void) xform_set->ExchangeSet(CXform::ExfLeftOuterJoinWithInnerSelect2DynamicBitmapIndexGetApply);
+	(void) xform_set->ExchangeSet(
+		CXform::ExfLeftOuterJoinWithInnerSelect2DynamicBitmapIndexGetApply);
 	(void) xform_set->ExchangeSet(CXform::ExfLeftOuterJoinWithInnerSelect2DynamicIndexGetApply);
 
 	return xform_set;
@@ -105,4 +93,3 @@ CLogicalLeftOuterJoin::PxfsCandidates
 
 
 // EOF
-

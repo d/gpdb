@@ -39,10 +39,7 @@ using namespace gpopt;
 GPOS_RESULT
 CColumnFactoryTest::EresUnittest()
 {
-	CUnittest rgut[] =
-		{
-		GPOS_UNITTEST_FUNC(CColumnFactoryTest::EresUnittest_Basic)
-		};
+	CUnittest rgut[] = {GPOS_UNITTEST_FUNC(CColumnFactoryTest::EresUnittest_Basic)};
 
 	return CUnittest::EresExecute(rgut, GPOS_ARRAY_SIZE(rgut));
 }
@@ -94,4 +91,3 @@ CColumnFactoryTest::EresUnittest_Basic()
 
 
 // EOF
-

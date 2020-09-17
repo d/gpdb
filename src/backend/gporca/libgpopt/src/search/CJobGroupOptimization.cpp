@@ -27,7 +27,7 @@ using namespace gpopt;
 
 
 // State transition diagram for group optimization job state machine:
-// 
+//
 //     eevImplementing   +------------------------------+
 //  +------------------ |       estInitialized:        |
 //  |                   |   EevtStartOptimization()    |
@@ -58,56 +58,36 @@ using namespace gpopt;
 //                      |         estCompleted         | <+
 //                      +------------------------------+
 //
-const CJobGroupOptimization::EEvent rgeev[CJobGroupOptimization::estSentinel][CJobGroupOptimization::estSentinel] =
-{
-	{  // estInitialized
-		CJobGroupOptimization::eevImplementing,
-		CJobGroupOptimization::eevImplemented,
-		CJobGroupOptimization::eevSentinel,
-		CJobGroupOptimization::eevOptimized
-	},
-	{  // estOptimizingChildren
-		CJobGroupOptimization::eevSentinel,
-		CJobGroupOptimization::eevOptimizing,
-		CJobGroupOptimization::eevOptimizedCurrentLevel,
-		CJobGroupOptimization::eevSentinel
-	},
-	{  // estDampingOptimizationLevel
-		CJobGroupOptimization::eevSentinel,
-		CJobGroupOptimization::eevOptimizing,
-		CJobGroupOptimization::eevSentinel,
-		CJobGroupOptimization::eevOptimized
-	},
-	{  // estCompleted
-		CJobGroupOptimization::eevSentinel,
-		CJobGroupOptimization::eevSentinel,
-		CJobGroupOptimization::eevSentinel,
-		CJobGroupOptimization::eevSentinel
-	},
+const CJobGroupOptimization::EEvent
+	rgeev[CJobGroupOptimization::estSentinel][CJobGroupOptimization::estSentinel] = {
+		{// estInitialized
+		 CJobGroupOptimization::eevImplementing, CJobGroupOptimization::eevImplemented,
+		 CJobGroupOptimization::eevSentinel, CJobGroupOptimization::eevOptimized},
+		{// estOptimizingChildren
+		 CJobGroupOptimization::eevSentinel, CJobGroupOptimization::eevOptimizing,
+		 CJobGroupOptimization::eevOptimizedCurrentLevel, CJobGroupOptimization::eevSentinel},
+		{// estDampingOptimizationLevel
+		 CJobGroupOptimization::eevSentinel, CJobGroupOptimization::eevOptimizing,
+		 CJobGroupOptimization::eevSentinel, CJobGroupOptimization::eevOptimized},
+		{// estCompleted
+		 CJobGroupOptimization::eevSentinel, CJobGroupOptimization::eevSentinel,
+		 CJobGroupOptimization::eevSentinel, CJobGroupOptimization::eevSentinel},
 };
 
 #ifdef GPOS_DEBUG
 
 // names for states
-const WCHAR rgwszStates[CJobGroupOptimization::estSentinel][GPOPT_FSM_NAME_LENGTH] =
-{
-	GPOS_WSZ_LIT("initialized"),
-	GPOS_WSZ_LIT("optimizing children"),
-	GPOS_WSZ_LIT("damping optimization level"),
-	GPOS_WSZ_LIT("completed")
-};
+const WCHAR rgwszStates[CJobGroupOptimization::estSentinel][GPOPT_FSM_NAME_LENGTH] = {
+	GPOS_WSZ_LIT("initialized"), GPOS_WSZ_LIT("optimizing children"),
+	GPOS_WSZ_LIT("damping optimization level"), GPOS_WSZ_LIT("completed")};
 
 // names for events
-const WCHAR rgwszEvents[CJobGroupOptimization::eevSentinel][GPOPT_FSM_NAME_LENGTH] =
-{
-	GPOS_WSZ_LIT("ongoing implementation"),
-	GPOS_WSZ_LIT("done implementation"),
-	GPOS_WSZ_LIT("ongoing optimization"),
-	GPOS_WSZ_LIT("optimization level complete"),
-	GPOS_WSZ_LIT("finalizing")
-};
+const WCHAR rgwszEvents[CJobGroupOptimization::eevSentinel][GPOPT_FSM_NAME_LENGTH] = {
+	GPOS_WSZ_LIT("ongoing implementation"), GPOS_WSZ_LIT("done implementation"),
+	GPOS_WSZ_LIT("ongoing optimization"), GPOS_WSZ_LIT("optimization level complete"),
+	GPOS_WSZ_LIT("finalizing")};
 
-#endif // GPOS_DEBUG
+#endif	// GPOS_DEBUG
 
 
 //---------------------------------------------------------------------------
@@ -119,7 +99,8 @@ const WCHAR rgwszEvents[CJobGroupOptimization::eevSentinel][GPOPT_FSM_NAME_LENGT
 //
 //---------------------------------------------------------------------------
 CJobGroupOptimization::CJobGroupOptimization()
-{}
+{
+}
 
 
 //---------------------------------------------------------------------------
@@ -131,7 +112,8 @@ CJobGroupOptimization::CJobGroupOptimization()
 //
 //---------------------------------------------------------------------------
 CJobGroupOptimization::~CJobGroupOptimization()
-{}
+{
+}
 
 
 //---------------------------------------------------------------------------
@@ -143,27 +125,22 @@ CJobGroupOptimization::~CJobGroupOptimization()
 //
 //---------------------------------------------------------------------------
 void
-CJobGroupOptimization::Init
-	(
+CJobGroupOptimization::Init(
 	CGroup *pgroup,
-	CGroupExpression *pgexprOrigin, // group expression that triggered optimization job,
-									// NULL if this is the Root group
-	COptimizationContext *poc
-	)
+	CGroupExpression *pgexprOrigin,	 // group expression that triggered optimization job,
+									 // NULL if this is the Root group
+	COptimizationContext *poc)
 {
 	GPOS_ASSERT(NULL != poc);
 	GPOS_ASSERT(pgroup == poc->Pgroup());
 
 	CJobGroup::Init(pgroup);
-	m_jsm.Init
-			(
-			rgeev
+	m_jsm.Init(rgeev
 #ifdef GPOS_DEBUG
-			,
-			rgwszStates,
-			rgwszEvents
-#endif // GPOS_DEBUG
-			);
+			   ,
+			   rgwszStates, rgwszEvents
+#endif	// GPOS_DEBUG
+	);
 
 	// set job actions
 	m_jsm.SetAction(estInitialized, EevtStartOptimization);
@@ -197,10 +174,7 @@ CJobGroupOptimization::Init
 //
 //---------------------------------------------------------------------------
 BOOL
-CJobGroupOptimization::FScheduleGroupExpressions
-	(
-	CSchedulerContext *psc
-	)
+CJobGroupOptimization::FScheduleGroupExpressions(CSchedulerContext *psc)
 {
 	CGroupExpression *pgexprLast = m_pgexprLastScheduled;
 
@@ -247,11 +221,7 @@ CJobGroupOptimization::FScheduleGroupExpressions
 //
 //---------------------------------------------------------------------------
 CJobGroupOptimization::EEvent
-CJobGroupOptimization::EevtStartOptimization
-	(
-	CSchedulerContext *psc,
-	CJob *pjOwner
-	)
+CJobGroupOptimization::EevtStartOptimization(CSchedulerContext *psc, CJob *pjOwner)
 {
 	// get a job pointer
 	CJobGroupOptimization *pjgo = PjConvert(pjOwner);
@@ -293,11 +263,7 @@ CJobGroupOptimization::EevtStartOptimization
 //
 //---------------------------------------------------------------------------
 CJobGroupOptimization::EEvent
-CJobGroupOptimization::EevtOptimizeChildren
-	(
-	CSchedulerContext *psc,
-	CJob *pjOwner
-	)
+CJobGroupOptimization::EevtOptimizeChildren(CSchedulerContext *psc, CJob *pjOwner)
 {
 	// get a job pointer
 	CJobGroupOptimization *pjgo = PjConvert(pjOwner);
@@ -322,11 +288,8 @@ CJobGroupOptimization::EevtOptimizeChildren
 //
 //---------------------------------------------------------------------------
 CJobGroupOptimization::EEvent
-CJobGroupOptimization::EevtCompleteOptimization
-	(
-	CSchedulerContext *, // psc
-	CJob *pjOwner
-	)
+CJobGroupOptimization::EevtCompleteOptimization(CSchedulerContext *,  // psc
+												CJob *pjOwner)
 {
 	// get a job pointer
 	CJobGroupOptimization *pjgo = PjConvert(pjOwner);
@@ -357,10 +320,7 @@ CJobGroupOptimization::EevtCompleteOptimization
 //
 //---------------------------------------------------------------------------
 BOOL
-CJobGroupOptimization::FExecute
-	(
-	CSchedulerContext *psc
-	)
+CJobGroupOptimization::FExecute(CSchedulerContext *psc)
 {
 	GPOS_ASSERT(FInit());
 
@@ -377,14 +337,9 @@ CJobGroupOptimization::FExecute
 //
 //---------------------------------------------------------------------------
 void
-CJobGroupOptimization::ScheduleJob
-	(
-	CSchedulerContext *psc,
-	CGroup *pgroup,
-	CGroupExpression *pgexprOrigin,
-	COptimizationContext *poc,
-	CJob *pjParent
-	)
+CJobGroupOptimization::ScheduleJob(CSchedulerContext *psc, CGroup *pgroup,
+								   CGroupExpression *pgexprOrigin, COptimizationContext *poc,
+								   CJob *pjParent)
 {
 	CJob *pj = psc->Pjf()->PjCreate(CJob::EjtGroupOptimization);
 
@@ -405,15 +360,11 @@ CJobGroupOptimization::ScheduleJob
 //
 //---------------------------------------------------------------------------
 IOstream &
-CJobGroupOptimization::OsPrint
-	(
-	IOstream &os
-	)
+CJobGroupOptimization::OsPrint(IOstream &os)
 {
 	return m_jsm.OsHistory(os);
 }
 
-#endif // GPOS_DEBUG
+#endif	// GPOS_DEBUG
 
 // EOF
-

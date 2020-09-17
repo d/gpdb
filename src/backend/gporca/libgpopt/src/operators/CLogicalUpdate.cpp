@@ -29,18 +29,14 @@ using namespace gpopt;
 //		Ctor - for pattern
 //
 //---------------------------------------------------------------------------
-CLogicalUpdate::CLogicalUpdate
-	(
-	CMemoryPool *mp
-	)
-	:
-	CLogical(mp),
-	m_ptabdesc(NULL),
-	m_pdrgpcrDelete(NULL),
-	m_pdrgpcrInsert(NULL),
-	m_pcrCtid(NULL),
-	m_pcrSegmentId(NULL),
-	m_pcrTupleOid(NULL)
+CLogicalUpdate::CLogicalUpdate(CMemoryPool *mp)
+	: CLogical(mp),
+	  m_ptabdesc(NULL),
+	  m_pdrgpcrDelete(NULL),
+	  m_pdrgpcrInsert(NULL),
+	  m_pcrCtid(NULL),
+	  m_pcrSegmentId(NULL),
+	  m_pcrTupleOid(NULL)
 {
 	m_fPattern = true;
 }
@@ -53,24 +49,16 @@ CLogicalUpdate::CLogicalUpdate
 //		Ctor
 //
 //---------------------------------------------------------------------------
-CLogicalUpdate::CLogicalUpdate
-	(
-	CMemoryPool *mp,
-	CTableDescriptor *ptabdesc,
-	CColRefArray *pdrgpcrDelete,
-	CColRefArray *pdrgpcrInsert,
-	CColRef *pcrCtid,
-	CColRef *pcrSegmentId, 
-	CColRef *pcrTupleOid
-	)
-	:
-	CLogical(mp),
-	m_ptabdesc(ptabdesc),
-	m_pdrgpcrDelete(pdrgpcrDelete),
-	m_pdrgpcrInsert(pdrgpcrInsert),
-	m_pcrCtid(pcrCtid),
-	m_pcrSegmentId(pcrSegmentId),
-	m_pcrTupleOid(pcrTupleOid)
+CLogicalUpdate::CLogicalUpdate(CMemoryPool *mp, CTableDescriptor *ptabdesc,
+							   CColRefArray *pdrgpcrDelete, CColRefArray *pdrgpcrInsert,
+							   CColRef *pcrCtid, CColRef *pcrSegmentId, CColRef *pcrTupleOid)
+	: CLogical(mp),
+	  m_ptabdesc(ptabdesc),
+	  m_pdrgpcrDelete(pdrgpcrDelete),
+	  m_pdrgpcrInsert(pdrgpcrInsert),
+	  m_pcrCtid(pcrCtid),
+	  m_pcrSegmentId(pcrSegmentId),
+	  m_pcrTupleOid(pcrTupleOid)
 
 {
 	GPOS_ASSERT(NULL != ptabdesc);
@@ -115,11 +103,7 @@ CLogicalUpdate::~CLogicalUpdate()
 //
 //---------------------------------------------------------------------------
 BOOL
-CLogicalUpdate::Matches
-	(
-	COperator *pop
-	)
-	const
+CLogicalUpdate::Matches(COperator *pop) const
 {
 	if (pop->Eopid() != Eopid())
 	{
@@ -128,12 +112,11 @@ CLogicalUpdate::Matches
 
 	CLogicalUpdate *popUpdate = CLogicalUpdate::PopConvert(pop);
 
-	return m_pcrCtid == popUpdate->PcrCtid() &&
-			m_pcrSegmentId == popUpdate->PcrSegmentId() &&
-			m_pcrTupleOid == popUpdate->PcrTupleOid() &&
-			m_ptabdesc->MDId()->Equals(popUpdate->Ptabdesc()->MDId()) &&
-			m_pdrgpcrDelete->Equals(popUpdate->PdrgpcrDelete()) &&
-			m_pdrgpcrInsert->Equals(popUpdate->PdrgpcrInsert());
+	return m_pcrCtid == popUpdate->PcrCtid() && m_pcrSegmentId == popUpdate->PcrSegmentId() &&
+		   m_pcrTupleOid == popUpdate->PcrTupleOid() &&
+		   m_ptabdesc->MDId()->Equals(popUpdate->Ptabdesc()->MDId()) &&
+		   m_pdrgpcrDelete->Equals(popUpdate->PdrgpcrDelete()) &&
+		   m_pdrgpcrInsert->Equals(popUpdate->PdrgpcrInsert());
 }
 
 //---------------------------------------------------------------------------
@@ -165,15 +148,13 @@ CLogicalUpdate::HashValue() const
 //
 //---------------------------------------------------------------------------
 COperator *
-CLogicalUpdate::PopCopyWithRemappedColumns
-	(
-	CMemoryPool *mp,
-	UlongToColRefMap *colref_mapping,
-	BOOL must_exist
-	)
+CLogicalUpdate::PopCopyWithRemappedColumns(CMemoryPool *mp, UlongToColRefMap *colref_mapping,
+										   BOOL must_exist)
 {
-	CColRefArray *pdrgpcrDelete = CUtils::PdrgpcrRemap(mp, m_pdrgpcrDelete, colref_mapping, must_exist);
-	CColRefArray *pdrgpcrInsert = CUtils::PdrgpcrRemap(mp, m_pdrgpcrInsert, colref_mapping, must_exist);
+	CColRefArray *pdrgpcrDelete =
+		CUtils::PdrgpcrRemap(mp, m_pdrgpcrDelete, colref_mapping, must_exist);
+	CColRefArray *pdrgpcrInsert =
+		CUtils::PdrgpcrRemap(mp, m_pdrgpcrInsert, colref_mapping, must_exist);
 	CColRef *pcrCtid = CUtils::PcrRemap(m_pcrCtid, colref_mapping, must_exist);
 	CColRef *pcrSegmentId = CUtils::PcrRemap(m_pcrSegmentId, colref_mapping, must_exist);
 	m_ptabdesc->AddRef();
@@ -183,7 +164,8 @@ CLogicalUpdate::PopCopyWithRemappedColumns
 	{
 		pcrTupleOid = CUtils::PcrRemap(m_pcrTupleOid, colref_mapping, must_exist);
 	}
-	return GPOS_NEW(mp) CLogicalUpdate(mp, m_ptabdesc, pdrgpcrDelete, pdrgpcrInsert, pcrCtid, pcrSegmentId, pcrTupleOid);
+	return GPOS_NEW(mp) CLogicalUpdate(mp, m_ptabdesc, pdrgpcrDelete, pdrgpcrInsert, pcrCtid,
+									   pcrSegmentId, pcrTupleOid);
 }
 
 //---------------------------------------------------------------------------
@@ -195,17 +177,15 @@ CLogicalUpdate::PopCopyWithRemappedColumns
 //
 //---------------------------------------------------------------------------
 CColRefSet *
-CLogicalUpdate::DeriveOutputColumns
-	(
-	CMemoryPool *mp,
-	CExpressionHandle & //exprhdl
-	)
+CLogicalUpdate::DeriveOutputColumns(CMemoryPool *mp,
+									CExpressionHandle &	 //exprhdl
+)
 {
 	CColRefSet *pcrsOutput = GPOS_NEW(mp) CColRefSet(mp);
 	pcrsOutput->Include(m_pdrgpcrInsert);
 	pcrsOutput->Include(m_pcrCtid);
 	pcrsOutput->Include(m_pcrSegmentId);
-	
+
 	if (NULL != m_pcrTupleOid)
 	{
 		pcrsOutput->Include(m_pcrTupleOid);
@@ -222,12 +202,8 @@ CLogicalUpdate::DeriveOutputColumns
 //
 //---------------------------------------------------------------------------
 CKeyCollection *
-CLogicalUpdate::DeriveKeyCollection
-	(
-	CMemoryPool *, // mp
-	CExpressionHandle &exprhdl
-	)
-	const
+CLogicalUpdate::DeriveKeyCollection(CMemoryPool *,	// mp
+									CExpressionHandle &exprhdl) const
 {
 	return PkcDeriveKeysPassThru(exprhdl, 0 /* ulChild */);
 }
@@ -241,12 +217,8 @@ CLogicalUpdate::DeriveKeyCollection
 //
 //---------------------------------------------------------------------------
 CMaxCard
-CLogicalUpdate::DeriveMaxCard
-	(
-	CMemoryPool *, // mp
-	CExpressionHandle &exprhdl
-	)
-	const
+CLogicalUpdate::DeriveMaxCard(CMemoryPool *,  // mp
+							  CExpressionHandle &exprhdl) const
 {
 	// pass on max card of first child
 	return exprhdl.DeriveMaxCard(0);
@@ -261,11 +233,7 @@ CLogicalUpdate::DeriveMaxCard
 //
 //---------------------------------------------------------------------------
 CXformSet *
-CLogicalUpdate::PxfsCandidates
-	(
-	CMemoryPool *mp
-	)
-	const
+CLogicalUpdate::PxfsCandidates(CMemoryPool *mp) const
 {
 	CXformSet *xform_set = GPOS_NEW(mp) CXformSet(mp);
 	(void) xform_set->ExchangeSet(CXform::ExfUpdate2DML);
@@ -281,13 +249,10 @@ CLogicalUpdate::PxfsCandidates
 //
 //---------------------------------------------------------------------------
 IStatistics *
-CLogicalUpdate::PstatsDerive
-	(
-	CMemoryPool *, // mp,
-	CExpressionHandle &exprhdl,
-	IStatisticsArray * // not used
-	)
-	const
+CLogicalUpdate::PstatsDerive(CMemoryPool *,	 // mp,
+							 CExpressionHandle &exprhdl,
+							 IStatisticsArray *	 // not used
+) const
 {
 	return PstatsPassThruOuter(exprhdl);
 }
@@ -301,31 +266,25 @@ CLogicalUpdate::PstatsDerive
 //
 //---------------------------------------------------------------------------
 IOstream &
-CLogicalUpdate::OsPrint
-	(
-	IOstream &os
-	)
-	const
+CLogicalUpdate::OsPrint(IOstream &os) const
 {
 	if (m_fPattern)
 	{
 		return COperator::OsPrint(os);
 	}
 
-	os	<< SzId()
-		<< " (";
+	os << SzId() << " (";
 	m_ptabdesc->Name().OsPrint(os);
 	os << "), Delete Columns: [";
 	CUtils::OsPrintDrgPcr(os, m_pdrgpcrDelete);
-	os	<< "], Insert Columns: [";
+	os << "], Insert Columns: [";
 	CUtils::OsPrintDrgPcr(os, m_pdrgpcrInsert);
-	os	<< "], ";
+	os << "], ";
 	m_pcrCtid->OsPrint(os);
-	os	<< ", ";
+	os << ", ";
 	m_pcrSegmentId->OsPrint(os);
 
 	return os;
 }
 
 // EOF
-

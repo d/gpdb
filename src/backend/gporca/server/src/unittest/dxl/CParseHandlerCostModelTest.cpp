@@ -40,65 +40,66 @@ XERCES_CPP_NAMESPACE_USE
 
 namespace
 {
-	class Fixture
+class Fixture
+{
+private:
+	CAutoMemoryPool m_amp;
+	gpos::CAutoP<CDXLMemoryManager> m_apmm;
+	std::unique_ptr<SAX2XMLReader> m_apxmlreader;
+	gpos::CAutoP<CParseHandlerManager> m_apphm;
+	gpos::CAutoP<CParseHandlerCostModel> m_apphCostModel;
+
+public:
+	Fixture()
+		: m_apmm(GPOS_NEW(Pmp()) CDXLMemoryManager(Pmp())),
+		  m_apxmlreader(XMLReaderFactory::createXMLReader(GetDXLMemoryManager())),
+		  m_apphm(GPOS_NEW(Pmp()) CParseHandlerManager(GetDXLMemoryManager(), Pxmlreader())),
+		  m_apphCostModel(GPOS_NEW(Pmp()) CParseHandlerCostModel(Pmp(), Pphm(), NULL))
 	{
-		private:
-			CAutoMemoryPool m_amp;
-			gpos::CAutoP<CDXLMemoryManager> m_apmm;
-			std::unique_ptr<SAX2XMLReader> m_apxmlreader;
-			gpos::CAutoP<CParseHandlerManager> m_apphm;
-			gpos::CAutoP<CParseHandlerCostModel> m_apphCostModel;
+		m_apphm->ActivateParseHandler(PphCostModel());
+	}
 
-	public:
-			Fixture():
-					m_apmm(GPOS_NEW(Pmp()) CDXLMemoryManager(Pmp())),
-					m_apxmlreader(XMLReaderFactory::createXMLReader(GetDXLMemoryManager())),
-					m_apphm(GPOS_NEW(Pmp()) CParseHandlerManager(GetDXLMemoryManager(), Pxmlreader())),
-					m_apphCostModel(GPOS_NEW(Pmp()) CParseHandlerCostModel(Pmp(), Pphm(), NULL))
-			{
-				m_apphm->ActivateParseHandler(PphCostModel());
-			}
+	CMemoryPool *
+	Pmp() const
+	{
+		return m_amp.Pmp();
+	}
 
-			CMemoryPool *Pmp() const
-			{
-				return m_amp.Pmp();
-			}
+	CDXLMemoryManager *
+	GetDXLMemoryManager()
+	{
+		return m_apmm.Value();
+	}
 
-			CDXLMemoryManager *GetDXLMemoryManager()
-			{
-				return m_apmm.Value();
-			}
+	SAX2XMLReader *
+	Pxmlreader()
+	{
+		return m_apxmlreader.get();
+	}
 
-			SAX2XMLReader *Pxmlreader()
-			{
-				return m_apxmlreader.get();
-			}
+	CParseHandlerManager *
+	Pphm()
+	{
+		return m_apphm.Value();
+	}
 
-			CParseHandlerManager *Pphm()
-			{
-				return m_apphm.Value();
-			}
+	CParseHandlerCostModel *
+	PphCostModel()
+	{
+		return m_apphCostModel.Value();
+	}
 
-			CParseHandlerCostModel *PphCostModel()
-			{
-				return m_apphCostModel.Value();
-			}
+	void
+	Parse(const XMLByte dxl_string[], size_t size)
+	{
+		MemBufInputSource mbis(dxl_string, size, "dxl test", false, GetDXLMemoryManager());
+		Pxmlreader()->parse(mbis);
+	}
+};
+}  // namespace
 
-			void Parse(const XMLByte dxl_string[], size_t size)
-			{
-				MemBufInputSource mbis(
-					dxl_string,
-					size,
-					"dxl test",
-					false,
-					GetDXLMemoryManager()
-				);
-				Pxmlreader()->parse(mbis);
-			}
-	};
-}
-
-static gpos::GPOS_RESULT Eres_ParseCalibratedCostModel()
+static gpos::GPOS_RESULT
+Eres_ParseCalibratedCostModel()
 {
 	const CHAR dxl_filename[] = "../data/dxl/parse_tests/CostModelConfigCalibrated.xml";
 	Fixture fixture;
@@ -109,7 +110,7 @@ static gpos::GPOS_RESULT Eres_ParseCalibratedCostModel()
 
 	CParseHandlerCostModel *pphcm = fixture.PphCostModel();
 
-	fixture.Parse((const XMLByte *)a_szDXL.Rgt(), strlen(a_szDXL.Rgt()));
+	fixture.Parse((const XMLByte *) a_szDXL.Rgt(), strlen(a_szDXL.Rgt()));
 
 	ICostModel *pcm = pphcm->GetCostModel();
 
@@ -124,16 +125,18 @@ static gpos::GPOS_RESULT Eres_ParseCalibratedCostModel()
 	return gpos::GPOS_OK;
 }
 
-static gpos::GPOS_RESULT Eres_SerializeCalibratedCostModel()
+static gpos::GPOS_RESULT
+Eres_SerializeCalibratedCostModel()
 {
 	CAutoMemoryPool amp;
 	CMemoryPool *mp = amp.Pmp();
 
-	const WCHAR *const wszExpectedString = L"<dxl:CostModelConfig CostModelType=\"1\" SegmentsForCosting=\"3\">"
-								   "<dxl:CostParams>"
-								   "<dxl:CostParam Name=\"NLJFactor\" Value=\"1024.000000\" LowerBound=\"1023.000000\" UpperBound=\"1025.000000\"/>"
-								   "</dxl:CostParams>"
-								   "</dxl:CostModelConfig>";
+	const WCHAR *const wszExpectedString =
+		L"<dxl:CostModelConfig CostModelType=\"1\" SegmentsForCosting=\"3\">"
+		"<dxl:CostParams>"
+		"<dxl:CostParam Name=\"NLJFactor\" Value=\"1024.000000\" LowerBound=\"1023.000000\" UpperBound=\"1025.000000\"/>"
+		"</dxl:CostParams>"
+		"</dxl:CostModelConfig>";
 	gpos::CAutoP<CWStringDynamic> apwsExpected(GPOS_NEW(mp) CWStringDynamic(mp, wszExpectedString));
 
 	const ULONG ulSegments = 3;
@@ -152,7 +155,8 @@ static gpos::GPOS_RESULT Eres_SerializeCalibratedCostModel()
 	return gpos::GPOS_OK;
 }
 
-static gpos::GPOS_RESULT Eres_ParseLegacyCostModel()
+static gpos::GPOS_RESULT
+Eres_ParseLegacyCostModel()
 {
 	const CHAR dxl_filename[] = "../data/dxl/parse_tests/CostModelConfigLegacy.xml";
 	Fixture fixture;
@@ -163,7 +167,7 @@ static gpos::GPOS_RESULT Eres_ParseLegacyCostModel()
 
 	CParseHandlerCostModel *pphcm = fixture.PphCostModel();
 
-	fixture.Parse((const XMLByte *)a_szDXL.Rgt(), strlen(a_szDXL.Rgt()));
+	fixture.Parse((const XMLByte *) a_szDXL.Rgt(), strlen(a_szDXL.Rgt()));
 
 	ICostModel *pcm = pphcm->GetCostModel();
 
@@ -176,14 +180,14 @@ static gpos::GPOS_RESULT Eres_ParseLegacyCostModel()
 	return gpos::GPOS_OK;
 }
 
-gpos::GPOS_RESULT CParseHandlerCostModelTest::EresUnittest()
+gpos::GPOS_RESULT
+CParseHandlerCostModelTest::EresUnittest()
 {
-	CUnittest rgut[] =
-			{
-				GPOS_UNITTEST_FUNC(Eres_ParseCalibratedCostModel),
-				GPOS_UNITTEST_FUNC(Eres_SerializeCalibratedCostModel),
-				GPOS_UNITTEST_FUNC(Eres_ParseLegacyCostModel),
-			};
+	CUnittest rgut[] = {
+		GPOS_UNITTEST_FUNC(Eres_ParseCalibratedCostModel),
+		GPOS_UNITTEST_FUNC(Eres_SerializeCalibratedCostModel),
+		GPOS_UNITTEST_FUNC(Eres_ParseLegacyCostModel),
+	};
 
 	return CUnittest::EresExecute(rgut, GPOS_ARRAY_SIZE(rgut));
 }

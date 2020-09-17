@@ -27,18 +27,12 @@ using namespace gpopt;
 //		Constructor
 //
 //---------------------------------------------------------------------------
-CScalarSubquery::CScalarSubquery
-	(
-	CMemoryPool *mp,
-	const CColRef *colref,
-	BOOL fGeneratedByExist,
-	BOOL fGeneratedByQuantified
-	)
-	: 
-	CScalar(mp),
-	m_pcr(colref),
-	m_fGeneratedByExist(fGeneratedByExist),
-	m_fGeneratedByQuantified(fGeneratedByQuantified)
+CScalarSubquery::CScalarSubquery(CMemoryPool *mp, const CColRef *colref, BOOL fGeneratedByExist,
+								 BOOL fGeneratedByQuantified)
+	: CScalar(mp),
+	  m_pcr(colref),
+	  m_fGeneratedByExist(fGeneratedByExist),
+	  m_fGeneratedByQuantified(fGeneratedByQuantified)
 {
 	GPOS_ASSERT(NULL != colref);
 	GPOS_ASSERT(!(fGeneratedByExist && fGeneratedByQuantified));
@@ -81,11 +75,10 @@ CScalarSubquery::MdidType() const
 ULONG
 CScalarSubquery::HashValue() const
 {
-	return gpos::CombineHashes(COperator::HashValue(), 
-								gpos::HashPtr<CColRef>(m_pcr));
+	return gpos::CombineHashes(COperator::HashValue(), gpos::HashPtr<CColRef>(m_pcr));
 }
 
-	
+
 //---------------------------------------------------------------------------
 //	@function:
 //		CScalarSubquery::Matches
@@ -95,22 +88,18 @@ CScalarSubquery::HashValue() const
 //
 //---------------------------------------------------------------------------
 BOOL
-CScalarSubquery::Matches
-	(
-	COperator *pop
-	)
-	const
+CScalarSubquery::Matches(COperator *pop) const
 {
 	if (pop->Eopid() == Eopid())
 	{
 		CScalarSubquery *popScalarSubquery = CScalarSubquery::PopConvert(pop);
-		
+
 		// match if computed columns are identical
 		return popScalarSubquery->Pcr() == m_pcr &&
-				popScalarSubquery->FGeneratedByQuantified() == m_fGeneratedByQuantified &&
-				popScalarSubquery->FGeneratedByExist() == m_fGeneratedByExist;
+			   popScalarSubquery->FGeneratedByQuantified() == m_fGeneratedByQuantified &&
+			   popScalarSubquery->FGeneratedByExist() == m_fGeneratedByExist;
 	}
-	
+
 	return false;
 }
 
@@ -124,12 +113,8 @@ CScalarSubquery::Matches
 //
 //---------------------------------------------------------------------------
 COperator *
-CScalarSubquery::PopCopyWithRemappedColumns
-	(
-	CMemoryPool *mp,
-	UlongToColRefMap *colref_mapping,
-	BOOL must_exist
-	)
+CScalarSubquery::PopCopyWithRemappedColumns(CMemoryPool *mp, UlongToColRefMap *colref_mapping,
+											BOOL must_exist)
 {
 	CColRef *colref = CUtils::PcrRemap(m_pcr, colref_mapping, must_exist);
 
@@ -146,11 +131,7 @@ CScalarSubquery::PopCopyWithRemappedColumns
 //
 //---------------------------------------------------------------------------
 CColRefSet *
-CScalarSubquery::PcrsUsed
-	(
-	CMemoryPool *mp,
-	CExpressionHandle &exprhdl
-	)
+CScalarSubquery::PcrsUsed(CMemoryPool *mp, CExpressionHandle &exprhdl)
 {
 	GPOS_ASSERT(1 == exprhdl.Arity());
 
@@ -161,7 +142,7 @@ CScalarSubquery::PcrsUsed
 	if (!pcrsChildOutput->FMember(m_pcr))
 	{
 		// subquery column is not produced by relational child, add it to used columns
-		 pcrs->Include(m_pcr);
+		pcrs->Include(m_pcr);
 	}
 
 	return pcrs;
@@ -176,12 +157,8 @@ CScalarSubquery::PcrsUsed
 //
 //---------------------------------------------------------------------------
 CPartInfo *
-CScalarSubquery::PpartinfoDerive
-	(
-	CMemoryPool *, // mp, 
-	CExpressionHandle &exprhdl
-	)
-	const
+CScalarSubquery::PpartinfoDerive(CMemoryPool *,	 // mp,
+								 CExpressionHandle &exprhdl) const
 {
 	CPartInfo *ppartinfoChild = exprhdl.DerivePartitionInfo(0);
 	GPOS_ASSERT(NULL != ppartinfoChild);
@@ -198,16 +175,11 @@ CScalarSubquery::PpartinfoDerive
 //
 //---------------------------------------------------------------------------
 IOstream &
-CScalarSubquery::OsPrint
-	(
-	IOstream &os
-	)
-	const
+CScalarSubquery::OsPrint(IOstream &os) const
 {
-	os	<< SzId() 
-		<< "[";
+	os << SzId() << "[";
 	m_pcr->OsPrint(os);
-	os	<< "]";
+	os << "]";
 
 	if (m_fGeneratedByExist)
 	{
@@ -222,4 +194,3 @@ CScalarSubquery::OsPrint
 
 
 // EOF
-

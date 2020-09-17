@@ -14,7 +14,7 @@
 #include "gpos/string/CWString.h"
 #include "gpos/task/IWorker.h"
 
-#define GPOS_STACK_DESCR_TRACE_BUF   (4096)
+#define GPOS_STACK_DESCR_TRACE_BUF (4096)
 
 using namespace gpos;
 
@@ -27,10 +27,7 @@ using namespace gpos;
 //
 //---------------------------------------------------------------------------
 void
-CStackDescriptor::BackTrace
-	(
-	ULONG top_frames_to_skip
-	)
+CStackDescriptor::BackTrace(ULONG top_frames_to_skip)
 {
 	// get base pointer of current frame
 	ULONG_PTR current_frame;
@@ -40,7 +37,7 @@ CStackDescriptor::BackTrace
 	Reset();
 
 	// pointer to next frame in stack
-	void **next_frame = (void**)current_frame;
+	void **next_frame = (void **) current_frame;
 
 	// get stack start address
 	ULONG_PTR stack_start = 0;
@@ -62,7 +59,7 @@ CStackDescriptor::BackTrace
 			(ULONG_PTR) *next_frame < (ULONG_PTR) next_frame)
 		{
 			break;
-	 	}
+		}
 
 		// skip top frames
 		if (0 < top_frames_to_skip)
@@ -72,12 +69,12 @@ CStackDescriptor::BackTrace
 		else
 		{
 			// get return address (one above the base pointer)
-			ULONG_PTR *frame_address = (ULONG_PTR*)(next_frame + 1);
+			ULONG_PTR *frame_address = (ULONG_PTR *) (next_frame + 1);
 			m_array_of_addresses[m_depth++] = (void *) *frame_address;
 		}
 
 		// move to next frame
-		next_frame = (void**)*next_frame;
+		next_frame = (void **) *next_frame;
 	}
 }
 
@@ -90,17 +87,10 @@ CStackDescriptor::BackTrace
 //
 //---------------------------------------------------------------------------
 void
-CStackDescriptor::AppendSymbolInfo
-	(
-	CWString *ws,
-	CHAR *demangling_symbol_buffer,
-	SIZE_T size,
-	const DL_INFO &symbol_info,
-	ULONG index
-	)
-	const
+CStackDescriptor::AppendSymbolInfo(CWString *ws, CHAR *demangling_symbol_buffer, SIZE_T size,
+								   const DL_INFO &symbol_info, ULONG index) const
 {
-	const CHAR* symbol_name = demangling_symbol_buffer;
+	const CHAR *symbol_name = demangling_symbol_buffer;
 
 	// resolve symbol name
 	if (symbol_info.dli_sname)
@@ -109,9 +99,10 @@ CStackDescriptor::AppendSymbolInfo
 		symbol_name = symbol_info.dli_sname;
 
 		// demangle C++ symbol
-		CHAR *demangled_symbol = clib::Demangle(symbol_name, demangling_symbol_buffer, &size, &status);
+		CHAR *demangled_symbol =
+			clib::Demangle(symbol_name, demangling_symbol_buffer, &size, &status);
 		GPOS_ASSERT(size <= GPOS_STACK_SYMBOL_SIZE);
-		
+
 		if (0 == status)
 		{
 			// skip args and template symbol_info
@@ -133,15 +124,14 @@ CStackDescriptor::AppendSymbolInfo
 	}
 
 	// format symbol symbol_info
-	ws->AppendFormat
-		(
+	ws->AppendFormat(
 		GPOS_WSZ_LIT("%-4d 0x%016lx %s + %lu\n"),
-		index + 1,										// frame no.
-		(long unsigned int) m_array_of_addresses[index],		// current address in frame
-		symbol_name,										// symbol name
+		index + 1,										  // frame no.
+		(long unsigned int) m_array_of_addresses[index],  // current address in frame
+		symbol_name,									  // symbol name
 		(long unsigned int) m_array_of_addresses[index] - (ULONG_PTR) symbol_info.dli_saddr
-														// offset from frame start
-		);
+		// offset from frame start
+	);
 }
 
 
@@ -154,12 +144,7 @@ CStackDescriptor::AppendSymbolInfo
 //
 //---------------------------------------------------------------------------
 void
-CStackDescriptor::AppendTrace
-	(
-	CWString *ws,
-	ULONG depth
-	)
-	const
+CStackDescriptor::AppendTrace(CWString *ws, ULONG depth) const
 {
 	GPOS_ASSERT(GPOS_STACK_TRACE_DEPTH >= m_depth && "Stack exceeds maximum depth");
 
@@ -169,7 +154,7 @@ CStackDescriptor::AppendTrace
 
 	// buffer for symbol demangling
 	CHAR demangling_symbol_buffer[GPOS_STACK_SYMBOL_SIZE];
-	
+
 	// print symbol_info for frames in stack
 	for (ULONG i = 0; i < m_depth && i < depth; i++)
 	{
@@ -191,12 +176,7 @@ CStackDescriptor::AppendTrace
 //
 //---------------------------------------------------------------------------
 void
-CStackDescriptor::AppendTrace
-	(
-	IOstream &os,
-	ULONG depth
-	)
-	const
+CStackDescriptor::AppendTrace(IOstream &os, ULONG depth) const
 {
 	WCHAR wsz[GPOS_STACK_DESCR_TRACE_BUF];
 	CWStringStatic str(wsz, GPOS_ARRAY_SIZE(wsz));
@@ -220,12 +200,8 @@ CStackDescriptor::HashValue() const
 	GPOS_ASSERT(0 < m_depth && "No stack to hash");
 	GPOS_ASSERT(GPOS_STACK_TRACE_DEPTH >= m_depth && "Stack exceeds maximum depth");
 
-	return gpos::HashByteArray
-				(
-				(BYTE *) m_array_of_addresses,
-				m_depth * GPOS_SIZEOF(m_array_of_addresses[0])
-				);
+	return gpos::HashByteArray((BYTE *) m_array_of_addresses,
+							   m_depth * GPOS_SIZEOF(m_array_of_addresses[0]));
 }
 
 // EOF
-

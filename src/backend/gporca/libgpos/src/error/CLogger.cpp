@@ -29,24 +29,13 @@ using namespace gpos;
 //		Ctor
 //
 //---------------------------------------------------------------------------
-CLogger::CLogger
-	(
-	ErrorInfoLevel info_level
-	)
-	:
-	ILogger(),
-	m_entry_wrapper
-		(
-		m_entry,
-		GPOS_ARRAY_SIZE(m_entry)
-		),
-	m_msg_wrapper
-		(
-		m_msg,
-		GPOS_ARRAY_SIZE(m_msg)
-		),
-	m_info_level(info_level)
-{}
+CLogger::CLogger(ErrorInfoLevel info_level)
+	: ILogger(),
+	  m_entry_wrapper(m_entry, GPOS_ARRAY_SIZE(m_entry)),
+	  m_msg_wrapper(m_msg, GPOS_ARRAY_SIZE(m_msg)),
+	  m_info_level(info_level)
+{
+}
 
 
 //---------------------------------------------------------------------------
@@ -58,7 +47,8 @@ CLogger::CLogger
 //
 //---------------------------------------------------------------------------
 CLogger::~CLogger()
-{}
+{
+}
 
 
 //---------------------------------------------------------------------------
@@ -70,13 +60,7 @@ CLogger::~CLogger()
 //
 //---------------------------------------------------------------------------
 void
-CLogger::Log
-	(
-	const WCHAR *msg,
-	ULONG severity,
-	const CHAR *filename,
-	ULONG line
-	)
+CLogger::Log(const WCHAR *msg, ULONG severity, const CHAR *filename, ULONG line)
 {
 	// format log message
 	Format(msg, severity, filename, line);
@@ -134,13 +118,10 @@ CLogger::Log
 //
 //---------------------------------------------------------------------------
 void
-CLogger::Format
-	(
-	const WCHAR *msg,
-	ULONG severity,
-	const CHAR *, // filename
-	ULONG // line
-	)
+CLogger::Format(const WCHAR *msg, ULONG severity,
+				const CHAR *,  // filename
+				ULONG		   // line
+)
 {
 	m_entry_wrapper.Reset();
 	m_msg_wrapper.Reset();
@@ -157,13 +138,9 @@ CLogger::Format
 		AppendDate();
 
 		// append thread id and severity
-		m_entry_wrapper.AppendFormat
-			(
-			GPOS_WSZ_LIT(",THD%03d,%s,\"%ls\",\n"),
-			0, //thread id
-			sev,
-			m_msg_wrapper.GetBuffer()
-			);
+		m_entry_wrapper.AppendFormat(GPOS_WSZ_LIT(",THD%03d,%s,\"%ls\",\n"),
+									 0,	 //thread id
+									 sev, m_msg_wrapper.GetBuffer());
 	}
 	else
 	{
@@ -187,26 +164,15 @@ CLogger::AppendDate()
 	TIME tm;
 
 	// get local time
-	syslib::GetTimeOfDay(&tv, NULL/*timezone*/);
-	TIME *t GPOS_ASSERTS_ONLY =
-	clib::Localtime_r(&tv.tv_sec, &tm);
+	syslib::GetTimeOfDay(&tv, NULL /*timezone*/);
+	TIME *t GPOS_ASSERTS_ONLY = clib::Localtime_r(&tv.tv_sec, &tm);
 
 	GPOS_ASSERT(NULL != t && "Failed to get local time");
 
 	// format: YYYY-MM-DD HH-MM-SS-UUUUUU TZ
-	m_entry_wrapper.AppendFormat
-		(
-		GPOS_WSZ_LIT("%04d-%02d-%02d %02d:%02d:%02d:%06d %s"),
-		tm.tm_year + 1900,
-		tm.tm_mon + 1,
-		tm.tm_mday,
-		tm.tm_hour,
-		tm.tm_min,
-		tm.tm_sec,
-		tv.tv_usec,
-		tm.tm_zone
-		)
-		;
+	m_entry_wrapper.AppendFormat(GPOS_WSZ_LIT("%04d-%02d-%02d %02d:%02d:%02d:%06d %s"),
+								 tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday, tm.tm_hour,
+								 tm.tm_min, tm.tm_sec, tv.tv_usec, tm.tm_zone);
 }
 
 
@@ -235,12 +201,8 @@ CLogger::ReportFailure()
 	}
 
 	// send generic failure message
-	CLoggerSyslog::Alert
-		(
-		GPOS_WSZ_LIT("Log write failure, check disc space and filesystem integrity")
-		)
-		;
+	CLoggerSyslog::Alert(
+		GPOS_WSZ_LIT("Log write failure, check disc space and filesystem integrity"));
 }
 
 // EOF
-

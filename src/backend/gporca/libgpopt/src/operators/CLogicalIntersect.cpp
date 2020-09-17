@@ -28,12 +28,7 @@ using namespace gpopt;
 //		Ctor - for pattern
 //
 //---------------------------------------------------------------------------
-CLogicalIntersect::CLogicalIntersect
-	(
-	CMemoryPool *mp
-	)
-	:
-	CLogicalSetOp(mp)
+CLogicalIntersect::CLogicalIntersect(CMemoryPool *mp) : CLogicalSetOp(mp)
 {
 	m_fPattern = true;
 }
@@ -46,14 +41,9 @@ CLogicalIntersect::CLogicalIntersect
 //		Ctor
 //
 //---------------------------------------------------------------------------
-CLogicalIntersect::CLogicalIntersect
-	(
-	CMemoryPool *mp,
-	CColRefArray *pdrgpcrOutput,
-	CColRef2dArray *pdrgpdrgpcrInput
-	)
-	:
-	CLogicalSetOp(mp, pdrgpcrOutput, pdrgpdrgpcrInput)
+CLogicalIntersect::CLogicalIntersect(CMemoryPool *mp, CColRefArray *pdrgpcrOutput,
+									 CColRef2dArray *pdrgpdrgpcrInput)
+	: CLogicalSetOp(mp, pdrgpcrOutput, pdrgpdrgpcrInput)
 {
 }
 
@@ -78,12 +68,8 @@ CLogicalIntersect::~CLogicalIntersect()
 //
 //---------------------------------------------------------------------------
 CMaxCard
-CLogicalIntersect::DeriveMaxCard
-	(
-	CMemoryPool *, // mp
-	CExpressionHandle &exprhdl
-	)
-	const
+CLogicalIntersect::DeriveMaxCard(CMemoryPool *,	 // mp
+								 CExpressionHandle &exprhdl) const
 {
 	// contradictions produce no rows
 	if (exprhdl.DerivePropertyConstraint()->FContradiction())
@@ -111,15 +97,13 @@ CLogicalIntersect::DeriveMaxCard
 //
 //---------------------------------------------------------------------------
 COperator *
-CLogicalIntersect::PopCopyWithRemappedColumns
-	(
-	CMemoryPool *mp,
-	UlongToColRefMap *colref_mapping,
-	BOOL must_exist
-	)
+CLogicalIntersect::PopCopyWithRemappedColumns(CMemoryPool *mp, UlongToColRefMap *colref_mapping,
+											  BOOL must_exist)
 {
-	CColRefArray *pdrgpcrOutput = CUtils::PdrgpcrRemap(mp, m_pdrgpcrOutput, colref_mapping, must_exist);
-	CColRef2dArray *pdrgpdrgpcrInput = CUtils::PdrgpdrgpcrRemap(mp, m_pdrgpdrgpcrInput, colref_mapping, must_exist);
+	CColRefArray *pdrgpcrOutput =
+		CUtils::PdrgpcrRemap(mp, m_pdrgpcrOutput, colref_mapping, must_exist);
+	CColRef2dArray *pdrgpdrgpcrInput =
+		CUtils::PdrgpdrgpcrRemap(mp, m_pdrgpdrgpcrInput, colref_mapping, must_exist);
 
 	return GPOS_NEW(mp) CLogicalIntersect(mp, pdrgpcrOutput, pdrgpdrgpcrInput);
 }
@@ -134,11 +118,7 @@ CLogicalIntersect::PopCopyWithRemappedColumns
 //
 //---------------------------------------------------------------------------
 CXformSet *
-CLogicalIntersect::PxfsCandidates
-	(
-	CMemoryPool *mp
-	)
-	const
+CLogicalIntersect::PxfsCandidates(CMemoryPool *mp) const
 {
 	CXformSet *xform_set = GPOS_NEW(mp) CXformSet(mp);
 	(void) xform_set->ExchangeSet(CXform::ExfIntersect2Join);
@@ -154,13 +134,9 @@ CLogicalIntersect::PxfsCandidates
 //
 //---------------------------------------------------------------------------
 IStatistics *
-CLogicalIntersect::PstatsDerive
-	(
-	CMemoryPool *mp,
-	CExpressionHandle &exprhdl,
-	IStatisticsArray * // not used
-	)
-	const
+CLogicalIntersect::PstatsDerive(CMemoryPool *mp, CExpressionHandle &exprhdl,
+								IStatisticsArray *	// not used
+) const
 {
 	GPOS_ASSERT(Esp(exprhdl) > EspNone);
 
@@ -176,19 +152,17 @@ CLogicalIntersect::PstatsDerive
 	}
 
 	IStatistics *pstatsIntersectAll =
-			CLogicalIntersectAll::PstatsDerive(mp, exprhdl, m_pdrgpdrgpcrInput, output_colrefsets);
+		CLogicalIntersectAll::PstatsDerive(mp, exprhdl, m_pdrgpdrgpcrInput, output_colrefsets);
 
 	// computed columns
 	ULongPtrArray *pdrgpulComputedCols = GPOS_NEW(mp) ULongPtrArray(mp);
 
-	IStatistics *stats = CLogicalGbAgg::PstatsDerive
-											(
-											mp,
-											pstatsIntersectAll,
-											(*m_pdrgpdrgpcrInput)[0], // we group by the columns of the first child
-											pdrgpulComputedCols, // no computed columns for set ops
-											NULL // no keys, use all grouping cols
-											);
+	IStatistics *stats = CLogicalGbAgg::PstatsDerive(
+		mp, pstatsIntersectAll,
+		(*m_pdrgpdrgpcrInput)[0],  // we group by the columns of the first child
+		pdrgpulComputedCols,	   // no computed columns for set ops
+		NULL					   // no keys, use all grouping cols
+	);
 	// clean up
 	pdrgpulComputedCols->Release();
 	pstatsIntersectAll->Release();

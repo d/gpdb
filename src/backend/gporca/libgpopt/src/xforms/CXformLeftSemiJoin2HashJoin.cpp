@@ -29,24 +29,16 @@ using namespace gpopt;
 //		ctor
 //
 //---------------------------------------------------------------------------
-CXformLeftSemiJoin2HashJoin::CXformLeftSemiJoin2HashJoin
-	(
-	CMemoryPool *mp
-	)
-	:
-	// pattern
-	CXformImplementation
-		(
-		GPOS_NEW(mp) CExpression
-					(
-					mp,
-					GPOS_NEW(mp) CLogicalLeftSemiJoin(mp),
-					GPOS_NEW(mp) CExpression(mp, GPOS_NEW(mp) CPatternLeaf(mp)), // left child
-					GPOS_NEW(mp) CExpression(mp, GPOS_NEW(mp) CPatternLeaf(mp)), // right child
-					GPOS_NEW(mp) CExpression(mp, GPOS_NEW(mp) CPatternTree(mp))  // predicate
-					)
-		)
-{}
+CXformLeftSemiJoin2HashJoin::CXformLeftSemiJoin2HashJoin(CMemoryPool *mp)
+	:  // pattern
+	  CXformImplementation(GPOS_NEW(mp) CExpression(
+		  mp, GPOS_NEW(mp) CLogicalLeftSemiJoin(mp),
+		  GPOS_NEW(mp) CExpression(mp, GPOS_NEW(mp) CPatternLeaf(mp)),	// left child
+		  GPOS_NEW(mp) CExpression(mp, GPOS_NEW(mp) CPatternLeaf(mp)),	// right child
+		  GPOS_NEW(mp) CExpression(mp, GPOS_NEW(mp) CPatternTree(mp))	// predicate
+		  ))
+{
+}
 
 
 //---------------------------------------------------------------------------
@@ -58,11 +50,7 @@ CXformLeftSemiJoin2HashJoin::CXformLeftSemiJoin2HashJoin
 //
 //---------------------------------------------------------------------------
 CXform::EXformPromise
-CXformLeftSemiJoin2HashJoin::Exfp
-	(
-	CExpressionHandle &exprhdl
-	)
-	const
+CXformLeftSemiJoin2HashJoin::Exfp(CExpressionHandle &exprhdl) const
 {
 	return CXformUtils::ExfpLogicalJoin2PhysicalJoin(exprhdl);
 }
@@ -77,13 +65,8 @@ CXformLeftSemiJoin2HashJoin::Exfp
 //
 //---------------------------------------------------------------------------
 void
-CXformLeftSemiJoin2HashJoin::Transform
-	(
-	CXformContext *pxfctxt,
-	CXformResult *pxfres,
-	CExpression *pexpr
-	)
-	const
+CXformLeftSemiJoin2HashJoin::Transform(CXformContext *pxfctxt, CXformResult *pxfres,
+									   CExpression *pexpr) const
 {
 	GPOS_ASSERT(NULL != pxfctxt);
 	GPOS_ASSERT(FPromising(pxfctxt->Pmp(), this, pexpr));

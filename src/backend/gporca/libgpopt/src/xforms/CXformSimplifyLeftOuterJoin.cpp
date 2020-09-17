@@ -30,24 +30,17 @@ using namespace gpopt;
 //		Ctor
 //
 //---------------------------------------------------------------------------
-CXformSimplifyLeftOuterJoin::CXformSimplifyLeftOuterJoin
-	(
-	CMemoryPool *mp
-	)
-	:
-	CXformExploration
-		(
-		 // pattern
-		GPOS_NEW(mp) CExpression
-					(
-					mp,
-					GPOS_NEW(mp) CLogicalLeftOuterJoin(mp),
-					GPOS_NEW(mp) CExpression(mp, GPOS_NEW(mp) CPatternLeaf(mp)), // left child
-					GPOS_NEW(mp) CExpression(mp, GPOS_NEW(mp) CPatternLeaf(mp)),  // right child
-					GPOS_NEW(mp) CExpression(mp, GPOS_NEW(mp) CPatternTree(mp))  // predicate tree
-					)
-		)
-{}
+CXformSimplifyLeftOuterJoin::CXformSimplifyLeftOuterJoin(CMemoryPool *mp)
+	: CXformExploration(
+		  // pattern
+		  GPOS_NEW(mp) CExpression(
+			  mp, GPOS_NEW(mp) CLogicalLeftOuterJoin(mp),
+			  GPOS_NEW(mp) CExpression(mp, GPOS_NEW(mp) CPatternLeaf(mp)),	// left child
+			  GPOS_NEW(mp) CExpression(mp, GPOS_NEW(mp) CPatternLeaf(mp)),	// right child
+			  GPOS_NEW(mp) CExpression(mp, GPOS_NEW(mp) CPatternTree(mp))	// predicate tree
+			  ))
+{
+}
 
 
 //---------------------------------------------------------------------------
@@ -59,11 +52,7 @@ CXformSimplifyLeftOuterJoin::CXformSimplifyLeftOuterJoin
 //
 //---------------------------------------------------------------------------
 CXform::EXformPromise
-CXformSimplifyLeftOuterJoin::Exfp
-	(
-	CExpressionHandle &exprhdl
-	)
-	const
+CXformSimplifyLeftOuterJoin::Exfp(CExpressionHandle &exprhdl) const
 {
 	CExpression *pexprScalar = exprhdl.PexprScalarExactChild(2 /*child_index*/);
 	if (NULL != pexprScalar && CUtils::FScalarConstFalse(pexprScalar))
@@ -85,13 +74,8 @@ CXformSimplifyLeftOuterJoin::Exfp
 //
 //---------------------------------------------------------------------------
 void
-CXformSimplifyLeftOuterJoin::Transform
-	(
-	CXformContext *pxfctxt,
-	CXformResult *pxfres,
-	CExpression *pexpr
-	)
-	const
+CXformSimplifyLeftOuterJoin::Transform(CXformContext *pxfctxt, CXformResult *pxfres,
+									   CExpression *pexpr) const
 {
 	GPOS_ASSERT(NULL != pxfctxt);
 	GPOS_ASSERT(NULL != pxfres);
@@ -116,16 +100,10 @@ CXformSimplifyLeftOuterJoin::Transform
 	CColRefArray *colref_array = pexprInner->DeriveOutputColumns()->Pdrgpcr(mp);
 
 	// generate empty constant table with the same columns
-	COperator *popCTG = GPOS_NEW(mp) CLogicalConstTableGet(mp, colref_array, GPOS_NEW(mp) IDatum2dArray(mp));
-	pexprResult =
-		GPOS_NEW(mp) CExpression
-			(
-			mp,
-			GPOS_NEW(mp) CLogicalLeftOuterJoin(mp),
-			pexprOuter,
-			GPOS_NEW(mp) CExpression(mp, popCTG),
-			pexprScalar
-			);
+	COperator *popCTG =
+		GPOS_NEW(mp) CLogicalConstTableGet(mp, colref_array, GPOS_NEW(mp) IDatum2dArray(mp));
+	pexprResult = GPOS_NEW(mp) CExpression(mp, GPOS_NEW(mp) CLogicalLeftOuterJoin(mp), pexprOuter,
+										   GPOS_NEW(mp) CExpression(mp, popCTG), pexprScalar);
 
 	pxfres->Add(pexprResult);
 }

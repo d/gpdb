@@ -9,7 +9,7 @@
 //		Unit tests for CConstExprEvaluatorDefault
 //
 //	@owner:
-//		
+//
 //
 //	@test:
 //
@@ -53,13 +53,8 @@ CConstExprEvaluatorDefaultTest::EresUnittest()
 	CMDAccessor mda(mp, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
 
 	// install opt context in TLS
-	CAutoOptCtxt aoc
-					(
-					mp,
-					&mda,
-					NULL, /* pceeval */
-					CTestUtils::GetCostModel(mp)
-					);
+	CAutoOptCtxt aoc(mp, &mda, NULL, /* pceeval */
+					 CTestUtils::GetCostModel(mp));
 
 	// Test evaluation of an integer constant
 	{
@@ -71,7 +66,7 @@ CConstExprEvaluatorDefaultTest::EresUnittest()
 		CScalarConst *pscalarconstUlResult = CScalarConst::PopConvert(pexprUlResult->Pop());
 		GPOS_ASSERT(pscalarconstUl->Matches(pscalarconstUlResult));
 		pexprUlResult->Release();
-#endif // GPOS_DEBUG
+#endif	// GPOS_DEBUG
 		pexprUl->Release();
 	}
 
@@ -85,7 +80,7 @@ CConstExprEvaluatorDefaultTest::EresUnittest()
 		CScalarNullTest *pscalarnulltest = CScalarNullTest::PopConvert(pexprIsNull->Pop());
 		GPOS_ASSERT(pscalarnulltest->Matches(pexprResult->Pop()));
 		pexprResult->Release();
-#endif // GPOS_DEBUG
+#endif	// GPOS_DEBUG
 		pexprIsNull->Release();
 	}
 	pceevaldefault->Release();

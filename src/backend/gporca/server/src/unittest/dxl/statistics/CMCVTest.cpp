@@ -33,8 +33,7 @@
 using namespace gpopt;
 
 // DXL files
-const CHAR *
-szMCVSortExpectedFileName = "../data/dxl/statistics/MCV-Sort-Output.xml";
+const CHAR *szMCVSortExpectedFileName = "../data/dxl/statistics/MCV-Sort-Output.xml";
 
 
 // unittest for statistics objects
@@ -42,11 +41,10 @@ GPOS_RESULT
 CMCVTest::EresUnittest()
 {
 	// tests that use shared optimization context
-	CUnittest rgutSharedOptCtxt[] =
-		{
+	CUnittest rgutSharedOptCtxt[] = {
 		GPOS_UNITTEST_FUNC(CMCVTest::EresUnittest_SortInt4MCVs),
 		GPOS_UNITTEST_FUNC(CMCVTest::EresUnittest_MergeHistMCV),
-		};
+	};
 
 	CAutoMemoryPool amp;
 	CMemoryPool *mp = amp.Pmp();
@@ -97,14 +95,8 @@ CMCVTest::EresUnittest_SortInt4MCVs()
 	pdrgpdFreq->Append(GPOS_NEW(mp) CDouble(0.1));
 
 	// exercise MCV sorting function
-	CHistogram *phistMCV = CStatisticsUtils::TransformMCVToHist
-								(
-								mp,
-								pmdtype,
-								pdrgpdatumMCV,
-								pdrgpdFreq,
-								pdrgpdatumMCV->Size()
-								);
+	CHistogram *phistMCV = CStatisticsUtils::TransformMCVToHist(mp, pmdtype, pdrgpdatumMCV,
+																pdrgpdFreq, pdrgpdatumMCV->Size());
 
 	// create hash map from colid -> histogram
 	UlongToHistogramMap *col_histogram_mapping = GPOS_NEW(mp) UlongToHistogramMap(mp);
@@ -116,21 +108,17 @@ CMCVTest::EresUnittest_SortInt4MCVs()
 	UlongToDoubleMap *colid_width_mapping = GPOS_NEW(mp) UlongToDoubleMap(mp);
 	colid_width_mapping->Insert(GPOS_NEW(mp) ULONG(1), GPOS_NEW(mp) CDouble(4.0));
 
-	CStatistics *stats = GPOS_NEW(mp) CStatistics
-									(
-									mp,
-									col_histogram_mapping,
-									colid_width_mapping,
-									1000.0 /* rows */,
-									false /* is_empty */
-									);
+	CStatistics *stats = GPOS_NEW(mp) CStatistics(
+		mp, col_histogram_mapping, colid_width_mapping, 1000.0 /* rows */, false /* is_empty */
+	);
 
 	// put stats object in an array in order to serialize
 	CStatisticsArray *pdrgpstats = GPOS_NEW(mp) CStatisticsArray(mp);
 	pdrgpstats->Append(stats);
 
 	// serialize stats object
-	CWStringDynamic *pstrOutput = CDXLUtils::SerializeStatistics(mp, md_accessor, pdrgpstats, true, true);
+	CWStringDynamic *pstrOutput =
+		CDXLUtils::SerializeStatistics(mp, md_accessor, pdrgpstats, true, true);
 	GPOS_TRACE(pstrOutput->GetBuffer());
 
 	// get expected output
@@ -140,13 +128,9 @@ CMCVTest::EresUnittest_SortInt4MCVs()
 	CWStringDynamic dstrExpected(mp);
 	dstrExpected.AppendFormat(GPOS_WSZ_LIT("%s"), szDXLExpected);
 
-	GPOS_RESULT eres = CTestUtils::EresCompare
-								(
-								oss,
-								pstrOutput,
-								&dstrExpected,
-								false // mismatch will not be ignored
-								);
+	GPOS_RESULT eres = CTestUtils::EresCompare(oss, pstrOutput, &dstrExpected,
+											   false  // mismatch will not be ignored
+	);
 
 	// cleanup
 	GPOS_DELETE(pstrOutput);
@@ -166,20 +150,13 @@ CMCVTest::EresUnittest_SortInt4MCVs()
 GPOS_RESULT
 CMCVTest::EresUnittest_MergeHistMCV()
 {
-	SMergeTestElem rgMergeTestElem[] =
-	{
-		{
-		"../data/dxl/statistics/Merge-Input-MCV-Int.xml",
-		"../data/dxl/statistics/Merge-Input-Histogram-Int.xml",
-		"../data/dxl/statistics/Merge-Output-Int.xml"
-		},
+	SMergeTestElem rgMergeTestElem[] = {{"../data/dxl/statistics/Merge-Input-MCV-Int.xml",
+										 "../data/dxl/statistics/Merge-Input-Histogram-Int.xml",
+										 "../data/dxl/statistics/Merge-Output-Int.xml"},
 
-		{
-		"../data/dxl/statistics/Merge-Input-MCV-Numeric.xml",
-		"../data/dxl/statistics/Merge-Input-Histogram-Numeric.xml",
-		"../data/dxl/statistics/Merge-Output-Numeric.xml"
-		}
-	};
+										{"../data/dxl/statistics/Merge-Input-MCV-Numeric.xml",
+										 "../data/dxl/statistics/Merge-Input-Histogram-Numeric.xml",
+										 "../data/dxl/statistics/Merge-Output-Numeric.xml"}};
 
 	// create memory pool
 	CAutoMemoryPool amp;
@@ -198,22 +175,28 @@ CMCVTest::EresUnittest_MergeHistMCV()
 		CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
 
 		// parse the stats objects
-		CDXLStatsDerivedRelationArray *pdrgpdxlstatsderrelMCV = CDXLUtils::ParseDXLToStatsDerivedRelArray(mp, szDXLInputMCV, NULL);
-		CDXLStatsDerivedRelationArray *pdrgpdxlstatsderrelHist = CDXLUtils::ParseDXLToStatsDerivedRelArray(mp, szDXLInputHist, NULL);
+		CDXLStatsDerivedRelationArray *pdrgpdxlstatsderrelMCV =
+			CDXLUtils::ParseDXLToStatsDerivedRelArray(mp, szDXLInputMCV, NULL);
+		CDXLStatsDerivedRelationArray *pdrgpdxlstatsderrelHist =
+			CDXLUtils::ParseDXLToStatsDerivedRelArray(mp, szDXLInputHist, NULL);
 
 		GPOS_CHECK_ABORT;
 
 		CDXLStatsDerivedRelation *pdxlstatsderrelMCV = (*pdrgpdxlstatsderrelMCV)[0];
-		const CDXLStatsDerivedColumnArray *pdrgpdxlstatsdercolMCV = pdxlstatsderrelMCV->GetDXLStatsDerivedColArray();
+		const CDXLStatsDerivedColumnArray *pdrgpdxlstatsdercolMCV =
+			pdxlstatsderrelMCV->GetDXLStatsDerivedColArray();
 		CDXLStatsDerivedColumn *pdxlstatsdercolMCV = (*pdrgpdxlstatsdercolMCV)[0];
-		CBucketArray *pdrgppbucketMCV = CDXLUtils::ParseDXLToBucketsArray(mp, md_accessor, pdxlstatsdercolMCV);
-		CHistogram *phistMCV =  GPOS_NEW(mp) CHistogram(mp, pdrgppbucketMCV);
+		CBucketArray *pdrgppbucketMCV =
+			CDXLUtils::ParseDXLToBucketsArray(mp, md_accessor, pdxlstatsdercolMCV);
+		CHistogram *phistMCV = GPOS_NEW(mp) CHistogram(mp, pdrgppbucketMCV);
 
 		CDXLStatsDerivedRelation *pdxlstatsderrelHist = (*pdrgpdxlstatsderrelHist)[0];
-		const CDXLStatsDerivedColumnArray *pdrgpdxlstatsdercolHist = pdxlstatsderrelHist->GetDXLStatsDerivedColArray();
+		const CDXLStatsDerivedColumnArray *pdrgpdxlstatsdercolHist =
+			pdxlstatsderrelHist->GetDXLStatsDerivedColArray();
 		CDXLStatsDerivedColumn *pdxlstatsdercolHist = (*pdrgpdxlstatsdercolHist)[0];
-		CBucketArray *pdrgppbucketHist = CDXLUtils::ParseDXLToBucketsArray(mp, md_accessor, pdxlstatsdercolHist);
-		CHistogram *phistHist =  GPOS_NEW(mp) CHistogram(mp, pdrgppbucketHist);
+		CBucketArray *pdrgppbucketHist =
+			CDXLUtils::ParseDXLToBucketsArray(mp, md_accessor, pdxlstatsdercolHist);
+		CHistogram *phistHist = GPOS_NEW(mp) CHistogram(mp, pdrgppbucketHist);
 
 		GPOS_CHECK_ABORT;
 
@@ -232,21 +215,17 @@ CMCVTest::EresUnittest_MergeHistMCV()
 		CDouble width = pdxlstatsdercolMCV->Width();
 		colid_width_mapping->Insert(GPOS_NEW(mp) ULONG(colid), GPOS_NEW(mp) CDouble(width));
 
-		CStatistics *stats = GPOS_NEW(mp) CStatistics
-										(
-										mp,
-										col_histogram_mapping,
-										colid_width_mapping,
-										pdxlstatsderrelMCV->Rows(),
-										pdxlstatsderrelMCV->IsEmpty()
-										);
+		CStatistics *stats =
+			GPOS_NEW(mp) CStatistics(mp, col_histogram_mapping, colid_width_mapping,
+									 pdxlstatsderrelMCV->Rows(), pdxlstatsderrelMCV->IsEmpty());
 
 		// put stats object in an array in order to serialize
 		CStatisticsArray *pdrgpstats = GPOS_NEW(mp) CStatisticsArray(mp);
 		pdrgpstats->Append(stats);
 
 		// serialize stats object
-		CWStringDynamic *pstrOutput = CDXLUtils::SerializeStatistics(mp, md_accessor, pdrgpstats, true, true);
+		CWStringDynamic *pstrOutput =
+			CDXLUtils::SerializeStatistics(mp, md_accessor, pdrgpstats, true, true);
 		GPOS_TRACE(pstrOutput->GetBuffer());
 
 		// get expected output
@@ -256,13 +235,9 @@ CMCVTest::EresUnittest_MergeHistMCV()
 		CWStringDynamic dstrExpected(mp);
 		dstrExpected.AppendFormat(GPOS_WSZ_LIT("%s"), szDXLExpected);
 
-		GPOS_RESULT eres = CTestUtils::EresCompare
-									(
-									oss,
-									pstrOutput,
-									&dstrExpected,
-									false // mismatch will not be ignored
-									);
+		GPOS_RESULT eres = CTestUtils::EresCompare(oss, pstrOutput, &dstrExpected,
+												   false  // mismatch will not be ignored
+		);
 
 		// cleanup
 		GPOS_DELETE_ARRAY(szDXLInputMCV);
@@ -285,4 +260,3 @@ CMCVTest::EresUnittest_MergeHistMCV()
 }
 
 // EOF
-

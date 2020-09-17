@@ -30,28 +30,17 @@ using namespace gpopt;
 //		Ctor
 //
 //---------------------------------------------------------------------------
-CXformIndexGet2IndexScan::CXformIndexGet2IndexScan
-	(
-	CMemoryPool *mp
-	)
-	:
-	// pattern
-	CXformImplementation
-		(
-		GPOS_NEW(mp) CExpression
-				(
-				mp,
-				GPOS_NEW(mp) CLogicalIndexGet(mp),
-				GPOS_NEW(mp) CExpression(mp, GPOS_NEW(mp) CPatternLeaf(mp))	// index lookup predicate
-				)
-		)
-{}
+CXformIndexGet2IndexScan::CXformIndexGet2IndexScan(CMemoryPool *mp)
+	:  // pattern
+	  CXformImplementation(GPOS_NEW(mp) CExpression(
+		  mp, GPOS_NEW(mp) CLogicalIndexGet(mp),
+		  GPOS_NEW(mp) CExpression(mp, GPOS_NEW(mp) CPatternLeaf(mp))  // index lookup predicate
+		  ))
+{
+}
 
-CXform::EXformPromise CXformIndexGet2IndexScan::Exfp
-(
- CExpressionHandle &exprhdl
-)
-const
+CXform::EXformPromise
+CXformIndexGet2IndexScan::Exfp(CExpressionHandle &exprhdl) const
 {
 	CLogicalIndexGet *popGet = CLogicalIndexGet::PopConvert(exprhdl.Pop());
 
@@ -76,13 +65,8 @@ const
 //
 //---------------------------------------------------------------------------
 void
-CXformIndexGet2IndexScan::Transform
-	(
-	CXformContext *pxfctxt,
-	CXformResult *pxfres,
-	CExpression *pexpr
-	)
-	const
+CXformIndexGet2IndexScan::Transform(CXformContext *pxfctxt, CXformResult *pxfres,
+									CExpression *pexpr) const
 {
 	GPOS_ASSERT(NULL != pxfctxt);
 	GPOS_ASSERT(FPromising(pxfctxt->Pmp(), this, pexpr));
@@ -110,25 +94,14 @@ CXformIndexGet2IndexScan::Transform
 	// addref all children
 	pexprIndexCond->AddRef();
 
-	CExpression *pexprAlt =
-		GPOS_NEW(mp) CExpression
-			(
-			mp,
-			GPOS_NEW(mp) CPhysicalIndexScan
-				(
-				mp,
-				pindexdesc,
-				ptabdesc,
-				pexpr->Pop()->UlOpId(),
-				GPOS_NEW(mp) CName (mp, pop->NameAlias()),
-				pdrgpcrOutput,
-				pos
-				),
-			pexprIndexCond
-			);
+	CExpression *pexprAlt = GPOS_NEW(mp) CExpression(
+		mp,
+		GPOS_NEW(mp)
+			CPhysicalIndexScan(mp, pindexdesc, ptabdesc, pexpr->Pop()->UlOpId(),
+							   GPOS_NEW(mp) CName(mp, pop->NameAlias()), pdrgpcrOutput, pos),
+		pexprIndexCond);
 	pxfres->Add(pexprAlt);
 }
 
 
 // EOF
-

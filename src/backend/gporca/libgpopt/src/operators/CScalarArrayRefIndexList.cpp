@@ -24,14 +24,8 @@ using namespace gpmd;
 //		Ctor
 //
 //---------------------------------------------------------------------------
-CScalarArrayRefIndexList::CScalarArrayRefIndexList
-	(
-	CMemoryPool *mp,
-	EIndexListType eilt
-	)
-	:
-	CScalar(mp),
-	m_eilt(eilt)
+CScalarArrayRefIndexList::CScalarArrayRefIndexList(CMemoryPool *mp, EIndexListType eilt)
+	: CScalar(mp), m_eilt(eilt)
 {
 	GPOS_ASSERT(EiltSentinel > eilt);
 }
@@ -45,11 +39,7 @@ CScalarArrayRefIndexList::CScalarArrayRefIndexList
 //
 //---------------------------------------------------------------------------
 BOOL
-CScalarArrayRefIndexList::Matches
-	(
-	COperator *pop
-	)
-	const
+CScalarArrayRefIndexList::Matches(COperator *pop) const
 {
 	if (pop->Eopid() != Eopid())
 	{
@@ -62,4 +52,3 @@ CScalarArrayRefIndexList::Matches
 }
 
 // EOF
-

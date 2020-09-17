@@ -35,8 +35,7 @@ gpos::BOOL IsLoggableFailure(gpos::CException &exc);
 gpos::BOOL ShouldErrorOut(gpos::CException &exc);
 
 
-extern "C"
-{
+extern "C" {
 #include <stddef.h>
 #endif /* __cplusplus */
 
@@ -46,19 +45,19 @@ extern "C"
  */
 struct gpos_exec_params
 {
-	void *(*func)(void*);           /* task function */
-	void *arg;                      /* task argument */
-	void *result;                   /* task result */
-	void *stack_start;              /* start of current thread's stack */
-	char *error_buffer;             /* buffer used to store error messages */
-	int error_buffer_size;          /* size of error message buffer */
-	bool *abort_requested;          /* flag indicating if abort is requested */
+	void *(*func)(void *); /* task function */
+	void *arg;			   /* task argument */
+	void *result;		   /* task result */
+	void *stack_start;	   /* start of current thread's stack */
+	char *error_buffer;	   /* buffer used to store error messages */
+	int error_buffer_size; /* size of error message buffer */
+	bool *abort_requested; /* flag indicating if abort is requested */
 };
 
 /* struct containing initialization parameters for gpos */
 struct gpos_init_params
 {
-	bool (*abort_requested) (void);	/* callback to report abort requests */
+	bool (*abort_requested)(void); /* callback to report abort requests */
 };
 
 /* initialize GPOS memory pool, worker pool and message repository */
@@ -79,4 +78,3 @@ void gpos_terminate(void);
 #endif /* !GPOS_api_H */
 
 // EOF
-

@@ -7,9 +7,9 @@
 //
 //	@doc:
 //		Implementation of DXL datum of type integer
-//		
-//	@owner: 
-//		
+//
+//	@owner:
+//
 //
 //	@test:
 //
@@ -29,16 +29,8 @@ using namespace gpdxl;
 //		Ctor
 //
 //---------------------------------------------------------------------------
-CDXLDatumInt4::CDXLDatumInt4
-	(
-	CMemoryPool *mp,
-	IMDId *mdid_type,
-	BOOL is_null,
-	INT val
-	)
-	:
-	CDXLDatum(mp, mdid_type, default_type_modifier, is_null, 4 /*length*/ ),
-	m_val(val)
+CDXLDatumInt4::CDXLDatumInt4(CMemoryPool *mp, IMDId *mdid_type, BOOL is_null, INT val)
+	: CDXLDatum(mp, mdid_type, default_type_modifier, is_null, 4 /*length*/), m_val(val)
 {
 }
 
@@ -65,10 +57,7 @@ CDXLDatumInt4::Value() const
 //
 //---------------------------------------------------------------------------
 void
-CDXLDatumInt4::Serialize
-	(
-	CXMLSerializer *xml_serializer
-	)
+CDXLDatumInt4::Serialize(CXMLSerializer *xml_serializer)
 {
 	m_mdid_type->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenTypeId));
 

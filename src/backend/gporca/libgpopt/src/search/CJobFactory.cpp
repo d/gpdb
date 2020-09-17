@@ -29,22 +29,17 @@ using namespace gpos;
 //		Ctor
 //
 //---------------------------------------------------------------------------
-CJobFactory::CJobFactory
-	(
-	CMemoryPool *mp,
-	ULONG ulJobs
-	)
-	:
-	m_mp(mp),
-	m_ulJobs(ulJobs),
-	m_pspjTest(NULL),
-	m_pspjGroupOptimization(NULL),
-	m_pspjGroupImplementation(NULL),
-	m_pspjGroupExploration(NULL),
-	m_pspjGroupExpressionOptimization(NULL),
-	m_pspjGroupExpressionImplementation(NULL),
-	m_pspjGroupExpressionExploration(NULL),
-	m_pspjTransformation(NULL)
+CJobFactory::CJobFactory(CMemoryPool *mp, ULONG ulJobs)
+	: m_mp(mp),
+	  m_ulJobs(ulJobs),
+	  m_pspjTest(NULL),
+	  m_pspjGroupOptimization(NULL),
+	  m_pspjGroupImplementation(NULL),
+	  m_pspjGroupExploration(NULL),
+	  m_pspjGroupExpressionOptimization(NULL),
+	  m_pspjGroupExpressionImplementation(NULL),
+	  m_pspjGroupExpressionExploration(NULL),
+	  m_pspjTransformation(NULL)
 {
 	// initialize factories to be used first
 	Release(PjCreate(CJob::EjtGroupExploration));
@@ -72,7 +67,7 @@ CJobFactory::~CJobFactory()
 	Truncate(CJob::EjtGroupExpressionExploration);
 	Truncate(CJob::EjtGroupExpressionOptimization);
 	Truncate(CJob::EjtTransformation);
-#endif // GPOS_DEBUG
+#endif	// GPOS_DEBUG
 }
 
 
@@ -85,10 +80,7 @@ CJobFactory::~CJobFactory()
 //
 //---------------------------------------------------------------------------
 CJob *
-CJobFactory::PjCreate
-	(
-	CJob::EJobType ejt
-	)
+CJobFactory::PjCreate(CJob::EJobType ejt)
 {
 	CJob *pj = NULL;
 
@@ -148,10 +140,7 @@ CJobFactory::PjCreate
 //
 //---------------------------------------------------------------------------
 void
-CJobFactory::Release
-	(
-	CJob *pj
-	)
+CJobFactory::Release(CJob *pj)
 {
 	GPOS_ASSERT(NULL != pj);
 
@@ -174,15 +163,18 @@ CJobFactory::Release
 			break;
 
 		case CJob::EjtGroupExpressionOptimization:
-			Release(CJobGroupExpressionOptimization::PjConvert(pj), m_pspjGroupExpressionOptimization);
+			Release(CJobGroupExpressionOptimization::PjConvert(pj),
+					m_pspjGroupExpressionOptimization);
 			break;
 
 		case CJob::EjtGroupExpressionImplementation:
-			Release(CJobGroupExpressionImplementation::PjConvert(pj), m_pspjGroupExpressionImplementation);
+			Release(CJobGroupExpressionImplementation::PjConvert(pj),
+					m_pspjGroupExpressionImplementation);
 			break;
 
 		case CJob::EjtGroupExpressionExploration:
-			Release(CJobGroupExpressionExploration::PjConvert(pj), m_pspjGroupExpressionExploration);
+			Release(CJobGroupExpressionExploration::PjConvert(pj),
+					m_pspjGroupExpressionExploration);
 			break;
 
 		case CJob::EjtTransformation:
@@ -204,10 +196,7 @@ CJobFactory::Release
 //
 //---------------------------------------------------------------------------
 void
-CJobFactory::Truncate
-	(
-	CJob::EJobType ejt
-	)
+CJobFactory::Truncate(CJob::EJobType ejt)
 {
 	// need to suspend cancellation while truncating job pool
 	{
@@ -254,4 +243,3 @@ CJobFactory::Truncate
 }
 
 // EOF
-

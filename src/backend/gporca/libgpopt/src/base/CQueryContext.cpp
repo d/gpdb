@@ -30,22 +30,15 @@ using namespace gpopt;
 //		Ctor
 //
 //---------------------------------------------------------------------------
-CQueryContext::CQueryContext
-	(
-	CMemoryPool *mp,
-	CExpression *pexpr,
-	CReqdPropPlan *prpp,
-	CColRefArray *colref_array,
-	CMDNameArray *pdrgpmdname,
-	BOOL fDeriveStats
-	)
-	:
-	m_mp(mp),
-	m_prpp(prpp),
-	m_pdrgpcr(colref_array),
-	m_pdrgpcrSystemCols(NULL),
-	m_pdrgpmdname(pdrgpmdname),
-	m_fDeriveStats(fDeriveStats)
+CQueryContext::CQueryContext(CMemoryPool *mp, CExpression *pexpr, CReqdPropPlan *prpp,
+							 CColRefArray *colref_array, CMDNameArray *pdrgpmdname,
+							 BOOL fDeriveStats)
+	: m_mp(mp),
+	  m_prpp(prpp),
+	  m_pdrgpcr(colref_array),
+	  m_pdrgpcrSystemCols(NULL),
+	  m_pdrgpmdname(pdrgpmdname),
+	  m_fDeriveStats(fDeriveStats)
 {
 	GPOS_ASSERT(NULL != pexpr);
 	GPOS_ASSERT(NULL != prpp);
@@ -55,7 +48,7 @@ CQueryContext::CQueryContext
 
 #ifdef GPOS_DEBUG
 	const ULONG ulReqdColumns = m_pdrgpcr->Size();
-#endif //GPOS_DEBUG
+#endif	//GPOS_DEBUG
 
 	// mark unused CTEs
 	CCTEInfo *pcteinfo = COptCtxt::PoctxtFromTLS()->Pcteinfo();
@@ -115,10 +108,7 @@ CQueryContext::~CQueryContext()
 //
 //---------------------------------------------------------------------------
 COperator *
-CQueryContext::PopTop
-	(
-	CExpression *pexpr
-	)
+CQueryContext::PopTop(CExpression *pexpr)
 {
 	GPOS_ASSERT(NULL != pexpr);
 
@@ -142,10 +132,7 @@ CQueryContext::PopTop
 //
 //---------------------------------------------------------------------------
 void
-CQueryContext::SetSystemCols
-	(
-	CMemoryPool *mp
-	)
+CQueryContext::SetSystemCols(CMemoryPool *mp)
 {
 	GPOS_ASSERT(NULL == m_pdrgpcrSystemCols);
 	GPOS_ASSERT(NULL != m_pdrgpcr);
@@ -173,14 +160,9 @@ CQueryContext::SetSystemCols
 //
 //---------------------------------------------------------------------------
 CQueryContext *
-CQueryContext::PqcGenerate
-	(
-	CMemoryPool *mp,
-	CExpression * pexpr,
-	ULongPtrArray *pdrgpulQueryOutputColRefId,
-	CMDNameArray *pdrgpmdname,
-	BOOL fDeriveStats
-	)
+CQueryContext::PqcGenerate(CMemoryPool *mp, CExpression *pexpr,
+						   ULongPtrArray *pdrgpulQueryOutputColRefId, CMDNameArray *pdrgpmdname,
+						   BOOL fDeriveStats)
 {
 	GPOS_ASSERT(NULL != pexpr && NULL != pdrgpulQueryOutputColRefId);
 
@@ -226,7 +208,7 @@ CQueryContext::PqcGenerate
 	}
 
 	CDistributionSpec *pds = NULL;
-	
+
 	BOOL fDML = CUtils::FLogicalDML(pexpr->Pop());
 	poptctxt->MarkDMLQuery(fDML);
 
@@ -242,7 +224,8 @@ CQueryContext::PqcGenerate
 	}
 
 	// By default, no rewindability requirement needs to be satisfied at the top level
-	CRewindabilitySpec *prs = GPOS_NEW(mp) CRewindabilitySpec(CRewindabilitySpec::ErtNone, CRewindabilitySpec::EmhtNoMotion);
+	CRewindabilitySpec *prs = GPOS_NEW(mp)
+		CRewindabilitySpec(CRewindabilitySpec::ErtNone, CRewindabilitySpec::EmhtNoMotion);
 
 	// Ensure order, distribution and rewindability meet 'satisfy' matching at the top level
 	CEnfdOrder *peo = GPOS_NEW(mp) CEnfdOrder(pos, CEnfdOrder::EomSatisfy);
@@ -260,7 +243,8 @@ CQueryContext::PqcGenerate
 
 	// Finally, create the CQueryContext
 	pdrgpmdname->AddRef();
-	return GPOS_NEW(mp) CQueryContext(mp, pexprResult, prpp, colref_array, pdrgpmdname, fDeriveStats);
+	return GPOS_NEW(mp)
+		CQueryContext(mp, pexprResult, prpp, colref_array, pdrgpmdname, fDeriveStats);
 }
 
 #ifdef GPOS_DEBUG
@@ -274,11 +258,7 @@ CQueryContext::PqcGenerate
 //
 //---------------------------------------------------------------------------
 IOstream &
-CQueryContext::OsPrint
-	(
-	IOstream &os
-	)
-	const
+CQueryContext::OsPrint(IOstream &os) const
 {
 	return os << *m_pexpr << std::endl << *m_prpp;
 }
@@ -289,7 +269,7 @@ CQueryContext::DbgPrint() const
 	CAutoTrace at(m_mp);
 	(void) this->OsPrint(at.Os());
 }
-#endif // GPOS_DEBUG
+#endif	// GPOS_DEBUG
 
 
 //---------------------------------------------------------------------------
@@ -302,11 +282,7 @@ CQueryContext::DbgPrint() const
 //
 //---------------------------------------------------------------------------
 void
-CQueryContext::MapComputedToUsedCols
-	(
-	CColumnFactory *col_factory,
-	CExpression *pexpr
-	)
+CQueryContext::MapComputedToUsedCols(CColumnFactory *col_factory, CExpression *pexpr)
 {
 	GPOS_ASSERT(NULL != pexpr);
 
@@ -331,4 +307,3 @@ CQueryContext::MapComputedToUsedCols
 }
 
 // EOF
-

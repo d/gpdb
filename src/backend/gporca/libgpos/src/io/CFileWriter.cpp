@@ -27,11 +27,9 @@ using namespace gpos;
 //		Ctor
 //
 //---------------------------------------------------------------------------
-CFileWriter::CFileWriter()
-	:
-	CFileDescriptor(),
-	m_file_size(0)
-{}
+CFileWriter::CFileWriter() : CFileDescriptor(), m_file_size(0)
+{
+}
 
 
 //---------------------------------------------------------------------------
@@ -43,11 +41,7 @@ CFileWriter::CFileWriter()
 //
 //---------------------------------------------------------------------------
 void
-CFileWriter::Open
-	(
-	const CHAR *file_path,
-	ULONG permission_bits
-	)
+CFileWriter::Open(const CHAR *file_path, ULONG permission_bits)
 {
 	GPOS_ASSERT(NULL != file_path);
 
@@ -85,11 +79,7 @@ CFileWriter::Close()
 //
 //---------------------------------------------------------------------------
 void
-CFileWriter::Write
-	(
-	const BYTE *read_buffer,
-	const ULONG_PTR write_size
-	)
+CFileWriter::Write(const BYTE *read_buffer, const ULONG_PTR write_size)
 {
 	GPOS_ASSERT(CFileDescriptor::IsFileOpen() && "Attempt to write to invalid file descriptor");
 	GPOS_ASSERT(0 < write_size);
@@ -128,4 +118,3 @@ CFileWriter::Write
 }
 
 // EOF
-

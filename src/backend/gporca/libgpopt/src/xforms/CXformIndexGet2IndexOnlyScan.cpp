@@ -34,28 +34,17 @@ using namespace gpopt;
 //		Ctor
 //
 //---------------------------------------------------------------------------
-CXformIndexGet2IndexOnlyScan::CXformIndexGet2IndexOnlyScan
-	(
-	CMemoryPool *mp
-	)
-	:
-	// pattern
-	CXformImplementation
-		(
-		GPOS_NEW(mp) CExpression
-				(
-				mp,
-				GPOS_NEW(mp) CLogicalIndexGet(mp),
-				GPOS_NEW(mp) CExpression(mp, GPOS_NEW(mp) CPatternLeaf(mp))	// index lookup predicate
-				)
-		)
-{}
+CXformIndexGet2IndexOnlyScan::CXformIndexGet2IndexOnlyScan(CMemoryPool *mp)
+	:  // pattern
+	  CXformImplementation(GPOS_NEW(mp) CExpression(
+		  mp, GPOS_NEW(mp) CLogicalIndexGet(mp),
+		  GPOS_NEW(mp) CExpression(mp, GPOS_NEW(mp) CPatternLeaf(mp))  // index lookup predicate
+		  ))
+{
+}
 
-CXform::EXformPromise CXformIndexGet2IndexOnlyScan::Exfp
-(
- CExpressionHandle &exprhdl
-)
-const
+CXform::EXformPromise
+CXformIndexGet2IndexOnlyScan::Exfp(CExpressionHandle &exprhdl) const
 {
 	CLogicalIndexGet *popGet = CLogicalIndexGet::PopConvert(exprhdl.Pop());
 
@@ -82,13 +71,8 @@ const
 //
 //---------------------------------------------------------------------------
 void
-CXformIndexGet2IndexOnlyScan::Transform
-	(
-	CXformContext *pxfctxt,
-	CXformResult *pxfres,
-	CExpression *pexpr
-	)
-	const
+CXformIndexGet2IndexOnlyScan::Transform(CXformContext *pxfctxt, CXformResult *pxfres,
+										CExpression *pexpr) const
 {
 	GPOS_ASSERT(NULL != pxfctxt);
 	GPOS_ASSERT(FPromising(pxfctxt->Pmp(), this, pexpr));
@@ -145,25 +129,14 @@ CXformIndexGet2IndexOnlyScan::Transform
 	// addref all children
 	pexprIndexCond->AddRef();
 
-	CExpression *pexprAlt =
-		GPOS_NEW(mp) CExpression
-			(
-			mp,
-			GPOS_NEW(mp) CPhysicalIndexOnlyScan
-				(
-				mp,
-				pindexdesc,
-				ptabdesc,
-				pexpr->Pop()->UlOpId(),
-				GPOS_NEW(mp) CName (mp, pop->NameAlias()),
-				pdrgpcrOutput,
-				pos
-				),
-			pexprIndexCond
-			);
+	CExpression *pexprAlt = GPOS_NEW(mp) CExpression(
+		mp,
+		GPOS_NEW(mp)
+			CPhysicalIndexOnlyScan(mp, pindexdesc, ptabdesc, pexpr->Pop()->UlOpId(),
+								   GPOS_NEW(mp) CName(mp, pop->NameAlias()), pdrgpcrOutput, pos),
+		pexprIndexCond);
 	pxfres->Add(pexprAlt);
 }
 
 
 // EOF
-

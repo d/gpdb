@@ -26,11 +26,7 @@ using namespace gpopt;
 //
 //---------------------------------------------------------------------------
 CXform::EXformPromise
-CXformLeftOuterApply2LeftOuterJoin::Exfp
-	(
-	CExpressionHandle &exprhdl
-	)
-	const
+CXformLeftOuterApply2LeftOuterJoin::Exfp(CExpressionHandle &exprhdl) const
 {
 	// if there are outer refs that include columns from the immediate outer child, the
 	// transformation is applicable
@@ -52,13 +48,8 @@ CXformLeftOuterApply2LeftOuterJoin::Exfp
 //
 //---------------------------------------------------------------------------
 void
-CXformLeftOuterApply2LeftOuterJoin::Transform
-	(
-	CXformContext *pxfctxt,
-	CXformResult *pxfres,
-	CExpression *pexpr
-	)
-	const
+CXformLeftOuterApply2LeftOuterJoin::Transform(CXformContext *pxfctxt, CXformResult *pxfres,
+											  CExpression *pexpr) const
 {
 	GPOS_ASSERT(NULL != pxfctxt);
 	GPOS_ASSERT(FPromising(pxfctxt->Pmp(), this, pexpr));
@@ -69,4 +60,3 @@ CXformLeftOuterApply2LeftOuterJoin::Transform
 
 
 // EOF
-

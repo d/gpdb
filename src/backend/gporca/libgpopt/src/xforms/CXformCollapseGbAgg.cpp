@@ -31,29 +31,21 @@ using namespace gpopt;
 //		Ctor
 //
 //---------------------------------------------------------------------------
-CXformCollapseGbAgg::CXformCollapseGbAgg
-	(
-	CMemoryPool *mp
-	)
-	:
-	CXformExploration
-		(
-		 // pattern
-		GPOS_NEW(mp) CExpression
-					(
-					mp,
-					GPOS_NEW(mp) CLogicalGbAgg(mp),
-					GPOS_NEW(mp) CExpression
-						(
-						mp,
-						GPOS_NEW(mp) CLogicalGbAgg(mp),
-						GPOS_NEW(mp) CExpression(mp, GPOS_NEW(mp) CPatternLeaf(mp)),  // relational child
-						GPOS_NEW(mp) CExpression(mp, GPOS_NEW(mp) CPatternTree(mp))  // scalar project list
-						),
-					GPOS_NEW(mp) CExpression(mp, GPOS_NEW(mp) CPatternTree(mp))  // scalar project list
-					)
-		)
-{}
+CXformCollapseGbAgg::CXformCollapseGbAgg(CMemoryPool *mp)
+	: CXformExploration(
+		  // pattern
+		  GPOS_NEW(mp) CExpression(
+			  mp, GPOS_NEW(mp) CLogicalGbAgg(mp),
+			  GPOS_NEW(mp) CExpression(
+				  mp, GPOS_NEW(mp) CLogicalGbAgg(mp),
+				  GPOS_NEW(mp) CExpression(mp, GPOS_NEW(mp) CPatternLeaf(mp)),	// relational child
+				  GPOS_NEW(mp)
+					  CExpression(mp, GPOS_NEW(mp) CPatternTree(mp))  // scalar project list
+				  ),
+			  GPOS_NEW(mp) CExpression(mp, GPOS_NEW(mp) CPatternTree(mp))  // scalar project list
+			  ))
+{
+}
 
 
 //---------------------------------------------------------------------------
@@ -66,11 +58,7 @@ CXformCollapseGbAgg::CXformCollapseGbAgg
 //
 //---------------------------------------------------------------------------
 CXform::EXformPromise
-CXformCollapseGbAgg::Exfp
-	(
-	CExpressionHandle &exprhdl
-	)
-	const
+CXformCollapseGbAgg::Exfp(CExpressionHandle &exprhdl) const
 {
 	CLogicalGbAgg *popAgg = CLogicalGbAgg::PopConvert(exprhdl.Pop());
 	if (!popAgg->FGlobal() || 0 == popAgg->Pdrgpcr()->Size())
@@ -95,13 +83,8 @@ CXformCollapseGbAgg::Exfp
 //
 //---------------------------------------------------------------------------
 void
-CXformCollapseGbAgg::Transform
-	(
-	CXformContext *pxfctxt,
-	CXformResult *pxfres,
-	CExpression *pexpr
-	)
-	const
+CXformCollapseGbAgg::Transform(CXformContext *pxfctxt, CXformResult *pxfres,
+							   CExpression *pexpr) const
 {
 	GPOS_ASSERT(NULL != pxfctxt);
 	GPOS_ASSERT(NULL != pxfres);
@@ -143,14 +126,16 @@ CXformCollapseGbAgg::Transform
 
 	pcrsTopGrpCols->Release();
 	pcrsBottomGrpCols->Release();
-#endif // GPOS_DEBUG
+#endif	// GPOS_DEBUG
 
 	pexprChild->AddRef();
-	CExpression *pexprSelect = CUtils::PexprLogicalSelect(mp, pexprChild, CPredicateUtils::PexprConjunction(mp, NULL /*pdrgpexpr*/));
+	CExpression *pexprSelect = CUtils::PexprLogicalSelect(
+		mp, pexprChild, CPredicateUtils::PexprConjunction(mp, NULL /*pdrgpexpr*/));
 
 	popTopGbAgg->AddRef();
 	pexprTopProjectList->AddRef();
-	CExpression *pexprGbAggNew = GPOS_NEW(mp) CExpression(mp, popTopGbAgg, pexprSelect, pexprTopProjectList);
+	CExpression *pexprGbAggNew =
+		GPOS_NEW(mp) CExpression(mp, popTopGbAgg, pexprSelect, pexprTopProjectList);
 
 	pxfres->Add(pexprGbAggNew);
 }

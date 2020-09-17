@@ -27,16 +27,9 @@ using namespace gpmd;
 //		Ctor
 //
 //---------------------------------------------------------------------------
-CStatsPredPoint::CStatsPredPoint
-	(
-	ULONG colid,
-	CStatsPred::EStatsCmpType stats_cmp_type,
-	CPoint *point
-	)
-	:
-	CStatsPred(colid),
-	m_stats_cmp_type(stats_cmp_type),
-	m_pred_point(point)
+CStatsPredPoint::CStatsPredPoint(ULONG colid, CStatsPred::EStatsCmpType stats_cmp_type,
+								 CPoint *point)
+	: CStatsPred(colid), m_stats_cmp_type(stats_cmp_type), m_pred_point(point)
 {
 	GPOS_ASSERT(NULL != point);
 }
@@ -49,17 +42,9 @@ CStatsPredPoint::CStatsPredPoint
 //		Ctor
 //
 //---------------------------------------------------------------------------
-CStatsPredPoint::CStatsPredPoint
-	(
-	CMemoryPool *mp,
-	const CColRef *colref,
-	CStatsPred::EStatsCmpType stats_cmp_type,
-	IDatum *datum
-	)
-	:
-	CStatsPred(gpos::ulong_max),
-	m_stats_cmp_type(stats_cmp_type),
-	m_pred_point(NULL)
+CStatsPredPoint::CStatsPredPoint(CMemoryPool *mp, const CColRef *colref,
+								 CStatsPred::EStatsCmpType stats_cmp_type, IDatum *datum)
+	: CStatsPred(gpos::ulong_max), m_stats_cmp_type(stats_cmp_type), m_pred_point(NULL)
 {
 	GPOS_ASSERT(NULL != colref);
 	GPOS_ASSERT(NULL != datum);
@@ -77,12 +62,7 @@ CStatsPredPoint::CStatsPredPoint
 //		Add padding to datums when needed
 //---------------------------------------------------------------------------
 IDatum *
-CStatsPredPoint::PreprocessDatum
-	(
-	CMemoryPool *mp,
-	const CColRef *colref,
-	IDatum *datum
-	)
+CStatsPredPoint::PreprocessDatum(CMemoryPool *mp, const CColRef *colref, IDatum *datum)
 {
 	GPOS_ASSERT(NULL != colref);
 	GPOS_ASSERT(NULL != datum);
@@ -94,10 +74,9 @@ CStatsPredPoint::PreprocessDatum
 		return datum;
 	}
 
-	const CColRefTable *colref_table = CColRefTable::PcrConvert(const_cast<CColRef*>(colref));
+	const CColRefTable *colref_table = CColRefTable::PcrConvert(const_cast<CColRef *>(colref));
 
 	return datum->MakePaddedDatum(mp, colref_table->Width());
 }
 
 // EOF
-

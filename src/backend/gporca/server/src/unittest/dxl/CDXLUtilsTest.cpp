@@ -45,12 +45,11 @@ static const char *szPlanFile = "../data/dxl/expressiontests/TableScanPlan.xml";
 GPOS_RESULT
 CDXLUtilsTest::EresUnittest()
 {
-	CUnittest rgut[] =
-		{
+	CUnittest rgut[] = {
 		GPOS_UNITTEST_FUNC(CDXLUtilsTest::EresUnittest_SerializeQuery),
 		GPOS_UNITTEST_FUNC(CDXLUtilsTest::EresUnittest_SerializePlan),
 		GPOS_UNITTEST_FUNC(CDXLUtilsTest::EresUnittest_Encoding),
-		};
+	};
 
 	return CUnittest::EresExecute(rgut, GPOS_ARRAY_SIZE(rgut));
 }
@@ -69,16 +68,17 @@ CDXLUtilsTest::EresUnittest_SerializeQuery()
 	// create memory pool
 	CAutoMemoryPool amp;
 	CMemoryPool *mp = amp.Pmp();
-	
+
 	// read DXL file
 	CHAR *dxl_string = CDXLUtils::Read(mp, szQueryFile);
 
-	CQueryToDXLResult *presult = CDXLUtils::ParseQueryToQueryDXLTree(mp, dxl_string, NULL /*xsd_file_path*/);
-	
+	CQueryToDXLResult *presult =
+		CDXLUtils::ParseQueryToQueryDXLTree(mp, dxl_string, NULL /*xsd_file_path*/);
+
 	// serialize with document header
 	BOOL rgfIndentation[] = {true, false};
 	BOOL rgfHeaders[] = {true, false};
-	
+
 	CWStringDynamic str(mp);
 	COstreamString oss(&str);
 
@@ -86,28 +86,22 @@ CDXLUtilsTest::EresUnittest_SerializeQuery()
 	{
 		for (ULONG ulIndent = 0; ulIndent < GPOS_ARRAY_SIZE(rgfIndentation); ulIndent++)
 		{
-			oss << "Headers: " << rgfHeaders[ulHeaders] << ", indentation: " << rgfIndentation[ulIndent] << std::endl;
-			CDXLUtils::SerializeQuery
-				(
-				mp,
-				oss,
-				presult->CreateDXLNode(),
-				presult->GetOutputColumnsDXLArray(),
-				presult->GetCTEProducerDXLArray(),
-				rgfHeaders[ulHeaders],
-				rgfIndentation[ulIndent]
-				);
+			oss << "Headers: " << rgfHeaders[ulHeaders]
+				<< ", indentation: " << rgfIndentation[ulIndent] << std::endl;
+			CDXLUtils::SerializeQuery(
+				mp, oss, presult->CreateDXLNode(), presult->GetOutputColumnsDXLArray(),
+				presult->GetCTEProducerDXLArray(), rgfHeaders[ulHeaders], rgfIndentation[ulIndent]);
 			oss << std::endl;
 		}
 	}
-	
-	
+
+
 	GPOS_TRACE(str.GetBuffer());
 
 	// cleanup
 	GPOS_DELETE(presult);
 	GPOS_DELETE_ARRAY(dxl_string);
-	
+
 	return GPOS_OK;
 }
 
@@ -125,18 +119,19 @@ CDXLUtilsTest::EresUnittest_SerializePlan()
 	// create memory pool
 	CAutoMemoryPool amp;
 	CMemoryPool *mp = amp.Pmp();
-	
+
 	// read DXL file
 	CHAR *dxl_string = CDXLUtils::Read(mp, szPlanFile);
 
 	ULLONG plan_id = gpos::ullong_max;
 	ULLONG plan_space_size = gpos::ullong_max;
-	CDXLNode *node = CDXLUtils::GetPlanDXLNode(mp, dxl_string, NULL /*xsd_file_path*/, &plan_id, &plan_space_size);
-	
+	CDXLNode *node = CDXLUtils::GetPlanDXLNode(mp, dxl_string, NULL /*xsd_file_path*/, &plan_id,
+											   &plan_space_size);
+
 	// serialize with document header
 	BOOL rgfIndentation[] = {true, false};
 	BOOL rgfHeaders[] = {true, false};
-	
+
 	CWStringDynamic str(mp);
 	COstreamString oss(&str);
 
@@ -144,19 +139,21 @@ CDXLUtilsTest::EresUnittest_SerializePlan()
 	{
 		for (ULONG ulIndent = 0; ulIndent < GPOS_ARRAY_SIZE(rgfIndentation); ulIndent++)
 		{
-			oss << "Headers: " << rgfHeaders[ulHeaders] << ", indentation: " << rgfIndentation[ulIndent] << std::endl;
-			CDXLUtils::SerializePlan(mp, oss, node, plan_id, plan_space_size, rgfHeaders[ulHeaders], rgfIndentation[ulIndent]);
+			oss << "Headers: " << rgfHeaders[ulHeaders]
+				<< ", indentation: " << rgfIndentation[ulIndent] << std::endl;
+			CDXLUtils::SerializePlan(mp, oss, node, plan_id, plan_space_size, rgfHeaders[ulHeaders],
+									 rgfIndentation[ulIndent]);
 			oss << std::endl;
 		}
 	}
-	
-	
+
+
 	GPOS_TRACE(str.GetBuffer());
 
 	// cleanup
 	node->Release();
 	GPOS_DELETE_ARRAY(dxl_string);
-	
+
 	return GPOS_OK;
 }
 
@@ -177,7 +174,8 @@ CDXLUtilsTest::EresUnittest_Encoding()
 
 	CAutoP<CDXLMemoryManager> a_pmm(GPOS_NEW(mp) CDXLMemoryManager(mp));
 
-	const CHAR *sz = "{\"{FUNCEXPR :funcid 1967 :funcresulttype 1184 :funcretset false :funcformat 1 :args ({FUNCEXPR :funcid 1191 :funcresulttype 1184 :funcretset false :funcformat 2 :args ({CONST :consttype 25 :constlen -1 :constbyval false :constisnull false :constvalue 7 [ 0 0 0 7 110 111 119 ]})} {CONST :consttype 23 :constlen 4 :constbyval true :constisnull false :constvalue 4 [ 2 0 0 0 0 0 0 0 ]})}\"}";
+	const CHAR *sz =
+		"{\"{FUNCEXPR :funcid 1967 :funcresulttype 1184 :funcretset false :funcformat 1 :args ({FUNCEXPR :funcid 1191 :funcresulttype 1184 :funcretset false :funcformat 2 :args ({CONST :consttype 25 :constlen -1 :constbyval false :constisnull false :constvalue 7 [ 0 0 0 7 110 111 119 ]})} {CONST :consttype 23 :constlen 4 :constbyval true :constisnull false :constvalue 4 [ 2 0 0 0 0 0 0 0 ]})}\"}";
 	ULONG len = clib::Strlen(sz);
 	const XMLByte *pxmlbyte = (const XMLByte *) sz;
 

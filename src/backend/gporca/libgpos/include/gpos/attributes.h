@@ -22,4 +22,4 @@
 #define GPOS_ASSERTS_ONLY
 #endif
 
-#endif // !GPOS_attributes_H
+#endif	// !GPOS_attributes_H

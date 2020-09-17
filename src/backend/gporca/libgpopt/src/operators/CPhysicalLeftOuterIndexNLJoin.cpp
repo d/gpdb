@@ -17,14 +17,9 @@
 
 using namespace gpopt;
 
-CPhysicalLeftOuterIndexNLJoin::CPhysicalLeftOuterIndexNLJoin
-	(
-	CMemoryPool *mp,
-	CColRefArray *colref_array
-	)
-	:
-	CPhysicalLeftOuterNLJoin(mp),
-	m_pdrgpcrOuterRefs(colref_array)
+CPhysicalLeftOuterIndexNLJoin::CPhysicalLeftOuterIndexNLJoin(CMemoryPool *mp,
+															 CColRefArray *colref_array)
+	: CPhysicalLeftOuterNLJoin(mp), m_pdrgpcrOuterRefs(colref_array)
 {
 	GPOS_ASSERT(NULL != colref_array);
 }
@@ -37,15 +32,12 @@ CPhysicalLeftOuterIndexNLJoin::~CPhysicalLeftOuterIndexNLJoin()
 
 
 BOOL
-CPhysicalLeftOuterIndexNLJoin::Matches
-	(
-	COperator *pop
-	)
-	const
+CPhysicalLeftOuterIndexNLJoin::Matches(COperator *pop) const
 {
 	if (pop->Eopid() == Eopid())
 	{
-		return m_pdrgpcrOuterRefs->Equals(CPhysicalLeftOuterIndexNLJoin::PopConvert(pop)->PdrgPcrOuterRefs());
+		return m_pdrgpcrOuterRefs->Equals(
+			CPhysicalLeftOuterIndexNLJoin::PopConvert(pop)->PdrgPcrOuterRefs());
 	}
 
 	return false;
@@ -53,16 +45,11 @@ CPhysicalLeftOuterIndexNLJoin::Matches
 
 
 CDistributionSpec *
-CPhysicalLeftOuterIndexNLJoin::PdsRequired
-	(
-	CMemoryPool *mp,
-	CExpressionHandle &exprhdl,
-	CDistributionSpec *,//pdsRequired,
-	ULONG child_index,
-	CDrvdPropArray *pdrgpdpCtxt,
-	ULONG // ulOptReq
-	)
-	const
+CPhysicalLeftOuterIndexNLJoin::PdsRequired(CMemoryPool *mp, CExpressionHandle &exprhdl,
+										   CDistributionSpec *,	 //pdsRequired,
+										   ULONG child_index, CDrvdPropArray *pdrgpdpCtxt,
+										   ULONG  // ulOptReq
+) const
 {
 	GPOS_ASSERT(2 > child_index);
 
@@ -109,8 +96,8 @@ CPhysicalLeftOuterIndexNLJoin::PdsRequired
 		{
 			// request hashed distribution from outer
 			pdshashedEquiv->Pdrgpexpr()->AddRef();
-			CDistributionSpecHashed *pdsHashedRequired =
-				GPOS_NEW(mp) CDistributionSpecHashed(pdshashedEquiv->Pdrgpexpr(), pdshashedEquiv->FNullsColocated());
+			CDistributionSpecHashed *pdsHashedRequired = GPOS_NEW(mp) CDistributionSpecHashed(
+				pdshashedEquiv->Pdrgpexpr(), pdshashedEquiv->FNullsColocated());
 			pdsHashedRequired->ComputeEquivHashExprs(mp, exprhdl);
 
 			return pdsHashedRequired;
@@ -126,11 +113,10 @@ CPhysicalLeftOuterIndexNLJoin::PdsRequired
 
 	// shouldn't come here!
 	GPOS_RAISE(gpopt::ExmaGPOPT, gpopt::ExmiUnsupportedOp,
-			GPOS_WSZ_LIT("Left outer index nestloop join broadcasting outer side"));
+			   GPOS_WSZ_LIT("Left outer index nestloop join broadcasting outer side"));
 	// otherwise, require outer child to be replicated
 	return GPOS_NEW(mp) CDistributionSpecReplicated();
 }
 
 
 // EOF
-

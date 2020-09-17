@@ -24,15 +24,11 @@ using namespace gpopt;
 //		Ctor
 //
 //---------------------------------------------------------------------------
-CRewindabilitySpec::CRewindabilitySpec
-	(
-	ERewindabilityType rewindability_type,
-	EMotionHazardType motion_hazard
-	)
-	:
-	m_rewindability(rewindability_type),
-	m_motion_hazard(motion_hazard)
-{}
+CRewindabilitySpec::CRewindabilitySpec(ERewindabilityType rewindability_type,
+									   EMotionHazardType motion_hazard)
+	: m_rewindability(rewindability_type), m_motion_hazard(motion_hazard)
+{
+}
 
 
 //---------------------------------------------------------------------------
@@ -44,7 +40,8 @@ CRewindabilitySpec::CRewindabilitySpec
 //
 //---------------------------------------------------------------------------
 CRewindabilitySpec::~CRewindabilitySpec()
-{}
+{
+}
 
 
 //---------------------------------------------------------------------------
@@ -56,11 +53,7 @@ CRewindabilitySpec::~CRewindabilitySpec()
 //
 //---------------------------------------------------------------------------
 BOOL
-CRewindabilitySpec::Matches
-	(
-	const CRewindabilitySpec *prs
-	)
-	const
+CRewindabilitySpec::Matches(const CRewindabilitySpec *prs) const
 {
 	GPOS_ASSERT(NULL != prs);
 
@@ -99,11 +92,7 @@ CRewindabilitySpec::Matches
 //	+-----------+----------+--------+
 
 BOOL
-CRewindabilitySpec::FSatisfies
-	(
-	const CRewindabilitySpec *prs
-	)
-	const
+CRewindabilitySpec::FSatisfies(const CRewindabilitySpec *prs) const
 {
 	// ErtNone requests always satisfied (row 1 in table 1)
 	if (prs->Ert() == ErtNone)
@@ -169,14 +158,9 @@ CRewindabilitySpec::HashValue() const
 //
 //---------------------------------------------------------------------------
 void
-CRewindabilitySpec::AppendEnforcers
-	(
-	CMemoryPool *mp,
-	CExpressionHandle &exprhdl,
-	CReqdPropPlan *prpp,
-	CExpressionArray *pdrgpexpr,
-	CExpression *pexpr
-	)
+CRewindabilitySpec::AppendEnforcers(CMemoryPool *mp, CExpressionHandle &exprhdl,
+									CReqdPropPlan *prpp, CExpressionArray *pdrgpexpr,
+									CExpression *pexpr)
 {
 	GPOS_ASSERT(NULL != prpp);
 	GPOS_ASSERT(NULL != mp);
@@ -188,8 +172,8 @@ CRewindabilitySpec::AppendEnforcers
 	CRewindabilitySpec *prs = CDrvdPropPlan::Pdpplan(exprhdl.Pdp())->Prs();
 
 	BOOL eager = false;
-	if(!GPOS_FTRACE(EopttraceMotionHazardHandling) ||
-	  (prpp->Per()->PrsRequired()->HasMotionHazard() && prs->HasMotionHazard()))
+	if (!GPOS_FTRACE(EopttraceMotionHazardHandling) ||
+		(prpp->Per()->PrsRequired()->HasMotionHazard() && prs->HasMotionHazard()))
 	{
 		// If motion hazard handling is disabled then we always want a blocking spool.
 		// otherwise, create a blocking spool *only if* the request alerts about motion
@@ -198,12 +182,8 @@ CRewindabilitySpec::AppendEnforcers
 	}
 
 	pexpr->AddRef();
-	CExpression *pexprSpool = GPOS_NEW(mp) CExpression
-									(
-									mp,
-									GPOS_NEW(mp) CPhysicalSpool(mp, eager),
-									pexpr
-									);
+	CExpression *pexprSpool =
+		GPOS_NEW(mp) CExpression(mp, GPOS_NEW(mp) CPhysicalSpool(mp, eager), pexpr);
 	pdrgpexpr->Append(pexprSpool);
 }
 
@@ -217,11 +197,7 @@ CRewindabilitySpec::AppendEnforcers
 //
 //---------------------------------------------------------------------------
 IOstream &
-CRewindabilitySpec::OsPrint
-	(
-	IOstream &os
-	)
-	const
+CRewindabilitySpec::OsPrint(IOstream &os) const
 {
 	switch (Ert())
 	{
@@ -246,7 +222,7 @@ CRewindabilitySpec::OsPrint
 			return os;
 	}
 
-	switch(Emht())
+	switch (Emht())
 	{
 		case EmhtMotion:
 			os << " MOTION";
@@ -266,4 +242,3 @@ CRewindabilitySpec::OsPrint
 
 
 // EOF
-
