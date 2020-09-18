@@ -27,16 +27,8 @@ using namespace gpdxl;
 //		Ctor
 //
 //---------------------------------------------------------------------------
-CDXLScalarMinMax::CDXLScalarMinMax
-	(
-	CMemoryPool *mp,
-	IMDId *mdid_type,
-	EdxlMinMaxType min_max_type
-	)
-	:
-	CDXLScalar(mp),
-	m_mdid_type(mdid_type),
-	m_min_max_type(min_max_type)
+CDXLScalarMinMax::CDXLScalarMinMax(CMemoryPool *mp, IMDId *mdid_type, EdxlMinMaxType min_max_type)
+	: CDXLScalar(mp), m_mdid_type(mdid_type), m_min_max_type(min_max_type)
 {
 	GPOS_ASSERT(m_mdid_type->IsValid());
 	GPOS_ASSERT(EmmtSentinel > min_max_type);
@@ -83,9 +75,9 @@ CDXLScalarMinMax::GetOpNameStr() const
 	switch (m_min_max_type)
 	{
 		case EmmtMin:
-				return CDXLTokens::GetDXLTokenStr(EdxltokenScalarMin);
+			return CDXLTokens::GetDXLTokenStr(EdxltokenScalarMin);
 		case EmmtMax:
-				return CDXLTokens::GetDXLTokenStr(EdxltokenScalarMax);
+			return CDXLTokens::GetDXLTokenStr(EdxltokenScalarMax);
 		default:
 			return NULL;
 	}
@@ -100,12 +92,7 @@ CDXLScalarMinMax::GetOpNameStr() const
 //
 //---------------------------------------------------------------------------
 void
-CDXLScalarMinMax::SerializeToDXL
-	(
-	CXMLSerializer *xml_serializer,
-	const CDXLNode *dxlnode
-	)
-	const
+CDXLScalarMinMax::SerializeToDXL(CXMLSerializer *xml_serializer, const CDXLNode *dxlnode) const
 {
 	const CWStringConst *element_name = GetOpNameStr();
 
@@ -124,11 +111,7 @@ CDXLScalarMinMax::SerializeToDXL
 //
 //---------------------------------------------------------------------------
 BOOL
-CDXLScalarMinMax::HasBoolResult
-	(
-	CMDAccessor *md_accessor
-	)
-	const
+CDXLScalarMinMax::HasBoolResult(CMDAccessor *md_accessor) const
 {
 	return (IMDType::EtiBool == md_accessor->RetrieveType(m_mdid_type)->GetDatumType());
 }
@@ -143,12 +126,7 @@ CDXLScalarMinMax::HasBoolResult
 //
 //---------------------------------------------------------------------------
 void
-CDXLScalarMinMax::AssertValid
-	(
-	const CDXLNode *dxlnode,
-	BOOL validate_children
-	)
-	const
+CDXLScalarMinMax::AssertValid(const CDXLNode *dxlnode, BOOL validate_children) const
 {
 	GPOS_ASSERT(0 < dxlnode->Arity());
 
@@ -164,6 +142,6 @@ CDXLScalarMinMax::AssertValid
 		}
 	}
 }
-#endif // GPOS_DEBUG
+#endif	// GPOS_DEBUG
 
 // EOF

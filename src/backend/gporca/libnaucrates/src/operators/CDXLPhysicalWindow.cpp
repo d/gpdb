@@ -25,16 +25,9 @@ using namespace gpdxl;
 //		Ctor
 //
 //---------------------------------------------------------------------------
-CDXLPhysicalWindow::CDXLPhysicalWindow
-	(
-	CMemoryPool *mp,
-	ULongPtrArray *part_by_colid_array,
-	CDXLWindowKeyArray *window_key_array
-	)
-	:
-	CDXLPhysical(mp),
-	m_part_by_colid_array(part_by_colid_array),
-	m_dxl_window_key_array(window_key_array)
+CDXLPhysicalWindow::CDXLPhysicalWindow(CMemoryPool *mp, ULongPtrArray *part_by_colid_array,
+									   CDXLWindowKeyArray *window_key_array)
+	: CDXLPhysical(mp), m_part_by_colid_array(part_by_colid_array), m_dxl_window_key_array(window_key_array)
 {
 	GPOS_ASSERT(NULL != m_part_by_colid_array);
 	GPOS_ASSERT(NULL != m_dxl_window_key_array);
@@ -119,11 +112,7 @@ CDXLPhysicalWindow::WindowKeysCount() const
 //
 //---------------------------------------------------------------------------
 CDXLWindowKey *
-CDXLPhysicalWindow::GetDXLWindowKeyAt
-	(
-	ULONG position
-	)
-	const
+CDXLPhysicalWindow::GetDXLWindowKeyAt(ULONG position) const
 {
 	GPOS_ASSERT(position <= m_dxl_window_key_array->Size());
 	return (*m_dxl_window_key_array)[position];
@@ -138,12 +127,7 @@ CDXLPhysicalWindow::GetDXLWindowKeyAt
 //
 //---------------------------------------------------------------------------
 void
-CDXLPhysicalWindow::SerializeToDXL
-	(
-	CXMLSerializer *xml_serializer,
-	const CDXLNode *dxlnode
-	)
-	const
+CDXLPhysicalWindow::SerializeToDXL(CXMLSerializer *xml_serializer, const CDXLNode *dxlnode) const
 {
 	const CWStringConst *element_name = GetOpNameStr();
 
@@ -184,12 +168,7 @@ CDXLPhysicalWindow::SerializeToDXL
 //
 //---------------------------------------------------------------------------
 void
-CDXLPhysicalWindow::AssertValid
-	(
-	const CDXLNode *dxlnode,
-	BOOL validate_children
-	)
-	const
+CDXLPhysicalWindow::AssertValid(const CDXLNode *dxlnode, BOOL validate_children) const
 {
 	// assert proj list and filter are valid
 	CDXLPhysical::AssertValid(dxlnode, validate_children);
@@ -202,6 +181,6 @@ CDXLPhysicalWindow::AssertValid
 		child_dxlnode->GetOperator()->AssertValid(child_dxlnode, validate_children);
 	}
 }
-#endif // GPOS_DEBUG
+#endif	// GPOS_DEBUG
 
 // EOF

@@ -6,7 +6,7 @@
 //		CWorkerPoolManager.cpp
 //
 //	@doc:
-//		Central scheduler; 
+//		Central scheduler;
 //		* maintains global worker-local-storage
 //		* keeps track of all worker pools
 //---------------------------------------------------------------------------
@@ -31,16 +31,11 @@ using namespace gpos::clib;
 CMemoryPoolManager *CMemoryPoolManager::m_memory_pool_mgr = NULL;
 
 // ctor
-CMemoryPoolManager::CMemoryPoolManager
-	(
-	CMemoryPool *internal,
-	EMemoryPoolType memory_pool_type
-	)
-	:
-	m_internal_memory_pool(internal),
-	m_allow_global_new(true),
-	m_ht_all_pools(NULL),
-	m_memory_pool_type(memory_pool_type)
+CMemoryPoolManager::CMemoryPoolManager(CMemoryPool *internal, EMemoryPoolType memory_pool_type)
+	: m_internal_memory_pool(internal),
+	  m_allow_global_new(true),
+	  m_ht_all_pools(NULL),
+	  m_memory_pool_type(memory_pool_type)
 {
 	GPOS_ASSERT(NULL != internal);
 	GPOS_ASSERT(GPOS_OFFSET(CMemoryPool, m_link) == GPOS_OFFSET(CMemoryPoolTracker, m_link));
@@ -56,16 +51,8 @@ void
 CMemoryPoolManager::Setup()
 {
 	m_ht_all_pools = GPOS_NEW(m_internal_memory_pool) CSyncHashtable<CMemoryPool, ULONG_PTR>();
-	m_ht_all_pools->Init
-		(
-		m_internal_memory_pool,
-		GPOS_MEMORY_POOL_HT_SIZE,
-		GPOS_OFFSET(CMemoryPool, m_link),
-		GPOS_OFFSET(CMemoryPool, m_hash_key),
-		&(CMemoryPool::m_invalid),
-		HashULongPtr,
-		EqualULongPtr
-		);
+	m_ht_all_pools->Init(m_internal_memory_pool, GPOS_MEMORY_POOL_HT_SIZE, GPOS_OFFSET(CMemoryPool, m_link),
+						 GPOS_OFFSET(CMemoryPool, m_hash_key), &(CMemoryPool::m_invalid), HashULongPtr, EqualULongPtr);
 
 	// create pool used in allocations made using global new operator
 	m_global_memory_pool = CreateMemoryPool();
@@ -112,10 +99,7 @@ CMemoryPoolManager::NewMemoryPool()
 
 // Release given memory pool
 void
-CMemoryPoolManager::Destroy
-	(
-	CMemoryPool *mp
-	)
+CMemoryPoolManager::Destroy(CMemoryPool *mp)
 {
 	GPOS_ASSERT(NULL != mp);
 
@@ -155,14 +139,14 @@ CMemoryPoolManager::TotalAllocatedSize()
 
 // free memory allocation
 void
-CMemoryPoolManager::DeleteImpl(void* ptr, CMemoryPool::EAllocationType eat)
+CMemoryPoolManager::DeleteImpl(void *ptr, CMemoryPool::EAllocationType eat)
 {
 	CMemoryPoolTracker::DeleteImpl(ptr, eat);
 }
 
 // get user requested size of allocation
 ULONG
-CMemoryPoolManager::UserSizeOfAlloc(const void* ptr)
+CMemoryPoolManager::UserSizeOfAlloc(const void *ptr)
 {
 	return CMemoryPoolTracker::UserSizeOfAlloc(ptr);
 }
@@ -172,10 +156,7 @@ CMemoryPoolManager::UserSizeOfAlloc(const void* ptr)
 
 // Print contents of all allocated memory pools
 IOstream &
-CMemoryPoolManager::OsPrint
-	(
-	IOstream &os
-	)
+CMemoryPoolManager::OsPrint(IOstream &os)
 {
 	os << "Print memory pools: " << std::endl;
 
@@ -200,11 +181,9 @@ CMemoryPoolManager::OsPrint
 
 // Print memory pools with total allocated size above given threshold
 void
-CMemoryPoolManager::PrintOverSizedPools
-	(
-	CMemoryPool *trace,
-	ULLONG size_threshold // size threshold in bytes
-	)
+CMemoryPoolManager::PrintOverSizedPools(CMemoryPool *trace,
+										ULLONG size_threshold  // size threshold in bytes
+)
 {
 	MemoryPoolIter iter(*m_ht_all_pools);
 	while (iter.Advance())
@@ -223,21 +202,18 @@ CMemoryPoolManager::PrintOverSizedPools
 		}
 	}
 }
-#endif // GPOS_DEBUG
+#endif	// GPOS_DEBUG
 
 
 // Destroy a memory pool at shutdown
 void
-CMemoryPoolManager::DestroyMemoryPoolAtShutdown
-	(
-	CMemoryPool *mp
-	)
+CMemoryPoolManager::DestroyMemoryPoolAtShutdown(CMemoryPool *mp)
 {
 	GPOS_ASSERT(NULL != mp);
 
 #ifdef GPOS_DEBUG
 	gpos::oswcerr << "Leaked " << *mp << std::endl;
-#endif // GPOS_DEBUG
+#endif	// GPOS_DEBUG
 
 	mp->TearDown();
 	GPOS_DELETE(mp);
@@ -253,9 +229,9 @@ CMemoryPoolManager::Cleanup()
 	if (0 < m_global_memory_pool->TotalAllocatedSize())
 	{
 		// allocations made by calling global new operator are not deleted
-		gpos::oswcerr << "Memory leaks detected"<< std::endl << *m_global_memory_pool << std::endl;
+		gpos::oswcerr << "Memory leaks detected" << std::endl << *m_global_memory_pool << std::endl;
 	}
-#endif // GPOS_DEBUG
+#endif	// GPOS_DEBUG
 
 	GPOS_ASSERT(NULL != m_global_memory_pool);
 	Destroy(m_global_memory_pool);
@@ -282,10 +258,9 @@ CMemoryPoolManager::Shutdown()
 
 #ifdef GPOS_DEBUG
 	internal->AssertEmpty(oswcerr);
-#endif // GPOS_DEBUG
+#endif	// GPOS_DEBUG
 
 	Free(internal);
 }
 
 // EOF
-

@@ -35,11 +35,7 @@ using namespace gpopt;
 //
 //---------------------------------------------------------------------------
 CXform::EXformPromise
-CXformSubqueryUnnest::Exfp
-	(
-	CExpressionHandle &exprhdl
-	)
-	const
+CXformSubqueryUnnest::Exfp(CExpressionHandle &exprhdl) const
 {
 	if (exprhdl.DeriveHasSubquery(1))
 	{
@@ -59,12 +55,7 @@ CXformSubqueryUnnest::Exfp
 //
 //---------------------------------------------------------------------------
 CExpression *
-CXformSubqueryUnnest::PexprSubqueryUnnest
-	(
-	CMemoryPool *mp,
-	CExpression *pexpr,
-	BOOL fEnforceCorrelatedApply
-	)
+CXformSubqueryUnnest::PexprSubqueryUnnest(CMemoryPool *mp, CExpression *pexpr, BOOL fEnforceCorrelatedApply)
 {
 	GPOS_ASSERT(NULL != pexpr);
 
@@ -108,13 +99,15 @@ CXformSubqueryUnnest::PexprSubqueryUnnest
 		switch (op_id)
 		{
 			case COperator::EopLogicalProject:
-				pexprResult = CUtils::PexprLogicalProject(mp, pexprNewOuter, pexprResidualScalar, false /*fNewComputedCol*/);
+				pexprResult =
+					CUtils::PexprLogicalProject(mp, pexprNewOuter, pexprResidualScalar, false /*fNewComputedCol*/);
 				break;
 
 			case COperator::EopLogicalGbAgg:
 				popGbAgg = CLogicalGbAgg::PopConvert(pexpr->Pop());
 				popGbAgg->Pdrgpcr()->AddRef();
-				pexprResult = CUtils::PexprLogicalGbAgg(mp, popGbAgg->Pdrgpcr(), pexprNewOuter, pexprResidualScalar, popGbAgg->Egbaggtype());
+				pexprResult = CUtils::PexprLogicalGbAgg(mp, popGbAgg->Pdrgpcr(), pexprNewOuter, pexprResidualScalar,
+														popGbAgg->Egbaggtype());
 				break;
 
 			case COperator::EopLogicalSequenceProject:
@@ -123,7 +116,8 @@ CXformSubqueryUnnest::PexprSubqueryUnnest
 				popSeqPrj->Pdrgpos()->AddRef();
 				popSeqPrj->Pdrgpwf()->AddRef();
 				pexprResult =
-					CUtils::PexprLogicalSequenceProject(mp, popSeqPrj->Pds(), popSeqPrj->Pdrgpos(), popSeqPrj->Pdrgpwf(), pexprNewOuter, pexprResidualScalar);
+					CUtils::PexprLogicalSequenceProject(mp, popSeqPrj->Pds(), popSeqPrj->Pdrgpos(),
+														popSeqPrj->Pdrgpwf(), pexprNewOuter, pexprResidualScalar);
 				break;
 
 			default:
@@ -148,14 +142,8 @@ CXformSubqueryUnnest::PexprSubqueryUnnest
 }
 
 void
-CXformSubqueryUnnest::Transform
-	(
-	CXformContext *pxfctxt,
-	CXformResult *pxfres,
-	CExpression *pexpr,
-	BOOL fEnforceCorrelatedApply
-	)
-	const
+CXformSubqueryUnnest::Transform(CXformContext *pxfctxt, CXformResult *pxfres, CExpression *pexpr,
+								BOOL fEnforceCorrelatedApply) const
 {
 	CMemoryPool *pmp = pxfctxt->Pmp();
 
@@ -178,13 +166,7 @@ CXformSubqueryUnnest::Transform
 //
 //---------------------------------------------------------------------------
 void
-CXformSubqueryUnnest::Transform
-	(
-	CXformContext *pxfctxt,
-	CXformResult *pxfres,
-	CExpression *pexpr
-	)
-	const
+CXformSubqueryUnnest::Transform(CXformContext *pxfctxt, CXformResult *pxfres, CExpression *pexpr) const
 {
 	GPOS_ASSERT(NULL != pxfctxt);
 	GPOS_ASSERT(FPromising(pxfctxt->Pmp(), this, pexpr));

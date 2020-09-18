@@ -29,14 +29,7 @@ using namespace gpopt;
 //		Ctor - for pattern
 //
 //---------------------------------------------------------------------------
-CLogicalInsert::CLogicalInsert
-	(
-	CMemoryPool *mp
-	)
-	:
-	CLogical(mp),
-	m_ptabdesc(NULL),
-	m_pdrgpcrSource(NULL)
+CLogicalInsert::CLogicalInsert(CMemoryPool *mp) : CLogical(mp), m_ptabdesc(NULL), m_pdrgpcrSource(NULL)
 {
 	m_fPattern = true;
 }
@@ -49,16 +42,8 @@ CLogicalInsert::CLogicalInsert
 //		Ctor
 //
 //---------------------------------------------------------------------------
-CLogicalInsert::CLogicalInsert
-	(
-	CMemoryPool *mp,
-	CTableDescriptor *ptabdesc,
-	CColRefArray *pdrgpcrSource
-	)
-	:
-	CLogical(mp),
-	m_ptabdesc(ptabdesc),
-	m_pdrgpcrSource(pdrgpcrSource)
+CLogicalInsert::CLogicalInsert(CMemoryPool *mp, CTableDescriptor *ptabdesc, CColRefArray *pdrgpcrSource)
+	: CLogical(mp), m_ptabdesc(ptabdesc), m_pdrgpcrSource(pdrgpcrSource)
 
 {
 	GPOS_ASSERT(NULL != ptabdesc);
@@ -90,11 +75,7 @@ CLogicalInsert::~CLogicalInsert()
 //
 //---------------------------------------------------------------------------
 BOOL
-CLogicalInsert::Matches
-	(
-	COperator *pop
-	)
-	const
+CLogicalInsert::Matches(COperator *pop) const
 {
 	if (pop->Eopid() != Eopid())
 	{
@@ -104,7 +85,7 @@ CLogicalInsert::Matches
 	CLogicalInsert *popInsert = CLogicalInsert::PopConvert(pop);
 
 	return m_ptabdesc->MDId()->Equals(popInsert->Ptabdesc()->MDId()) &&
-			m_pdrgpcrSource->Equals(popInsert->PdrgpcrSource());
+		   m_pdrgpcrSource->Equals(popInsert->PdrgpcrSource());
 }
 
 //---------------------------------------------------------------------------
@@ -133,12 +114,7 @@ CLogicalInsert::HashValue() const
 //
 //---------------------------------------------------------------------------
 COperator *
-CLogicalInsert::PopCopyWithRemappedColumns
-	(
-	CMemoryPool *mp,
-	UlongToColRefMap *colref_mapping,
-	BOOL must_exist
-	)
+CLogicalInsert::PopCopyWithRemappedColumns(CMemoryPool *mp, UlongToColRefMap *colref_mapping, BOOL must_exist)
 {
 	CColRefArray *colref_array = CUtils::PdrgpcrRemap(mp, m_pdrgpcrSource, colref_mapping, must_exist);
 	m_ptabdesc->AddRef();
@@ -155,11 +131,9 @@ CLogicalInsert::PopCopyWithRemappedColumns
 //
 //---------------------------------------------------------------------------
 CColRefSet *
-CLogicalInsert::DeriveOutputColumns
-	(
-	CMemoryPool *mp,
-	CExpressionHandle & //exprhdl
-	)
+CLogicalInsert::DeriveOutputColumns(CMemoryPool *mp,
+									CExpressionHandle &	 //exprhdl
+)
 {
 	CColRefSet *pcrsOutput = GPOS_NEW(mp) CColRefSet(mp);
 	pcrsOutput->Include(m_pdrgpcrSource);
@@ -175,12 +149,8 @@ CLogicalInsert::DeriveOutputColumns
 //
 //---------------------------------------------------------------------------
 CKeyCollection *
-CLogicalInsert::DeriveKeyCollection
-	(
-	CMemoryPool *, // mp
-	CExpressionHandle &exprhdl
-	)
-	const
+CLogicalInsert::DeriveKeyCollection(CMemoryPool *,	// mp
+									CExpressionHandle &exprhdl) const
 {
 	return PkcDeriveKeysPassThru(exprhdl, 0 /* ulChild */);
 }
@@ -194,12 +164,8 @@ CLogicalInsert::DeriveKeyCollection
 //
 //---------------------------------------------------------------------------
 CMaxCard
-CLogicalInsert::DeriveMaxCard
-	(
-	CMemoryPool *, // mp
-	CExpressionHandle &exprhdl
-	)
-	const
+CLogicalInsert::DeriveMaxCard(CMemoryPool *,  // mp
+							  CExpressionHandle &exprhdl) const
 {
 	// pass on max card of first child
 	return exprhdl.DeriveMaxCard(0);
@@ -214,11 +180,7 @@ CLogicalInsert::DeriveMaxCard
 //
 //---------------------------------------------------------------------------
 CXformSet *
-CLogicalInsert::PxfsCandidates
-	(
-	CMemoryPool *mp
-	)
-	const
+CLogicalInsert::PxfsCandidates(CMemoryPool *mp) const
 {
 	CXformSet *xform_set = GPOS_NEW(mp) CXformSet(mp);
 	(void) xform_set->ExchangeSet(CXform::ExfInsert2DML);
@@ -234,13 +196,10 @@ CLogicalInsert::PxfsCandidates
 //
 //---------------------------------------------------------------------------
 IStatistics *
-CLogicalInsert::PstatsDerive
-	(
-	CMemoryPool *, // mp,
-	CExpressionHandle &exprhdl,
-	IStatisticsArray * // not used
-	)
-	const
+CLogicalInsert::PstatsDerive(CMemoryPool *,	 // mp,
+							 CExpressionHandle &exprhdl,
+							 IStatisticsArray *	 // not used
+) const
 {
 	return PstatsPassThruOuter(exprhdl);
 }
@@ -254,26 +213,20 @@ CLogicalInsert::PstatsDerive
 //
 //---------------------------------------------------------------------------
 IOstream &
-CLogicalInsert::OsPrint
-	(
-	IOstream &os
-	)
-	const
+CLogicalInsert::OsPrint(IOstream &os) const
 {
 	if (m_fPattern)
 	{
 		return COperator::OsPrint(os);
 	}
 
-	os	<< SzId()
-		<< " (";
+	os << SzId() << " (";
 	m_ptabdesc->Name().OsPrint(os);
 	os << "), Source Columns: [";
 	CUtils::OsPrintDrgPcr(os, m_pdrgpcrSource);
-	os	<< "]";
+	os << "]";
 
 	return os;
 }
 
 // EOF
-

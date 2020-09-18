@@ -28,24 +28,16 @@ using namespace gpopt;
 //		ctor
 //
 //---------------------------------------------------------------------------
-CXformLeftAntiSemiJoinNotIn2HashJoinNotIn::CXformLeftAntiSemiJoinNotIn2HashJoinNotIn
-	(
-	CMemoryPool *mp
-	)
-	:
-	// pattern
-	CXformImplementation
-		(
-		GPOS_NEW(mp) CExpression
-					(
-					mp,
-					GPOS_NEW(mp) CLogicalLeftAntiSemiJoinNotIn(mp),
-					GPOS_NEW(mp) CExpression(mp, GPOS_NEW(mp) CPatternLeaf(mp)), // left child
-					GPOS_NEW(mp) CExpression(mp, GPOS_NEW(mp) CPatternLeaf(mp)), // right child
-					GPOS_NEW(mp) CExpression(mp, GPOS_NEW(mp) CPatternTree(mp))  // predicate
-					)
-		)
-{}
+CXformLeftAntiSemiJoinNotIn2HashJoinNotIn::CXformLeftAntiSemiJoinNotIn2HashJoinNotIn(CMemoryPool *mp)
+	:  // pattern
+	  CXformImplementation(GPOS_NEW(mp)
+							   CExpression(mp, GPOS_NEW(mp) CLogicalLeftAntiSemiJoinNotIn(mp),
+										   GPOS_NEW(mp) CExpression(mp, GPOS_NEW(mp) CPatternLeaf(mp)),	 // left child
+										   GPOS_NEW(mp) CExpression(mp, GPOS_NEW(mp) CPatternLeaf(mp)),	 // right child
+										   GPOS_NEW(mp) CExpression(mp, GPOS_NEW(mp) CPatternTree(mp))	 // predicate
+										   ))
+{
+}
 
 //---------------------------------------------------------------------------
 //	@function:
@@ -56,11 +48,7 @@ CXformLeftAntiSemiJoinNotIn2HashJoinNotIn::CXformLeftAntiSemiJoinNotIn2HashJoinN
 //
 //---------------------------------------------------------------------------
 CXform::EXformPromise
-CXformLeftAntiSemiJoinNotIn2HashJoinNotIn::Exfp
-	(
-	CExpressionHandle &exprhdl
-	)
-	const
+CXformLeftAntiSemiJoinNotIn2HashJoinNotIn::Exfp(CExpressionHandle &exprhdl) const
 {
 	return CXformUtils::ExfpLogicalJoin2PhysicalJoin(exprhdl);
 }
@@ -74,13 +62,8 @@ CXformLeftAntiSemiJoinNotIn2HashJoinNotIn::Exfp
 //
 //---------------------------------------------------------------------------
 void
-CXformLeftAntiSemiJoinNotIn2HashJoinNotIn::Transform
-	(
-	CXformContext *pxfctxt,
-	CXformResult *pxfres,
-	CExpression *pexpr
-	)
-	const
+CXformLeftAntiSemiJoinNotIn2HashJoinNotIn::Transform(CXformContext *pxfctxt, CXformResult *pxfres,
+													 CExpression *pexpr) const
 {
 	GPOS_ASSERT(NULL != pxfctxt);
 	GPOS_ASSERT(FPromising(pxfctxt->Pmp(), this, pexpr));

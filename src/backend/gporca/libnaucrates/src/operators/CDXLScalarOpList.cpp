@@ -26,14 +26,8 @@ using namespace gpdxl;
 //		Ctor
 //
 //---------------------------------------------------------------------------
-CDXLScalarOpList::CDXLScalarOpList
-	(
-	CMemoryPool *mp,
-	EdxlOpListType dxl_op_list_type
-	)
-	:
-	CDXLScalar(mp),
-	m_dxl_op_list_type(dxl_op_list_type)
+CDXLScalarOpList::CDXLScalarOpList(CMemoryPool *mp, EdxlOpListType dxl_op_list_type)
+	: CDXLScalar(mp), m_dxl_op_list_type(dxl_op_list_type)
 {
 	GPOS_ASSERT(EdxloplistSentinel > dxl_op_list_type);
 }
@@ -95,12 +89,7 @@ CDXLScalarOpList::GetOpNameStr() const
 //
 //---------------------------------------------------------------------------
 void
-CDXLScalarOpList::SerializeToDXL
-	(
-	CXMLSerializer *xml_serializer,
-	const CDXLNode *dxlnode
-	)
-	const
+CDXLScalarOpList::SerializeToDXL(CXMLSerializer *xml_serializer, const CDXLNode *dxlnode) const
 {
 	const CWStringConst *element_name = GetOpNameStr();
 
@@ -119,12 +108,7 @@ CDXLScalarOpList::SerializeToDXL
 //
 //---------------------------------------------------------------------------
 void
-CDXLScalarOpList::AssertValid
-	(
-	const CDXLNode *dxlnode,
-	BOOL validate_children
-	)
-	const
+CDXLScalarOpList::AssertValid(const CDXLNode *dxlnode, BOOL validate_children) const
 {
 	const ULONG arity = dxlnode->Arity();
 	for (ULONG idx = 0; idx < arity; ++idx)
@@ -138,6 +122,6 @@ CDXLScalarOpList::AssertValid
 		}
 	}
 }
-#endif // GPOS_DEBUG
+#endif	// GPOS_DEBUG
 
 // EOF

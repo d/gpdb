@@ -16,16 +16,12 @@
 #include "unittest/gpopt/CTestUtils.h"
 
 #define EXPECTED_BINDING 2
-static
-const CHAR *szQueryFile= "../data/dxl/minidump/ExtractOneBindingFromScalarGroups.mdp";
+static const CHAR *szQueryFile = "../data/dxl/minidump/ExtractOneBindingFromScalarGroups.mdp";
 
 GPOS_RESULT
 CBindingTest::EresUnittest()
 {
-	CUnittest rgut[] =
-		{
-		GPOS_UNITTEST_FUNC(CBindingTest::EresUnittest_Basic)
-		};
+	CUnittest rgut[] = {GPOS_UNITTEST_FUNC(CBindingTest::EresUnittest_Basic)};
 
 	return CUnittest::EresExecute(rgut, GPOS_ARRAY_SIZE(rgut));
 }
@@ -121,12 +117,8 @@ CBindingTest::EresUnittest_Basic()
 
 	// translate DXL Tree -> Expr Tree
 	CTranslatorDXLToExpr *pdxltr = GPOS_NEW(mp) CTranslatorDXLToExpr(mp, &mda);
-	CExpression *pexprTranslated =	pdxltr->PexprTranslateQuery
-	                                     (
-	                                     pdxlmd->GetQueryDXLRoot(),
-	                                     pdxlmd->PdrgpdxlnQueryOutput(),
-	                                     pdxlmd->GetCTEProducerDXLArray()
-	                                     );
+	CExpression *pexprTranslated = pdxltr->PexprTranslateQuery(
+		pdxlmd->GetQueryDXLRoot(), pdxlmd->PdrgpdxlnQueryOutput(), pdxlmd->GetCTEProducerDXLArray());
 
 	gpdxl::ULongPtrArray *pdrgul = pdxltr->PdrgpulOutputColRefs();
 	gpmd::CMDNameArray *pdrgpmdname = pdxltr->Pdrgpmdname();
@@ -144,7 +136,8 @@ CBindingTest::EresUnittest_Basic()
 
 	UlongPtrArray *number_of_bindings = eng.GetNumberOfBindings();
 	ULONG search_stage = 0;
-	ULONG bindings_for_xform = (ULONG) (*number_of_bindings)[search_stage][CXform::ExfInnerJoinWithInnerSelect2IndexGetApply];
+	ULONG bindings_for_xform =
+		(ULONG)(*number_of_bindings)[search_stage][CXform::ExfInnerJoinWithInnerSelect2IndexGetApply];
 
 	GPOS_RESULT eres = GPOS_FAILED;
 

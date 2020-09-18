@@ -28,14 +28,8 @@ CCacheFactory *CCacheFactory::m_factory = NULL;
 //		Ctor;
 //
 //---------------------------------------------------------------------------
-CCacheFactory::CCacheFactory
-	(
-		CMemoryPool *mp
-	)
-	:
-	m_mp(mp)
+CCacheFactory::CCacheFactory(CMemoryPool *mp) : m_mp(mp)
 {
-
 }
 
 
@@ -65,8 +59,7 @@ CCacheFactory::Pmp() const
 GPOS_RESULT
 CCacheFactory::Init()
 {
-	GPOS_ASSERT(NULL == GetFactory() &&
-			    "Cache factory was already initialized");
+	GPOS_ASSERT(NULL == GetFactory() && "Cache factory was already initialized");
 
 	GPOS_RESULT res = GPOS_OK;
 
@@ -111,8 +104,7 @@ CCacheFactory::Shutdown()
 {
 	CCacheFactory *factory = CCacheFactory::GetFactory();
 
-	GPOS_ASSERT(NULL != factory &&
-			    "Cache factory has not been initialized");
+	GPOS_ASSERT(NULL != factory && "Cache factory has not been initialized");
 
 	CMemoryPool *mp = factory->m_mp;
 

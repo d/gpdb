@@ -23,16 +23,10 @@ using namespace gpopt;
 //		ctor
 //
 //---------------------------------------------------------------------------
-CKeyCollection::CKeyCollection
-	(
-	CMemoryPool *mp
-	)
-	:
-	m_mp(mp),
-	m_pdrgpcrs(NULL)
+CKeyCollection::CKeyCollection(CMemoryPool *mp) : m_mp(mp), m_pdrgpcrs(NULL)
 {
 	GPOS_ASSERT(NULL != mp);
-	
+
 	m_pdrgpcrs = GPOS_NEW(mp) CColRefSetArray(mp);
 }
 
@@ -45,23 +39,16 @@ CKeyCollection::CKeyCollection
 //		ctor
 //
 //---------------------------------------------------------------------------
-CKeyCollection::CKeyCollection
-	(
-	CMemoryPool *mp,
-	CColRefSet *pcrs
-	)
-	:
-	m_mp(mp),
-	m_pdrgpcrs(NULL)
+CKeyCollection::CKeyCollection(CMemoryPool *mp, CColRefSet *pcrs) : m_mp(mp), m_pdrgpcrs(NULL)
 {
 	GPOS_ASSERT(NULL != pcrs && 0 < pcrs->Size());
-	
+
 	m_pdrgpcrs = GPOS_NEW(mp) CColRefSetArray(mp);
 
 	// we own the set
 	Add(pcrs);
 }
-	
+
 
 //---------------------------------------------------------------------------
 //	@function:
@@ -71,20 +58,13 @@ CKeyCollection::CKeyCollection
 //		ctor
 //
 //---------------------------------------------------------------------------
-CKeyCollection::CKeyCollection
-	(
-	CMemoryPool *mp,
-	CColRefArray *colref_array
-	)
-	:
-	m_mp(mp),
-	m_pdrgpcrs(NULL)
+CKeyCollection::CKeyCollection(CMemoryPool *mp, CColRefArray *colref_array) : m_mp(mp), m_pdrgpcrs(NULL)
 {
 	GPOS_ASSERT(NULL != mp);
 	GPOS_ASSERT(NULL != colref_array && 0 < colref_array->Size());
-	
+
 	m_pdrgpcrs = GPOS_NEW(mp) CColRefSetArray(mp);
-	
+
 	CColRefSet *pcrs = GPOS_NEW(mp) CColRefSet(mp);
 	pcrs->Include(colref_array);
 	Add(pcrs);
@@ -117,13 +97,10 @@ CKeyCollection::~CKeyCollection()
 //
 //---------------------------------------------------------------------------
 void
-CKeyCollection::Add
-	(
-	CColRefSet *pcrs
-	)
+CKeyCollection::Add(CColRefSet *pcrs)
 {
 	GPOS_ASSERT(!FKey(pcrs) && "no duplicates allowed");
-	
+
 	m_pdrgpcrs->Append(pcrs);
 }
 
@@ -137,13 +114,10 @@ CKeyCollection::Add
 //
 //---------------------------------------------------------------------------
 BOOL
-CKeyCollection::FKey
-	(
-	const CColRefSet *pcrs,
-	BOOL fExactMatch // true: match keys exactly,
-					//  false: match keys by inclusion
-	)
-	const
+CKeyCollection::FKey(const CColRefSet *pcrs,
+					 BOOL fExactMatch  // true: match keys exactly,
+									   //  false: match keys by inclusion
+) const
 {
 	const ULONG ulSets = m_pdrgpcrs->Size();
 	for (ULONG ul = 0; ul < ulSets; ul++)
@@ -165,7 +139,7 @@ CKeyCollection::FKey
 			}
 		}
 	}
-	
+
 	return false;
 }
 
@@ -180,19 +154,14 @@ CKeyCollection::FKey
 //
 //---------------------------------------------------------------------------
 BOOL
-CKeyCollection::FKey
-	(
-	CMemoryPool *mp,
-	const CColRefArray *colref_array
-	)
-	const
+CKeyCollection::FKey(CMemoryPool *mp, const CColRefArray *colref_array) const
 {
 	CColRefSet *pcrs = GPOS_NEW(mp) CColRefSet(mp);
 	pcrs->Include(colref_array);
-	
+
 	BOOL fKey = FKey(pcrs);
 	pcrs->Release();
-	
+
 	return fKey;
 }
 
@@ -206,19 +175,14 @@ CKeyCollection::FKey
 //
 //---------------------------------------------------------------------------
 CColRefArray *
-CKeyCollection::PdrgpcrTrim
-	(
-	CMemoryPool *mp,
-	const CColRefArray *colref_array
-	)
-	const
+CKeyCollection::PdrgpcrTrim(CMemoryPool *mp, const CColRefArray *colref_array) const
 {
 	CColRefArray *pdrgpcrTrim = NULL;
 	CColRefSet *pcrs = GPOS_NEW(mp) CColRefSet(mp);
 	pcrs->Include(colref_array);
 
 	const ULONG ulSets = m_pdrgpcrs->Size();
-	for(ULONG ul = 0; ul < ulSets; ul++)
+	for (ULONG ul = 0; ul < ulSets; ul++)
 	{
 		CColRefSet *pcrsKey = (*m_pdrgpcrs)[ul];
 		if (pcrs->ContainsAll(pcrsKey))
@@ -230,7 +194,7 @@ CKeyCollection::PdrgpcrTrim
 	pcrs->Release();
 
 	return pdrgpcrTrim;
-}	
+}
 
 //---------------------------------------------------------------------------
 //	@function:
@@ -241,11 +205,7 @@ CKeyCollection::PdrgpcrTrim
 //
 //---------------------------------------------------------------------------
 CColRefArray *
-CKeyCollection::PdrgpcrKey
-	(
-	CMemoryPool *mp
-	)
-	const
+CKeyCollection::PdrgpcrKey(CMemoryPool *mp) const
 {
 	if (0 == m_pdrgpcrs->Size())
 	{
@@ -268,14 +228,10 @@ CKeyCollection::PdrgpcrKey
 //
 //---------------------------------------------------------------------------
 CColRefArray *
-CKeyCollection::PdrgpcrHashableKey
-	(
-	CMemoryPool *mp
-	)
-	const
+CKeyCollection::PdrgpcrHashableKey(CMemoryPool *mp) const
 {
 	const ULONG ulSets = m_pdrgpcrs->Size();
-	for(ULONG ul = 0; ul < ulSets; ul++)
+	for (ULONG ul = 0; ul < ulSets; ul++)
 	{
 		CColRefArray *pdrgpcrKey = (*m_pdrgpcrs)[ul]->Pdrgpcr(mp);
 		if (CUtils::IsHashable(pdrgpcrKey))
@@ -299,20 +255,15 @@ CKeyCollection::PdrgpcrHashableKey
 //
 //---------------------------------------------------------------------------
 CColRefArray *
-CKeyCollection::PdrgpcrKey
-	(
-	CMemoryPool *mp,
-	ULONG ulIndex
-	)
-	const
+CKeyCollection::PdrgpcrKey(CMemoryPool *mp, ULONG ulIndex) const
 {
 	if (0 == m_pdrgpcrs->Size())
 	{
 		return NULL;
 	}
-	
+
 	GPOS_ASSERT(NULL != (*m_pdrgpcrs)[ulIndex]);
-	
+
 	CColRefArray *colref_array = (*m_pdrgpcrs)[ulIndex]->Pdrgpcr(mp);
 	return colref_array;
 }
@@ -327,12 +278,7 @@ CKeyCollection::PdrgpcrKey
 //
 //---------------------------------------------------------------------------
 CColRefSet *
-CKeyCollection::PcrsKey
-	(
-	CMemoryPool *mp,
-	ULONG ulIndex
-	)
-	const
+CKeyCollection::PcrsKey(CMemoryPool *mp, ULONG ulIndex) const
 {
 	if (0 == m_pdrgpcrs->Size())
 	{
@@ -355,16 +301,12 @@ CKeyCollection::PcrsKey
 //
 //---------------------------------------------------------------------------
 IOstream &
-CKeyCollection::OsPrint
-	(
-	IOstream &os
-	)
-	const
+CKeyCollection::OsPrint(IOstream &os) const
 {
 	os << " Keys: (";
 
 	const ULONG ulSets = m_pdrgpcrs->Size();
-	for(ULONG ul = 0; ul < ulSets; ul++)
+	for (ULONG ul = 0; ul < ulSets; ul++)
 	{
 		if (0 < ul)
 		{
@@ -374,10 +316,9 @@ CKeyCollection::OsPrint
 		GPOS_ASSERT(NULL != (*m_pdrgpcrs)[ul]);
 		os << "[" << (*(*m_pdrgpcrs)[ul]) << "]";
 	}
-	
+
 	return os << ")";
 }
 
 
 // EOF
-

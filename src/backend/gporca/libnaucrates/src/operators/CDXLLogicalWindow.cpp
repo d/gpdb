@@ -7,9 +7,9 @@
 //
 //	@doc:
 //		Implementation of DXL logical window operator
-//		
-//	@owner: 
-//		
+//
+//	@owner:
+//
 //
 //	@test:
 //
@@ -34,14 +34,8 @@ using namespace gpdxl;
 //		Ctor
 //
 //---------------------------------------------------------------------------
-CDXLLogicalWindow::CDXLLogicalWindow
-	(
-	CMemoryPool *mp,
-	CDXLWindowSpecArray *window_spec_array
-	)
-	:
-	CDXLLogical(mp),
-	m_window_spec_array(window_spec_array)
+CDXLLogicalWindow::CDXLLogicalWindow(CMemoryPool *mp, CDXLWindowSpecArray *window_spec_array)
+	: CDXLLogical(mp), m_window_spec_array(window_spec_array)
 {
 	GPOS_ASSERT(NULL != m_window_spec_array);
 	GPOS_ASSERT(0 < m_window_spec_array->Size());
@@ -97,11 +91,7 @@ CDXLLogicalWindow::GetOpNameStr() const
 //
 //---------------------------------------------------------------------------
 CDXLWindowSpec *
-CDXLLogicalWindow::GetWindowKeyAt
-	(
-	ULONG idx
-	)
-	const
+CDXLLogicalWindow::GetWindowKeyAt(ULONG idx) const
 {
 	GPOS_ASSERT(idx <= m_window_spec_array->Size());
 	return (*m_window_spec_array)[idx];
@@ -116,12 +106,7 @@ CDXLLogicalWindow::GetWindowKeyAt
 //
 //---------------------------------------------------------------------------
 void
-CDXLLogicalWindow::SerializeToDXL
-	(
-	CXMLSerializer *xml_serializer,
-	const CDXLNode *node
-	)
-	const
+CDXLLogicalWindow::SerializeToDXL(CXMLSerializer *xml_serializer, const CDXLNode *node) const
 {
 	const CWStringConst *element_name = GetOpNameStr();
 
@@ -154,11 +139,7 @@ CDXLLogicalWindow::SerializeToDXL
 //
 //---------------------------------------------------------------------------
 void
-CDXLLogicalWindow::AssertValid
-	(
-	const CDXLNode *node,
-	BOOL validate_children
-	) const
+CDXLLogicalWindow::AssertValid(const CDXLNode *node, BOOL validate_children) const
 {
 	GPOS_ASSERT(2 == node->Arity());
 
@@ -185,6 +166,6 @@ CDXLLogicalWindow::AssertValid
 	GPOS_ASSERT(0 < m_window_spec_array->Size());
 }
 
-#endif // GPOS_DEBUG
+#endif	// GPOS_DEBUG
 
 // EOF

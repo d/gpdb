@@ -23,12 +23,7 @@ using namespace gpopt;
 //		ctor
 //
 //---------------------------------------------------------------------------
-CXformResult::CXformResult
-	(
-	CMemoryPool *mp
-	)
-	:
-	m_ulExpr(0)
+CXformResult::CXformResult(CMemoryPool *mp) : m_ulExpr(0)
 {
 	GPOS_ASSERT(NULL != mp);
 	m_pdrgpexpr = GPOS_NEW(mp) CExpressionArray(mp);
@@ -59,10 +54,7 @@ CXformResult::~CXformResult()
 //
 //---------------------------------------------------------------------------
 void
-CXformResult::Add
-	(
-	CExpression *pexpr
-	)
+CXformResult::Add(CExpression *pexpr)
 {
 	GPOS_ASSERT(0 == m_ulExpr && "Incorrect workflow: cannot add further alternatives");
 
@@ -90,7 +82,7 @@ CXformResult::PexprNext()
 
 	GPOS_ASSERT(m_ulExpr <= m_pdrgpexpr->Size());
 	m_ulExpr++;
-	
+
 	return pexpr;
 }
 
@@ -104,14 +96,10 @@ CXformResult::PexprNext()
 //
 //---------------------------------------------------------------------------
 IOstream &
-CXformResult::OsPrint
-	(
-	IOstream &os
-	) 
-	const
+CXformResult::OsPrint(IOstream &os) const
 {
 	os << "Alternatives:" << std::endl;
-	
+
 	for (ULONG i = 0; i < m_pdrgpexpr->Size(); i++)
 	{
 		os << i << ": " << std::endl;
@@ -122,4 +110,3 @@ CXformResult::OsPrint
 }
 
 // EOF
-

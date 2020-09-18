@@ -24,14 +24,7 @@ using namespace gpmd;
 //		Ctor
 //
 //---------------------------------------------------------------------------
-CScalarCaseTest::CScalarCaseTest
-	(
-	CMemoryPool *mp,
-	IMDId *mdid_type
-	)
-	:
-	CScalar(mp),
-	m_mdid_type(mdid_type)
+CScalarCaseTest::CScalarCaseTest(CMemoryPool *mp, IMDId *mdid_type) : CScalar(mp), m_mdid_type(mdid_type)
 {
 	GPOS_ASSERT(mdid_type->IsValid());
 }
@@ -88,13 +81,9 @@ CScalarCaseTest::FInputOrderSensitive() const
 //
 //---------------------------------------------------------------------------
 BOOL
-CScalarCaseTest::Matches
-	(
-	COperator *pop
-	)
-	const
+CScalarCaseTest::Matches(COperator *pop) const
 {
-	if(pop->Eopid() == Eopid())
+	if (pop->Eopid() == Eopid())
 	{
 		CScalarCaseTest *popScCaseTest = CScalarCaseTest::PopConvert(pop);
 
@@ -106,4 +95,3 @@ CScalarCaseTest::Matches
 }
 
 // EOF
-

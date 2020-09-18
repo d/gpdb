@@ -9,15 +9,8 @@
 
 using namespace gpopt;
 
-CDatumSortedSet::CDatumSortedSet
-	(
-	CMemoryPool *mp,
-	CExpression *pexprArray,
-	const IComparator *pcomp
-	)
-	:
-	IDatumArray(mp),
-	m_fIncludesNull(false)
+CDatumSortedSet::CDatumSortedSet(CMemoryPool *mp, CExpression *pexprArray, const IComparator *pcomp)
+	: IDatumArray(mp), m_fIncludesNull(false)
 {
 	GPOS_ASSERT(COperator::EopScalarArray == pexprArray->Pop()->Eopid());
 
@@ -57,7 +50,8 @@ CDatumSortedSet::CDatumSortedSet
 	}
 }
 
-BOOL CDatumSortedSet::FIncludesNull() const
+BOOL
+CDatumSortedSet::FIncludesNull() const
 {
 	return m_fIncludesNull;
 }

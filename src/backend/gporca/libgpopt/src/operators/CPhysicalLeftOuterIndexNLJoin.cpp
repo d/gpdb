@@ -17,14 +17,8 @@
 
 using namespace gpopt;
 
-CPhysicalLeftOuterIndexNLJoin::CPhysicalLeftOuterIndexNLJoin
-	(
-	CMemoryPool *mp,
-	CColRefArray *colref_array
-	)
-	:
-	CPhysicalLeftOuterNLJoin(mp),
-	m_pdrgpcrOuterRefs(colref_array)
+CPhysicalLeftOuterIndexNLJoin::CPhysicalLeftOuterIndexNLJoin(CMemoryPool *mp, CColRefArray *colref_array)
+	: CPhysicalLeftOuterNLJoin(mp), m_pdrgpcrOuterRefs(colref_array)
 {
 	GPOS_ASSERT(NULL != colref_array);
 }
@@ -37,11 +31,7 @@ CPhysicalLeftOuterIndexNLJoin::~CPhysicalLeftOuterIndexNLJoin()
 
 
 BOOL
-CPhysicalLeftOuterIndexNLJoin::Matches
-	(
-	COperator *pop
-	)
-	const
+CPhysicalLeftOuterIndexNLJoin::Matches(COperator *pop) const
 {
 	if (pop->Eopid() == Eopid())
 	{
@@ -53,16 +43,11 @@ CPhysicalLeftOuterIndexNLJoin::Matches
 
 
 CDistributionSpec *
-CPhysicalLeftOuterIndexNLJoin::PdsRequired
-	(
-	CMemoryPool *mp,
-	CExpressionHandle &exprhdl,
-	CDistributionSpec *,//pdsRequired,
-	ULONG child_index,
-	CDrvdPropArray *pdrgpdpCtxt,
-	ULONG // ulOptReq
-	)
-	const
+CPhysicalLeftOuterIndexNLJoin::PdsRequired(CMemoryPool *mp, CExpressionHandle &exprhdl,
+										   CDistributionSpec *,	 //pdsRequired,
+										   ULONG child_index, CDrvdPropArray *pdrgpdpCtxt,
+										   ULONG  // ulOptReq
+) const
 {
 	GPOS_ASSERT(2 > child_index);
 
@@ -77,8 +62,7 @@ CPhysicalLeftOuterIndexNLJoin::PdsRequired
 	// we need to match distribution of inner
 	CDistributionSpec *pdsInner = CDrvdPropPlan::Pdpplan((*pdrgpdpCtxt)[0])->Pds();
 	CDistributionSpec::EDistributionType edtInner = pdsInner->Edt();
-	if (CDistributionSpec::EdtSingleton == edtInner ||
-		CDistributionSpec::EdtStrictSingleton == edtInner ||
+	if (CDistributionSpec::EdtSingleton == edtInner || CDistributionSpec::EdtStrictSingleton == edtInner ||
 		CDistributionSpec::EdtUniversal == edtInner)
 	{
 		// enforce executing on a single host
@@ -126,11 +110,10 @@ CPhysicalLeftOuterIndexNLJoin::PdsRequired
 
 	// shouldn't come here!
 	GPOS_RAISE(gpopt::ExmaGPOPT, gpopt::ExmiUnsupportedOp,
-			GPOS_WSZ_LIT("Left outer index nestloop join broadcasting outer side"));
+			   GPOS_WSZ_LIT("Left outer index nestloop join broadcasting outer side"));
 	// otherwise, require outer child to be replicated
 	return GPOS_NEW(mp) CDistributionSpecReplicated();
 }
 
 
 // EOF
-

@@ -28,24 +28,15 @@ using namespace gpdxl;
 //		Ctor
 //
 //---------------------------------------------------------------------------
-CMDTriggerGPDB::CMDTriggerGPDB
-	(
-	CMemoryPool *mp,
-	IMDId *mdid,
-	CMDName *mdname,
-	IMDId *rel_mdid,
-	IMDId *mdid_func,
-	INT type,
-	BOOL is_enabled
-	)
-	:
-	m_mp(mp),
-	m_mdid(mdid),
-	m_mdname(mdname),
-	m_rel_mdid(rel_mdid),
-	m_func_mdid(mdid_func),
-	m_type(type),
-	m_is_enabled(is_enabled)
+CMDTriggerGPDB::CMDTriggerGPDB(CMemoryPool *mp, IMDId *mdid, CMDName *mdname, IMDId *rel_mdid, IMDId *mdid_func,
+							   INT type, BOOL is_enabled)
+	: m_mp(mp),
+	  m_mdid(mdid),
+	  m_mdname(mdname),
+	  m_rel_mdid(rel_mdid),
+	  m_func_mdid(mdid_func),
+	  m_type(type),
+	  m_is_enabled(is_enabled)
 {
 	GPOS_ASSERT(m_mdid->IsValid());
 	GPOS_ASSERT(m_rel_mdid->IsValid());
@@ -151,14 +142,10 @@ CMDTriggerGPDB::IsUpdate() const
 //
 //---------------------------------------------------------------------------
 void
-CMDTriggerGPDB::Serialize
-	(
-	CXMLSerializer *xml_serializer
-	)
-	const
+CMDTriggerGPDB::Serialize(CXMLSerializer *xml_serializer) const
 {
 	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix),
-						CDXLTokens::GetDXLTokenStr(EdxltokenGPDBTrigger));
+								CDXLTokens::GetDXLTokenStr(EdxltokenGPDBTrigger));
 
 	m_mdid->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenMdid));
 	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenName), m_mdname->GetMDName());
@@ -173,7 +160,7 @@ CMDTriggerGPDB::Serialize
 	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenGPDBTriggerEnabled), m_is_enabled);
 
 	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix),
-						CDXLTokens::GetDXLTokenStr(EdxltokenGPDBTrigger));
+								 CDXLTokens::GetDXLTokenStr(EdxltokenGPDBTrigger));
 }
 
 #ifdef GPOS_DEBUG
@@ -187,11 +174,7 @@ CMDTriggerGPDB::Serialize
 //
 //---------------------------------------------------------------------------
 void
-CMDTriggerGPDB::DebugPrint
-	(
-	IOstream &os
-	)
-	const
+CMDTriggerGPDB::DebugPrint(IOstream &os) const
 {
 	os << "Trigger id: ";
 	m_mdid->OsPrint(os);
@@ -252,6 +235,6 @@ CMDTriggerGPDB::DebugPrint
 	}
 }
 
-#endif // GPOS_DEBUG
+#endif	// GPOS_DEBUG
 
 // EOF

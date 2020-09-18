@@ -29,7 +29,8 @@ using namespace gpos;
 //
 //---------------------------------------------------------------------------
 ILogger::ILogger()
-{}
+{
+}
 
 
 //---------------------------------------------------------------------------
@@ -41,7 +42,8 @@ ILogger::ILogger()
 //
 //---------------------------------------------------------------------------
 ILogger::~ILogger()
-{}
+{
+}
 
 
 //---------------------------------------------------------------------------
@@ -53,14 +55,7 @@ ILogger::~ILogger()
 //
 //---------------------------------------------------------------------------
 void
-ILogger::Warning
-	(
-	const CHAR *filename,
-	ULONG line,
-	ULONG major,
-	ULONG minor
-	...
-	)
+ILogger::Warning(const CHAR *filename, ULONG line, ULONG major, ULONG minor...)
 {
 	GPOS_CHECK_ABORT;
 
@@ -108,13 +103,7 @@ ILogger::Warning
 //
 //---------------------------------------------------------------------------
 void
-ILogger::Trace
-	(
-	const CHAR *filename,
-	ULONG line,
-	BOOL is_err,
-	const WCHAR *msg
-	)
+ILogger::Trace(const CHAR *filename, ULONG line, BOOL is_err, const WCHAR *msg)
 {
 	GPOS_CHECK_ABORT;
 
@@ -131,14 +120,7 @@ ILogger::Trace
 //
 //---------------------------------------------------------------------------
 void
-ILogger::TraceFormat
-	(
-	const CHAR *filename,
-	ULONG line,
-	BOOL is_err,
-	const WCHAR *format,
-	...
-	)
+ILogger::TraceFormat(const CHAR *filename, ULONG line, BOOL is_err, const WCHAR *format, ...)
 {
 	GPOS_CHECK_ABORT;
 
@@ -169,14 +151,7 @@ ILogger::TraceFormat
 //
 //---------------------------------------------------------------------------
 void
-ILogger::LogTask
-	(
-	const WCHAR *msg,
-	ULONG severity,
-	BOOL is_err,
-	const CHAR *filename,
-	ULONG line
-	)
+ILogger::LogTask(const WCHAR *msg, ULONG severity, BOOL is_err, const CHAR *filename, ULONG line)
 {
 	CLogger *log = NULL;
 
@@ -194,11 +169,11 @@ ILogger::LogTask
 	{
 		if (is_err)
 		{
-			log = dynamic_cast<CLogger*>(task->GetErrorLogger());
+			log = dynamic_cast<CLogger *>(task->GetErrorLogger());
 		}
 		else
 		{
-			log = dynamic_cast<CLogger*>(task->GetOutputLogger());
+			log = dynamic_cast<CLogger *>(task->GetOutputLogger());
 		}
 	}
 
@@ -208,4 +183,3 @@ ILogger::LogTask
 }
 
 // EOF
-

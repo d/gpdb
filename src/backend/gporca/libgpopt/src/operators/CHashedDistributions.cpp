@@ -5,14 +5,9 @@
 #include "gpopt/operators/CHashedDistributions.h"
 
 using namespace gpopt;
-CHashedDistributions::CHashedDistributions
-		(
-		CMemoryPool *mp,
-		CColRefArray *pdrgpcrOutput,
-		CColRef2dArray *pdrgpdrgpcrInput
-		)
-		:
-		CDistributionSpecArray(mp)
+CHashedDistributions::CHashedDistributions(CMemoryPool *mp, CColRefArray *pdrgpcrOutput,
+										   CColRef2dArray *pdrgpdrgpcrInput)
+	: CDistributionSpecArray(mp)
 {
 	const ULONG num_cols = pdrgpcrOutput->Size();
 	const ULONG arity = pdrgpdrgpcrInput->Size();

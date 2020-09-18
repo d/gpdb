@@ -27,15 +27,9 @@ XERCES_CPP_NAMESPACE_USE
 //		Ctor
 //
 //---------------------------------------------------------------------------
-CParseHandlerScalarExpr::CParseHandlerScalarExpr
-	(
-	CMemoryPool *mp,
-	CParseHandlerManager *parse_handler_mgr,
-	CParseHandlerBase *parse_handler_root
-	)
-	:
-	CParseHandlerBase(mp, parse_handler_mgr, parse_handler_root),
-	m_dxl_node(NULL)
+CParseHandlerScalarExpr::CParseHandlerScalarExpr(CMemoryPool *mp, CParseHandlerManager *parse_handler_mgr,
+												 CParseHandlerBase *parse_handler_root)
+	: CParseHandlerBase(mp, parse_handler_mgr, parse_handler_root), m_dxl_node(NULL)
 {
 }
 
@@ -89,23 +83,20 @@ CParseHandlerScalarExpr::GetParseHandlerType() const
 //
 //---------------------------------------------------------------------------
 void
-CParseHandlerScalarExpr::StartElement
-	(
-	const XMLCh* const,
-	const XMLCh* const element_local_name,
-	const XMLCh* const,
-	const Attributes &
-	)
+CParseHandlerScalarExpr::StartElement(const XMLCh *const, const XMLCh *const element_local_name, const XMLCh *const,
+									  const Attributes &)
 {
 	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarExpr), element_local_name))
 	{
-		CWStringDynamic *str = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), element_local_name);
+		CWStringDynamic *str = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(),
+																			element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, str->GetBuffer());
 	}
 	GPOS_ASSERT(NULL != m_mp);
 
 	// parse handler for child node
-	CParseHandlerBase *child_parse_handler = CParseHandlerFactory::GetParseHandler(m_mp, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
+	CParseHandlerBase *child_parse_handler = CParseHandlerFactory::GetParseHandler(
+		m_mp, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
 	m_parse_handler_mgr->ActivateParseHandler(child_parse_handler);
 	Append(child_parse_handler);
 }
@@ -119,16 +110,15 @@ CParseHandlerScalarExpr::StartElement
 //
 //---------------------------------------------------------------------------
 void
-CParseHandlerScalarExpr::EndElement
-	(
-	const XMLCh* const, //= element_uri,
-	const XMLCh* const element_local_name,
-	const XMLCh* const // element_qname,
-	)
+CParseHandlerScalarExpr::EndElement(const XMLCh *const,	 //= element_uri,
+									const XMLCh *const element_local_name,
+									const XMLCh *const	// element_qname,
+)
 {
 	if (0 != XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarExpr), element_local_name))
 	{
-		CWStringDynamic *str = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), element_local_name);
+		CWStringDynamic *str = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(),
+																			element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, str->GetBuffer());
 	}
 

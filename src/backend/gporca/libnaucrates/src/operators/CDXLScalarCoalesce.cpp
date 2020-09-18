@@ -27,14 +27,7 @@ using namespace gpdxl;
 //		Ctor
 //
 //---------------------------------------------------------------------------
-CDXLScalarCoalesce::CDXLScalarCoalesce
-	(
-	CMemoryPool *mp,
-	IMDId *mdid_type
-	)
-	:
-	CDXLScalar(mp),
-	m_mdid_type(mdid_type)
+CDXLScalarCoalesce::CDXLScalarCoalesce(CMemoryPool *mp, IMDId *mdid_type) : CDXLScalar(mp), m_mdid_type(mdid_type)
 {
 	GPOS_ASSERT(m_mdid_type->IsValid());
 }
@@ -89,12 +82,7 @@ CDXLScalarCoalesce::GetOpNameStr() const
 //
 //---------------------------------------------------------------------------
 void
-CDXLScalarCoalesce::SerializeToDXL
-	(
-	CXMLSerializer *xml_serializer,
-	const CDXLNode *node
-	)
-	const
+CDXLScalarCoalesce::SerializeToDXL(CXMLSerializer *xml_serializer, const CDXLNode *node) const
 {
 	const CWStringConst *element_name = GetOpNameStr();
 
@@ -113,11 +101,7 @@ CDXLScalarCoalesce::SerializeToDXL
 //
 //---------------------------------------------------------------------------
 BOOL
-CDXLScalarCoalesce::HasBoolResult
-	(
-	CMDAccessor *md_accessor
-	)
-	const
+CDXLScalarCoalesce::HasBoolResult(CMDAccessor *md_accessor) const
 {
 	return (IMDType::EtiBool == md_accessor->RetrieveType(m_mdid_type)->GetDatumType());
 }
@@ -132,12 +116,7 @@ CDXLScalarCoalesce::HasBoolResult
 //
 //---------------------------------------------------------------------------
 void
-CDXLScalarCoalesce::AssertValid
-	(
-	const CDXLNode *node,
-	BOOL validate_children
-	)
-	const
+CDXLScalarCoalesce::AssertValid(const CDXLNode *node, BOOL validate_children) const
 {
 	GPOS_ASSERT(0 < node->Arity());
 
@@ -153,6 +132,6 @@ CDXLScalarCoalesce::AssertValid
 		}
 	}
 }
-#endif // GPOS_DEBUG
+#endif	// GPOS_DEBUG
 
 // EOF

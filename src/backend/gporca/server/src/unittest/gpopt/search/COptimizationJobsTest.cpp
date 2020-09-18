@@ -42,10 +42,9 @@
 GPOS_RESULT
 COptimizationJobsTest::EresUnittest()
 {
-	CUnittest rgut[] =
-		{
+	CUnittest rgut[] = {
 		GPOS_UNITTEST_FUNC(COptimizationJobsTest::EresUnittest_StateMachine),
-		};
+	};
 
 	return CUnittest::EresExecute(rgut, GPOS_ARRAY_SIZE(rgut));
 }
@@ -72,13 +71,8 @@ COptimizationJobsTest::EresUnittest_StateMachine()
 
 	// install opt context in TLS
 	{
-		CAutoOptCtxt aoc
-						(
-						mp,
-						&mda,
-						NULL,  /* pceeval */
-						CTestUtils::GetCostModel(mp)
-						);
+		CAutoOptCtxt aoc(mp, &mda, NULL, /* pceeval */
+						 CTestUtils::GetCostModel(mp));
 		CEngine eng(mp);
 
 		// generate  join expression
@@ -92,15 +86,11 @@ COptimizationJobsTest::EresUnittest_StateMachine()
 
 		CGroup *pgroup = eng.PgroupRoot();
 		pqc->Prpp()->AddRef();
-		COptimizationContext *poc = GPOS_NEW(mp) COptimizationContext
-							(
-							mp,
-							pgroup,
-							pqc->Prpp(),
-							GPOS_NEW(mp) CReqdPropRelational(GPOS_NEW(mp) CColRefSet(mp)),
-							GPOS_NEW(mp) IStatisticsArray(mp),
-							0 // ulSearchStageIndex
-							);
+		COptimizationContext *poc = GPOS_NEW(mp)
+			COptimizationContext(mp, pgroup, pqc->Prpp(), GPOS_NEW(mp) CReqdPropRelational(GPOS_NEW(mp) CColRefSet(mp)),
+								 GPOS_NEW(mp) IStatisticsArray(mp),
+								 0	// ulSearchStageIndex
+			);
 
 		// optimize query
 		CJobFactory jf(mp, 1000 /*ulJobs*/);
@@ -264,7 +254,7 @@ COptimizationJobsTest::EresUnittest_StateMachine()
 
 			xform_set->Release();
 		}
-#endif // GPOS_DEBUG
+#endif	// GPOS_DEBUG
 
 		pexpr->Release();
 		poc->Release();

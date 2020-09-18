@@ -26,13 +26,7 @@ using namespace gpdxl;
 //		Ctor
 //
 //---------------------------------------------------------------------------
-CDXLPhysicalAssert::CDXLPhysicalAssert
-	(
-	CMemoryPool *mp,
-	const CHAR *sql_state
-	)
-	:
-	CDXLPhysical(mp)
+CDXLPhysicalAssert::CDXLPhysicalAssert(CMemoryPool *mp, const CHAR *sql_state) : CDXLPhysical(mp)
 {
 	GPOS_ASSERT(NULL != sql_state);
 	GPOS_ASSERT(GPOS_SQLSTATE_LENGTH == clib::Strlen(sql_state));
@@ -91,18 +85,13 @@ CDXLPhysicalAssert::GetOpNameStr() const
 //
 //---------------------------------------------------------------------------
 void
-CDXLPhysicalAssert::SerializeToDXL
-	(
-	CXMLSerializer *xml_serializer,
-	const CDXLNode *dxlnode
-	)
-	const
+CDXLPhysicalAssert::SerializeToDXL(CXMLSerializer *xml_serializer, const CDXLNode *dxlnode) const
 {
 	const CWStringConst *element_name = GetOpNameStr();
 
 	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenErrorCode), m_sql_state);
-	
+
 	dxlnode->SerializePropertiesToDXL(xml_serializer);
 	dxlnode->SerializeChildrenToDXL(xml_serializer);
 
@@ -119,16 +108,10 @@ CDXLPhysicalAssert::SerializeToDXL
 //
 //---------------------------------------------------------------------------
 void
-CDXLPhysicalAssert::AssertValid
-	(
-	const CDXLNode *dxlnode,
-	BOOL validate_children
-	) 
-	const
+CDXLPhysicalAssert::AssertValid(const CDXLNode *dxlnode, BOOL validate_children) const
 {
-
 	GPOS_ASSERT(3 == dxlnode->Arity());
-	
+
 	CDXLNode *proj_list_dxlnode = (*dxlnode)[EdxlassertIndexProjList];
 	GPOS_ASSERT(EdxlopScalarProjectList == proj_list_dxlnode->GetOperator()->GetDXLOperator());
 
@@ -138,7 +121,7 @@ CDXLPhysicalAssert::AssertValid
 	CDXLNode *physical_child_dxlnode = (*dxlnode)[EdxlassertIndexChild];
 	GPOS_ASSERT(EdxloptypePhysical == physical_child_dxlnode->GetOperator()->GetDXLOperatorType());
 
-	
+
 	if (validate_children)
 	{
 		for (ULONG ul = 0; ul < 3; ul++)
@@ -148,6 +131,6 @@ CDXLPhysicalAssert::AssertValid
 		}
 	}
 }
-#endif // GPOS_DEBUG
+#endif	// GPOS_DEBUG
 
 // EOF

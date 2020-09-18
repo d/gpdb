@@ -31,11 +31,10 @@ GPOS_RESULT
 CPointTest::EresUnittest()
 {
 	// tests that use shared optimization context
-	CUnittest rgutSharedOptCtxt[] =
-		{
+	CUnittest rgutSharedOptCtxt[] = {
 		GPOS_UNITTEST_FUNC(CPointTest::EresUnittest_CPointInt4),
 		GPOS_UNITTEST_FUNC(CPointTest::EresUnittest_CPointBool),
-		};
+	};
 
 	CAutoMemoryPool amp;
 	CMemoryPool *mp = amp.Pmp();
@@ -72,8 +71,7 @@ CPointTest::EresUnittest_CPointInt4()
 	CDouble dDistance = point2->Distance(point1);
 
 	// should be 1.0
-	GPOS_RTL_ASSERT_MSG(0.99 < dDistance
-						&& dDistance < 1.01, "incorrect distance calculation");
+	GPOS_RTL_ASSERT_MSG(0.99 < dDistance && dDistance < 1.01, "incorrect distance calculation");
 
 	point1->Release();
 	point2->Release();
@@ -106,4 +104,3 @@ CPointTest::EresUnittest_CPointBool()
 }
 
 // EOF
-

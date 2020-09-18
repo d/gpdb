@@ -35,14 +35,12 @@
 GPOS_RESULT
 CPredicateUtilsTest::EresUnittest()
 {
-
-	CUnittest rgut[] =
-		{
+	CUnittest rgut[] = {
 		GPOS_UNITTEST_FUNC(CPredicateUtilsTest::EresUnittest_Conjunctions),
 		GPOS_UNITTEST_FUNC(CPredicateUtilsTest::EresUnittest_Disjunctions),
 		GPOS_UNITTEST_FUNC(CPredicateUtilsTest::EresUnittest_PlainEqualities),
 		GPOS_UNITTEST_FUNC(CPredicateUtilsTest::EresUnittest_Implication),
-		};
+	};
 
 	return CUnittest::EresExecute(rgut, GPOS_ARRAY_SIZE(rgut));
 }
@@ -68,13 +66,8 @@ CPredicateUtilsTest::EresUnittest_Conjunctions()
 	CMDAccessor mda(mp, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
 
 	// install opt context in TLS
-	CAutoOptCtxt aoc
-					(
-					mp,
-					&mda,
-					NULL,  /* pceeval */
-					CTestUtils::GetCostModel(mp)
-					);
+	CAutoOptCtxt aoc(mp, &mda, NULL, /* pceeval */
+					 CTestUtils::GetCostModel(mp));
 
 	// build conjunction
 	CExpressionArray *pdrgpexpr = GPOS_NEW(mp) CExpressionArray(mp);
@@ -84,17 +77,17 @@ CPredicateUtilsTest::EresUnittest_Conjunctions()
 		pdrgpexpr->Append(CUtils::PexprScalarConstBool(mp, true /*fValue*/));
 	}
 	CExpression *pexprConjunction = CUtils::PexprScalarBoolOp(mp, CScalarBoolOp::EboolopAnd, pdrgpexpr);
-	
+
 	// break into conjuncts
 	CExpressionArray *pdrgpexprExtract = CPredicateUtils::PdrgpexprConjuncts(mp, pexprConjunction);
 	GPOS_ASSERT(pdrgpexprExtract->Size() == ulConjs);
-	
+
 	// collapse into single conjunct
 	CExpression *pexpr = CPredicateUtils::PexprConjunction(mp, pdrgpexprExtract);
 	GPOS_ASSERT(NULL != pexpr);
 	GPOS_ASSERT(CUtils::FScalarConstTrue(pexpr));
 	pexpr->Release();
-	
+
 	// collapse empty input array to conjunct
 	CExpression *pexprSingleton = CPredicateUtils::PexprConjunction(mp, NULL /*pdrgpexpr*/);
 	GPOS_ASSERT(NULL != pexprSingleton);
@@ -108,7 +101,8 @@ CPredicateUtilsTest::EresUnittest_Conjunctions()
 	CColRef *pcr1 = pcrs->PcrAny();
 	CColRef *pcr2 = pcrs->PcrFirst();
 	CExpression *pexprCmp1 = CUtils::PexprScalarCmp(mp, pcr1, pcr2, IMDType::EcmptEq);
-	CExpression *pexprCmp2 = CUtils::PexprScalarCmp(mp, pcr1, CUtils::PexprScalarConstInt4(mp, 1 /*val*/), IMDType::EcmptEq);
+	CExpression *pexprCmp2 =
+		CUtils::PexprScalarCmp(mp, pcr1, CUtils::PexprScalarConstInt4(mp, 1 /*val*/), IMDType::EcmptEq);
 
 	CExpression *pexprConj = CPredicateUtils::PexprConjunction(mp, pexprCmp1, pexprCmp2);
 	pdrgpexprExtract = CPredicateUtils::PdrgpexprConjuncts(mp, pexprConj);
@@ -144,13 +138,8 @@ CPredicateUtilsTest::EresUnittest_Disjunctions()
 	CMDAccessor mda(mp, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
 
 	// install opt context in TLS
-	CAutoOptCtxt aoc
-					(
-					mp,
-					&mda,
-					NULL,  /* pceeval */
-					CTestUtils::GetCostModel(mp)
-					);
+	CAutoOptCtxt aoc(mp, &mda, NULL, /* pceeval */
+					 CTestUtils::GetCostModel(mp));
 
 	// build disjunction
 	CExpressionArray *pdrgpexpr = GPOS_NEW(mp) CExpressionArray(mp);
@@ -183,27 +172,27 @@ CPredicateUtilsTest::EresUnittest_Disjunctions()
 	CColRefSet *pcrs = pexprGet->DeriveOutputColumns();
 	CColRefSetIter crsi(*pcrs);
 
-	BOOL fAdvance GPOS_ASSERTS_ONLY =
-	crsi.Advance();
+	BOOL fAdvance GPOS_ASSERTS_ONLY = crsi.Advance();
 	GPOS_ASSERT(fAdvance);
 	CColRef *pcr1 = crsi.Pcr();
 
 #ifdef GPOS_DEBUG
 	fAdvance =
 #endif
-	crsi.Advance();
+		crsi.Advance();
 	GPOS_ASSERT(fAdvance);
 	CColRef *pcr2 = crsi.Pcr();
 
 #ifdef GPOS_DEBUG
 	fAdvance =
 #endif
-	crsi.Advance();
+		crsi.Advance();
 	GPOS_ASSERT(fAdvance);
 	CColRef *pcr3 = crsi.Pcr();
 
 	CExpression *pexprCmp1 = CUtils::PexprScalarCmp(mp, pcr1, pcr2, IMDType::EcmptEq);
-	CExpression *pexprCmp2 = CUtils::PexprScalarCmp(mp, pcr1, CUtils::PexprScalarConstInt4(mp, 1 /*val*/), IMDType::EcmptEq);
+	CExpression *pexprCmp2 =
+		CUtils::PexprScalarCmp(mp, pcr1, CUtils::PexprScalarConstInt4(mp, 1 /*val*/), IMDType::EcmptEq);
 
 	{
 		CExpression *pexprDisj = CPredicateUtils::PexprDisjunction(mp, pexprCmp1, pexprCmp2);
@@ -217,7 +206,8 @@ CPredicateUtilsTest::EresUnittest_Disjunctions()
 	{
 		CExpressionArray *pdrgpexpr = GPOS_NEW(mp) CExpressionArray(mp);
 		CExpression *pexprCmp3 = CUtils::PexprScalarCmp(mp, pcr2, pcr1, IMDType::EcmptG);
-		CExpression *pexprCmp4 = CUtils::PexprScalarCmp(mp, CUtils::PexprScalarConstInt4(mp, 200 /*val*/), pcr3, IMDType::EcmptL);
+		CExpression *pexprCmp4 =
+			CUtils::PexprScalarCmp(mp, CUtils::PexprScalarConstInt4(mp, 200 /*val*/), pcr3, IMDType::EcmptL);
 		pexprCmp1->AddRef();
 		pexprCmp2->AddRef();
 
@@ -261,13 +251,8 @@ CPredicateUtilsTest::EresUnittest_PlainEqualities()
 	CMDAccessor mda(mp, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
 
 	// install opt context in TLS
-	CAutoOptCtxt aoc
-					(
-					mp,
-					&mda,
-					NULL,  /* pceeval */
-					CTestUtils::GetCostModel(mp)
-					);
+	CAutoOptCtxt aoc(mp, &mda, NULL, /* pceeval */
+					 CTestUtils::GetCostModel(mp));
 
 	CExpression *pexprLeft = CTestUtils::PexprLogicalGet(mp);
 	CExpression *pexprRight = CTestUtils::PexprLogicalGet(mp);
@@ -281,15 +266,14 @@ CPredicateUtilsTest::EresUnittest_PlainEqualities()
 	CColRef *pcrRight = pcrsRight->PcrAny();
 
 	// generate an equality predicate between two column reference
-	CExpression *pexprScIdentEquality =
-		CUtils::PexprScalarEqCmp(mp, pcrLeft, pcrRight);
+	CExpression *pexprScIdentEquality = CUtils::PexprScalarEqCmp(mp, pcrLeft, pcrRight);
 
 	pexprScIdentEquality->AddRef();
 	pdrgpexprOriginal->Append(pexprScIdentEquality);
 
 	// generate a non-equality predicate between two column reference
-	CExpression *pexprScIdentInequality =
-		CUtils::PexprScalarCmp(mp, pcrLeft, pcrRight, CWStringConst(GPOS_WSZ_LIT("<")), GPOS_NEW(mp) CMDIdGPDB(GPDB_INT4_LT_OP));
+	CExpression *pexprScIdentInequality = CUtils::PexprScalarCmp(
+		mp, pcrLeft, pcrRight, CWStringConst(GPOS_WSZ_LIT("<")), GPOS_NEW(mp) CMDIdGPDB(GPDB_INT4_LT_OP));
 
 	pexprScIdentInequality->AddRef();
 	pdrgpexprOriginal->Append(pexprScIdentInequality);
@@ -337,13 +321,8 @@ CPredicateUtilsTest::EresUnittest_Implication()
 	CMDAccessor mda(mp, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
 
 	// install opt context in TLS
-	CAutoOptCtxt aoc
-					(
-					mp,
-					&mda,
-					NULL,  /* pceeval */
-					CTestUtils::GetCostModel(mp)
-					);
+	CAutoOptCtxt aoc(mp, &mda, NULL, /* pceeval */
+					 CTestUtils::GetCostModel(mp));
 
 	// generate a two cascaded joins
 	CWStringConst strName1(GPOS_WSZ_LIT("Rel1"));
@@ -369,7 +348,7 @@ CPredicateUtilsTest::EresUnittest_Implication()
 
 	{
 		CAutoTrace at(mp);
-		at.Os() << "Original expression:" << std::endl << *pexprJoin2 <<std::endl;
+		at.Os() << "Original expression:" << std::endl << *pexprJoin2 << std::endl;
 	}
 
 	// imply new predicates by deriving constraints
@@ -377,7 +356,8 @@ CPredicateUtilsTest::EresUnittest_Implication()
 
 	{
 		CAutoTrace at(mp);
-		at.Os() << "Expression with implied predicates:" << std::endl << *pexprConstraints <<std::endl;;
+		at.Os() << "Expression with implied predicates:" << std::endl << *pexprConstraints << std::endl;
+		;
 	}
 
 	// minimize join predicates by removing implied conjuncts
@@ -387,10 +367,10 @@ CPredicateUtilsTest::EresUnittest_Implication()
 
 	{
 		CAutoTrace at(mp);
-		at.Os() << "Minimized join predicate:" << std::endl << *pexprMinimizedPred <<std::endl;
+		at.Os() << "Minimized join predicate:" << std::endl << *pexprMinimizedPred << std::endl;
 	}
 
-	CExpressionArray *pdrgpexprOriginalConjuncts = CPredicateUtils::PdrgpexprConjuncts(mp,  (*pexprConstraints)[2]);
+	CExpressionArray *pdrgpexprOriginalConjuncts = CPredicateUtils::PdrgpexprConjuncts(mp, (*pexprConstraints)[2]);
 	CExpressionArray *pdrgpexprNewConjuncts = CPredicateUtils::PdrgpexprConjuncts(mp, pexprMinimizedPred);
 
 	GPOS_ASSERT(pdrgpexprNewConjuncts->Size() < pdrgpexprOriginalConjuncts->Size());

@@ -9,7 +9,7 @@
 //		Implementation of a constant expression evaluator for dates data
 //
 //	@owner:
-//		
+//
 //
 //	@test:
 //
@@ -40,10 +40,7 @@ using namespace gpopt;
 //
 //---------------------------------------------------------------------------
 CExpression *
-CConstExprEvaluatorForDates::PexprEval
-	(
-	CExpression *pexpr
-	)
+CConstExprEvaluatorForDates::PexprEval(CExpression *pexpr)
 {
 	GPOS_ASSERT(COperator::EopScalarCmp == pexpr->Pop()->Eopid());
 	GPOS_ASSERT(COperator::EopScalarConst == (*pexpr)[0]->Pop()->Eopid());

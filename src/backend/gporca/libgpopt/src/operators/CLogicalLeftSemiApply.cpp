@@ -28,12 +28,8 @@ using namespace gpopt;
 //
 //---------------------------------------------------------------------------
 CMaxCard
-CLogicalLeftSemiApply::DeriveMaxCard
-	(
-	CMemoryPool *, // mp
-	CExpressionHandle &exprhdl
-	)
-	const
+CLogicalLeftSemiApply::DeriveMaxCard(CMemoryPool *,	 // mp
+									 CExpressionHandle &exprhdl) const
 {
 	return CLogical::Maxcard(exprhdl, 2 /*ulScalarIndex*/, exprhdl.DeriveMaxCard(0));
 }
@@ -47,11 +43,7 @@ CLogicalLeftSemiApply::DeriveMaxCard
 //
 //---------------------------------------------------------------------------
 CXformSet *
-CLogicalLeftSemiApply::PxfsCandidates
-	(
-	CMemoryPool *mp
-	)
-	const
+CLogicalLeftSemiApply::PxfsCandidates(CMemoryPool *mp) const
 {
 	CXformSet *xform_set = GPOS_NEW(mp) CXformSet(mp);
 
@@ -72,11 +64,8 @@ CLogicalLeftSemiApply::PxfsCandidates
 //
 //---------------------------------------------------------------------------
 CColRefSet *
-CLogicalLeftSemiApply::DeriveOutputColumns
-	(
-	CMemoryPool *, // mp
-	CExpressionHandle &exprhdl
-	)
+CLogicalLeftSemiApply::DeriveOutputColumns(CMemoryPool *,  // mp
+										   CExpressionHandle &exprhdl)
 {
 	GPOS_ASSERT(3 == exprhdl.Arity());
 
@@ -93,12 +82,7 @@ CLogicalLeftSemiApply::DeriveOutputColumns
 //
 //---------------------------------------------------------------------------
 COperator *
-CLogicalLeftSemiApply::PopCopyWithRemappedColumns
-	(
-	CMemoryPool *mp,
-	UlongToColRefMap *colref_mapping,
-	BOOL must_exist
-	)
+CLogicalLeftSemiApply::PopCopyWithRemappedColumns(CMemoryPool *mp, UlongToColRefMap *colref_mapping, BOOL must_exist)
 {
 	CColRefArray *pdrgpcrInner = CUtils::PdrgpcrRemap(mp, m_pdrgpcrInner, colref_mapping, must_exist);
 
@@ -106,4 +90,3 @@ CLogicalLeftSemiApply::PopCopyWithRemappedColumns
 }
 
 // EOF
-

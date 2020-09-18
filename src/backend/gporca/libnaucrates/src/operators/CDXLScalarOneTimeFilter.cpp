@@ -27,12 +27,7 @@ using namespace gpdxl;
 //		Constructor
 //
 //---------------------------------------------------------------------------
-CDXLScalarOneTimeFilter::CDXLScalarOneTimeFilter
-	(
-	CMemoryPool *mp
-	)
-	:
-	CDXLScalarFilter(mp)
+CDXLScalarOneTimeFilter::CDXLScalarOneTimeFilter(CMemoryPool *mp) : CDXLScalarFilter(mp)
 {
 }
 
@@ -76,12 +71,7 @@ CDXLScalarOneTimeFilter::GetOpNameStr() const
 //
 //---------------------------------------------------------------------------
 void
-CDXLScalarOneTimeFilter::SerializeToDXL
-	(
-	CXMLSerializer *xml_serializer,
-	const CDXLNode *dxlnode
-	)
-	const
+CDXLScalarOneTimeFilter::SerializeToDXL(CXMLSerializer *xml_serializer, const CDXLNode *dxlnode) const
 {
 	const CWStringConst *element_name = GetOpNameStr();
 

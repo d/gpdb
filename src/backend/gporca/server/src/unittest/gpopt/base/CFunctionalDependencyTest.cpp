@@ -29,10 +29,7 @@
 GPOS_RESULT
 CFunctionalDependencyTest::EresUnittest()
 {
-	CUnittest rgut[] =
-		{
-		GPOS_UNITTEST_FUNC(CFunctionalDependencyTest::EresUnittest_Basics)
-		};
+	CUnittest rgut[] = {GPOS_UNITTEST_FUNC(CFunctionalDependencyTest::EresUnittest_Basics)};
 
 	return CUnittest::EresExecute(rgut, GPOS_ARRAY_SIZE(rgut));
 }
@@ -58,13 +55,8 @@ CFunctionalDependencyTest::EresUnittest_Basics()
 	mda.RegisterProvider(CTestUtils::m_sysidDefault, pmdp);
 
 	// install opt context in TLS
-	CAutoOptCtxt aoc
-				(
-				mp,
-				&mda,
-				NULL, /* pceeval */
-				CTestUtils::GetCostModel(mp)
-				);
+	CAutoOptCtxt aoc(mp, &mda, NULL, /* pceeval */
+					 CTestUtils::GetCostModel(mp));
 
 	// get column factory from optimizer context object
 	CColumnFactory *col_factory = COptCtxt::PoctxtFromTLS()->Pcf();
@@ -97,25 +89,23 @@ CFunctionalDependencyTest::EresUnittest_Basics()
 	GPOS_ASSERT(pfdFst->Equals(pfdSnd));
 	GPOS_ASSERT(pfdFst->HashValue() == pfdSnd->HashValue());
 
-	 CFunctionalDependencyArray *pdrgpfd = GPOS_NEW(mp) CFunctionalDependencyArray(mp);
-	 pfdFst->AddRef();
-	 pdrgpfd->Append(pfdFst);
-	 pfdSnd->AddRef();
-	 pdrgpfd->Append(pfdSnd);
-	 GPOS_ASSERT(CFunctionalDependency::Equals(pdrgpfd, pdrgpfd));
+	CFunctionalDependencyArray *pdrgpfd = GPOS_NEW(mp) CFunctionalDependencyArray(mp);
+	pfdFst->AddRef();
+	pdrgpfd->Append(pfdFst);
+	pfdSnd->AddRef();
+	pdrgpfd->Append(pfdSnd);
+	GPOS_ASSERT(CFunctionalDependency::Equals(pdrgpfd, pdrgpfd));
 
-	 CColRefArray *colref_array = CFunctionalDependency::PdrgpcrKeys(mp, pdrgpfd);
-	 CColRefSet *pcrs = GPOS_NEW(mp) CColRefSet(mp);
-	 pcrs->Include(colref_array);
-	 CColRefSet *pcrsKeys = CFunctionalDependency::PcrsKeys(mp, pdrgpfd);
+	CColRefArray *colref_array = CFunctionalDependency::PdrgpcrKeys(mp, pdrgpfd);
+	CColRefSet *pcrs = GPOS_NEW(mp) CColRefSet(mp);
+	pcrs->Include(colref_array);
+	CColRefSet *pcrsKeys = CFunctionalDependency::PcrsKeys(mp, pdrgpfd);
 
-	 GPOS_ASSERT(pcrsLeft->Equals(pcrs));
-	 GPOS_ASSERT(pcrsKeys->Equals(pcrs));
+	GPOS_ASSERT(pcrsLeft->Equals(pcrs));
+	GPOS_ASSERT(pcrsKeys->Equals(pcrs));
 
 	CAutoTrace at(mp);
-	at.Os()
-		<< "FD1:" << *pfdFst << std::endl
-		<< "FD2:" << *pfdSnd << std::endl;
+	at.Os() << "FD1:" << *pfdFst << std::endl << "FD2:" << *pfdSnd << std::endl;
 
 	pfdFst->Release();
 	pfdSnd->Release();

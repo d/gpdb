@@ -25,16 +25,9 @@ using namespace gpdxl;
 //		Constructs a ScalarArrayComp node
 //
 //---------------------------------------------------------------------------
-CDXLScalarArrayComp::CDXLScalarArrayComp
-	(
-	CMemoryPool *mp,
-	IMDId *mdid_op,
-	const CWStringConst *str_opname,
-	EdxlArrayCompType comparison_type
-	)
-	:
-	CDXLScalarComp(mp, mdid_op, str_opname),
-	m_comparison_type(comparison_type)
+CDXLScalarArrayComp::CDXLScalarArrayComp(CMemoryPool *mp, IMDId *mdid_op, const CWStringConst *str_opname,
+										 EdxlArrayCompType comparison_type)
+	: CDXLScalarComp(mp, mdid_op, str_opname), m_comparison_type(comparison_type)
 {
 }
 
@@ -112,12 +105,7 @@ CDXLScalarArrayComp::GetOpNameStr() const
 //
 //---------------------------------------------------------------------------
 void
-CDXLScalarArrayComp::SerializeToDXL
-	(
-	CXMLSerializer *xml_serializer,
-	const CDXLNode *dxlnode
-	)
-	const
+CDXLScalarArrayComp::SerializeToDXL(CXMLSerializer *xml_serializer, const CDXLNode *dxlnode) const
 {
 	const CWStringConst *element_name = GetOpNameStr();
 
@@ -140,12 +128,7 @@ CDXLScalarArrayComp::SerializeToDXL
 //
 //---------------------------------------------------------------------------
 void
-CDXLScalarArrayComp::AssertValid
-	(
-	const CDXLNode *dxlnode,
-	BOOL validate_children
-	) 
-	const
+CDXLScalarArrayComp::AssertValid(const CDXLNode *dxlnode, BOOL validate_children) const
 {
 	const ULONG arity = dxlnode->Arity();
 	GPOS_ASSERT(2 == arity);
@@ -154,14 +137,14 @@ CDXLScalarArrayComp::AssertValid
 	{
 		CDXLNode *dxlnode_arg = (*dxlnode)[ul];
 		GPOS_ASSERT(EdxloptypeScalar == dxlnode_arg->GetOperator()->GetDXLOperatorType());
-		
+
 		if (validate_children)
 		{
 			dxlnode_arg->GetOperator()->AssertValid(dxlnode_arg, validate_children);
 		}
 	}
 }
-#endif // GPOS_DEBUG
+#endif	// GPOS_DEBUG
 
 
 // EOF

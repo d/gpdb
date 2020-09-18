@@ -27,12 +27,7 @@ using namespace gpdxl;
 //		Constructor
 //
 //---------------------------------------------------------------------------
-CDXLScalarSubqueryExists::CDXLScalarSubqueryExists
-	(
-	CMemoryPool *mp
-	)
-	:
-	CDXLScalar(mp)
+CDXLScalarSubqueryExists::CDXLScalarSubqueryExists(CMemoryPool *mp) : CDXLScalar(mp)
 {
 }
 
@@ -86,12 +81,7 @@ CDXLScalarSubqueryExists::GetOpNameStr() const
 //
 //---------------------------------------------------------------------------
 void
-CDXLScalarSubqueryExists::SerializeToDXL
-	(
-	CXMLSerializer *xml_serializer,
-	const CDXLNode *dxlnode
-	)
-	const
+CDXLScalarSubqueryExists::SerializeToDXL(CXMLSerializer *xml_serializer, const CDXLNode *dxlnode) const
 {
 	const CWStringConst *element_name = GetOpNameStr();
 	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
@@ -105,24 +95,19 @@ CDXLScalarSubqueryExists::SerializeToDXL
 //		CDXLScalarSubqueryExists::AssertValid
 //
 //	@doc:
-//		Checks whether operator node is well-structured 
+//		Checks whether operator node is well-structured
 //
 //---------------------------------------------------------------------------
 void
-CDXLScalarSubqueryExists::AssertValid
-	(
-	const CDXLNode *dxlnode,
-	BOOL validate_children
-	) 
-	const
+CDXLScalarSubqueryExists::AssertValid(const CDXLNode *dxlnode, BOOL validate_children) const
 {
 	GPOS_ASSERT(1 == dxlnode->Arity());
-	
+
 	CDXLNode *child_dxlnode = (*dxlnode)[0];
 	GPOS_ASSERT(EdxloptypeLogical == child_dxlnode->GetOperator()->GetDXLOperatorType());
 
 	dxlnode->AssertValid(validate_children);
 }
-#endif // GPOS_DEBUG
+#endif	// GPOS_DEBUG
 
 // EOF

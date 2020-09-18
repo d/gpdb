@@ -14,8 +14,7 @@
 //
 //---------------------------------------------------------------------------
 
-extern "C"
-{
+extern "C" {
 #include "postgres.h"
 }
 #include "gpopt/relcache/CMDProviderRelcache.h"
@@ -38,12 +37,7 @@ using namespace gpmd;
 //		Constructs a file-based metadata provider
 //
 //---------------------------------------------------------------------------
-CMDProviderRelcache::CMDProviderRelcache
-	(
-	CMemoryPool *mp
-	)
-	:
-	m_mp(mp)
+CMDProviderRelcache::CMDProviderRelcache(CMemoryPool *mp) : m_mp(mp)
 {
 	GPOS_ASSERT(NULL != m_mp);
 }
@@ -57,13 +51,7 @@ CMDProviderRelcache::CMDProviderRelcache
 //
 //---------------------------------------------------------------------------
 CWStringBase *
-CMDProviderRelcache::GetMDObjDXLStr
-	(
-	CMemoryPool *mp,
-	CMDAccessor *md_accessor,
-	IMDId *md_id
-	)
-	const
+CMDProviderRelcache::GetMDObjDXLStr(CMemoryPool *mp, CMDAccessor *md_accessor, IMDId *md_id) const
 {
 	IMDCacheObject *md_obj = CTranslatorRelcacheToDXL::RetrieveObject(mp, md_accessor, md_id);
 

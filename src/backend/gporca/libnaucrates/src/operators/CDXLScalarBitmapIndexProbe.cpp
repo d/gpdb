@@ -27,14 +27,8 @@ using namespace gpdxl;
 //		Ctor
 //
 //---------------------------------------------------------------------------
-CDXLScalarBitmapIndexProbe::CDXLScalarBitmapIndexProbe
-	(
-	CMemoryPool *mp,
-	CDXLIndexDescr *dxl_index_descr
-	)
-	:
-	CDXLScalar(mp),
-	m_dxl_index_descr(dxl_index_descr)
+CDXLScalarBitmapIndexProbe::CDXLScalarBitmapIndexProbe(CMemoryPool *mp, CDXLIndexDescr *dxl_index_descr)
+	: CDXLScalar(mp), m_dxl_index_descr(dxl_index_descr)
 {
 	GPOS_ASSERT(NULL != m_dxl_index_descr);
 }
@@ -75,12 +69,7 @@ CDXLScalarBitmapIndexProbe::GetOpNameStr() const
 //
 //---------------------------------------------------------------------------
 void
-CDXLScalarBitmapIndexProbe::SerializeToDXL
-	(
-	CXMLSerializer *xml_serializer,
-	const CDXLNode *dxlnode
-	)
-	const
+CDXLScalarBitmapIndexProbe::SerializeToDXL(CXMLSerializer *xml_serializer, const CDXLNode *dxlnode) const
 {
 	const CWStringConst *element_name = GetOpNameStr();
 	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
@@ -104,12 +93,7 @@ CDXLScalarBitmapIndexProbe::SerializeToDXL
 //
 //---------------------------------------------------------------------------
 void
-CDXLScalarBitmapIndexProbe::AssertValid
-	(
-	const CDXLNode *dxlnode,
-	BOOL validate_children
-	)
-	const
+CDXLScalarBitmapIndexProbe::AssertValid(const CDXLNode *dxlnode, BOOL validate_children) const
 {
 	// bitmap index probe has 1 child: the index condition list
 	GPOS_ASSERT(1 == dxlnode->Arity());
@@ -125,6 +109,6 @@ CDXLScalarBitmapIndexProbe::AssertValid
 	GPOS_ASSERT(NULL != m_dxl_index_descr->MdName());
 	GPOS_ASSERT(m_dxl_index_descr->MdName()->GetMDName()->IsValid());
 }
-#endif // GPOS_DEBUG
+#endif	// GPOS_DEBUG
 
 // EOF

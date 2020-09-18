@@ -26,13 +26,12 @@ using namespace gpos;
 //		sets of old trace flags values
 //
 //---------------------------------------------------------------------------
-void SetTraceflags
-	(
-	CMemoryPool *mp,
-	const CBitSet *pbsInput, // set of trace flags to be enabled
-	CBitSet **ppbsEnabled,   // output: enabled trace flags before function is called
-	CBitSet **ppbsDisabled   // output: disabled trace flags before function is called
-	)
+void
+SetTraceflags(CMemoryPool *mp,
+			  const CBitSet *pbsInput,	// set of trace flags to be enabled
+			  CBitSet **ppbsEnabled,	// output: enabled trace flags before function is called
+			  CBitSet **ppbsDisabled	// output: disabled trace flags before function is called
+)
 {
 	if (NULL == pbsInput)
 	{
@@ -52,15 +51,13 @@ void SetTraceflags
 		if (GPOS_FTRACE(ulTraceFlag))
 		{
 			// set trace flag in the enabled set
-			BOOL fSet GPOS_ASSERTS_ONLY =
-				(*ppbsEnabled)->ExchangeSet(ulTraceFlag);
+			BOOL fSet GPOS_ASSERTS_ONLY = (*ppbsEnabled)->ExchangeSet(ulTraceFlag);
 			GPOS_ASSERT(!fSet);
 		}
 		else
 		{
 			// set trace flag in the disabled set
-			BOOL fSet GPOS_ASSERTS_ONLY =
-				(*ppbsDisabled)->ExchangeSet(ulTraceFlag);
+			BOOL fSet GPOS_ASSERTS_ONLY = (*ppbsDisabled)->ExchangeSet(ulTraceFlag);
 			GPOS_ASSERT(!fSet);
 		}
 
@@ -78,11 +75,8 @@ void SetTraceflags
 //		Reset trace flags based on values given by input sets
 //
 //---------------------------------------------------------------------------
-void ResetTraceflags
-	(
-	CBitSet *pbsEnabled,
-	CBitSet *pbsDisabled
-	)
+void
+ResetTraceflags(CBitSet *pbsEnabled, CBitSet *pbsDisabled)
 {
 	if (NULL == pbsEnabled || NULL == pbsDisabled)
 	{

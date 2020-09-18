@@ -28,25 +28,13 @@ using namespace gpopt;
 //		Ctor
 //
 //---------------------------------------------------------------------------
-CLogicalNAryJoin::CLogicalNAryJoin
-	(
-	CMemoryPool *mp
-	)
-	:
-	CLogicalJoin(mp),
-	m_lojChildPredIndexes(NULL)
+CLogicalNAryJoin::CLogicalNAryJoin(CMemoryPool *mp) : CLogicalJoin(mp), m_lojChildPredIndexes(NULL)
 {
 	GPOS_ASSERT(NULL != mp);
 }
 
-CLogicalNAryJoin::CLogicalNAryJoin
-	(
-	CMemoryPool *mp,
-	ULongPtrArray *lojChildIndexes
-	)
-	:
-	CLogicalJoin(mp),
-	m_lojChildPredIndexes(lojChildIndexes)
+CLogicalNAryJoin::CLogicalNAryJoin(CMemoryPool *mp, ULongPtrArray *lojChildIndexes)
+	: CLogicalJoin(mp), m_lojChildPredIndexes(lojChildIndexes)
 {
 	GPOS_ASSERT(NULL != mp);
 }
@@ -61,12 +49,7 @@ CLogicalNAryJoin::CLogicalNAryJoin
 //
 //---------------------------------------------------------------------------
 CMaxCard
-CLogicalNAryJoin::DeriveMaxCard
-	(
-	CMemoryPool *mp,
-	CExpressionHandle &exprhdl
-	)
-	const
+CLogicalNAryJoin::DeriveMaxCard(CMemoryPool *mp, CExpressionHandle &exprhdl) const
 {
 	CMaxCard maxCard(1);
 	const ULONG arity = exprhdl.Arity();
@@ -87,7 +70,7 @@ CLogicalNAryJoin::DeriveMaxCard
 		return CMaxCard(0 /*ull*/);
 	}
 
-	CExpression *pexprScalar = exprhdl.PexprScalarExactChild(arity-1);
+	CExpression *pexprScalar = exprhdl.PexprScalarExactChild(arity - 1);
 
 	if (NULL != pexprScalar)
 	{
@@ -114,12 +97,7 @@ CLogicalNAryJoin::DeriveMaxCard
 }
 
 CColRefSet *
-CLogicalNAryJoin::DeriveNotNullColumns
-	(
-	CMemoryPool *mp,
-	CExpressionHandle &exprhdl
-	)
-	const
+CLogicalNAryJoin::DeriveNotNullColumns(CMemoryPool *mp, CExpressionHandle &exprhdl) const
 {
 	CColRefSet *pcrs = GPOS_NEW(mp) CColRefSet(mp);
 
@@ -140,12 +118,7 @@ CLogicalNAryJoin::DeriveNotNullColumns
 }
 
 CPropConstraint *
-CLogicalNAryJoin::DerivePropertyConstraint
-	(
-	CMemoryPool *mp,
-	CExpressionHandle &exprhdl
-	)
-	const
+CLogicalNAryJoin::DerivePropertyConstraint(CMemoryPool *mp, CExpressionHandle &exprhdl) const
 {
 	if (!HasOuterJoinChildren())
 	{
@@ -160,7 +133,7 @@ CLogicalNAryJoin::DerivePropertyConstraint
 
 	// collect constraint properties from inner join children
 	const ULONG arity = exprhdl.Arity();
-	for (ULONG ul = 0; ul < arity-1; ul++)
+	for (ULONG ul = 0; ul < arity - 1; ul++)
 	{
 		if (IsInnerJoinChild(ul))
 		{
@@ -189,14 +162,16 @@ CLogicalNAryJoin::DerivePropertyConstraint
 	if (NULL != trueInnerJoinPreds)
 	{
 		CColRefSetArray *equivClassesFromInnerJoinPreds = NULL;
-		CConstraint *pcnstr = CConstraint::PcnstrFromScalarExpr(mp, trueInnerJoinPreds, &equivClassesFromInnerJoinPreds);
+		CConstraint *pcnstr =
+			CConstraint::PcnstrFromScalarExpr(mp, trueInnerJoinPreds, &equivClassesFromInnerJoinPreds);
 
 		if (NULL != pcnstr)
 		{
 			constraints->Append(pcnstr);
 
 			// merge with the equivalence classes we have so far
-			CColRefSetArray *pdrgpcrsMerged = CUtils::PdrgpcrsMergeEquivClasses(mp, equivalenceClasses, equivClassesFromInnerJoinPreds);
+			CColRefSetArray *pdrgpcrsMerged =
+				CUtils::PdrgpcrsMergeEquivClasses(mp, equivalenceClasses, equivClassesFromInnerJoinPreds);
 			equivalenceClasses->Release();
 			equivalenceClasses = pdrgpcrsMerged;
 		}
@@ -219,14 +194,10 @@ CLogicalNAryJoin::DerivePropertyConstraint
 //
 //---------------------------------------------------------------------------
 CXformSet *
-CLogicalNAryJoin::PxfsCandidates
-	(
-	CMemoryPool *mp
-	) 
-	const
+CLogicalNAryJoin::PxfsCandidates(CMemoryPool *mp) const
 {
 	CXformSet *xform_set = GPOS_NEW(mp) CXformSet(mp);
-	
+
 	(void) xform_set->ExchangeSet(CXform::ExfSubqNAryJoin2Apply);
 	(void) xform_set->ExchangeSet(CXform::ExfExpandNAryJoin);
 	(void) xform_set->ExchangeSet(CXform::ExfExpandNAryJoinMinCard);
@@ -237,7 +208,8 @@ CLogicalNAryJoin::PxfsCandidates
 	return xform_set;
 }
 
-CLogicalNAryJoin *CLogicalNAryJoin::PopConvertNAryLOJ(COperator *pop)
+CLogicalNAryJoin *
+CLogicalNAryJoin::PopConvertNAryLOJ(COperator *pop)
 {
 	CLogicalNAryJoin *naryJoin = PopConvert(pop);
 
@@ -249,7 +221,7 @@ CLogicalNAryJoin *CLogicalNAryJoin::PopConvertNAryLOJ(COperator *pop)
 	return NULL;
 }
 
-CExpression*
+CExpression *
 CLogicalNAryJoin::GetTrueInnerJoinPreds(CMemoryPool *mp, CExpressionHandle &exprhdl) const
 {
 	// "true" inner join predicates are those that don't rely on any tables that are
@@ -262,7 +234,7 @@ CLogicalNAryJoin::GetTrueInnerJoinPreds(CMemoryPool *mp, CExpressionHandle &expr
 	// bar.c might have been created with a NOT NULL constraint. We don't want to use
 	// such predicates in constraint derivation.
 	ULONG arity = exprhdl.Arity();
-	CExpression *pexprScalar =  exprhdl.PexprScalarExactChild(arity-1);
+	CExpression *pexprScalar = exprhdl.PexprScalarExactChild(arity - 1);
 
 	if (NULL == pexprScalar)
 	{
@@ -279,14 +251,14 @@ CLogicalNAryJoin::GetTrueInnerJoinPreds(CMemoryPool *mp, CExpressionHandle &expr
 	}
 
 	CExpressionArray *predArray = NULL;
-	CExpressionArray *trueInnerJoinPredArray =  GPOS_NEW(mp) CExpressionArray (mp);
+	CExpressionArray *trueInnerJoinPredArray = GPOS_NEW(mp) CExpressionArray(mp);
 	CExpression *innerJoinPreds = (*pexprScalar)[0];
 	BOOL isAConjunction = CPredicateUtils::FAnd(innerJoinPreds);
 
 	GPOS_ASSERT(COperator::EopScalarNAryJoinPredList == pexprScalar->Pop()->Eopid());
 
 	// split the predicate into conjuncts and inspect those individually
-	predArray = CPredicateUtils::PdrgpexprConjuncts(mp,innerJoinPreds);
+	predArray = CPredicateUtils::PdrgpexprConjuncts(mp, innerJoinPreds);
 
 	for (ULONG ul = 0; ul < predArray->Size(); ul++)
 	{
@@ -295,7 +267,7 @@ CLogicalNAryJoin::GetTrueInnerJoinPreds(CMemoryPool *mp, CExpressionHandle &expr
 		BOOL addToPredArray = true;
 
 		// check whether the predicate uses any ColRefs that come from a non-inner join child
-		for (ULONG c=0; c<exprhdl.Arity()-1; c++)
+		for (ULONG c = 0; c < exprhdl.Arity() - 1; c++)
 		{
 			if (0 < *(*m_lojChildPredIndexes)[c])
 			{
@@ -337,12 +309,8 @@ CLogicalNAryJoin::GetTrueInnerJoinPreds(CMemoryPool *mp, CExpressionHandle &expr
 // only the inner join predicates and leaving the LOJ ON predicates the same
 //---------------------------------------------------------------------------
 CExpression *
-CLogicalNAryJoin::ReplaceInnerJoinPredicates
-	(
-	 CMemoryPool *mp,
-	 CExpression *old_nary_join_scalar_expr,
-	 CExpression *new_inner_join_preds
-	)
+CLogicalNAryJoin::ReplaceInnerJoinPredicates(CMemoryPool *mp, CExpression *old_nary_join_scalar_expr,
+											 CExpression *new_inner_join_preds)
 {
 	COperator *pop = old_nary_join_scalar_expr->Pop();
 
@@ -355,7 +323,7 @@ CLogicalNAryJoin::ReplaceInnerJoinPredicates
 
 		new_children->Append(new_inner_join_preds);
 
-		for (ULONG ul=1; ul<old_nary_join_scalar_expr->Arity(); ul++)
+		for (ULONG ul = 1; ul < old_nary_join_scalar_expr->Arity(); ul++)
 		{
 			CExpression *existing_child = (*old_nary_join_scalar_expr)[ul];
 
@@ -385,13 +353,9 @@ CLogicalNAryJoin::ReplaceInnerJoinPredicates
 //
 //---------------------------------------------------------------------------
 IOstream &
-CLogicalNAryJoin::OsPrint
-(
- IOstream &os
- )
-const
+CLogicalNAryJoin::OsPrint(IOstream &os) const
 {
-	os	<< SzId();
+	os << SzId();
 
 	if (NULL != m_lojChildPredIndexes)
 	{
@@ -399,7 +363,7 @@ const
 		// the scalar child entries below the CScalarNAryJoinPredList
 		os << " [";
 		ULONG size = m_lojChildPredIndexes->Size();
-		for (ULONG ul=0; ul < size; ul++)
+		for (ULONG ul = 0; ul < size; ul++)
 		{
 			if (0 < ul)
 			{
@@ -407,7 +371,7 @@ const
 			}
 			os << *((*m_lojChildPredIndexes)[ul]);
 		}
-		os	<< "]";
+		os << "]";
 	}
 
 	return os;
@@ -416,4 +380,3 @@ const
 
 
 // EOF
-

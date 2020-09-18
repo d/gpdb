@@ -29,13 +29,9 @@ using namespace gpopt;
 //		Ctor
 //
 //---------------------------------------------------------------------------
-CSchedulerContext::CSchedulerContext()
-	:
-	m_pmpGlobal(NULL),
-	m_pmpLocal(NULL),
-	m_psched(NULL),
-	m_fInit(false)
-{}
+CSchedulerContext::CSchedulerContext() : m_pmpGlobal(NULL), m_pmpLocal(NULL), m_psched(NULL), m_fInit(false)
+{
+}
 
 
 //---------------------------------------------------------------------------
@@ -69,13 +65,7 @@ CSchedulerContext::~CSchedulerContext()
 //
 //---------------------------------------------------------------------------
 void
-CSchedulerContext::Init
-	(
-	CMemoryPool *pmpGlobal,
-	CJobFactory *pjf,
-	CScheduler *psched,
-	CEngine *peng
-	)
+CSchedulerContext::Init(CMemoryPool *pmpGlobal, CJobFactory *pjf, CScheduler *psched, CEngine *peng)
 {
 	GPOS_ASSERT(NULL != pmpGlobal);
 	GPOS_ASSERT(NULL != pjf);
@@ -89,10 +79,9 @@ CSchedulerContext::Init
 	m_pmpGlobal = pmpGlobal;
 	m_pjf = pjf;
 	m_psched = psched;
-	m_peng= peng;
+	m_peng = peng;
 	m_fInit = true;
 }
 
 
 // EOF
-

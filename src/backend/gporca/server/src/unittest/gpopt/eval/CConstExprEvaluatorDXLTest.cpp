@@ -9,7 +9,7 @@
 //		Unit tests for CConstExprEvaluatorDXL
 //
 //	@owner:
-//		
+//
 //
 //	@test:
 //
@@ -47,10 +47,8 @@ const INT CConstExprEvaluatorDXLTest::m_iDefaultEvalValue = 300;
 //
 //---------------------------------------------------------------------------
 gpdxl::CDXLNode *
-CConstExprEvaluatorDXLTest::CDummyConstDXLNodeEvaluator::EvaluateExpr
-	(
-	const gpdxl::CDXLNode * /*pdxlnExpr*/
-	)
+CConstExprEvaluatorDXLTest::CDummyConstDXLNodeEvaluator::EvaluateExpr(const gpdxl::CDXLNode * /*pdxlnExpr*/
+)
 {
 	const IMDTypeInt4 *pmdtypeint4 = m_pmda->PtMDType<IMDTypeInt4>();
 	pmdtypeint4->MDId()->AddRef();
@@ -73,31 +71,17 @@ GPOS_RESULT
 CConstExprEvaluatorDXLTest::EresUnittest()
 {
 	{
-		CUnittest rgut[] =
-			{
-			GPOS_UNITTEST_FUNC_THROW
-				(
-				CConstExprEvaluatorDXLTest::EresUnittest_NonScalar,
-				gpdxl::ExmaGPOPT,
-				gpdxl::ExmiEvalUnsupportedScalarExpr
-				),
-			GPOS_UNITTEST_FUNC_THROW
-				(
-				CConstExprEvaluatorDXLTest::EresUnittest_NestedSubquery,
-				gpdxl::ExmaGPOPT,
-				gpdxl::ExmiEvalUnsupportedScalarExpr
-				),
-			GPOS_UNITTEST_FUNC_THROW
-				(
-				CConstExprEvaluatorDXLTest::EresUnittest_ScalarContainingVariables,
-				gpdxl::ExmaGPOPT,
-				gpdxl::ExmiEvalUnsupportedScalarExpr
-				),
-			};
+		CUnittest rgut[] = {
+			GPOS_UNITTEST_FUNC_THROW(CConstExprEvaluatorDXLTest::EresUnittest_NonScalar, gpdxl::ExmaGPOPT,
+									 gpdxl::ExmiEvalUnsupportedScalarExpr),
+			GPOS_UNITTEST_FUNC_THROW(CConstExprEvaluatorDXLTest::EresUnittest_NestedSubquery, gpdxl::ExmaGPOPT,
+									 gpdxl::ExmiEvalUnsupportedScalarExpr),
+			GPOS_UNITTEST_FUNC_THROW(CConstExprEvaluatorDXLTest::EresUnittest_ScalarContainingVariables,
+									 gpdxl::ExmaGPOPT, gpdxl::ExmiEvalUnsupportedScalarExpr),
+		};
 
 		return CUnittest::EresExecute(rgut, GPOS_ARRAY_SIZE(rgut));
 	}
-
 }
 
 //---------------------------------------------------------------------------
@@ -114,8 +98,7 @@ CConstExprEvaluatorDXLTest::EresUnittest_NonScalar()
 	CTestUtils::CTestSetup testsetup;
 	CMemoryPool *mp = testsetup.Pmp();
 	CDummyConstDXLNodeEvaluator consteval(mp, testsetup.Pmda(), m_iDefaultEvalValue);
-	CConstExprEvaluatorDXL  *pceeval =
-			GPOS_NEW(mp) CConstExprEvaluatorDXL(mp, testsetup.Pmda(), &consteval);
+	CConstExprEvaluatorDXL *pceeval = GPOS_NEW(mp) CConstExprEvaluatorDXL(mp, testsetup.Pmda(), &consteval);
 
 	CExpression *pexprGet = CTestUtils::PexprLogicalGet(testsetup.Pmp());
 
@@ -142,8 +125,7 @@ CConstExprEvaluatorDXLTest::EresUnittest_NestedSubquery()
 	CTestUtils::CTestSetup testsetup;
 	CMemoryPool *mp = testsetup.Pmp();
 	CDummyConstDXLNodeEvaluator consteval(mp, testsetup.Pmda(), m_iDefaultEvalValue);
-	CConstExprEvaluatorDXL  *pceeval =
-			GPOS_NEW(mp) CConstExprEvaluatorDXL(mp, testsetup.Pmda(), &consteval);
+	CConstExprEvaluatorDXL *pceeval = GPOS_NEW(mp) CConstExprEvaluatorDXL(mp, testsetup.Pmda(), &consteval);
 
 	CExpression *pexprSelect = CTestUtils::PexprLogicalSelectWithConstAnySubquery(testsetup.Pmp());
 	CExpression *pexprPredicate = (*pexprSelect)[1];
@@ -166,25 +148,22 @@ CConstExprEvaluatorDXLTest::EresUnittest_NestedSubquery()
 //		Test that an error is raised for a scalar containing variables.
 //
 //---------------------------------------------------------------------------
-GPOS_RESULT CConstExprEvaluatorDXLTest::EresUnittest_ScalarContainingVariables()
+GPOS_RESULT
+CConstExprEvaluatorDXLTest::EresUnittest_ScalarContainingVariables()
 {
 	CTestUtils::CTestSetup testsetup;
 	CMemoryPool *mp = testsetup.Pmp();
 	CDummyConstDXLNodeEvaluator consteval(mp, testsetup.Pmda(), m_iDefaultEvalValue);
-	CConstExprEvaluatorDXL  *pceeval =
-			GPOS_NEW(mp) CConstExprEvaluatorDXL(mp, testsetup.Pmda(), &consteval);
+	CConstExprEvaluatorDXL *pceeval = GPOS_NEW(mp) CConstExprEvaluatorDXL(mp, testsetup.Pmda(), &consteval);
 
 	const IMDTypeInt4 *pmdtypeint4 = testsetup.Pmda()->PtMDType<IMDTypeInt4>();
 	CColumnFactory *col_factory = COptCtxt::PoctxtFromTLS()->Pcf();
 	CColRef *pcrComputed = col_factory->PcrCreate(pmdtypeint4, default_type_modifier);
 
 	// create a comparison, where one of the children is a variable
-	CExpression *pexprFunCall = CUtils::PexprScalarEqCmp
-			(
-			testsetup.Pmp(),
-			CUtils::PexprScalarConstInt4(testsetup.Pmp(), 200 /*val*/),
-			CUtils::PexprScalarIdent(testsetup.Pmp(), pcrComputed)
-			);
+	CExpression *pexprFunCall =
+		CUtils::PexprScalarEqCmp(testsetup.Pmp(), CUtils::PexprScalarConstInt4(testsetup.Pmp(), 200 /*val*/),
+								 CUtils::PexprScalarIdent(testsetup.Pmp(), pcrComputed));
 
 	// this call should raise an exception
 	CExpression *pexprResult = pceeval->PexprEval(pexprFunCall);

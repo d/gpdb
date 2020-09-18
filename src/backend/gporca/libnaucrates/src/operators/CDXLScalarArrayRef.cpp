@@ -26,20 +26,13 @@ using namespace gpdxl;
 //		Ctor
 //
 //---------------------------------------------------------------------------
-CDXLScalarArrayRef::CDXLScalarArrayRef
-	(
-	CMemoryPool *mp,
-	IMDId *elem_type_mdid,
-	INT type_modifier,
-	IMDId *array_type_mdid,
-	IMDId *return_type_mdid
-	)
-	:
-	CDXLScalar(mp),
-	m_elem_type_mdid(elem_type_mdid),
-	m_type_modifier(type_modifier),
-	m_array_type_mdid(array_type_mdid),
-	m_return_type_mdid(return_type_mdid)
+CDXLScalarArrayRef::CDXLScalarArrayRef(CMemoryPool *mp, IMDId *elem_type_mdid, INT type_modifier,
+									   IMDId *array_type_mdid, IMDId *return_type_mdid)
+	: CDXLScalar(mp),
+	  m_elem_type_mdid(elem_type_mdid),
+	  m_type_modifier(type_modifier),
+	  m_array_type_mdid(array_type_mdid),
+	  m_return_type_mdid(return_type_mdid)
 {
 	GPOS_ASSERT(m_elem_type_mdid->IsValid());
 	GPOS_ASSERT(m_array_type_mdid->IsValid());
@@ -105,12 +98,7 @@ CDXLScalarArrayRef::TypeModifier() const
 //
 //---------------------------------------------------------------------------
 void
-CDXLScalarArrayRef::SerializeToDXL
-	(
-	CXMLSerializer *xml_serializer,
-	const CDXLNode *dxlnode
-	)
-	const
+CDXLScalarArrayRef::SerializeToDXL(CXMLSerializer *xml_serializer, const CDXLNode *dxlnode) const
 {
 	const CWStringConst *element_name = GetOpNameStr();
 
@@ -158,11 +146,7 @@ CDXLScalarArrayRef::SerializeToDXL
 //
 //---------------------------------------------------------------------------
 BOOL
-CDXLScalarArrayRef::HasBoolResult
-	(
-	CMDAccessor *md_accessor
-	)
-	const
+CDXLScalarArrayRef::HasBoolResult(CMDAccessor *md_accessor) const
 {
 	return (IMDType::EtiBool == md_accessor->RetrieveType(m_return_type_mdid)->GetDatumType());
 }
@@ -177,12 +161,7 @@ CDXLScalarArrayRef::HasBoolResult
 //
 //---------------------------------------------------------------------------
 void
-CDXLScalarArrayRef::AssertValid
-	(
-	const CDXLNode *dxlnode,
-	BOOL validate_children
-	)
-	const
+CDXLScalarArrayRef::AssertValid(const CDXLNode *dxlnode, BOOL validate_children) const
 {
 	const ULONG arity = dxlnode->Arity();
 	for (ULONG ul = 0; ul < arity; ++ul)
@@ -196,6 +175,6 @@ CDXLScalarArrayRef::AssertValid
 		}
 	}
 }
-#endif // GPOS_DEBUG
+#endif	// GPOS_DEBUG
 
 // EOF

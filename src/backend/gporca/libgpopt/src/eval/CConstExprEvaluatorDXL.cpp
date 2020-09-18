@@ -9,7 +9,7 @@
 //		Constant expression evaluator implementation that delegats to a DXL evaluator
 //
 //	@owner:
-//		
+//
 //
 //	@test:
 //
@@ -37,16 +37,11 @@ using namespace gpos;
 //		Ctor
 //
 //---------------------------------------------------------------------------
-CConstExprEvaluatorDXL::CConstExprEvaluatorDXL
-	(
-	CMemoryPool *mp,
-	CMDAccessor *md_accessor,
-	IConstDXLNodeEvaluator *pconstdxleval
-	)
-	:
-	m_pconstdxleval(pconstdxleval),
-	m_trexpr2dxl(mp, md_accessor, NULL /*pdrgpiSegments*/, false /*fInitColumnFactory*/),
-	m_trdxl2expr(mp, md_accessor, false /*fInitColumnFactory*/)
+CConstExprEvaluatorDXL::CConstExprEvaluatorDXL(CMemoryPool *mp, CMDAccessor *md_accessor,
+											   IConstDXLNodeEvaluator *pconstdxleval)
+	: m_pconstdxleval(pconstdxleval),
+	  m_trexpr2dxl(mp, md_accessor, NULL /*pdrgpiSegments*/, false /*fInitColumnFactory*/),
+	  m_trdxl2expr(mp, md_accessor, false /*fInitColumnFactory*/)
 {
 }
 
@@ -72,10 +67,7 @@ CConstExprEvaluatorDXL::~CConstExprEvaluatorDXL()
 //
 //---------------------------------------------------------------------------
 CExpression *
-CConstExprEvaluatorDXL::PexprEval
-	(
-	CExpression *pexpr
-	)
+CConstExprEvaluatorDXL::PexprEval(CExpression *pexpr)
 {
 	GPOS_ASSERT(NULL != pexpr);
 
@@ -103,7 +95,8 @@ CConstExprEvaluatorDXL::PexprEval
 //		Returns true, since this evaluator always attempts to evaluate the expression and compute a datum
 //
 //---------------------------------------------------------------------------
-BOOL CConstExprEvaluatorDXL::FCanEvalExpressions()
+BOOL
+CConstExprEvaluatorDXL::FCanEvalExpressions()
 {
 	return m_pconstdxleval->FCanEvalExpressions();
 }

@@ -24,12 +24,7 @@ using namespace gpdxl;
 //		ctor
 //
 //---------------------------------------------------------------------------
-CDXLScalarIndexCondList::CDXLScalarIndexCondList
-	(
-	CMemoryPool *mp
-	)
-	:
-	CDXLScalar(mp)
+CDXLScalarIndexCondList::CDXLScalarIndexCondList(CMemoryPool *mp) : CDXLScalar(mp)
 {
 }
 
@@ -71,12 +66,7 @@ CDXLScalarIndexCondList::GetOpNameStr() const
 //
 //---------------------------------------------------------------------------
 void
-CDXLScalarIndexCondList::SerializeToDXL
-	(
-	CXMLSerializer *xml_serializer,
-	const CDXLNode *node
-	)
-	const
+CDXLScalarIndexCondList::SerializeToDXL(CXMLSerializer *xml_serializer, const CDXLNode *node) const
 {
 	const CWStringConst *element_name = GetOpNameStr();
 	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
@@ -94,12 +84,7 @@ CDXLScalarIndexCondList::SerializeToDXL
 //
 //---------------------------------------------------------------------------
 void
-CDXLScalarIndexCondList::AssertValid
-	(
-	const CDXLNode *node,
-	BOOL validate_children
-	)
-	const
+CDXLScalarIndexCondList::AssertValid(const CDXLNode *node, BOOL validate_children) const
 {
 	GPOS_ASSERT(NULL != node);
 
@@ -114,6 +99,6 @@ CDXLScalarIndexCondList::AssertValid
 		}
 	}
 }
-#endif // GPOS_DEBUG
+#endif	// GPOS_DEBUG
 
 // EOF

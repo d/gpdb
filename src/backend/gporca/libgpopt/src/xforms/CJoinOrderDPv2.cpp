@@ -59,29 +59,22 @@ using namespace gpopt;
 //		Ctor
 //
 //---------------------------------------------------------------------------
-CJoinOrderDPv2::CJoinOrderDPv2
-	(
-	CMemoryPool *mp,
-	CExpressionArray *pdrgpexprAtoms,
-	CExpressionArray *innerJoinConjuncts,
-	CExpressionArray *onPredConjuncts,
-	ULongPtrArray *childPredIndexes,
-	CColRefSet *outerRefs
-	)
-	:
-	CJoinOrder(mp, pdrgpexprAtoms, innerJoinConjuncts, onPredConjuncts, childPredIndexes),
-	m_expression_to_edge_map(NULL),
-	m_on_pred_conjuncts(onPredConjuncts),
-	m_child_pred_indexes(childPredIndexes),
-	m_non_inner_join_dependencies(NULL),
-	m_cross_prod_penalty(GPOPT_DPV2_CROSS_JOIN_DEFAULT_PENALTY),
-	m_outer_refs(outerRefs)
+CJoinOrderDPv2::CJoinOrderDPv2(CMemoryPool *mp, CExpressionArray *pdrgpexprAtoms, CExpressionArray *innerJoinConjuncts,
+							   CExpressionArray *onPredConjuncts, ULongPtrArray *childPredIndexes,
+							   CColRefSet *outerRefs)
+	: CJoinOrder(mp, pdrgpexprAtoms, innerJoinConjuncts, onPredConjuncts, childPredIndexes),
+	  m_expression_to_edge_map(NULL),
+	  m_on_pred_conjuncts(onPredConjuncts),
+	  m_child_pred_indexes(childPredIndexes),
+	  m_non_inner_join_dependencies(NULL),
+	  m_cross_prod_penalty(GPOPT_DPV2_CROSS_JOIN_DEFAULT_PENALTY),
+	  m_outer_refs(outerRefs)
 {
-	m_join_levels = GPOS_NEW(mp) DPv2Levels(mp, m_ulComps+1);
+	m_join_levels = GPOS_NEW(mp) DPv2Levels(mp, m_ulComps + 1);
 	// populate levels array with n+1 levels for an n-way join
 	// level 0 remains unused, so index i corresponds to level i,
 	// making it easier for humans to read the code
-	for (ULONG l=0; l<= m_ulComps; l++)
+	for (ULONG l = 0; l <= m_ulComps; l++)
 	{
 		m_join_levels->Append(GPOS_NEW(mp) SLevelInfo(l, GPOS_NEW(mp) SGroupInfoArray(mp)));
 	}
@@ -89,18 +82,12 @@ CJoinOrderDPv2::CJoinOrderDPv2
 	m_bitset_to_group_info_map = GPOS_NEW(mp) BitSetToGroupInfoMap(mp);
 
 	// Contains top k expressions for a general DP algorithm, without considering cost of motions/PS
-	m_top_k_expressions = GPOS_NEW(mp) CKHeap<SExpressionInfoArray, SExpressionInfo>
-										(
-										 mp,
-										 GPOPT_DPV2_JOIN_ORDERING_TOPK
-										);
+	m_top_k_expressions = GPOS_NEW(mp) CKHeap<SExpressionInfoArray, SExpressionInfo>(mp, GPOPT_DPV2_JOIN_ORDERING_TOPK);
 	// We use a separate heap to ensure we produce an alternative expression that contains a dynamic PS
 	// If no dynamic PS is valid, this will be empty.
-	m_top_k_part_expressions = GPOS_NEW(mp) CKHeap<SExpressionInfoArray, SExpressionInfo>
-										(
-										 mp,
-										 1 /* keep top 1 expression */
-										);
+	m_top_k_part_expressions =
+		GPOS_NEW(mp) CKHeap<SExpressionInfoArray, SExpressionInfo>(mp, 1 /* keep top 1 expression */
+		);
 
 	m_mp = mp;
 	if (0 < m_on_pred_conjuncts->Size())
@@ -109,7 +96,7 @@ CJoinOrderDPv2::CJoinOrderDPv2
 		ULONG numNonInnerJoins = m_on_pred_conjuncts->Size();
 
 		m_non_inner_join_dependencies = GPOS_NEW(mp) CBitSetArray(mp, numNonInnerJoins);
-		for (ULONG ul=0; ul<numNonInnerJoins; ul++)
+		for (ULONG ul = 0; ul < numNonInnerJoins; ul++)
 		{
 			m_non_inner_join_dependencies->Append(GPOS_NEW(mp) CBitSet(mp));
 		}
@@ -125,7 +112,7 @@ CJoinOrderDPv2::CJoinOrderDPv2
 			{
 				// edge represents a non-inner join pred
 				ULONG logicalChildNum = FindLogicalChildByNijId(pedge->m_loj_num);
-				CBitSet * nijBitSet = (*m_non_inner_join_dependencies)[pedge->m_loj_num-1];
+				CBitSet *nijBitSet = (*m_non_inner_join_dependencies)[pedge->m_loj_num - 1];
 
 				GPOS_ASSERT(0 < logicalChildNum);
 				nijBitSet->Union(pedge->m_pbs);
@@ -162,7 +149,7 @@ CJoinOrderDPv2::~CJoinOrderDPv2()
 	m_join_levels->Release();
 	m_on_pred_conjuncts->Release();
 	m_outer_refs->Release();
-#endif // GPOS_DEBUG
+#endif	// GPOS_DEBUG
 }
 
 
@@ -180,11 +167,7 @@ CJoinOrderDPv2::~CJoinOrderDPv2()
 //
 //---------------------------------------------------------------------------
 void
-CJoinOrderDPv2::ComputeCost
-	(
-	 SExpressionInfo *expr_info,
-	 CDouble join_cardinality
-	)
+CJoinOrderDPv2::ComputeCost(SExpressionInfo *expr_info, CDouble join_cardinality)
 {
 	// cardinality of the expression itself is one part of the cost
 	CDouble dCost(join_cardinality);
@@ -202,7 +185,8 @@ CJoinOrderDPv2::ComputeCost
 			dCost = dCost * m_cross_prod_penalty;
 		}
 		expr_info->m_cost_adj_PS = expr_info->m_cost_adj_PS + expr_info->m_left_child_expr.GetExprInfo()->m_cost_adj_PS;
-		expr_info->m_cost_adj_PS = expr_info->m_cost_adj_PS + expr_info->m_right_child_expr.GetExprInfo()->m_cost_adj_PS;
+		expr_info->m_cost_adj_PS =
+			expr_info->m_cost_adj_PS + expr_info->m_right_child_expr.GetExprInfo()->m_cost_adj_PS;
 	}
 
 	expr_info->m_cost = dCost;
@@ -218,11 +202,7 @@ CJoinOrderDPv2::ComputeCost
 //
 //---------------------------------------------------------------------------
 CExpression *
-CJoinOrderDPv2::PexprBuildInnerJoinPred
-	(
-	CBitSet *pbsFst,
-	CBitSet *pbsSnd
-	)
+CJoinOrderDPv2::PexprBuildInnerJoinPred(CBitSet *pbsFst, CBitSet *pbsSnd)
 {
 	GPOS_ASSERT(pbsFst->IsDisjoint(pbsSnd));
 	// collect edges connecting the given sets
@@ -239,12 +219,9 @@ CJoinOrderDPv2::PexprBuildInnerJoinPred
 			// all columns referenced in the edge pred are provided
 			pbs->ContainsAll(pedge->m_pbs) &&
 			// the edge represents a true join predicate between the two components
-			!pbsFst->IsDisjoint(pedge->m_pbs) &&
-			!pbsSnd->IsDisjoint(pedge->m_pbs)
-			)
+			!pbsFst->IsDisjoint(pedge->m_pbs) && !pbsSnd->IsDisjoint(pedge->m_pbs))
 		{
-		BOOL fSet GPOS_ASSERTS_ONLY =
-			pbsEdges->ExchangeSet(ul);
+			BOOL fSet GPOS_ASSERTS_ONLY = pbsEdges->ExchangeSet(ul);
 			GPOS_ASSERT(!fSet);
 		}
 	}
@@ -270,9 +247,11 @@ CJoinOrderDPv2::PexprBuildInnerJoinPred
 	return pexprPred;
 }
 
-void CJoinOrderDPv2::DeriveStats(CExpression *pexpr)
+void
+CJoinOrderDPv2::DeriveStats(CExpression *pexpr)
 {
-	try {
+	try
+	{
 		// We want to let the histogram code compute the join selectivity and the number of NDVs based
 		// on actual histogram buckets, taking into account the overlap of the data ranges. It helps
 		// with getting more consistent and accurate cardinality estimates for DP.
@@ -280,7 +259,9 @@ void CJoinOrderDPv2::DeriveStats(CExpression *pexpr)
 		CJoinStatsProcessor::SetComputeScaleFactorFromHistogramBuckets(true);
 		CJoinOrder::DeriveStats(pexpr);
 		CJoinStatsProcessor::SetComputeScaleFactorFromHistogramBuckets(false);
-	} catch (...) {
+	}
+	catch (...)
+	{
 		CJoinStatsProcessor::SetComputeScaleFactorFromHistogramBuckets(false);
 		throw;
 	}
@@ -297,12 +278,8 @@ void CJoinOrderDPv2::DeriveStats(CExpression *pexpr)
 //
 //---------------------------------------------------------------------------
 CJoinOrderDPv2::SExpressionInfo *
-CJoinOrderDPv2::GetJoinExprForProperties
-	(
-	 SGroupInfo *left_child,
-	 SGroupInfo *right_child,
-	 SExpressionProperties &required_properties
-	)
+CJoinOrderDPv2::GetJoinExprForProperties(SGroupInfo *left_child, SGroupInfo *right_child,
+										 SExpressionProperties &required_properties)
 {
 	SGroupAndExpression left_expr = GetBestExprForProperties(left_child, required_properties);
 	SGroupAndExpression right_expr = GetBestExprForProperties(right_child, required_properties);
@@ -325,14 +302,10 @@ CJoinOrderDPv2::GetJoinExprForProperties
 //
 //---------------------------------------------------------------------------
 CJoinOrderDPv2::SExpressionInfo *
-CJoinOrderDPv2::GetJoinExpr
-	(
-	 const SGroupAndExpression &left_child_expr,
-	 const SGroupAndExpression &right_child_expr,
-	 SExpressionProperties &result_properties
-	)
+CJoinOrderDPv2::GetJoinExpr(const SGroupAndExpression &left_child_expr, const SGroupAndExpression &right_child_expr,
+							SExpressionProperties &result_properties)
 {
-	SGroupInfo *left_group_info      = left_child_expr.m_group_info;
+	SGroupInfo *left_group_info = left_child_expr.m_group_info;
 
 	if (IsRightChildOfNIJ(left_group_info))
 	{
@@ -340,8 +313,8 @@ CJoinOrderDPv2::GetJoinExpr
 		return NULL;
 	}
 
-	SExpressionInfo *left_expr_info  = left_child_expr.GetExprInfo();
-	SGroupInfo *right_group_info     = right_child_expr.m_group_info;
+	SExpressionInfo *left_expr_info = left_child_expr.GetExprInfo();
+	SGroupInfo *right_group_info = right_child_expr.m_group_info;
 	SExpressionInfo *right_expr_info = right_child_expr.GetExprInfo();
 
 	CExpression *scalar_expr = NULL;
@@ -414,11 +387,7 @@ CJoinOrderDPv2::GetJoinExpr
 //
 //---------------------------------------------------------------------------
 BOOL
-CJoinOrderDPv2::IsASupersetOfProperties
-	(
-	 SExpressionProperties &prop,
-	 SExpressionProperties &other_prop
-	)
+CJoinOrderDPv2::IsASupersetOfProperties(SExpressionProperties &prop, SExpressionProperties &other_prop)
 {
 	// are the bits in other_prop a subset of the bits in prop?
 	return 0 == (other_prop.m_join_order & ~prop.m_join_order);
@@ -435,13 +404,9 @@ CJoinOrderDPv2::IsASupersetOfProperties
 //
 //---------------------------------------------------------------------------
 BOOL
-CJoinOrderDPv2::ArePropertiesDisjoint
-	(
-	 SExpressionProperties &prop,
-	 SExpressionProperties &other_prop
-	)
+CJoinOrderDPv2::ArePropertiesDisjoint(SExpressionProperties &prop, SExpressionProperties &other_prop)
 {
-	return	!IsASupersetOfProperties(prop, other_prop) && !IsASupersetOfProperties(other_prop, prop);
+	return !IsASupersetOfProperties(prop, other_prop) && !IsASupersetOfProperties(other_prop, prop);
 }
 
 
@@ -458,16 +423,12 @@ CJoinOrderDPv2::ArePropertiesDisjoint
 //
 //---------------------------------------------------------------------------
 CJoinOrderDPv2::SGroupAndExpression
-CJoinOrderDPv2::GetBestExprForProperties
-	(
-	 SGroupInfo *group_info,
-	 SExpressionProperties &props
-	)
+CJoinOrderDPv2::GetBestExprForProperties(SGroupInfo *group_info, SExpressionProperties &props)
 {
 	ULONG best_ix = gpos::ulong_max;
 	CDouble best_cost(0.0);
 
-	for (ULONG ul=0; ul < group_info->m_best_expr_info_array->Size(); ul++)
+	for (ULONG ul = 0; ul < group_info->m_best_expr_info_array->Size(); ul++)
 	{
 		SExpressionInfo *expr_info = (*group_info->m_best_expr_info_array)[ul];
 
@@ -497,11 +458,7 @@ CJoinOrderDPv2::GetBestExprForProperties
 //
 //---------------------------------------------------------------------------
 void
-CJoinOrderDPv2::AddNewPropertyToExpr
-	(
-	 SExpressionInfo *expr_info,
-	 SExpressionProperties props
-	)
+CJoinOrderDPv2::AddNewPropertyToExpr(SExpressionInfo *expr_info, SExpressionProperties props)
 {
 	expr_info->m_properties.Add(props);
 }
@@ -519,11 +476,7 @@ CJoinOrderDPv2::AddNewPropertyToExpr
 //
 //---------------------------------------------------------------------------
 void
-CJoinOrderDPv2::AddExprToGroupIfNecessary
-	(
-	 SGroupInfo *group_info,
-	 SExpressionInfo *new_expr_info
-	)
+CJoinOrderDPv2::AddExprToGroupIfNecessary(SGroupInfo *group_info, SExpressionInfo *new_expr_info)
 {
 	// compute the cost for the new expression
 	ComputeCost(new_expr_info, group_info->m_cardinality);
@@ -542,7 +495,6 @@ CJoinOrderDPv2::AddExprToGroupIfNecessary
 		{
 			m_top_k_expressions->Insert(new_expr_info);
 		}
-
 	}
 
 	if (0 == group_info->m_best_expr_info_array->Size() || new_cost < group_info->m_lowest_expr_cost)
@@ -583,7 +535,7 @@ CJoinOrderDPv2::AddExprToGroupIfNecessary
 	BOOL discard = false;
 	BOOL replaced_expr = false;
 
-	for (ULONG ul=0; ul < group_info->m_best_expr_info_array->Size(); ul++)
+	for (ULONG ul = 0; ul < group_info->m_best_expr_info_array->Size(); ul++)
 	{
 		SExpressionInfo *expr_info = (*group_info->m_best_expr_info_array)[ul];
 		BOOL old_ge_new = IsASupersetOfProperties(expr_info->m_properties, new_expr_info->m_properties);
@@ -702,7 +654,7 @@ CJoinOrderDPv2::PopulateExpressionToEdgeMapIfNeeded()
 		// make a bitset b with all the LOJ right children
 		CBitSet *loj_right_children = GPOS_NEW(m_mp) CBitSet(m_mp);
 
-		for (ULONG c=0; c<m_child_pred_indexes->Size(); c++)
+		for (ULONG c = 0; c < m_child_pred_indexes->Size(); c++)
 		{
 			if (0 < *((*m_child_pred_indexes)[c]))
 			{
@@ -806,13 +758,14 @@ CJoinOrderDPv2::AddSelectNodeForRemainingEdges(CExpression *join_expr)
 //		mark all the edges corresponding to any part of <expr> as used
 //
 //---------------------------------------------------------------------------
-void CJoinOrderDPv2::RecursivelyMarkEdgesAsUsed(CExpression *expr)
+void
+CJoinOrderDPv2::RecursivelyMarkEdgesAsUsed(CExpression *expr)
 {
 	GPOS_CHECK_STACK_SIZE;
 
 	if (expr->Pop()->FLogical())
 	{
-		for (ULONG ul=0; ul< expr->Arity(); ul++)
+		for (ULONG ul = 0; ul < expr->Arity(); ul++)
 		{
 			RecursivelyMarkEdgesAsUsed((*expr)[ul]);
 		}
@@ -857,23 +810,20 @@ void CJoinOrderDPv2::RecursivelyMarkEdgesAsUsed(CExpression *expr)
 // We only consider linear trees here, since bushy trees would increase the search space and increase the
 // chance of motions between the PS and PT, which then would fail requirements during optimization
 void
-CJoinOrderDPv2::PopulateDPEInfo
-	(
-	SExpressionInfo *join_expr_info,
-	SGroupInfo *part_table_group_info,
-	SGroupInfo *part_selector_group_info
-	)
+CJoinOrderDPv2::PopulateDPEInfo(SExpressionInfo *join_expr_info, SGroupInfo *part_table_group_info,
+								SGroupInfo *part_selector_group_info)
 {
 	SGroupInfoArray *atom_groups = GetGroupsForLevel(1);
 
 	CBitSetIter iter_pt(*part_table_group_info->m_atoms);
 	SGroupInfo *pt_atom = NULL;
 	CPartKeysArray *partition_keys = NULL;
-	while(iter_pt.Advance())
+	while (iter_pt.Advance())
 	{
 		pt_atom = (*atom_groups)[iter_pt.Bit()];
 		partition_keys = (*pt_atom->m_best_expr_info_array)[0]->m_atom_part_keys_array;
-		if (partition_keys != NULL && partition_keys->Size() > 0){
+		if (partition_keys != NULL && partition_keys->Size() > 0)
+		{
 			break;
 		}
 	}
@@ -885,17 +835,19 @@ CJoinOrderDPv2::PopulateDPEInfo
 		CExpression *scalar_expr = (*join_expr)[join_expr->Arity() - 1];
 
 		CColRefSet *join_expr_cols = scalar_expr->DeriveUsedColumns();
-		for (ULONG i =0; i < partition_keys->Size(); i++){
+		for (ULONG i = 0; i < partition_keys->Size(); i++)
+		{
 			CPartKeys *part_keys = (*partition_keys)[i];
 			// If the join expr overlaps the partition key, then we consider the expression as having a possible PS for that PT
 			if (part_keys->FOverlap(join_expr_cols))
 			{
 				CBitSetIter iter_ps(*part_selector_group_info->m_atoms);
 				join_expr_info->m_contain_PS->ExchangeSet(iter_pt.Bit());
-				while(iter_ps.Advance())
+				while (iter_ps.Advance())
 				{
 					// if the part selector group has a potential PS, ensure that one of the group's atoms is a logical select
-					if ((*(*atom_groups)[iter_ps.Bit()]->m_best_expr_info_array)[0]->m_expr->Pop()->Eopid() == COperator::EopLogicalSelect)
+					if ((*(*atom_groups)[iter_ps.Bit()]->m_best_expr_info_array)[0]->m_expr->Pop()->Eopid() ==
+						COperator::EopLogicalSelect)
 					{
 						SExpressionInfo *atom_ps = (*(*atom_groups)[iter_ps.Bit()]->m_best_expr_info_array)[0];
 						// This is a bit simplistic. We calculate how much we are reducing the cardinality of the atom, but also take into account the cost of broadcasting the inner rows. If the number of rows broadcasted is much larger than the savings, then PS will likely not benefit in this case
@@ -905,18 +857,23 @@ CJoinOrderDPv2::PopulateDPEInfo
 						// for a non-select node (won't even come here) ==> 0.0, in effect
 						// for a select(get) ==> 1 - (row count of select / row count of get)
 
-						CDouble percent_reduction = .9; // an arbitary default if the logical operator is not a simple select
+						CDouble percent_reduction =
+							.9;	 // an arbitary default if the logical operator is not a simple select
 						ICostModel *cost_model = COptCtxt::PoctxtFromTLS()->GetCostModel();
 						CDouble num_segments = cost_model->UlHosts();
-						CDouble distribution_cost_factor = (num_segments * BCAST_RECV_COST + BCAST_SEND_COST) / SEQ_SCAN_COST;
+						CDouble distribution_cost_factor =
+							(num_segments * BCAST_RECV_COST + BCAST_SEND_COST) / SEQ_SCAN_COST;
 						CDouble broadcast_penalty = part_selector_group_info->m_cardinality * distribution_cost_factor;
 
-						if (atom_ps->m_atom_base_table_rows.Get() > 0){
+						if (atom_ps->m_atom_base_table_rows.Get() > 0)
+						{
 							percent_reduction = (1 - (atom_ps->m_cost.Get() / atom_ps->m_atom_base_table_rows.Get()));
 						}
 
 						// Adjust the cost of the expression for each partition selector
-						join_expr_info->m_cost_adj_PS = join_expr_info->m_cost_adj_PS - (percent_reduction * pt_atom->m_cardinality) + broadcast_penalty;
+						join_expr_info->m_cost_adj_PS = join_expr_info->m_cost_adj_PS -
+														(percent_reduction * pt_atom->m_cardinality) +
+														broadcast_penalty;
 					}
 				}
 				break;
@@ -934,23 +891,17 @@ CJoinOrderDPv2::PopulateDPEInfo
 //
 //---------------------------------------------------------------------------
 void
-CJoinOrderDPv2::SearchJoinOrders
-	(
-	 ULONG left_level,
-	 ULONG right_level
-	)
+CJoinOrderDPv2::SearchJoinOrders(ULONG left_level, ULONG right_level)
 {
-	GPOS_ASSERT(left_level > 0 &&
-				right_level > 0 &&
-				left_level + right_level <= m_ulComps);
+	GPOS_ASSERT(left_level > 0 && right_level > 0 && left_level + right_level <= m_ulComps);
 
 	SGroupInfoArray *left_group_info_array = GetGroupsForLevel(left_level);
 	SGroupInfoArray *right_group_info_array = GetGroupsForLevel(right_level);
-	SLevelInfo *current_level_info = Level(left_level+right_level);
+	SLevelInfo *current_level_info = Level(left_level + right_level);
 
 	ULONG left_size = left_group_info_array->Size();
 	ULONG right_size = right_group_info_array->Size();
-	for (ULONG left_ix=0; left_ix<left_size; left_ix++)
+	for (ULONG left_ix = 0; left_ix < left_size; left_ix++)
 	{
 		SGroupInfo *left_group_info = (*left_group_info_array)[left_ix];
 
@@ -968,7 +919,7 @@ CJoinOrderDPv2::SearchJoinOrders
 			right_ix = left_ix + 1;
 		}
 
-		for (; right_ix<right_size; right_ix++)
+		for (; right_ix < right_size; right_ix++)
 		{
 			SGroupInfo *right_group_info = (*right_group_info_array)[right_ix];
 			CBitSet *right_bitset = right_group_info->m_atoms;
@@ -980,7 +931,8 @@ CJoinOrderDPv2::SearchJoinOrders
 			}
 
 			SExpressionProperties reqd_properties(EJoinOrderDP);
-			SExpressionInfo *join_expr_info = GetJoinExprForProperties(left_group_info, right_group_info, reqd_properties);
+			SExpressionInfo *join_expr_info =
+				GetJoinExprForProperties(left_group_info, right_group_info, reqd_properties);
 
 			if (NULL != join_expr_info)
 			{
@@ -996,7 +948,8 @@ CJoinOrderDPv2::SearchJoinOrders
 				AddExprToGroupIfNecessary(group_info, join_expr_info);
 
 				// We only want to consider linear trees when enumerating partition selector alternatives
-				if (right_level != 1){
+				if (right_level != 1)
+				{
 					continue;
 				}
 
@@ -1004,7 +957,7 @@ CJoinOrderDPv2::SearchJoinOrders
 				SExpressionProperties join_props(EJoinOrderAny);
 
 				// Now search for new PS alternatives
-				join_expr_info = GetJoinExprForProperties(left_group_info, right_group_info, join_props );
+				join_expr_info = GetJoinExprForProperties(left_group_info, right_group_info, join_props);
 
 
 
@@ -1043,19 +996,14 @@ CJoinOrderDPv2::SearchJoinOrders
 //
 //---------------------------------------------------------------------------
 void
-CJoinOrderDPv2::GreedySearchJoinOrders
-	(
-	 ULONG left_level,
-	 JoinOrderPropType algo
-	)
+CJoinOrderDPv2::GreedySearchJoinOrders(ULONG left_level, JoinOrderPropType algo)
 {
 	ULONG right_level = 1;
-	GPOS_ASSERT(left_level > 0 &&
-				left_level + right_level <= m_ulComps);
+	GPOS_ASSERT(left_level > 0 && left_level + right_level <= m_ulComps);
 
 	SGroupInfoArray *left_group_info_array = GetGroupsForLevel(left_level);
 	SGroupInfoArray *right_group_info_array = GetGroupsForLevel(right_level);
-	SLevelInfo *current_level_info = Level(left_level+right_level);
+	SLevelInfo *current_level_info = Level(left_level + right_level);
 	SExpressionProperties left_reqd_properties(algo);
 	SExpressionProperties right_reqd_properties(EJoinOrderAny);
 	SExpressionProperties result_properties(algo);
@@ -1103,7 +1051,7 @@ CJoinOrderDPv2::GreedySearchJoinOrders
 	}
 
 	// now loop over all the atoms on the right and pick the one we want to use for this level
-	for (; right_ix<right_size; right_ix++)
+	for (; right_ix < right_size; right_ix++)
 	{
 		SGroupInfo *right_group_info = (*right_group_info_array)[right_ix];
 		CBitSet *right_bitset = right_group_info->m_atoms;
@@ -1139,8 +1087,8 @@ CJoinOrderDPv2::GreedySearchJoinOrders
 			{
 				best_group_info_in_level = join_group_info;
 				CRefCount::SafeRelease(best_expr_info_in_level);
-				best_expr_info_in_level  = join_expr_info;
-				best_cost_in_level       = join_cost;
+				best_expr_info_in_level = join_expr_info;
+				best_cost_in_level = join_cost;
 			}
 			else
 			{
@@ -1182,12 +1130,7 @@ CJoinOrderDPv2::GreedySearchJoinOrders
 //
 //---------------------------------------------------------------------------
 CJoinOrderDPv2::SGroupInfo *
-CJoinOrderDPv2::LookupOrCreateGroupInfo
-	(
-	 SLevelInfo *levelInfo,
-	 CBitSet *atoms,
-	 SExpressionInfo *stats_expr_info
-	)
+CJoinOrderDPv2::LookupOrCreateGroupInfo(SLevelInfo *levelInfo, CBitSet *atoms, SExpressionInfo *stats_expr_info)
 {
 	SGroupInfo *group_info = m_bitset_to_group_info_map->Find(atoms);
 	SExpressionInfo *real_expr_info_for_stats = stats_expr_info;
@@ -1201,12 +1144,9 @@ CJoinOrderDPv2::LookupOrCreateGroupInfo
 			SExpressionProperties stats_props(EJoinOrderStats);
 
 			// need to derive stats, make sure we use an expression whose children already have stats
-			real_expr_info_for_stats = GetJoinExprForProperties
-											(
-											 stats_expr_info->m_left_child_expr.m_group_info,
-											 stats_expr_info->m_right_child_expr.m_group_info,
-											 stats_props
-											);
+			real_expr_info_for_stats =
+				GetJoinExprForProperties(stats_expr_info->m_left_child_expr.m_group_info,
+										 stats_expr_info->m_right_child_expr.m_group_info, stats_props);
 
 			DeriveStats(real_expr_info_for_stats->m_expr);
 		}
@@ -1302,10 +1242,7 @@ CJoinOrderDPv2::FinalizeDPLevel(ULONG level)
 //
 //---------------------------------------------------------------------------
 void
-CJoinOrderDPv2::SearchBushyJoinOrders
-	(
-	 ULONG current_level
-	)
+CJoinOrderDPv2::SearchBushyJoinOrders(ULONG current_level)
 {
 	if (LevelIsFull(current_level))
 	{
@@ -1320,7 +1257,7 @@ CJoinOrderDPv2::SearchBushyJoinOrders
 	// x + y = current_level and x > 1 and y > 1 and x >= y.
 	// Note that join trees of level 3 and below are never bushy,
 	// so this loop only executes at current_level >= 4
-	for (ULONG right_level = 2; right_level <= current_level/2; right_level++)
+	for (ULONG right_level = 2; right_level <= current_level / 2; right_level++)
 	{
 		SearchJoinOrders(current_level - right_level, right_level);
 	}
@@ -1400,7 +1337,6 @@ CJoinOrderDPv2::PexprExpand()
 	EnumerateQuery();
 	EnumerateMinCard();
 	EnumerateGreedyAvoidXProd();
-
 }
 
 
@@ -1420,12 +1356,8 @@ CJoinOrderDPv2::PexprExpand()
 void
 CJoinOrderDPv2::EnumerateDP()
 {
-
-	if (
-		GPOS_FTRACE(EopttraceGreedyOnlyInDPv2)||
-		GPOS_FTRACE(EopttraceMinCardOnlyInDPv2) ||
-		GPOS_FTRACE(EopttraceQueryOnlyInDPv2)
-		)
+	if (GPOS_FTRACE(EopttraceGreedyOnlyInDPv2) || GPOS_FTRACE(EopttraceMinCardOnlyInDPv2) ||
+		GPOS_FTRACE(EopttraceQueryOnlyInDPv2))
 	{
 		return;
 	}
@@ -1438,7 +1370,7 @@ CJoinOrderDPv2::EnumerateDP()
 	// follows the number of groups for the largest join for which we do exhaustive search
 	if (join_order_exhaustive_limit < m_ulComps)
 	{
-		for (ULONG l=2; l<=m_ulComps; l++)
+		for (ULONG l = 2; l <= m_ulComps; l++)
 		{
 			ULONG number_of_allowed_groups = 0;
 
@@ -1456,11 +1388,8 @@ CJoinOrderDPv2::EnumerateDP()
 
 			// add a KHeap to this level, so that we can collect the k best expressions
 			// while we are building the level
-			Level(l)->m_top_k_groups = GPOS_NEW(m_mp) CKHeap<SGroupInfoArray, SGroupInfo>
-																	 (
-																	  m_mp,
-																	  number_of_allowed_groups
-																	 );
+			Level(l)->m_top_k_groups =
+				GPOS_NEW(m_mp) CKHeap<SGroupInfoArray, SGroupInfo>(m_mp, number_of_allowed_groups);
 		}
 	}
 
@@ -1470,7 +1399,7 @@ CJoinOrderDPv2::EnumerateDP()
 	{
 		// build linear joins, with a "current_join_level-1"-way join on one
 		// side and an atom on the other side
-		SearchJoinOrders(current_join_level-1, 1);
+		SearchJoinOrders(current_join_level - 1, 1);
 
 		// build bushy trees - joins between two other joins
 		SearchBushyJoinOrders(current_join_level);
@@ -1493,14 +1422,14 @@ CJoinOrderDPv2::EnumerateDP()
 void
 CJoinOrderDPv2::EnumerateQuery()
 {
-	if (GPOS_FTRACE(EopttraceGreedyOnlyInDPv2)|| GPOS_FTRACE(EopttraceMinCardOnlyInDPv2))
+	if (GPOS_FTRACE(EopttraceGreedyOnlyInDPv2) || GPOS_FTRACE(EopttraceMinCardOnlyInDPv2))
 	{
 		return;
 	}
 
 	for (ULONG current_join_level = 2; current_join_level <= m_ulComps; current_join_level++)
 	{
-		GreedySearchJoinOrders(current_join_level-1, EJoinOrderQuery);
+		GreedySearchJoinOrders(current_join_level - 1, EJoinOrderQuery);
 	}
 }
 
@@ -1523,7 +1452,7 @@ CJoinOrderDPv2::FindLowestCardTwoWayJoin(JoinOrderPropType prop_type)
 		return;
 	}
 
-	if (GPOS_FTRACE(EopttraceGreedyOnlyInDPv2)|| GPOS_FTRACE(EopttraceMinCardOnlyInDPv2))
+	if (GPOS_FTRACE(EopttraceGreedyOnlyInDPv2) || GPOS_FTRACE(EopttraceMinCardOnlyInDPv2))
 	{
 		// due to above traceflags being turned on, EnumerateDP() didn't create
 		// the necessary two way join orders. We have to create them here.
@@ -1536,7 +1465,7 @@ CJoinOrderDPv2::FindLowestCardTwoWayJoin(JoinOrderPropType prop_type)
 	SExpressionProperties any_props(EJoinOrderAny);
 
 	// loop over all the 2-way joins and find the one with the lowest cardinality
-	for (ULONG ul=0; ul<level_2->m_groups->Size(); ul++)
+	for (ULONG ul = 0; ul < level_2->m_groups->Size(); ul++)
 	{
 		SGroupInfo *group_2 = (*level_2->m_groups)[ul];
 		CDouble group_2_cardinality = group_2->m_cardinality;
@@ -1572,7 +1501,7 @@ CJoinOrderDPv2::FindLowestCardTwoWayJoin(JoinOrderPropType prop_type)
 void
 CJoinOrderDPv2::EnumerateMinCard()
 {
-	if (GPOS_FTRACE(EopttraceQueryOnlyInDPv2)|| GPOS_FTRACE(EopttraceGreedyOnlyInDPv2))
+	if (GPOS_FTRACE(EopttraceQueryOnlyInDPv2) || GPOS_FTRACE(EopttraceGreedyOnlyInDPv2))
 	{
 		return;
 	}
@@ -1580,7 +1509,7 @@ CJoinOrderDPv2::EnumerateMinCard()
 	FindLowestCardTwoWayJoin(EJoinOrderMincard);
 	for (ULONG current_join_level = 3; current_join_level <= m_ulComps; current_join_level++)
 	{
-		GreedySearchJoinOrders(current_join_level-1, EJoinOrderMincard);
+		GreedySearchJoinOrders(current_join_level - 1, EJoinOrderMincard);
 	}
 }
 
@@ -1601,7 +1530,7 @@ CJoinOrderDPv2::EnumerateMinCard()
 void
 CJoinOrderDPv2::EnumerateGreedyAvoidXProd()
 {
-	if (GPOS_FTRACE(EopttraceQueryOnlyInDPv2)|| GPOS_FTRACE(EopttraceMinCardOnlyInDPv2))
+	if (GPOS_FTRACE(EopttraceQueryOnlyInDPv2) || GPOS_FTRACE(EopttraceMinCardOnlyInDPv2))
 	{
 		return;
 	}
@@ -1614,7 +1543,7 @@ CJoinOrderDPv2::EnumerateGreedyAvoidXProd()
 	FindLowestCardTwoWayJoin(EJoinOrderGreedyAvoidXProd);
 	for (ULONG current_join_level = 3; current_join_level <= m_ulComps; current_join_level++)
 	{
-		GreedySearchJoinOrders(current_join_level-1, EJoinOrderGreedyAvoidXProd);
+		GreedySearchJoinOrders(current_join_level - 1, EJoinOrderGreedyAvoidXProd);
 	}
 	m_cross_prod_penalty = original_cross_prod_penalty;
 }
@@ -1630,7 +1559,7 @@ CJoinOrderDPv2::EnumerateGreedyAvoidXProd()
 //		Return NULL if there are no more alternatives.
 //
 //---------------------------------------------------------------------------
-CExpression*
+CExpression *
 CJoinOrderDPv2::GetNextOfTopK()
 {
 	SExpressionInfo *join_result_info = m_top_k_expressions->RemoveBestElement();
@@ -1667,12 +1596,7 @@ CJoinOrderDPv2::GetNextOfTopK()
 //
 //---------------------------------------------------------------------------
 BOOL
-CJoinOrderDPv2::IsRightChildOfNIJ
-	(
-	 SGroupInfo *groupInfo,
-	 CExpression **onPredToUse,
-	 CBitSet **requiredBitsOnLeft
-	)
+CJoinOrderDPv2::IsRightChildOfNIJ(SGroupInfo *groupInfo, CExpression **onPredToUse, CBitSet **requiredBitsOnLeft)
 {
 	GPOS_ASSERT(NULL == onPredToUse || NULL == *onPredToUse);
 	GPOS_ASSERT(NULL == requiredBitsOnLeft || NULL == *requiredBitsOnLeft);
@@ -1699,12 +1623,12 @@ CJoinOrderDPv2::IsRightChildOfNIJ
 		// NIJ, return the ON predicate to use (if requested) and also return TRUE
 		if (NULL != onPredToUse)
 		{
-			*onPredToUse = (*m_on_pred_conjuncts)[childPredIndex-1];
+			*onPredToUse = (*m_on_pred_conjuncts)[childPredIndex - 1];
 		}
 		if (NULL != requiredBitsOnLeft)
 		{
 			// also return the required minimal component on the left side of the join
-			*requiredBitsOnLeft = (*m_non_inner_join_dependencies)[childPredIndex-1];
+			*requiredBitsOnLeft = (*m_non_inner_join_dependencies)[childPredIndex - 1];
 		}
 		return true;
 	}
@@ -1728,7 +1652,7 @@ CJoinOrderDPv2::FindLogicalChildByNijId(ULONG nij_num)
 {
 	GPOS_ASSERT(NULL != m_child_pred_indexes);
 
-	for (ULONG c=0; c<m_child_pred_indexes->Size(); c++)
+	for (ULONG c = 0; c < m_child_pred_indexes->Size(); c++)
 	{
 		if (*(*m_child_pred_indexes)[c] == nij_num)
 		{
@@ -1748,18 +1672,19 @@ CJoinOrderDPv2::FindLogicalChildByNijId(ULONG nij_num)
 //		n! / (k! * (n-k)!)
 //
 //---------------------------------------------------------------------------
-ULONG CJoinOrderDPv2::NChooseK(ULONG n, ULONG k)
+ULONG
+CJoinOrderDPv2::NChooseK(ULONG n, ULONG k)
 {
 	ULLONG numerator = 1;
 	ULLONG denominator = 1;
 
-	for (ULONG i=1; i<=k; i++)
+	for (ULONG i = 1; i <= k; i++)
 	{
-		numerator *= n+1-i;
+		numerator *= n + 1 - i;
 		denominator *= i;
 	}
 
-	return (ULONG) (numerator / denominator);
+	return (ULONG)(numerator / denominator);
 }
 
 
@@ -1795,30 +1720,27 @@ CJoinOrderDPv2::LevelIsFull(ULONG level)
 //
 //---------------------------------------------------------------------------
 IOstream &
-CJoinOrderDPv2::OsPrint
-	(
-	IOstream &os
-	)
-	const
+CJoinOrderDPv2::OsPrint(IOstream &os) const
 {
 	// increase GPOS_LOG_MESSAGE_BUFFER_SIZE in file ILogger.h if the output of this method gets truncated
 	ULONG num_levels = m_join_levels->Size();
 	ULONG num_bitsets = 0;
 	CPrintPrefix pref(NULL, "      ");
 
-	for (ULONG lev=1; lev<num_levels; lev++)
+	for (ULONG lev = 1; lev < num_levels; lev++)
 	{
 		SGroupInfoArray *bitsets_this_level = GetGroupsForLevel(lev);
 		ULONG num_bitsets_this_level = bitsets_this_level->Size();
 
 		os << "CJoinOrderDPv2 - Level: " << lev << " (" << bitsets_this_level->Size() << " group(s))" << std::endl;
 
-		for (ULONG c=0; c<num_bitsets_this_level; c++)
+		for (ULONG c = 0; c < num_bitsets_this_level; c++)
 		{
 			SGroupInfo *gi = (*bitsets_this_level)[c];
 			ULONG num_exprs = gi->m_best_expr_info_array->Size();
 			SExpressionProperties stats_properties(EJoinOrderStats);
-			SGroupAndExpression expr_for_stats = const_cast<CJoinOrderDPv2 *>(this)->GetBestExprForProperties(gi, stats_properties);
+			SGroupAndExpression expr_for_stats =
+				const_cast<CJoinOrderDPv2 *>(this)->GetBestExprForProperties(gi, stats_properties);
 
 			num_bitsets++;
 			os << "   Group: ";
@@ -1834,7 +1756,7 @@ CJoinOrderDPv2::OsPrint
 				// os << std::endl;
 			}
 
-			for (ULONG x=0; x<num_exprs; x++)
+			for (ULONG x = 0; x < num_exprs; x++)
 			{
 				SExpressionInfo *expr_info = (*gi->m_best_expr_info_array)[x];
 
@@ -1855,8 +1777,10 @@ CJoinOrderDPv2::OsPrint
 					os << " join ";
 					expr_info->m_right_child_expr.m_group_info->m_atoms->OsPrint(os);
 					os << std::endl;
-					os << "   left child cost: " << expr_info->m_left_child_expr.m_group_info->m_lowest_expr_cost << std::endl;
-					os << "   right child cost: " << expr_info->m_right_child_expr.m_group_info->m_lowest_expr_cost << std::endl;
+					os << "   left child cost: " << expr_info->m_left_child_expr.m_group_info->m_lowest_expr_cost
+					   << std::endl;
+					os << "   right child cost: " << expr_info->m_right_child_expr.m_group_info->m_lowest_expr_cost
+					   << std::endl;
 				}
 				os << "   Cost: ";
 				expr_info->m_cost.OsPrint(os);
@@ -1871,7 +1795,7 @@ CJoinOrderDPv2::OsPrint
 					os << "   Atom: " << std::endl;
 					expr_info->m_expr->OsPrintExpression(os, &pref);
 				}
-				else if (lev < num_levels-1)
+				else if (lev < num_levels - 1)
 				{
 					os << "   Join predicate: " << std::endl;
 					(*expr_info->m_expr)[2]->OsPrintExpression(os, &pref);
@@ -1942,7 +1866,6 @@ CJoinOrderDPv2::OsPrintProperty(IOstream &os, SExpressionProperties &props) cons
 				os << ", ";
 			os << "DP";
 		}
-
 	}
 	os << " }";
 

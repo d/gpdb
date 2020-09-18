@@ -7,7 +7,7 @@
 //
 //	@doc:
 //		Implementation of DXL logical Join operator
-//		
+//
 //---------------------------------------------------------------------------
 
 #include "naucrates/dxl/operators/CDXLLogicalJoin.h"
@@ -26,13 +26,7 @@ using namespace gpdxl;
 //		Construct a DXL Logical Join node
 //
 //---------------------------------------------------------------------------
-CDXLLogicalJoin::CDXLLogicalJoin
-	(
-	CMemoryPool *mp,
-	EdxlJoinType join_type
-	)
-	:CDXLLogical(mp),
-	 m_join_type(join_type)
+CDXLLogicalJoin::CDXLLogicalJoin(CMemoryPool *mp, EdxlJoinType join_type) : CDXLLogical(mp), m_join_type(join_type)
 {
 }
 
@@ -87,12 +81,7 @@ CDXLLogicalJoin::GetOpNameStr() const
 //
 //---------------------------------------------------------------------------
 void
-CDXLLogicalJoin::SerializeToDXL
-	(
-	CXMLSerializer *xml_serializer,
-	const CDXLNode *node
-	)
-	const
+CDXLLogicalJoin::SerializeToDXL(CXMLSerializer *xml_serializer, const CDXLNode *node) const
 {
 	const CWStringConst *element_name = GetOpNameStr();
 
@@ -130,11 +119,7 @@ CDXLLogicalJoin::GetJoinTypeNameStr() const
 //
 //---------------------------------------------------------------------------
 void
-CDXLLogicalJoin::AssertValid
-	(
-	const CDXLNode *node,
-	BOOL validate_children
-	) const
+CDXLLogicalJoin::AssertValid(const CDXLNode *node, BOOL validate_children) const
 {
 	const ULONG num_of_child = node->Arity();
 	GPOS_ASSERT(2 < num_of_child);
@@ -143,7 +128,7 @@ CDXLLogicalJoin::AssertValid
 	{
 		CDXLNode *child_dxlnode = (*node)[idx];
 		GPOS_ASSERT(EdxloptypeLogical == child_dxlnode->GetOperator()->GetDXLOperatorType());
-		
+
 		if (validate_children)
 		{
 			child_dxlnode->GetOperator()->AssertValid(child_dxlnode, validate_children);
@@ -155,12 +140,12 @@ CDXLLogicalJoin::AssertValid
 
 	//The last child is a CDXLScalar operator representing the join qual
 	GPOS_ASSERT(EdxloptypeScalar == node_last_child->GetOperator()->GetDXLOperatorType());
-	
+
 	if (validate_children)
 	{
 		node_last_child->GetOperator()->AssertValid(node_last_child, validate_children);
 	}
 }
-#endif // GPOS_DEBUG
+#endif	// GPOS_DEBUG
 
 // EOF

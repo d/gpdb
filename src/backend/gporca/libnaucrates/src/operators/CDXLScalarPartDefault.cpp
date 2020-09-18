@@ -28,14 +28,8 @@ using namespace gpdxl;
 //		Ctor
 //
 //---------------------------------------------------------------------------
-CDXLScalarPartDefault::CDXLScalarPartDefault
-	(
-	CMemoryPool *mp,
-	ULONG partitioning_level
-	)
-	:
-	CDXLScalar(mp),
-	m_partitioning_level(partitioning_level)
+CDXLScalarPartDefault::CDXLScalarPartDefault(CMemoryPool *mp, ULONG partitioning_level)
+	: CDXLScalar(mp), m_partitioning_level(partitioning_level)
 {
 }
 
@@ -76,12 +70,9 @@ CDXLScalarPartDefault::GetOpNameStr() const
 //
 //---------------------------------------------------------------------------
 void
-CDXLScalarPartDefault::SerializeToDXL
-	(
-	CXMLSerializer *xml_serializer,
-	const CDXLNode * // dxlnode
-	)
-	const
+CDXLScalarPartDefault::SerializeToDXL(CXMLSerializer *xml_serializer,
+									  const CDXLNode *	// dxlnode
+) const
 {
 	const CWStringConst *element_name = GetOpNameStr();
 
@@ -100,15 +91,12 @@ CDXLScalarPartDefault::SerializeToDXL
 //
 //---------------------------------------------------------------------------
 void
-CDXLScalarPartDefault::AssertValid
-	(
-	const CDXLNode *dxlnode,
-	BOOL // validate_children
-	)
-	const
+CDXLScalarPartDefault::AssertValid(const CDXLNode *dxlnode,
+								   BOOL	 // validate_children
+) const
 {
 	GPOS_ASSERT(0 == dxlnode->Arity());
 }
-#endif // GPOS_DEBUG
+#endif	// GPOS_DEBUG
 
 // EOF

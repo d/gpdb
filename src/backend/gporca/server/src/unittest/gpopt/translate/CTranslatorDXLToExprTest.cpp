@@ -7,7 +7,7 @@
 //
 //	@doc:
 //		Tests translating DXL trees into Expr tree.
-//		
+//
 //---------------------------------------------------------------------------
 #include "gpos/error/CException.h"
 #include "gpos/error/CMessage.h"
@@ -52,15 +52,12 @@ const CHAR *szQueryTVF = "../data/dxl/expressiontests/TableValuedFunctionQuery.x
 static const CHAR *szQueryScalarSubquery = "../data/dxl/expressiontests/ScalarSubqueryQuery.xml";
 const CHAR *szScalarConstArray = "../data/dxl/expressiontests/CScalarConstArray.xml";
 
-static
-const CHAR *
-m_rgszDXLFileNames[] =
-	{
-		"../data/dxl/query/dxl-q17.xml",
-		"../data/dxl/query/dxl-q18.xml",
-		"../data/dxl/query/dxl-q19.xml",
-		"../data/dxl/query/dxl-q23.xml",
-	};
+static const CHAR *m_rgszDXLFileNames[] = {
+	"../data/dxl/query/dxl-q17.xml",
+	"../data/dxl/query/dxl-q18.xml",
+	"../data/dxl/query/dxl-q19.xml",
+	"../data/dxl/query/dxl-q23.xml",
+};
 //---------------------------------------------------------------------------
 //	@function:
 //		CTranslatorDXLToExprTest::EresUnittest
@@ -72,20 +69,17 @@ m_rgszDXLFileNames[] =
 GPOS_RESULT
 CTranslatorDXLToExprTest::EresUnittest()
 {
-	CUnittest rgut[] =
-		{
-				GPOS_UNITTEST_FUNC(CTranslatorDXLToExprTest::EresUnittest_MetadataColumnMapping),
-				GPOS_UNITTEST_FUNC(CTranslatorDXLToExprTest::EresUnittest_SingleTableQuery),
-				GPOS_UNITTEST_FUNC(CTranslatorDXLToExprTest::EresUnittest_SelectQuery),
-				GPOS_UNITTEST_FUNC(CTranslatorDXLToExprTest::EresUnittest_SelectQueryWithConst),
-				GPOS_UNITTEST_FUNC(CTranslatorDXLToExprTest::EresUnittest_SelectQueryWithBoolExpr),
-				GPOS_UNITTEST_FUNC(CTranslatorDXLToExprTest::EresUnittest_SelectQueryWithScalarOp),
-				GPOS_UNITTEST_FUNC(CTranslatorDXLToExprTest::EresUnittest_Limit),
-				GPOS_UNITTEST_FUNC(CTranslatorDXLToExprTest::EresUnittest_LimitNoOffset),
-				GPOS_UNITTEST_FUNC(CTranslatorDXLToExprTest::EresUnittest_ScalarSubquery),
-				GPOS_UNITTEST_FUNC(CTranslatorDXLToExprTest::EresUnittest_TVF),
-				GPOS_UNITTEST_FUNC(CTranslatorDXLToExprTest::EresUnittest_SelectQueryWithConstInList)
-		};
+	CUnittest rgut[] = {GPOS_UNITTEST_FUNC(CTranslatorDXLToExprTest::EresUnittest_MetadataColumnMapping),
+						GPOS_UNITTEST_FUNC(CTranslatorDXLToExprTest::EresUnittest_SingleTableQuery),
+						GPOS_UNITTEST_FUNC(CTranslatorDXLToExprTest::EresUnittest_SelectQuery),
+						GPOS_UNITTEST_FUNC(CTranslatorDXLToExprTest::EresUnittest_SelectQueryWithConst),
+						GPOS_UNITTEST_FUNC(CTranslatorDXLToExprTest::EresUnittest_SelectQueryWithBoolExpr),
+						GPOS_UNITTEST_FUNC(CTranslatorDXLToExprTest::EresUnittest_SelectQueryWithScalarOp),
+						GPOS_UNITTEST_FUNC(CTranslatorDXLToExprTest::EresUnittest_Limit),
+						GPOS_UNITTEST_FUNC(CTranslatorDXLToExprTest::EresUnittest_LimitNoOffset),
+						GPOS_UNITTEST_FUNC(CTranslatorDXLToExprTest::EresUnittest_ScalarSubquery),
+						GPOS_UNITTEST_FUNC(CTranslatorDXLToExprTest::EresUnittest_TVF),
+						GPOS_UNITTEST_FUNC(CTranslatorDXLToExprTest::EresUnittest_SelectQueryWithConstInList)};
 
 	return CUnittest::EresExecute(rgut, GPOS_ARRAY_SIZE(rgut));
 }
@@ -100,18 +94,14 @@ CTranslatorDXLToExprTest::EresUnittest()
 //
 //---------------------------------------------------------------------------
 CExpression *
-CTranslatorDXLToExprTest::Pexpr
-	(
-	CMemoryPool *mp,
-	const CHAR *dxl_filename
-	)
+CTranslatorDXLToExprTest::Pexpr(CMemoryPool *mp, const CHAR *dxl_filename)
 {
 	// get the dxl document
 	CHAR *szDXLExpected = CDXLUtils::Read(mp, dxl_filename);
 
 	// parse the DXL tree from the given DXL document
 	CQueryToDXLResult *ptroutput = CDXLUtils::ParseQueryToQueryDXLTree(mp, szDXLExpected, NULL /*xsd_file_path*/);
-	
+
 	GPOS_ASSERT(NULL != ptroutput->CreateDXLNode() && NULL != ptroutput->GetOutputColumnsDXLArray());
 
 	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
@@ -119,12 +109,8 @@ CTranslatorDXLToExprTest::Pexpr
 	// translate DXL Tree -> Expr Tree
 	CTranslatorDXLToExpr *pdxltr = GPOS_NEW(mp) CTranslatorDXLToExpr(mp, md_accessor);
 
-	CExpression *pexprTranslated =	pdxltr->PexprTranslateQuery
-												(
-												ptroutput->CreateDXLNode(),
-												ptroutput->GetOutputColumnsDXLArray(),
-												ptroutput->GetCTEProducerDXLArray()
-												);
+	CExpression *pexprTranslated = pdxltr->PexprTranslateQuery(
+		ptroutput->CreateDXLNode(), ptroutput->GetOutputColumnsDXLArray(), ptroutput->GetCTEProducerDXLArray());
 
 	//clean up
 	GPOS_DELETE(ptroutput);
@@ -145,12 +131,8 @@ CTranslatorDXLToExprTest::Pexpr
 //
 //---------------------------------------------------------------------------
 GPOS_RESULT
-CTranslatorDXLToExprTest::EresTranslateAndCheck
-	(
-	CMemoryPool *mp,
-	const CHAR *dxl_filename,
-	const CWStringDynamic *pstrExpected
-	)
+CTranslatorDXLToExprTest::EresTranslateAndCheck(CMemoryPool *mp, const CHAR *dxl_filename,
+												const CWStringDynamic *pstrExpected)
 {
 	GPOS_RESULT eres = GPOS_FAILED;
 
@@ -160,13 +142,8 @@ CTranslatorDXLToExprTest::EresTranslateAndCheck
 	CMDAccessor mda(mp, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
 
 	// install opt context in TLS
-	CAutoOptCtxt aoc
-					(
-					mp,
-					&mda,
-					NULL,  /* pceeval */
-					CTestUtils::GetCostModel(mp)
-					);
+	CAutoOptCtxt aoc(mp, &mda, NULL, /* pceeval */
+					 CTestUtils::GetCostModel(mp));
 
 	// translate the DXL document into Expr Tree
 	CExpression *pexprTranslated = Pexpr(mp, dxl_filename);
@@ -213,11 +190,7 @@ CTranslatorDXLToExprTest::EresTranslateAndCheck
 //
 //---------------------------------------------------------------------------
 CWStringDynamic *
-CTranslatorDXLToExprTest::Pstr
-	(
-	CMemoryPool *mp,
-	CExpression *pexpr
-	)
+CTranslatorDXLToExprTest::Pstr(CMemoryPool *mp, CExpression *pexpr)
 {
 	GPOS_ASSERT(NULL != pexpr);
 
@@ -237,54 +210,42 @@ CTranslatorDXLToExprTest::Pstr
 
 namespace
 {
-	class GetBuilder
+class GetBuilder
+{
+	CMemoryPool *m_mp;
+	CTableDescriptor *m_ptabdesc;
+	CWStringConst m_strTableName;
+	const IMDTypeInt4 *m_pmdtypeint4;
+
+public:
+	GetBuilder(CMemoryPool *mp, CWStringConst strTableName, OID oidTableOid) : m_mp(mp), m_strTableName(strTableName)
 	{
-			CMemoryPool *m_mp;
-			CTableDescriptor *m_ptabdesc;
-			CWStringConst m_strTableName;
-			const IMDTypeInt4 *m_pmdtypeint4;
+		CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
+		m_pmdtypeint4 = md_accessor->PtMDType<IMDTypeInt4>(CTestUtils::m_sysidDefault);
+		CMDIdGPDB *mdid = GPOS_NEW(mp) CMDIdGPDB(oidTableOid, 1, 1);
 
-		public:
-			GetBuilder
-				(
-				CMemoryPool *mp,
-				CWStringConst strTableName,
-				OID oidTableOid
-				):
-				m_mp(mp),
-				m_strTableName(strTableName)
-			{
-				CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
-				m_pmdtypeint4 = md_accessor->PtMDType<IMDTypeInt4>(CTestUtils::m_sysidDefault);
-				CMDIdGPDB *mdid = GPOS_NEW(mp) CMDIdGPDB(oidTableOid, 1, 1);
+		const BOOL convert_hash_to_random = false;
+		const ULONG ulExecuteAsUser = 0;
+		m_ptabdesc = GPOS_NEW(mp)
+			CTableDescriptor(mp, mdid, CName(&strTableName), convert_hash_to_random,
+							 CMDRelationGPDB::EreldistrMasterOnly, CMDRelationGPDB::ErelstorageHeap, ulExecuteAsUser);
+	}
 
-				const BOOL convert_hash_to_random = false;
-				const ULONG ulExecuteAsUser = 0;
-				m_ptabdesc =
-					GPOS_NEW(mp) CTableDescriptor
-						(
-							mp,
-							mdid,
-							CName(&strTableName),
-							convert_hash_to_random,
-							CMDRelationGPDB::EreldistrMasterOnly,
-							CMDRelationGPDB::ErelstorageHeap,
-							ulExecuteAsUser
-						);
-			}
+	void
+	AddIntColumn(CWStringConst strColumnName, int attno, BOOL is_nullable)
+	{
+		CColumnDescriptor *pcoldesc = GPOS_NEW(m_mp)
+			CColumnDescriptor(m_mp, m_pmdtypeint4, default_type_modifier, CName(&strColumnName), attno, is_nullable);
+		m_ptabdesc->AddColumn(pcoldesc);
+	}
 
-			void AddIntColumn(CWStringConst strColumnName, int attno, BOOL is_nullable)
-			{
-				CColumnDescriptor *pcoldesc = GPOS_NEW(m_mp) CColumnDescriptor(m_mp, m_pmdtypeint4, default_type_modifier, CName(&strColumnName), attno, is_nullable);
-				m_ptabdesc->AddColumn(pcoldesc);
-			}
-
-			CExpression *PexprLogicalGet()
-			{
-				return CTestUtils::PexprLogicalGet(m_mp, m_ptabdesc, &m_strTableName);
-			}
-	};
-}
+	CExpression *
+	PexprLogicalGet()
+	{
+		return CTestUtils::PexprLogicalGet(m_mp, m_ptabdesc, &m_strTableName);
+	}
+};
+}  // namespace
 
 
 //---------------------------------------------------------------------------
@@ -296,10 +257,7 @@ namespace
 //
 //---------------------------------------------------------------------------
 CExpression *
-CTranslatorDXLToExprTest::PexprGet
-	(
-	CMemoryPool *mp
-	)
+CTranslatorDXLToExprTest::PexprGet(CMemoryPool *mp)
 {
 	CWStringConst strTblName(GPOS_WSZ_LIT("r"));
 	const BOOL is_nullable = true;
@@ -336,13 +294,8 @@ CTranslatorDXLToExprTest::EresUnittest_SingleTableQuery()
 	// manually create the Expr Tree
 	{
 		// install opt context in TLS
-		CAutoOptCtxt aoc
-					(
-					mp,
-					&mda,
-					NULL,  /* pceeval */
-					CTestUtils::GetCostModel(mp)
-					);
+		CAutoOptCtxt aoc(mp, &mda, NULL, /* pceeval */
+						 CTestUtils::GetCostModel(mp));
 		CExpression *pexprExpected = PexprGet(mp);
 		pstrExpected = Pstr(mp, pexprExpected);
 
@@ -378,13 +331,8 @@ CTranslatorDXLToExprTest::EresUnittest_TVF()
 	// manually create the Expr Tree
 	{
 		// install opt context in TLS
-		CAutoOptCtxt aoc
-					(
-					mp,
-					&mda,
-					NULL,  /* pceeval */
-					CTestUtils::GetCostModel(mp)
-					);
+		CAutoOptCtxt aoc(mp, &mda, NULL, /* pceeval */
+						 CTestUtils::GetCostModel(mp));
 		CExpression *pexprExpected = CTestUtils::PexprLogicalTVFTwoArgs(mp);
 		pstrExpected = Pstr(mp, pexprExpected);
 
@@ -420,13 +368,8 @@ CTranslatorDXLToExprTest::EresUnittest_SelectQuery()
 	// manually create the Expr Tree
 	{
 		// install opt context in TLS
-		CAutoOptCtxt aoc
-					(
-					mp,
-					&mda,
-					NULL,  /* pceeval */
-					CTestUtils::GetCostModel(mp)
-					);
+		CAutoOptCtxt aoc(mp, &mda, NULL, /* pceeval */
+						 CTestUtils::GetCostModel(mp));
 
 		CExpression *pexprLgGet = PexprGet(mp);
 
@@ -438,12 +381,12 @@ CTranslatorDXLToExprTest::EresUnittest_SelectQuery()
 
 		GPOS_ASSERT(NULL != colref_array && 2 == colref_array->Size());
 
-		CColRef *pcrLeft =  (*colref_array)[0];
+		CColRef *pcrLeft = (*colref_array)[0];
 		CColRef *pcrRight = (*colref_array)[1];
 
 		CExpression *pexprPredicate = CUtils::PexprScalarEqCmp(mp, pcrLeft, pcrRight);
 
-		CExpression *pexprExpected =  CUtils::PexprLogicalSelect(mp, pexprLgGet, pexprPredicate);
+		CExpression *pexprExpected = CUtils::PexprLogicalSelect(mp, pexprLgGet, pexprPredicate);
 		pstrExpected = Pstr(mp, pexprExpected);
 
 		//clean up
@@ -479,13 +422,8 @@ CTranslatorDXLToExprTest::EresUnittest_SelectQueryWithConst()
 	// manually create the Expr Tree
 	{
 		// install opt context in TLS
-		CAutoOptCtxt aoc
-					(
-					mp,
-					&mda,
-					NULL,  /* pceeval */
-					CTestUtils::GetCostModel(mp)
-					);
+		CAutoOptCtxt aoc(mp, &mda, NULL, /* pceeval */
+						 CTestUtils::GetCostModel(mp));
 		CExpression *pexprLgGet = PexprGet(mp);
 		CLogicalGet *popGet = CLogicalGet::PopConvert(pexprLgGet->Pop());
 
@@ -493,7 +431,7 @@ CTranslatorDXLToExprTest::EresUnittest_SelectQueryWithConst()
 		CColRefArray *colref_array = popGet->PdrgpcrOutput();
 		GPOS_ASSERT(NULL != colref_array && 2 == colref_array->Size());
 
-		CColRef *pcrLeft =  (*colref_array)[0];
+		CColRef *pcrLeft = (*colref_array)[0];
 		ULONG ulVal = 5;
 		CExpression *pexprScConst = CUtils::PexprScalarConstInt4(mp, ulVal);
 		CExpression *pexprScCmp = CUtils::PexprScalarEqCmp(mp, pcrLeft, pexprScConst);
@@ -527,13 +465,8 @@ CTranslatorDXLToExprTest::EresUnittest_SelectQueryWithConstInList()
 	// manually create the Expr Tree
 	{
 		// install opt context in TLS
-		CAutoOptCtxt aoc
-					(
-					mp,
-					&mda,
-					NULL,  /* pceeval */
-					CTestUtils::GetCostModel(mp)
-					);
+		CAutoOptCtxt aoc(mp, &mda, NULL, /* pceeval */
+						 CTestUtils::GetCostModel(mp));
 		CExpression *pexprLgGet = PexprGet(mp);
 		CLogicalGet *popGet = CLogicalGet::PopConvert(pexprLgGet->Pop());
 
@@ -541,7 +474,7 @@ CTranslatorDXLToExprTest::EresUnittest_SelectQueryWithConstInList()
 		CColRefArray *colref_array = popGet->PdrgpcrOutput();
 		GPOS_ASSERT(NULL != colref_array && 2 == colref_array->Size());
 
-		CColRef *colref =  (*colref_array)[0];
+		CColRef *colref = (*colref_array)[0];
 		ULONG ulVal1 = 5;
 		CExpression *pexprScConst1 = CUtils::PexprScalarConstInt4(mp, ulVal1);
 		ULONG ulVal2 = 6;
@@ -553,7 +486,8 @@ CTranslatorDXLToExprTest::EresUnittest_SelectQueryWithConstInList()
 		pexprScalarChildren->Append(pexprScConst2);
 		pexprScalarChildren->Append(pexprScConst3);
 
-		CExpression *pexprScalarArrayCmp = CUtils::PexprScalarArrayCmp(mp, CScalarArrayCmp::EarrcmpAny, IMDType::EcmptEq, pexprScalarChildren, colref);
+		CExpression *pexprScalarArrayCmp =
+			CUtils::PexprScalarArrayCmp(mp, CScalarArrayCmp::EarrcmpAny, IMDType::EcmptEq, pexprScalarChildren, colref);
 		CExpression *pexprScalarArrayCmpCollapsed = CUtils::PexprCollapseConstArray(mp, pexprScalarArrayCmp);
 		pexprScalarArrayCmp->Release();
 		CExpression *pexprExpected = CUtils::PexprLogicalSelect(mp, pexprLgGet, pexprScalarArrayCmpCollapsed);
@@ -592,13 +526,8 @@ CTranslatorDXLToExprTest::EresUnittest_SelectQueryWithBoolExpr()
 	// manually create the Expr Tree
 	{
 		// install opt context in TLS
-		CAutoOptCtxt aoc
-					(
-					mp,
-					&mda,
-					NULL,  /* pceeval */
-					CTestUtils::GetCostModel(mp)
-					);
+		CAutoOptCtxt aoc(mp, &mda, NULL, /* pceeval */
+						 CTestUtils::GetCostModel(mp));
 
 		CExpression *pexprLgGet = PexprGet(mp);
 
@@ -610,7 +539,7 @@ CTranslatorDXLToExprTest::EresUnittest_SelectQueryWithBoolExpr()
 		GPOS_ASSERT(NULL != colref_array && 2 == colref_array->Size());
 
 		// create a scalar compare for a = 5
-		CColRef *pcrLeft =  (*colref_array)[0];
+		CColRef *pcrLeft = (*colref_array)[0];
 
 		ULONG ulVal = 5;
 		CExpression *pexprScConst = CUtils::PexprScalarConstInt4(mp, ulVal);
@@ -661,13 +590,8 @@ CTranslatorDXLToExprTest::EresUnittest_SelectQueryWithScalarOp()
 	// manually create the Expr Tree
 	{
 		// install opt context in TLS
-		CAutoOptCtxt aoc
-					(
-					mp,
-					&mda,
-					NULL,  /* pceeval */
-					CTestUtils::GetCostModel(mp)
-					);
+		CAutoOptCtxt aoc(mp, &mda, NULL, /* pceeval */
+						 CTestUtils::GetCostModel(mp));
 
 		CExpression *pexprLgGet = PexprGet(mp);
 
@@ -679,17 +603,17 @@ CTranslatorDXLToExprTest::EresUnittest_SelectQueryWithScalarOp()
 		GPOS_ASSERT(NULL != colref_array && 2 == colref_array->Size());
 
 		// create a scalar op (arithmetic) for b + 2
-		CColRef *pcrLeft =  (*colref_array)[1];
+		CColRef *pcrLeft = (*colref_array)[1];
 
 		ULONG ulVal = 2;
 		CExpression *pexprScConst = CUtils::PexprScalarConstInt4(mp, ulVal);
-		CExpression *pexprScOp =
-			CUtils::PexprScalarOp(mp, pcrLeft, pexprScConst, CWStringConst(GPOS_WSZ_LIT("+")), GPOS_NEW(mp) CMDIdGPDB(GPDB_INT4_ADD_OP));
+		CExpression *pexprScOp = CUtils::PexprScalarOp(mp, pcrLeft, pexprScConst, CWStringConst(GPOS_WSZ_LIT("+")),
+													   GPOS_NEW(mp) CMDIdGPDB(GPDB_INT4_ADD_OP));
 
 		// create a scalar compare for a > b + 2
 		CColRef *pcrRight = (*colref_array)[0];
-		CExpression *pexprScCmp =
-			CUtils::PexprScalarCmp(mp, pcrRight, pexprScOp, CWStringConst(GPOS_WSZ_LIT(">")), GPOS_NEW(mp) CMDIdGPDB(GPDB_INT4_GT_OP));
+		CExpression *pexprScCmp = CUtils::PexprScalarCmp(mp, pcrRight, pexprScOp, CWStringConst(GPOS_WSZ_LIT(">")),
+														 GPOS_NEW(mp) CMDIdGPDB(GPDB_INT4_GT_OP));
 
 		CExpression *pexprExpected = CUtils::PexprLogicalSelect(mp, pexprLgGet, pexprScCmp);
 		pstrExpected = Pstr(mp, pexprExpected);
@@ -722,29 +646,24 @@ CTranslatorDXLToExprTest::EresUnittest_Limit()
 	CMDAccessor mda(mp, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
 
 	// install opt context in TLS
-	CAutoOptCtxt aoc
-					(
-					mp,
-					&mda,
-					NULL,  /* pceeval */
-					CTestUtils::GetCostModel(mp)
-					);
+	CAutoOptCtxt aoc(mp, &mda, NULL, /* pceeval */
+					 CTestUtils::GetCostModel(mp));
 
 	// translate the DXL document into Expr Tree
 	CExpression *pexprTranslated = Pexpr(mp, szQueryLimit);
-	
+
 	CWStringDynamic str(mp);
 	COstreamString *poss = GPOS_NEW(mp) COstreamString(&str);
 
 	*poss << std::endl;
-	
+
 	pexprTranslated->OsPrint(*poss);
-	
+
 	GPOS_TRACE(str.GetBuffer());
-	
+
 	pexprTranslated->Release();
 	GPOS_DELETE(poss);
-	
+
 	return GPOS_OK;
 }
 
@@ -768,24 +687,19 @@ CTranslatorDXLToExprTest::EresUnittest_LimitNoOffset()
 	CMDAccessor mda(mp, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
 
 	// install opt context in TLS
-	CAutoOptCtxt aoc
-					(
-					mp,
-					&mda,
-					NULL,  /* pceeval */
-					CTestUtils::GetCostModel(mp)
-					);
+	CAutoOptCtxt aoc(mp, &mda, NULL, /* pceeval */
+					 CTestUtils::GetCostModel(mp));
 
 	// translate the DXL document into Expr Tree
 	CExpression *pexprTranslated = Pexpr(mp, szQueryLimitNoOffset);
-	
+
 	CWStringDynamic str(mp);
 	COstreamString *poss = GPOS_NEW(mp) COstreamString(&str);
 
 	*poss << std::endl;
-	
+
 	pexprTranslated->OsPrint(*poss);
-	
+
 	GPOS_TRACE(str.GetBuffer());
 
 	pexprTranslated->Release();
@@ -814,24 +728,19 @@ CTranslatorDXLToExprTest::EresUnittest_ScalarSubquery()
 	mda.RegisterProvider(CTestUtils::m_sysidDefault, pmdp);
 
 	// install opt context in TLS
-	CAutoOptCtxt aoc
-					(
-					mp,
-					&mda,
-					NULL,  /* pceeval */
-					CTestUtils::GetCostModel(mp)
-					);
+	CAutoOptCtxt aoc(mp, &mda, NULL, /* pceeval */
+					 CTestUtils::GetCostModel(mp));
 
 	// translate the DXL document into Expr Tree
 	CExpression *pexprTranslated = Pexpr(mp, szQueryScalarSubquery);
-	
+
 	CWStringDynamic str(mp);
 	COstreamString *poss = GPOS_NEW(mp) COstreamString(&str);
 
 	*poss << std::endl;
-	
+
 	pexprTranslated->OsPrint(*poss);
-	
+
 	GPOS_TRACE(str.GetBuffer());
 
 	pexprTranslated->Release();
@@ -839,7 +748,8 @@ CTranslatorDXLToExprTest::EresUnittest_ScalarSubquery()
 	return GPOS_OK;
 }
 
-GPOS_RESULT CTranslatorDXLToExprTest::EresUnittest_MetadataColumnMapping()
+GPOS_RESULT
+CTranslatorDXLToExprTest::EresUnittest_MetadataColumnMapping()
 {
 	CAutoMemoryPool amp;
 	CMemoryPool *mp = amp.Pmp();
@@ -848,13 +758,7 @@ GPOS_RESULT CTranslatorDXLToExprTest::EresUnittest_MetadataColumnMapping()
 
 	CMetadataAccessorFactory factory(mp, apdxlmd.Value(), szQueryDroppedColumn);
 
-	CAutoOptCtxt aoc
-					(
-					mp,
-					factory.Pmda(),
-					NULL,
-					CTestUtils::GetCostModel(mp)
-					);
+	CAutoOptCtxt aoc(mp, factory.Pmda(), NULL, CTestUtils::GetCostModel(mp));
 
 	CAutoRef<CExpression> apExpr(CTranslatorDXLToExprTest::Pexpr(mp, szQueryDroppedColumn));
 

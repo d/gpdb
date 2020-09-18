@@ -23,16 +23,11 @@ using namespace gpopt;
 //		Ctor
 //
 //---------------------------------------------------------------------------
-CScalarSubqueryAll::CScalarSubqueryAll
-	(
-	CMemoryPool *mp,
-	IMDId *scalar_op_mdid,
-	const CWStringConst *pstrScalarOp,
-	const CColRef *colref
-	)
-	:
-	CScalarSubqueryQuantified(mp, scalar_op_mdid, pstrScalarOp, colref)
-{}
+CScalarSubqueryAll::CScalarSubqueryAll(CMemoryPool *mp, IMDId *scalar_op_mdid, const CWStringConst *pstrScalarOp,
+									   const CColRef *colref)
+	: CScalarSubqueryQuantified(mp, scalar_op_mdid, pstrScalarOp, colref)
+{
+}
 
 //---------------------------------------------------------------------------
 //	@function:
@@ -43,12 +38,7 @@ CScalarSubqueryAll::CScalarSubqueryAll
 //
 //---------------------------------------------------------------------------
 COperator *
-CScalarSubqueryAll::PopCopyWithRemappedColumns
-	(
-	CMemoryPool *mp,
-	UlongToColRefMap *colref_mapping,
-	BOOL must_exist
-	)
+CScalarSubqueryAll::PopCopyWithRemappedColumns(CMemoryPool *mp, UlongToColRefMap *colref_mapping, BOOL must_exist)
 {
 	CColRef *colref = CUtils::PcrRemap(Pcr(), colref_mapping, must_exist);
 

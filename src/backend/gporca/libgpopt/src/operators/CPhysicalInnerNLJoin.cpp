@@ -34,12 +34,7 @@ using namespace gpopt;
 //		Ctor
 //
 //---------------------------------------------------------------------------
-CPhysicalInnerNLJoin::CPhysicalInnerNLJoin
-	(
-	CMemoryPool *mp
-	)
-	:
-	CPhysicalNLJoin(mp)
+CPhysicalInnerNLJoin::CPhysicalInnerNLJoin(CMemoryPool *mp) : CPhysicalNLJoin(mp)
 {
 	// Inner NLJ creates two distribution requests for children:
 	// (0) Outer child is requested for ANY distribution, and inner child is requested for a Replicated (or a matching) distribution
@@ -58,7 +53,8 @@ CPhysicalInnerNLJoin::CPhysicalInnerNLJoin
 //
 //---------------------------------------------------------------------------
 CPhysicalInnerNLJoin::~CPhysicalInnerNLJoin()
-{}
+{
+}
 
 
 
@@ -79,16 +75,8 @@ CPhysicalInnerNLJoin::~CPhysicalInnerNLJoin()
 //
 //---------------------------------------------------------------------------
 CDistributionSpec *
-CPhysicalInnerNLJoin::PdsRequired
-	(
-	CMemoryPool *mp,
-	CExpressionHandle &exprhdl,
-	CDistributionSpec *pdsRequired,
-	ULONG child_index,
-	CDrvdPropArray *pdrgpdpCtxt,
-	ULONG  ulOptReq
-	)
-	const
+CPhysicalInnerNLJoin::PdsRequired(CMemoryPool *mp, CExpressionHandle &exprhdl, CDistributionSpec *pdsRequired,
+								  ULONG child_index, CDrvdPropArray *pdrgpdpCtxt, ULONG ulOptReq) const
 {
 	GPOS_ASSERT(2 > child_index);
 	GPOS_ASSERT(ulOptReq < UlDistrRequests());
@@ -115,7 +103,7 @@ CPhysicalInnerNLJoin::PdsRequired
 		{
 			// compute a matching distribution based on derived distribution of outer child
 			CDistributionSpec *pdsOuter = CDrvdPropPlan::Pdpplan((*pdrgpdpCtxt)[0])->Pds();
-			if(CDistributionSpec::EdtHashed == pdsOuter->Edt())
+			if (CDistributionSpec::EdtHashed == pdsOuter->Edt())
 			{
 				// require inner child to have matching hashed distribution
 				CExpression *pexprScPredicate = exprhdl.PexprScalarExactChild(2);
@@ -148,7 +136,8 @@ CPhysicalInnerNLJoin::PdsRequired
 
 					// create a matching hashed distribution request
 					BOOL fNullsColocated = pdshashed->FNullsColocated();
-					CDistributionSpecHashed *pdshashedEquiv = GPOS_NEW(mp) CDistributionSpecHashed(pdrgpexprMatching, fNullsColocated);
+					CDistributionSpecHashed *pdshashedEquiv =
+						GPOS_NEW(mp) CDistributionSpecHashed(pdrgpexprMatching, fNullsColocated);
 					pdshashedEquiv->ComputeEquivHashExprs(mp, exprhdl);
 					return pdshashedEquiv;
 				}
@@ -176,4 +165,3 @@ CPhysicalInnerNLJoin::PdsRequired
 }
 
 // EOF
-

@@ -29,12 +29,7 @@ using namespace gpopt;
 
 
 // initialization of static variables
-const CHAR *CEnfdDistribution::m_szDistributionMatching[EdmSentinel] =
-{
-	"exact",
-	"satisfy",
-	"subset"
-};
+const CHAR *CEnfdDistribution::m_szDistributionMatching[EdmSentinel] = {"exact", "satisfy", "subset"};
 
 
 //---------------------------------------------------------------------------
@@ -45,14 +40,7 @@ const CHAR *CEnfdDistribution::m_szDistributionMatching[EdmSentinel] =
 //		Ctor
 //
 //---------------------------------------------------------------------------
-CEnfdDistribution::CEnfdDistribution
-	(
-	CDistributionSpec *pds,
-	EDistributionMatching edm
-	)
-	:
-	m_pds(pds),
-	m_edm(edm)
+CEnfdDistribution::CEnfdDistribution(CDistributionSpec *pds, EDistributionMatching edm) : m_pds(pds), m_edm(edm)
 {
 	GPOS_ASSERT(NULL != pds);
 	GPOS_ASSERT(EdmSentinel > edm);
@@ -83,11 +71,7 @@ CEnfdDistribution::~CEnfdDistribution()
 //
 //---------------------------------------------------------------------------
 BOOL
-CEnfdDistribution::FCompatible
-	(
-	CDistributionSpec *pds
-	)
-	const
+CEnfdDistribution::FCompatible(CDistributionSpec *pds) const
 {
 	GPOS_ASSERT(NULL != pds);
 
@@ -100,11 +84,10 @@ CEnfdDistribution::FCompatible
 			return pds->FSatisfies(m_pds);
 
 		case EdmSubset:
-			if (CDistributionSpec::EdtHashed == m_pds->Edt() &&
-				CDistributionSpec::EdtHashed == pds->Edt())
+			if (CDistributionSpec::EdtHashed == m_pds->Edt() && CDistributionSpec::EdtHashed == pds->Edt())
 			{
-				return CDistributionSpecHashed::PdsConvert(pds)->FMatchSubset
-						(CDistributionSpecHashed::PdsConvert(m_pds));
+				return CDistributionSpecHashed::PdsConvert(pds)->FMatchSubset(
+					CDistributionSpecHashed::PdsConvert(m_pds));
 			}
 
 		case (EdmSentinel):
@@ -138,21 +121,14 @@ CEnfdDistribution::HashValue() const
 //
 //---------------------------------------------------------------------------
 CEnfdProp::EPropEnforcingType
-CEnfdDistribution::Epet
-	(
-	CExpressionHandle &exprhdl,
-	CPhysical *popPhysical,
-	CPartitionPropagationSpec *pppsReqd,
-	BOOL fDistribReqd
-	)
-	const
+CEnfdDistribution::Epet(CExpressionHandle &exprhdl, CPhysical *popPhysical, CPartitionPropagationSpec *pppsReqd,
+						BOOL fDistribReqd) const
 {
 	if (fDistribReqd)
 	{
 		CDistributionSpec *pds = CDrvdPropPlan::Pdpplan(exprhdl.Pdp())->Pds();
 
-		if (CDistributionSpec::EdtReplicated == pds->Edt() &&
-			CDistributionSpec::EdtHashed == PdsRequired()->Edt() &&
+		if (CDistributionSpec::EdtReplicated == pds->Edt() && CDistributionSpec::EdtHashed == PdsRequired()->Edt() &&
 			EdmSatisfy == m_edm)
 		{
 			// child delivers a replicated distribution, no need to enforce hashed distribution
@@ -166,8 +142,7 @@ CEnfdDistribution::Epet
 		// required partition propagation spec, those will be enforced in the same group
 		CPartIndexMap *ppimDrvd = CDrvdPropPlan::Pdpplan(exprhdl.Pdp())->Ppim();
 		GPOS_ASSERT(NULL != ppimDrvd);
-		if (ppimDrvd->FContainsUnresolved() && !this->FCompatible(pds) &&
-			!ppimDrvd->FSubset(pppsReqd->Ppim()))
+		if (ppimDrvd->FContainsUnresolved() && !this->FCompatible(pds) && !ppimDrvd->FSubset(pppsReqd->Ppim()))
 		{
 			return CEnfdProp::EpetProhibited;
 		}
@@ -207,11 +182,7 @@ CEnfdDistribution::Epet
 //
 //---------------------------------------------------------------------------
 IOstream &
-CEnfdDistribution::OsPrint
-	(
-	IOstream &os
-	)
-	const
+CEnfdDistribution::OsPrint(IOstream &os) const
 {
 	os = m_pds->OsPrint(os);
 

@@ -33,17 +33,8 @@ using namespace gpmd;
 //		Ctor
 //
 //---------------------------------------------------------------------------
-CScalarMinMax::CScalarMinMax
-	(
-	CMemoryPool *mp,
-	IMDId *mdid_type,
-	EScalarMinMaxType esmmt
-	)
-	:
-	CScalar(mp),
-	m_mdid_type(mdid_type),
-	m_esmmt(esmmt),
-	m_fBoolReturnType(false)
+CScalarMinMax::CScalarMinMax(CMemoryPool *mp, IMDId *mdid_type, EScalarMinMaxType esmmt)
+	: CScalar(mp), m_mdid_type(mdid_type), m_esmmt(esmmt), m_fBoolReturnType(false)
 {
 	GPOS_ASSERT(mdid_type->IsValid());
 	GPOS_ASSERT(EsmmtSentinel > esmmt);
@@ -79,11 +70,8 @@ CScalarMinMax::HashValue() const
 {
 	ULONG ulminmax = (ULONG) this->Esmmt();
 
-	return gpos::CombineHashes
-					(
-						m_mdid_type->HashValue(),
-						gpos::CombineHashes(COperator::HashValue(), gpos::HashValue<ULONG>(&ulminmax))
-					);
+	return gpos::CombineHashes(m_mdid_type->HashValue(),
+							   gpos::CombineHashes(COperator::HashValue(), gpos::HashValue<ULONG>(&ulminmax)));
 }
 
 //---------------------------------------------------------------------------
@@ -95,11 +83,7 @@ CScalarMinMax::HashValue() const
 //
 //---------------------------------------------------------------------------
 BOOL
-CScalarMinMax::Matches
-	(
-	COperator *pop
-	)
-	const
+CScalarMinMax::Matches(COperator *pop) const
 {
 	if (pop->Eopid() != Eopid())
 	{
@@ -109,8 +93,7 @@ CScalarMinMax::Matches
 	CScalarMinMax *popScMinMax = CScalarMinMax::PopConvert(pop);
 
 	// match if return types are identical
-	return popScMinMax->Esmmt() == m_esmmt &&
-			popScMinMax->MdidType()->Equals(m_mdid_type);
+	return popScMinMax->Esmmt() == m_esmmt && popScMinMax->MdidType()->Equals(m_mdid_type);
 }
 
 //---------------------------------------------------------------------------
@@ -122,11 +105,7 @@ CScalarMinMax::Matches
 //
 //---------------------------------------------------------------------------
 IOstream &
-CScalarMinMax::OsPrint
-	(
-	IOstream &os
-	)
-	const
+CScalarMinMax::OsPrint(IOstream &os) const
 {
 	os << SzId() << " (";
 
@@ -144,4 +123,3 @@ CScalarMinMax::OsPrint
 }
 
 // EOF
-

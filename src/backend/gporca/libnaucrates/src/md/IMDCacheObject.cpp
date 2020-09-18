@@ -27,26 +27,19 @@ using namespace gpmd;
 //
 //---------------------------------------------------------------------------
 void
-IMDCacheObject::SerializeMDIdAsElem
-	(
-	CXMLSerializer *xml_serializer,
-	const CWStringConst *element_name,
-	const IMDId *mdid
-	)
-	const
+IMDCacheObject::SerializeMDIdAsElem(CXMLSerializer *xml_serializer, const CWStringConst *element_name,
+									const IMDId *mdid) const
 {
 	if (NULL == mdid)
 	{
 		return;
 	}
-	
-	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), 
-						element_name);
-	
+
+	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
+
 	mdid->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenMdid));
 
-	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), 
-							element_name);
+	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 }
 
 
@@ -59,13 +52,8 @@ IMDCacheObject::SerializeMDIdAsElem
 //
 //---------------------------------------------------------------------------
 void
-IMDCacheObject::SerializeMDIdList
-	(
-	CXMLSerializer *xml_serializer,
-	const IMdIdArray *mdid_array,
-	const CWStringConst *strTokenList,
-	const CWStringConst *strTokenListItem
-	)
+IMDCacheObject::SerializeMDIdList(CXMLSerializer *xml_serializer, const IMdIdArray *mdid_array,
+								  const CWStringConst *strTokenList, const CWStringConst *strTokenListItem)
 {
 	// serialize list of metadata ids
 	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), strTokenList);
@@ -85,4 +73,3 @@ IMDCacheObject::SerializeMDIdList
 }
 
 // EOF
-

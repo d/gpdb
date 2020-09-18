@@ -26,12 +26,7 @@ using namespace gpdxl;
 //		Ctor
 //
 //---------------------------------------------------------------------------
-CDXLScalarAssertConstraintList::CDXLScalarAssertConstraintList
-	(
-	CMemoryPool *mp
-	)
-	:
-	CDXLScalar(mp)
+CDXLScalarAssertConstraintList::CDXLScalarAssertConstraintList(CMemoryPool *mp) : CDXLScalar(mp)
 {
 }
 
@@ -72,12 +67,7 @@ CDXLScalarAssertConstraintList::GetOpNameStr() const
 //
 //---------------------------------------------------------------------------
 void
-CDXLScalarAssertConstraintList::SerializeToDXL
-	(
-	CXMLSerializer *xml_serializer,
-	const CDXLNode *dxlnode
-	)
-	const
+CDXLScalarAssertConstraintList::SerializeToDXL(CXMLSerializer *xml_serializer, const CDXLNode *dxlnode) const
 {
 	const CWStringConst *element_name = GetOpNameStr();
 
@@ -97,16 +87,11 @@ CDXLScalarAssertConstraintList::SerializeToDXL
 //
 //---------------------------------------------------------------------------
 void
-CDXLScalarAssertConstraintList::AssertValid
-	(
-	const CDXLNode *dxlnode,
-	BOOL validate_children
-	)
-	const
+CDXLScalarAssertConstraintList::AssertValid(const CDXLNode *dxlnode, BOOL validate_children) const
 {
 	const ULONG arity = dxlnode->Arity();
 	GPOS_ASSERT(0 < arity);
-	
+
 	for (ULONG ul = 0; ul < arity; ++ul)
 	{
 		CDXLNode *child_dxlnode = (*dxlnode)[ul];
@@ -118,6 +103,6 @@ CDXLScalarAssertConstraintList::AssertValid
 		}
 	}
 }
-#endif // GPOS_DEBUG
+#endif	// GPOS_DEBUG
 
 // EOF

@@ -21,27 +21,15 @@ using namespace gpmd;
 using namespace gpdxl;
 
 // ctor
-CMDArrayCoerceCastGPDB::CMDArrayCoerceCastGPDB
-	(
-	CMemoryPool *mp,
-	IMDId *mdid,
-	CMDName *mdname,
-	IMDId *mdid_src,
-	IMDId *mdid_dest,
-	BOOL is_binary_coercible,
-	IMDId *mdid_cast_func,
-	EmdCoercepathType path_type,
-	INT type_modifier,
-	BOOL is_explicit,
-	EdxlCoercionForm dxl_coerce_format,
-	INT location
-	)
-	:
-	CMDCastGPDB(mp, mdid, mdname, mdid_src, mdid_dest, is_binary_coercible, mdid_cast_func, path_type),
-	m_type_modifier(type_modifier),
-	m_is_explicit(is_explicit),
-	m_dxl_coerce_format(dxl_coerce_format),
-	m_location(location)
+CMDArrayCoerceCastGPDB::CMDArrayCoerceCastGPDB(CMemoryPool *mp, IMDId *mdid, CMDName *mdname, IMDId *mdid_src,
+											   IMDId *mdid_dest, BOOL is_binary_coercible, IMDId *mdid_cast_func,
+											   EmdCoercepathType path_type, INT type_modifier, BOOL is_explicit,
+											   EdxlCoercionForm dxl_coerce_format, INT location)
+	: CMDCastGPDB(mp, mdid, mdname, mdid_src, mdid_dest, is_binary_coercible, mdid_cast_func, path_type),
+	  m_type_modifier(type_modifier),
+	  m_is_explicit(is_explicit),
+	  m_dxl_coerce_format(dxl_coerce_format),
+	  m_location(location)
 {
 	m_dxl_str = CDXLUtils::SerializeMDObj(mp, this, false /*fSerializeHeader*/, false /*indentation*/);
 }
@@ -82,14 +70,10 @@ CMDArrayCoerceCastGPDB::Location() const
 
 // serialize function metadata in DXL format
 void
-CMDArrayCoerceCastGPDB::Serialize
-	(
-	CXMLSerializer *xml_serializer
-	)
-	const
+CMDArrayCoerceCastGPDB::Serialize(CXMLSerializer *xml_serializer) const
 {
 	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix),
-						CDXLTokens::GetDXLTokenStr(EdxltokenGPDBArrayCoerceCast));
+								CDXLTokens::GetDXLTokenStr(EdxltokenGPDBArrayCoerceCast));
 
 	m_mdid->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenMdid));
 
@@ -112,7 +96,7 @@ CMDArrayCoerceCastGPDB::Serialize
 	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenLocation), m_location);
 
 	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix),
-						CDXLTokens::GetDXLTokenStr(EdxltokenGPDBArrayCoerceCast));
+								 CDXLTokens::GetDXLTokenStr(EdxltokenGPDBArrayCoerceCast));
 }
 
 
@@ -120,11 +104,7 @@ CMDArrayCoerceCastGPDB::Serialize
 
 // prints a metadata cache relation to the provided output
 void
-CMDArrayCoerceCastGPDB::DebugPrint
-	(
-	IOstream &os
-	)
-	const
+CMDArrayCoerceCastGPDB::DebugPrint(IOstream &os) const
 {
 	CMDCastGPDB::DebugPrint(os);
 	os << ", Result Type Mod: ";
@@ -137,6 +117,6 @@ CMDArrayCoerceCastGPDB::DebugPrint
 	os << std::endl;
 }
 
-#endif // GPOS_DEBUG
+#endif	// GPOS_DEBUG
 
 // EOF

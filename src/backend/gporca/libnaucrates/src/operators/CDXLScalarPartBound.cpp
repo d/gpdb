@@ -28,18 +28,9 @@ using namespace gpdxl;
 //		Ctor
 //
 //---------------------------------------------------------------------------
-CDXLScalarPartBound::CDXLScalarPartBound
-	(
-	CMemoryPool *mp,
-	ULONG partitioning_level,
-	IMDId *mdid_type,
-	BOOL is_lower_bound
-	)
-	:
-	CDXLScalar(mp),
-	m_partitioning_level(partitioning_level),
-	m_mdid_type(mdid_type),
-	m_is_lower_bound(is_lower_bound)
+CDXLScalarPartBound::CDXLScalarPartBound(CMemoryPool *mp, ULONG partitioning_level, IMDId *mdid_type,
+										 BOOL is_lower_bound)
+	: CDXLScalar(mp), m_partitioning_level(partitioning_level), m_mdid_type(mdid_type), m_is_lower_bound(is_lower_bound)
 {
 	GPOS_ASSERT(mdid_type->IsValid());
 }
@@ -108,12 +99,9 @@ CDXLScalarPartBound::HasBoolResult(CMDAccessor *md_accessor) const
 //
 //---------------------------------------------------------------------------
 void
-CDXLScalarPartBound::SerializeToDXL
-	(
-	CXMLSerializer *xml_serializer,
-	const CDXLNode * // dxlnode
-	)
-	const
+CDXLScalarPartBound::SerializeToDXL(CXMLSerializer *xml_serializer,
+									const CDXLNode *  // dxlnode
+) const
 {
 	const CWStringConst *element_name = GetOpNameStr();
 
@@ -134,15 +122,12 @@ CDXLScalarPartBound::SerializeToDXL
 //
 //---------------------------------------------------------------------------
 void
-CDXLScalarPartBound::AssertValid
-	(
-	const CDXLNode *dxlnode,
-	BOOL // validate_children
-	)
-	const
+CDXLScalarPartBound::AssertValid(const CDXLNode *dxlnode,
+								 BOOL  // validate_children
+) const
 {
 	GPOS_ASSERT(0 == dxlnode->Arity());
 }
-#endif // GPOS_DEBUG
+#endif	// GPOS_DEBUG
 
 // EOF

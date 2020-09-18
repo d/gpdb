@@ -25,26 +25,14 @@ using namespace gpdxl;
 //		Ctor
 //
 //---------------------------------------------------------------------------
-CDXLPhysicalRowTrigger::CDXLPhysicalRowTrigger
-	(
-	CMemoryPool *mp,
-	IMDId *rel_mdid,
-	INT type,
-	ULongPtrArray *colids_old,
-	ULongPtrArray *colids_new
-	)
-	:
-	CDXLPhysical(mp),
-	m_rel_mdid(rel_mdid),
-	m_type(type),
-	  m_colids_old(colids_old),
-	  m_colids_new(colids_new)
+CDXLPhysicalRowTrigger::CDXLPhysicalRowTrigger(CMemoryPool *mp, IMDId *rel_mdid, INT type, ULongPtrArray *colids_old,
+											   ULongPtrArray *colids_new)
+	: CDXLPhysical(mp), m_rel_mdid(rel_mdid), m_type(type), m_colids_old(colids_old), m_colids_new(colids_new)
 {
 	GPOS_ASSERT(rel_mdid->IsValid());
 	GPOS_ASSERT(0 != type);
 	GPOS_ASSERT(NULL != colids_new || NULL != colids_old);
-	GPOS_ASSERT_IMP(NULL != colids_new && NULL != colids_old,
-					colids_new->Size() == colids_old->Size());
+	GPOS_ASSERT_IMP(NULL != colids_new && NULL != colids_old, colids_new->Size() == colids_old->Size());
 }
 
 //---------------------------------------------------------------------------
@@ -99,12 +87,7 @@ CDXLPhysicalRowTrigger::GetOpNameStr() const
 //
 //---------------------------------------------------------------------------
 void
-CDXLPhysicalRowTrigger::SerializeToDXL
-	(
-	CXMLSerializer *xml_serializer,
-	const CDXLNode *dxlnode
-	)
-	const
+CDXLPhysicalRowTrigger::SerializeToDXL(CXMLSerializer *xml_serializer, const CDXLNode *dxlnode) const
 {
 	const CWStringConst *element_name = GetOpNameStr();
 	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
@@ -146,12 +129,7 @@ CDXLPhysicalRowTrigger::SerializeToDXL
 //
 //---------------------------------------------------------------------------
 void
-CDXLPhysicalRowTrigger::AssertValid
-	(
-	const CDXLNode *dxlnode,
-	BOOL validate_children
-	)
-	const
+CDXLPhysicalRowTrigger::AssertValid(const CDXLNode *dxlnode, BOOL validate_children) const
 {
 	GPOS_ASSERT(2 == dxlnode->Arity());
 	CDXLNode *child_dxlnode = (*dxlnode)[1];
@@ -163,7 +141,7 @@ CDXLPhysicalRowTrigger::AssertValid
 	}
 }
 
-#endif // GPOS_DEBUG
+#endif	// GPOS_DEBUG
 
 
 // EOF

@@ -26,16 +26,8 @@ using namespace gpdxl;
 //		Ctor
 //
 //---------------------------------------------------------------------------
-CDXLScalarNullIf::CDXLScalarNullIf
-	(
-	CMemoryPool *mp,
-	IMDId *mdid_op,
-	IMDId *mdid_type
-	)
-	:
-	CDXLScalar(mp),
-	m_mdid_op(mdid_op),
-	m_mdid_type(mdid_type)
+CDXLScalarNullIf::CDXLScalarNullIf(CMemoryPool *mp, IMDId *mdid_op, IMDId *mdid_type)
+	: CDXLScalar(mp), m_mdid_op(mdid_op), m_mdid_type(mdid_type)
 {
 	GPOS_ASSERT(mdid_op->IsValid());
 	GPOS_ASSERT(mdid_type->IsValid());
@@ -108,7 +100,8 @@ CDXLScalarNullIf::MdidType() const
 const CWStringConst *
 CDXLScalarNullIf::GetOpNameStr() const
 {
-	return CDXLTokens::GetDXLTokenStr(EdxltokenScalarNullIf);;
+	return CDXLTokens::GetDXLTokenStr(EdxltokenScalarNullIf);
+	;
 }
 
 //---------------------------------------------------------------------------
@@ -120,11 +113,7 @@ CDXLScalarNullIf::GetOpNameStr() const
 //
 //---------------------------------------------------------------------------
 BOOL
-CDXLScalarNullIf::HasBoolResult
-	(
-	CMDAccessor *md_accessor
-	)
-	const
+CDXLScalarNullIf::HasBoolResult(CMDAccessor *md_accessor) const
 {
 	return (IMDType::EtiBool == md_accessor->RetrieveType(m_mdid_type)->GetDatumType());
 }
@@ -138,12 +127,7 @@ CDXLScalarNullIf::HasBoolResult
 //
 //---------------------------------------------------------------------------
 void
-CDXLScalarNullIf::SerializeToDXL
-	(
-	CXMLSerializer *xml_serializer,
-	const CDXLNode *dxlnode
-	)
-	const
+CDXLScalarNullIf::SerializeToDXL(CXMLSerializer *xml_serializer, const CDXLNode *dxlnode) const
 {
 	const CWStringConst *element_name = GetOpNameStr();
 
@@ -166,12 +150,7 @@ CDXLScalarNullIf::SerializeToDXL
 //
 //---------------------------------------------------------------------------
 void
-CDXLScalarNullIf::AssertValid
-	(
-	const CDXLNode *dxlnode,
-	BOOL validate_children
-	)
-	const
+CDXLScalarNullIf::AssertValid(const CDXLNode *dxlnode, BOOL validate_children) const
 {
 	const ULONG arity = dxlnode->Arity();
 	GPOS_ASSERT(2 == arity);
@@ -187,6 +166,6 @@ CDXLScalarNullIf::AssertValid
 		}
 	}
 }
-#endif // GPOS_DEBUG
+#endif	// GPOS_DEBUG
 
 // EOF

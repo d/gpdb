@@ -28,23 +28,15 @@ using namespace gpopt;
 //		Ctor
 //
 //---------------------------------------------------------------------------
-CXformImplementSequenceProject::CXformImplementSequenceProject
-	(
-	CMemoryPool *mp
-	)
-	:
-	// pattern
-	CXformImplementation
-		(
-		GPOS_NEW(mp) CExpression
-						(
-						mp,
-						GPOS_NEW(mp) CLogicalSequenceProject(mp),
-						GPOS_NEW(mp) CExpression(mp, GPOS_NEW(mp) CPatternLeaf(mp)), // relational child
-						GPOS_NEW(mp) CExpression(mp, GPOS_NEW(mp) CPatternLeaf(mp))  // scalar child
-						)
-		)
-{}
+CXformImplementSequenceProject::CXformImplementSequenceProject(CMemoryPool *mp)
+	:  // pattern
+	  CXformImplementation(GPOS_NEW(mp) CExpression(
+		  mp, GPOS_NEW(mp) CLogicalSequenceProject(mp),
+		  GPOS_NEW(mp) CExpression(mp, GPOS_NEW(mp) CPatternLeaf(mp)),	// relational child
+		  GPOS_NEW(mp) CExpression(mp, GPOS_NEW(mp) CPatternLeaf(mp))	// scalar child
+		  ))
+{
+}
 
 
 //---------------------------------------------------------------------------
@@ -56,13 +48,7 @@ CXformImplementSequenceProject::CXformImplementSequenceProject
 //
 //---------------------------------------------------------------------------
 void
-CXformImplementSequenceProject::Transform
-	(
-	CXformContext *pxfctxt,
-	CXformResult *pxfres,
-	CExpression *pexpr
-	)
-	const
+CXformImplementSequenceProject::Transform(CXformContext *pxfctxt, CXformResult *pxfres, CExpression *pexpr) const
 {
 	GPOS_ASSERT(NULL != pxfctxt);
 	GPOS_ASSERT(FPromising(pxfctxt->Pmp(), this, pexpr));
@@ -88,14 +74,8 @@ CXformImplementSequenceProject::Transform
 	pdrgpwf->AddRef();
 
 	// assemble physical operator
-	CExpression *pexprSequenceProject =
-		GPOS_NEW(mp) CExpression
-					(
-					mp,
-					GPOS_NEW(mp) CPhysicalSequenceProject(mp, pds, pdrgpos, pdrgpwf),
-					pexprRelational,
-					pexprScalar
-					);
+	CExpression *pexprSequenceProject = GPOS_NEW(mp)
+		CExpression(mp, GPOS_NEW(mp) CPhysicalSequenceProject(mp, pds, pdrgpos, pdrgpwf), pexprRelational, pexprScalar);
 
 	// add alternative to results
 	pxfres->Add(pexprSequenceProject);
@@ -103,4 +83,3 @@ CXformImplementSequenceProject::Transform
 
 
 // EOF
-

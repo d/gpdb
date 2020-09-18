@@ -26,15 +26,10 @@ using namespace gpopt;
 //		Ctor
 //
 //---------------------------------------------------------------------------
-CLogicalApply::CLogicalApply
-	(
-	CMemoryPool *mp
-	)
-	:
-	CLogical(mp),
-	m_pdrgpcrInner(NULL),
-	m_eopidOriginSubq(COperator::EopSentinel)
-{}
+CLogicalApply::CLogicalApply(CMemoryPool *mp)
+	: CLogical(mp), m_pdrgpcrInner(NULL), m_eopidOriginSubq(COperator::EopSentinel)
+{
+}
 
 
 //---------------------------------------------------------------------------
@@ -45,16 +40,8 @@ CLogicalApply::CLogicalApply
 //		Ctor
 //
 //---------------------------------------------------------------------------
-CLogicalApply::CLogicalApply
-	(
-	CMemoryPool *mp,
-	CColRefArray *pdrgpcrInner,
-	EOperatorId eopidOriginSubq
-	)
-	:
-	CLogical(mp),
-	m_pdrgpcrInner(pdrgpcrInner),
-	m_eopidOriginSubq(eopidOriginSubq)
+CLogicalApply::CLogicalApply(CMemoryPool *mp, CColRefArray *pdrgpcrInner, EOperatorId eopidOriginSubq)
+	: CLogical(mp), m_pdrgpcrInner(pdrgpcrInner), m_eopidOriginSubq(eopidOriginSubq)
 {
 	GPOS_ASSERT(NULL != pdrgpcrInner);
 }
@@ -82,14 +69,7 @@ CLogicalApply::~CLogicalApply()
 //
 //---------------------------------------------------------------------------
 CColRefSet *
-CLogicalApply::PcrsStat
-	(
-	CMemoryPool *mp,
-	CExpressionHandle &exprhdl,
-	CColRefSet *pcrsInput,
-	ULONG child_index
-	)
-	const
+CLogicalApply::PcrsStat(CMemoryPool *mp, CExpressionHandle &exprhdl, CColRefSet *pcrsInput, ULONG child_index) const
 {
 	GPOS_ASSERT(3 == exprhdl.Arity());
 
@@ -118,18 +98,14 @@ CLogicalApply::PcrsStat
 //
 //---------------------------------------------------------------------------
 BOOL
-CLogicalApply::Matches
-	(
-	COperator *pop
-	)
-	const
+CLogicalApply::Matches(COperator *pop) const
 {
 	if (pop->Eopid() == Eopid())
 	{
 		CColRefArray *pdrgpcrInner = CLogicalApply::PopConvert(pop)->PdrgPcrInner();
 		if (NULL == m_pdrgpcrInner || NULL == pdrgpcrInner)
 		{
-			return 	 (NULL == m_pdrgpcrInner && NULL == pdrgpcrInner);
+			return (NULL == m_pdrgpcrInner && NULL == pdrgpcrInner);
 		}
 
 		return m_pdrgpcrInner->Equals(pdrgpcrInner);
@@ -147,11 +123,7 @@ CLogicalApply::Matches
 //
 //---------------------------------------------------------------------------
 IOstream &
-CLogicalApply::OsPrint
-	(
-	IOstream &os
-	)
-	const
+CLogicalApply::OsPrint(IOstream &os) const
 {
 	os << this->SzId();
 	if (NULL != m_pdrgpcrInner)
@@ -166,4 +138,3 @@ CLogicalApply::OsPrint
 
 
 // EOF
-

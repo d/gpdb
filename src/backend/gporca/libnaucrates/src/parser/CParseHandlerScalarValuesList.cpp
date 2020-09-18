@@ -24,26 +24,16 @@ using namespace gpdxl;
 XERCES_CPP_NAMESPACE_USE
 
 // ctor
-CParseHandlerScalarValuesList::CParseHandlerScalarValuesList
-	(
-	CMemoryPool *mp,
-	CParseHandlerManager *parse_handler_mgr,
-	CParseHandlerBase *parse_handler_root
-	)
-	:
-	CParseHandlerOp(mp, parse_handler_mgr, parse_handler_root)
+CParseHandlerScalarValuesList::CParseHandlerScalarValuesList(CMemoryPool *mp, CParseHandlerManager *parse_handler_mgr,
+															 CParseHandlerBase *parse_handler_root)
+	: CParseHandlerOp(mp, parse_handler_mgr, parse_handler_root)
 {
 }
 
 // invoked by Xerces to process an opening tag
 void
-CParseHandlerScalarValuesList::StartElement
-	(
-	const XMLCh* const element_uri,
-	const XMLCh* const element_local_name,
-	const XMLCh* const element_qname,
-	const Attributes& attrs
-	)
+CParseHandlerScalarValuesList::StartElement(const XMLCh *const element_uri, const XMLCh *const element_local_name,
+											const XMLCh *const element_qname, const Attributes &attrs)
 {
 	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarValuesList), element_local_name))
 	{
@@ -52,7 +42,8 @@ CParseHandlerScalarValuesList::StartElement
 	}
 	else if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarConstValue), element_local_name))
 	{
-		CParseHandlerBase *parse_handler_const_value = CParseHandlerFactory::GetParseHandler(m_mp, element_local_name, m_parse_handler_mgr, this);
+		CParseHandlerBase *parse_handler_const_value =
+			CParseHandlerFactory::GetParseHandler(m_mp, element_local_name, m_parse_handler_mgr, this);
 		m_parse_handler_mgr->ActivateParseHandler(parse_handler_const_value);
 
 		this->Append(parse_handler_const_value);
@@ -61,21 +52,19 @@ CParseHandlerScalarValuesList::StartElement
 	}
 	else
 	{
-		CWStringDynamic *str = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), element_local_name);
+		CWStringDynamic *str = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(),
+																			element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, str->GetBuffer());
 	}
 }
 
 // invoked by Xerces to process a closing tag
 void
-CParseHandlerScalarValuesList::EndElement
-	(
-	const XMLCh* const, // element_uri,
-	const XMLCh* const, //element_local_name,
-	const XMLCh* const // element_qname
-	)
+CParseHandlerScalarValuesList::EndElement(const XMLCh *const,  // element_uri,
+										  const XMLCh *const,  //element_local_name,
+										  const XMLCh *const   // element_qname
+)
 {
-
 	const ULONG arity = this->Length();
 	for (ULONG ul = 0; ul < arity; ul++)
 	{
@@ -83,6 +72,5 @@ CParseHandlerScalarValuesList::EndElement
 		AddChildFromParseHandler(child_parse_handler);
 	}
 	m_parse_handler_mgr->DeactivateHandler();
-
 }
 // EOF

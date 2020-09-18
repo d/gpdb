@@ -29,10 +29,10 @@
 using namespace gpopt;
 
 // number of non-redistribute requests created by hash join
-#define GPOPT_NON_HASH_DIST_REQUESTS	3
+#define GPOPT_NON_HASH_DIST_REQUESTS 3
 
 // maximum number of redistribute requests on single hash join keys
-#define GPOPT_MAX_HASH_DIST_REQUESTS	6
+#define GPOPT_MAX_HASH_DIST_REQUESTS 6
 
 //---------------------------------------------------------------------------
 //	@function:
@@ -42,19 +42,13 @@ using namespace gpopt;
 //		Ctor
 //
 //---------------------------------------------------------------------------
-CPhysicalHashJoin::CPhysicalHashJoin
-	(
-	CMemoryPool *mp,
-	CExpressionArray *pdrgpexprOuterKeys,
-	CExpressionArray *pdrgpexprInnerKeys,
-	IMdIdArray *hash_opfamilies
-	)
-	:
-	CPhysicalJoin(mp),
-	m_pdrgpexprOuterKeys(pdrgpexprOuterKeys),
-	m_pdrgpexprInnerKeys(pdrgpexprInnerKeys),
-	m_hash_opfamilies(NULL),
-	m_pdrgpdsRedistributeRequests(NULL)
+CPhysicalHashJoin::CPhysicalHashJoin(CMemoryPool *mp, CExpressionArray *pdrgpexprOuterKeys,
+									 CExpressionArray *pdrgpexprInnerKeys, IMdIdArray *hash_opfamilies)
+	: CPhysicalJoin(mp),
+	  m_pdrgpexprOuterKeys(pdrgpexprOuterKeys),
+	  m_pdrgpexprInnerKeys(pdrgpexprInnerKeys),
+	  m_hash_opfamilies(NULL),
+	  m_pdrgpdsRedistributeRequests(NULL)
 {
 	GPOS_ASSERT(NULL != mp);
 	GPOS_ASSERT(NULL != pdrgpexprOuterKeys);
@@ -99,8 +93,7 @@ CPhysicalHashJoin::CPhysicalHashJoin
 	// will not be created for the above query if we send only 1 request.
 	// Also, increasing the number of request increases the optimization time, so
 	// set 2 only when needed.
-	if (GPOPT_FDISABLED_XFORM(CXform::ExfExpandNAryJoinDP) &&
-		GPOPT_FDISABLED_XFORM(CXform::ExfExpandNAryJoinDPv2))
+	if (GPOPT_FDISABLED_XFORM(CXform::ExfExpandNAryJoinDP) && GPOPT_FDISABLED_XFORM(CXform::ExfExpandNAryJoinDPv2))
 		SetPartPropagateRequests(2);
 }
 
@@ -130,10 +123,7 @@ CPhysicalHashJoin::~CPhysicalHashJoin()
 //
 //---------------------------------------------------------------------------
 void
-CPhysicalHashJoin::CreateHashRedistributeRequests
-	(
-	CMemoryPool *mp
-	)
+CPhysicalHashJoin::CreateHashRedistributeRequests(CMemoryPool *mp)
 {
 	GPOS_ASSERT(NULL == m_pdrgpdsRedistributeRequests);
 	GPOS_ASSERT(NULL != m_pdrgpexprOuterKeys);
@@ -174,9 +164,8 @@ CPhysicalHashJoin::CreateHashRedistributeRequests
 
 			// TODO:  - Dec 30, 2011; change fNullsColocated to false when our
 			// distribution matching can handle differences in NULL colocation
-			CDistributionSpecHashed *pdshashedCurrent = GPOS_NEW(mp) CDistributionSpecHashed(pdrgpexprCurrent,
-																							 true /* fNullsCollocated */,
-																							 opfamilies);
+			CDistributionSpecHashed *pdshashedCurrent =
+				GPOS_NEW(mp) CDistributionSpecHashed(pdrgpexprCurrent, true /* fNullsCollocated */, opfamilies);
 			m_pdrgpdsRedistributeRequests->Append(pdshashedCurrent);
 		}
 	}
@@ -187,7 +176,8 @@ CPhysicalHashJoin::CreateHashRedistributeRequests
 		GPOS_ASSERT(NULL != m_hash_opfamilies);
 		m_hash_opfamilies->AddRef();
 	}
-	CDistributionSpecHashed *pdshashed = GPOS_NEW(mp) CDistributionSpecHashed(pdrgpexpr, true /* fNullsCollocated */, m_hash_opfamilies);
+	CDistributionSpecHashed *pdshashed =
+		GPOS_NEW(mp) CDistributionSpecHashed(pdrgpexpr, true /* fNullsCollocated */, m_hash_opfamilies);
 	m_pdrgpdsRedistributeRequests->Append(pdshashed);
 }
 
@@ -201,23 +191,19 @@ CPhysicalHashJoin::CreateHashRedistributeRequests
 //
 //---------------------------------------------------------------------------
 COrderSpec *
-CPhysicalHashJoin::PosRequired
-	(
-	CMemoryPool *mp,
-	CExpressionHandle &, //exprhdl
-	COrderSpec *, // posInput,
-	ULONG
+CPhysicalHashJoin::PosRequired(CMemoryPool *mp,
+							   CExpressionHandle &,	 //exprhdl
+							   COrderSpec *,		 // posInput,
+							   ULONG
 #ifdef GPOS_DEBUG
-	child_index
-#endif // GPOS_DEBUG
-	,
-	CDrvdPropArray *, // pdrgpdpCtxt
-	ULONG // ulOptReq
-	)
-	const
+								   child_index
+#endif	// GPOS_DEBUG
+							   ,
+							   CDrvdPropArray *,  // pdrgpdpCtxt
+							   ULONG			  // ulOptReq
+) const
 {
-	GPOS_ASSERT(child_index < 2 &&
-				"Required sort order can be computed on the relational child only");
+	GPOS_ASSERT(child_index < 2 && "Required sort order can be computed on the relational child only");
 
 	// hash join does not have order requirements to both children, and it
 	// does not preserve any sort order
@@ -234,19 +220,13 @@ CPhysicalHashJoin::PosRequired
 //
 //---------------------------------------------------------------------------
 CRewindabilitySpec *
-CPhysicalHashJoin::PrsRequired
-	(
-	CMemoryPool *mp,
-	CExpressionHandle &exprhdl,
-	CRewindabilitySpec *prsRequired,
-	ULONG child_index,
-	CDrvdPropArray *, // pdrgpdpCtxt
-	ULONG // ulOptReq
-	)
-	const
+CPhysicalHashJoin::PrsRequired(CMemoryPool *mp, CExpressionHandle &exprhdl, CRewindabilitySpec *prsRequired,
+							   ULONG child_index,
+							   CDrvdPropArray *,  // pdrgpdpCtxt
+							   ULONG			  // ulOptReq
+) const
 {
-	GPOS_ASSERT(child_index < 2 &&
-				"Required rewindability can be computed on the relational child only");
+	GPOS_ASSERT(child_index < 2 && "Required rewindability can be computed on the relational child only");
 
 	if (1 == child_index)
 	{
@@ -264,10 +244,9 @@ CPhysicalHashJoin::PrsRequired
 		else
 		{
 			return GPOS_NEW(mp) CRewindabilitySpec(CRewindabilitySpec::ErtNone, prsRequired->Emht());
-
 		}
 	}
-		
+
 	// pass through requirements to outer child
 	return PrsPassThru(mp, exprhdl, prsRequired, 0 /*child_index*/);
 }
@@ -282,13 +261,7 @@ CPhysicalHashJoin::PrsRequired
 //
 //---------------------------------------------------------------------------
 CDistributionSpec *
-CPhysicalHashJoin::PdsMatch
-	(
-	CMemoryPool *mp,
-	CDistributionSpec *pds,
-	ULONG ulSourceChildIndex
-	)
-	const
+CPhysicalHashJoin::PdsMatch(CMemoryPool *mp, CDistributionSpec *pds, ULONG ulSourceChildIndex) const
 {
 	GPOS_ASSERT(NULL != pds);
 
@@ -337,13 +310,9 @@ CPhysicalHashJoin::PdsMatch
 //
 //---------------------------------------------------------------------------
 CDistributionSpecHashed *
-CPhysicalHashJoin::PdshashedMatching
-	(
-	CMemoryPool *mp,
-	CDistributionSpecHashed *pdshashed,
-	ULONG ulSourceChild // index of child that delivered the given hashed distribution
-	)
-	const
+CPhysicalHashJoin::PdshashedMatching(CMemoryPool *mp, CDistributionSpecHashed *pdshashed,
+									 ULONG ulSourceChild  // index of child that delivered the given hashed distribution
+) const
 {
 	GPOS_ASSERT(2 > ulSourceChild);
 
@@ -437,15 +406,10 @@ CPhysicalHashJoin::PdshashedMatching
 //
 //---------------------------------------------------------------------------
 CDistributionSpec *
-CPhysicalHashJoin::PdsRequiredSingleton
-	(
-	CMemoryPool *mp,
-	CExpressionHandle  &, // exprhdl
-	CDistributionSpec *, // pdsInput
-	ULONG  child_index,
-	CDrvdPropArray *pdrgpdpCtxt
-	)
-	const
+CPhysicalHashJoin::PdsRequiredSingleton(CMemoryPool *mp,
+										CExpressionHandle &,  // exprhdl
+										CDistributionSpec *,  // pdsInput
+										ULONG child_index, CDrvdPropArray *pdrgpdpCtxt) const
 {
 	if (FFirstChildToOptimize(child_index))
 	{
@@ -465,7 +429,7 @@ CPhysicalHashJoin::PdsRequiredSingleton
 	}
 
 	if (COptCtxt::PoctxtFromTLS()->OptimizeDMLQueryWithSingletonSegment() &&
-	    CDistributionSpec::EdtReplicated == pdsFirst->Edt())
+		CDistributionSpec::EdtReplicated == pdsFirst->Edt())
 	{
 		// For a DML query that can be optimized by enforcing a non-master gather motion,
 		// we request singleton-segment distribution on the outer child. If the outer child
@@ -476,7 +440,7 @@ CPhysicalHashJoin::PdsRequiredSingleton
 	}
 
 	GPOS_ASSERT(CDistributionSpec::EdtSingleton == pdsFirst->Edt() ||
-		    CDistributionSpec::EdtStrictSingleton == pdsFirst->Edt());
+				CDistributionSpec::EdtStrictSingleton == pdsFirst->Edt());
 
 	// require second child to have matching singleton distribution
 	return CPhysical::PdssMatching(mp, CDistributionSpecSingleton::PdssConvert(pdsFirst));
@@ -493,16 +457,8 @@ CPhysicalHashJoin::PdsRequiredSingleton
 //
 //---------------------------------------------------------------------------
 CDistributionSpec *
-CPhysicalHashJoin::PdsRequiredReplicate
-	(
-	CMemoryPool *mp,
-	CExpressionHandle  &exprhdl,
-	CDistributionSpec *pdsInput,
-	ULONG  child_index,
-	CDrvdPropArray *pdrgpdpCtxt,
-	ULONG ulOptReq
-	)
-	const
+CPhysicalHashJoin::PdsRequiredReplicate(CMemoryPool *mp, CExpressionHandle &exprhdl, CDistributionSpec *pdsInput,
+										ULONG child_index, CDrvdPropArray *pdrgpdpCtxt, ULONG ulOptReq) const
 {
 	EChildExecOrder eceo = Eceo();
 	if (EceoLeftToRight == eceo)
@@ -529,12 +485,11 @@ CPhysicalHashJoin::PdsRequiredReplicate
 		return GPOS_NEW(mp) CDistributionSpecSingleton();
 	}
 
-	if (ulOptReq == m_pdrgpdsRedistributeRequests->Size() &&
-		CDistributionSpec::EdtHashed == pdsInput->Edt())
+	if (ulOptReq == m_pdrgpdsRedistributeRequests->Size() && CDistributionSpec::EdtHashed == pdsInput->Edt())
 	{
 		// attempt to propagate hashed request to child
-		CDistributionSpecHashed *pdshashed =
-			PdshashedPassThru(mp, exprhdl, CDistributionSpecHashed::PdsConvert(pdsInput), child_index, pdrgpdpCtxt, ulOptReq);
+		CDistributionSpecHashed *pdshashed = PdshashedPassThru(
+			mp, exprhdl, CDistributionSpecHashed::PdsConvert(pdsInput), child_index, pdrgpdpCtxt, ulOptReq);
 		if (NULL != pdshashed)
 		{
 			return pdshashed;
@@ -559,19 +514,15 @@ CPhysicalHashJoin::PdsRequiredReplicate
 //
 //---------------------------------------------------------------------------
 CDistributionSpecHashed *
-CPhysicalHashJoin::PdshashedPassThru
-	(
-	CMemoryPool *mp,
-	CExpressionHandle  &exprhdl,
-	CDistributionSpecHashed *pdshashedInput,
-	ULONG  , // child_index
-	CDrvdPropArray *, // pdrgpdpCtxt
-	ULONG
+CPhysicalHashJoin::PdshashedPassThru(CMemoryPool *mp, CExpressionHandle &exprhdl,
+									 CDistributionSpecHashed *pdshashedInput,
+									 ULONG,				// child_index
+									 CDrvdPropArray *,	// pdrgpdpCtxt
+									 ULONG
 #ifdef GPOS_DEBUG
-	 ulOptReq
-#endif // GPOS_DEBUG
-	)
-	const
+										 ulOptReq
+#endif	// GPOS_DEBUG
+) const
 {
 	GPOS_ASSERT(ulOptReq == m_pdrgpdsRedistributeRequests->Size());
 	GPOS_ASSERT(NULL != pdshashedInput);
@@ -599,29 +550,30 @@ CPhysicalHashJoin::PdshashedPassThru
 
 	if (!fDisjoint)
 	{
-		 // incoming request intersects with columns from outer child,
-		 // we restrict the request to outer child columns only, then we pass it through
-		 CExpressionArray *pdrgpexprChildRequest = GPOS_NEW(mp) CExpressionArray(mp);
-		 const ULONG size = pdrgpexprIncomingRequest->Size();
-		 for (ULONG ul = 0; ul < size; ul++)
-		 {
-			 CExpression *pexpr = (*pdrgpexprIncomingRequest)[ul];
-			 CColRefSet *pcrsUsed = pexpr->DeriveUsedColumns();
-			 if (pcrsOuterOutput->ContainsAll(pcrsUsed))
-			 {
-				 // hashed expression uses columns from outer child only, add it to request
-				 pexpr->AddRef();
-				 pdrgpexprChildRequest->Append(pexpr);
-			 }
-		 }
-		 GPOS_ASSERT(0 < pdrgpexprChildRequest->Size());
+		// incoming request intersects with columns from outer child,
+		// we restrict the request to outer child columns only, then we pass it through
+		CExpressionArray *pdrgpexprChildRequest = GPOS_NEW(mp) CExpressionArray(mp);
+		const ULONG size = pdrgpexprIncomingRequest->Size();
+		for (ULONG ul = 0; ul < size; ul++)
+		{
+			CExpression *pexpr = (*pdrgpexprIncomingRequest)[ul];
+			CColRefSet *pcrsUsed = pexpr->DeriveUsedColumns();
+			if (pcrsOuterOutput->ContainsAll(pcrsUsed))
+			{
+				// hashed expression uses columns from outer child only, add it to request
+				pexpr->AddRef();
+				pdrgpexprChildRequest->Append(pexpr);
+			}
+		}
+		GPOS_ASSERT(0 < pdrgpexprChildRequest->Size());
 
-		 CDistributionSpecHashed *pdshashed = GPOS_NEW(mp) CDistributionSpecHashed(pdrgpexprChildRequest, pdshashedInput->FNullsColocated());
+		CDistributionSpecHashed *pdshashed =
+			GPOS_NEW(mp) CDistributionSpecHashed(pdrgpexprChildRequest, pdshashedInput->FNullsColocated());
 
-		 // since the other child of the join is replicated, we need to enforce hashed-distribution across segments here
-		 pdshashed->MarkUnsatisfiableBySingleton();
+		// since the other child of the join is replicated, we need to enforce hashed-distribution across segments here
+		pdshashed->MarkUnsatisfiableBySingleton();
 
-		 return pdshashed;
+		return pdshashed;
 	}
 
 	return NULL;
@@ -637,16 +589,9 @@ CPhysicalHashJoin::PdshashedPassThru
 //
 //---------------------------------------------------------------------------
 CDistributionSpec *
-CPhysicalHashJoin::PdsRequiredRedistribute
-	(
-	CMemoryPool *mp,
-	CExpressionHandle &exprhdl,
-	CDistributionSpec *, // pdsInput
-	ULONG  child_index,
-	CDrvdPropArray *pdrgpdpCtxt,
-	ULONG ulOptReq
-	)
-	const
+CPhysicalHashJoin::PdsRequiredRedistribute(CMemoryPool *mp, CExpressionHandle &exprhdl,
+										   CDistributionSpec *,	 // pdsInput
+										   ULONG child_index, CDrvdPropArray *pdrgpdpCtxt, ULONG ulOptReq) const
 {
 	if (FFirstChildToOptimize(child_index))
 	{
@@ -715,16 +660,10 @@ CPhysicalHashJoin::PdsRequiredRedistribute
 //
 //---------------------------------------------------------------------------
 CDistributionSpec *
-CPhysicalHashJoin::PdsRequired
-	(
-	CMemoryPool *mp,
-	CExpressionHandle &exprhdl,
-	CDistributionSpec *pdsInput,
-	ULONG child_index,
-	CDrvdPropArray *pdrgpdpCtxt,
-	ULONG ulOptReq // identifies which optimization request should be created
-	)
-	const
+CPhysicalHashJoin::PdsRequired(CMemoryPool *mp, CExpressionHandle &exprhdl, CDistributionSpec *pdsInput,
+							   ULONG child_index, CDrvdPropArray *pdrgpdpCtxt,
+							   ULONG ulOptReq  // identifies which optimization request should be created
+) const
 {
 	GPOS_ASSERT(2 > child_index);
 	GPOS_ASSERT(ulOptReq < UlDistrRequests());
@@ -737,8 +676,7 @@ CPhysicalHashJoin::PdsRequired
 
 	if (exprhdl.HasOuterRefs())
 	{
-		if (CDistributionSpec::EdtSingleton == pdsInput->Edt() ||
-			CDistributionSpec::EdtReplicated == pdsInput->Edt())
+		if (CDistributionSpec::EdtSingleton == pdsInput->Edt() || CDistributionSpec::EdtReplicated == pdsInput->Edt())
 		{
 			return PdsPassThru(mp, exprhdl, pdsInput, child_index);
 		}
@@ -758,8 +696,7 @@ CPhysicalHashJoin::PdsRequired
 		return pds;
 	}
 
-	if (ulOptReq == ulHashDistributeRequests ||
-		ulOptReq == ulHashDistributeRequests + 1)
+	if (ulOptReq == ulHashDistributeRequests || ulOptReq == ulHashDistributeRequests + 1)
 	{
 		// requests N+1, N+2 are (hashed/non-singleton, replicate)
 
@@ -789,13 +726,9 @@ CPhysicalHashJoin::PdsRequired
 //
 //---------------------------------------------------------------------------
 CDistributionSpecHashed *
-CPhysicalHashJoin::PdshashedRequired
-	(
-	CMemoryPool *, // mp
-	ULONG, // child_index
-	ULONG ulReqIndex
-	)
-	const
+CPhysicalHashJoin::PdshashedRequired(CMemoryPool *,	 // mp
+									 ULONG,			 // child_index
+									 ULONG ulReqIndex) const
 {
 	GPOS_ASSERT(ulReqIndex < m_pdrgpdsRedistributeRequests->Size());
 	CDistributionSpec *pds = (*m_pdrgpdsRedistributeRequests)[ulReqIndex];
@@ -814,15 +747,12 @@ CPhysicalHashJoin::PdshashedRequired
 //
 //---------------------------------------------------------------------------
 CEnfdProp::EPropEnforcingType
-CPhysicalHashJoin::EpetOrder
-	(
-	CExpressionHandle &, // exprhdl
-	const CEnfdOrder *
+CPhysicalHashJoin::EpetOrder(CExpressionHandle &,  // exprhdl
+							 const CEnfdOrder *
 #ifdef GPOS_DEBUG
-	peo
-#endif // GPOS_DEBUG
-	)
-	const
+								 peo
+#endif	// GPOS_DEBUG
+) const
 {
 	GPOS_ASSERT(NULL != peo);
 	GPOS_ASSERT(!peo->PosRequired()->IsEmpty());
@@ -843,12 +773,7 @@ CPhysicalHashJoin::EpetOrder
 //
 //---------------------------------------------------------------------------
 BOOL
-CPhysicalHashJoin::FNullableHashKeys
-	(
-	CColRefSet *pcrsNotNull,
-	BOOL fInner
-	)
-	const
+CPhysicalHashJoin::FNullableHashKeys(CColRefSet *pcrsNotNull, BOOL fInner) const
 {
 	ULONG ulHashKeys = 0;
 	if (fInner)
@@ -880,13 +805,7 @@ CPhysicalHashJoin::FNullableHashKeys
 //
 //---------------------------------------------------------------------------
 BOOL
-CPhysicalHashJoin::FNullableHashKey
-	(
-	ULONG ulKey,
-	CColRefSet *pcrsNotNull,
-	BOOL fInner
-	)
-	const
+CPhysicalHashJoin::FNullableHashKey(ULONG ulKey, CColRefSet *pcrsNotNull, BOOL fInner) const
 {
 	COperator *pop = NULL;
 	if (fInner)

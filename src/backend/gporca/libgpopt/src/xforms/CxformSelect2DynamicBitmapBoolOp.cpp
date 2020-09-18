@@ -6,11 +6,11 @@
 //		CXformSelect2DynamicBitmapBoolOp.cpp
 //
 //	@doc:
-//		Transform select over partitioned table into a dynamic bitmap table get 
+//		Transform select over partitioned table into a dynamic bitmap table get
 //		over bitmap bool op
 //
 //	@owner:
-//		
+//
 //
 //	@test:
 //
@@ -32,22 +32,14 @@ using namespace gpopt;
 //		Ctor
 //
 //---------------------------------------------------------------------------
-CXformSelect2DynamicBitmapBoolOp::CXformSelect2DynamicBitmapBoolOp
-	(
-	CMemoryPool *mp
-	)
-	:
-	CXformExploration
-		(
-		GPOS_NEW(mp) CExpression
-				(
-				mp,
-				GPOS_NEW(mp) CLogicalSelect(mp),
-				GPOS_NEW(mp) CExpression(mp, GPOS_NEW(mp) CLogicalDynamicGet(mp)),  // logical child
-				GPOS_NEW(mp) CExpression(mp, GPOS_NEW(mp) CPatternTree(mp))  		// predicate tree
-				)
-		)
-{}
+CXformSelect2DynamicBitmapBoolOp::CXformSelect2DynamicBitmapBoolOp(CMemoryPool *mp)
+	: CXformExploration(GPOS_NEW(mp) CExpression(
+		  mp, GPOS_NEW(mp) CLogicalSelect(mp),
+		  GPOS_NEW(mp) CExpression(mp, GPOS_NEW(mp) CLogicalDynamicGet(mp)),  // logical child
+		  GPOS_NEW(mp) CExpression(mp, GPOS_NEW(mp) CPatternTree(mp))		  // predicate tree
+		  ))
+{
+}
 
 //---------------------------------------------------------------------------
 //	@function:
@@ -58,11 +50,8 @@ CXformSelect2DynamicBitmapBoolOp::CXformSelect2DynamicBitmapBoolOp
 //
 //---------------------------------------------------------------------------
 CXform::EXformPromise
-CXformSelect2DynamicBitmapBoolOp::Exfp
-	(
-	CExpressionHandle &  // exprhdl
-	)
-	const
+CXformSelect2DynamicBitmapBoolOp::Exfp(CExpressionHandle &	// exprhdl
+) const
 {
 	return CXform::ExfpHigh;
 }
@@ -76,13 +65,7 @@ CXformSelect2DynamicBitmapBoolOp::Exfp
 //
 //---------------------------------------------------------------------------
 void
-CXformSelect2DynamicBitmapBoolOp::Transform
-	(
-	CXformContext *pxfctxt,
-	CXformResult *pxfres,
-	CExpression *pexpr
-	)
-	const
+CXformSelect2DynamicBitmapBoolOp::Transform(CXformContext *pxfctxt, CXformResult *pxfres, CExpression *pexpr) const
 {
 	GPOS_ASSERT(NULL != pxfctxt);
 	GPOS_ASSERT(FPromising(pxfctxt->Pmp(), this, pexpr));

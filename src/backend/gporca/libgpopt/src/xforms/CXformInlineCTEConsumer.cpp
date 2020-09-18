@@ -26,21 +26,12 @@ using namespace gpopt;
 //		Ctor
 //
 //---------------------------------------------------------------------------
-CXformInlineCTEConsumer::CXformInlineCTEConsumer
-	(
-	CMemoryPool *mp
-	)
-	:
-	CXformExploration
-		(
-		 // pattern
-		GPOS_NEW(mp) CExpression
-				(
-				mp,
-				GPOS_NEW(mp) CLogicalCTEConsumer(mp)
-				)
-		)
-{}
+CXformInlineCTEConsumer::CXformInlineCTEConsumer(CMemoryPool *mp)
+	: CXformExploration(
+		  // pattern
+		  GPOS_NEW(mp) CExpression(mp, GPOS_NEW(mp) CLogicalCTEConsumer(mp)))
+{
+}
 
 //---------------------------------------------------------------------------
 //	@function:
@@ -51,17 +42,12 @@ CXformInlineCTEConsumer::CXformInlineCTEConsumer
 //
 //---------------------------------------------------------------------------
 CXform::EXformPromise
-CXformInlineCTEConsumer::Exfp
-	(
-	CExpressionHandle &exprhdl
-	)
-	const
+CXformInlineCTEConsumer::Exfp(CExpressionHandle &exprhdl) const
 {
 	const ULONG id = CLogicalCTEConsumer::PopConvert(exprhdl.Pop())->UlCTEId();
 	CCTEInfo *pcteinfo = COptCtxt::PoctxtFromTLS()->Pcteinfo();
 
-	if ((pcteinfo->FEnableInlining() || 1 == pcteinfo->UlConsumers(id)) &&
-		CXformUtils::FInlinableCTE(id))
+	if ((pcteinfo->FEnableInlining() || 1 == pcteinfo->UlConsumers(id)) && CXformUtils::FInlinableCTE(id))
 	{
 		return CXform::ExfpHigh;
 	}
@@ -78,17 +64,12 @@ CXformInlineCTEConsumer::Exfp
 //
 //---------------------------------------------------------------------------
 void
-CXformInlineCTEConsumer::Transform
-	(
-	CXformContext *
+CXformInlineCTEConsumer::Transform(CXformContext *
 #ifdef GPOS_DEBUG
-	pxfctxt
+									   pxfctxt
 #endif
-	,
-	CXformResult *pxfres,
-	CExpression *pexpr
-	)
-	const
+								   ,
+								   CXformResult *pxfres, CExpression *pexpr) const
 {
 	GPOS_ASSERT(NULL != pxfctxt);
 	GPOS_ASSERT(FPromising(pxfctxt->Pmp(), this, pexpr));

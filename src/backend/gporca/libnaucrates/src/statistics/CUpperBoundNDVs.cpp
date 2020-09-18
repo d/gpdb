@@ -27,12 +27,7 @@ using namespace gpopt;
 //
 //---------------------------------------------------------------------------
 CUpperBoundNDVs *
-CUpperBoundNDVs::CopyUpperBoundNDVWithRemap
-        (
-        CMemoryPool *mp,
-        UlongToColRefMap *colid_to_colref_map
-        )
-        const
+CUpperBoundNDVs::CopyUpperBoundNDVWithRemap(CMemoryPool *mp, UlongToColRefMap *colid_to_colref_map) const
 {
 	BOOL mapping_not_found = false;
 
@@ -72,17 +67,12 @@ CUpperBoundNDVs::CopyUpperBoundNDVWithRemap
 //
 //---------------------------------------------------------------------------
 CUpperBoundNDVs *
-CUpperBoundNDVs::CopyUpperBoundNDVs
-        (
-        CMemoryPool *mp,
-        CDouble upper_bound_ndv
-       )
-        const
+CUpperBoundNDVs::CopyUpperBoundNDVs(CMemoryPool *mp, CDouble upper_bound_ndv) const
 {
-        m_column_refset->AddRef();
-        CUpperBoundNDVs *ndv_copy = GPOS_NEW(mp) CUpperBoundNDVs(m_column_refset, upper_bound_ndv);
+	m_column_refset->AddRef();
+	CUpperBoundNDVs *ndv_copy = GPOS_NEW(mp) CUpperBoundNDVs(m_column_refset, upper_bound_ndv);
 
-        return ndv_copy;
+	return ndv_copy;
 }
 
 //---------------------------------------------------------------------------
@@ -94,13 +84,9 @@ CUpperBoundNDVs::CopyUpperBoundNDVs
 //
 //---------------------------------------------------------------------------
 CUpperBoundNDVs *
-CUpperBoundNDVs::CopyUpperBoundNDVs
-        (
-        CMemoryPool *mp
-        )
-        const
+CUpperBoundNDVs::CopyUpperBoundNDVs(CMemoryPool *mp) const
 {
-        return CopyUpperBoundNDVs(mp, m_upper_bound_ndv);
+	return CopyUpperBoundNDVs(mp, m_upper_bound_ndv);
 }
 
 
@@ -113,20 +99,14 @@ CUpperBoundNDVs::CopyUpperBoundNDVs
 //
 //---------------------------------------------------------------------------
 IOstream &
-CUpperBoundNDVs::OsPrint
-        (
-        IOstream &os
-        )
-        const
+CUpperBoundNDVs::OsPrint(IOstream &os) const
 {
-        os << "{" << std::endl;
-        m_column_refset->OsPrint(os);
-        os << " Upper Bound of NDVs" << UpperBoundNDVs() << std::endl;
-        os << "}" << std::endl;
+	os << "{" << std::endl;
+	m_column_refset->OsPrint(os);
+	os << " Upper Bound of NDVs" << UpperBoundNDVs() << std::endl;
+	os << "}" << std::endl;
 
-        return os;
+	return os;
 }
 
 // EOF
-
-

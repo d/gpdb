@@ -26,12 +26,7 @@ using namespace gpdxl;
 //		Constructor
 //
 //---------------------------------------------------------------------------
-CDXLPhysicalLimit::CDXLPhysicalLimit
-	(
-	CMemoryPool *mp
-	)
-	:
-	CDXLPhysical(mp)
+CDXLPhysicalLimit::CDXLPhysicalLimit(CMemoryPool *mp) : CDXLPhysical(mp)
 {
 }
 
@@ -73,12 +68,7 @@ CDXLPhysicalLimit::GetOpNameStr() const
 //
 //---------------------------------------------------------------------------
 void
-CDXLPhysicalLimit::SerializeToDXL
-	(
-	CXMLSerializer *xml_serializer,
-	const CDXLNode *node
-	)
-	const
+CDXLPhysicalLimit::SerializeToDXL(CXMLSerializer *xml_serializer, const CDXLNode *node) const
 {
 	const CWStringConst *element_name = GetOpNameStr();
 
@@ -110,15 +100,11 @@ CDXLPhysicalLimit::SerializeToDXL
 //		CDXLPhysicalLimit::AssertValid
 //
 //	@doc:
-//		Checks whether operator node is well-structured 
+//		Checks whether operator node is well-structured
 //
 //---------------------------------------------------------------------------
 void
-CDXLPhysicalLimit::AssertValid
-	(
-	const CDXLNode *node,
-	BOOL validate_children
-	) const
+CDXLPhysicalLimit::AssertValid(const CDXLNode *node, BOOL validate_children) const
 {
 	GPOS_ASSERT(4 == node->Arity());
 
@@ -147,6 +133,6 @@ CDXLPhysicalLimit::AssertValid
 		offset_dxlnode->GetOperator()->AssertValid(offset_dxlnode, validate_children);
 	}
 }
-#endif // GPOS_DEBUG
+#endif	// GPOS_DEBUG
 
 // EOF

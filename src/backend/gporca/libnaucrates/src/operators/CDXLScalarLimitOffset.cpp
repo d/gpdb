@@ -7,7 +7,7 @@
 //
 //	@doc:
 //		Implementation of DXL Scalar Limit Offset
-//		
+//
 //---------------------------------------------------------------------------
 
 #include "naucrates/dxl/operators/CDXLScalarLimitOffset.h"
@@ -27,12 +27,7 @@ using namespace gpdxl;
 //		Constructs a scalar Limit Offset node
 //
 //---------------------------------------------------------------------------
-CDXLScalarLimitOffset::CDXLScalarLimitOffset
-	(
-	CMemoryPool *mp
-	)
-	:
-	CDXLScalar(mp)
+CDXLScalarLimitOffset::CDXLScalarLimitOffset(CMemoryPool *mp) : CDXLScalar(mp)
 {
 }
 
@@ -75,12 +70,7 @@ CDXLScalarLimitOffset::GetOpNameStr() const
 //
 //---------------------------------------------------------------------------
 void
-CDXLScalarLimitOffset::SerializeToDXL
-	(
-	CXMLSerializer *xml_serializer,
-	const CDXLNode *node
-	)
-	const
+CDXLScalarLimitOffset::SerializeToDXL(CXMLSerializer *xml_serializer, const CDXLNode *node) const
 {
 	const CWStringConst *element_name = GetOpNameStr();
 
@@ -100,12 +90,7 @@ CDXLScalarLimitOffset::SerializeToDXL
 //
 //---------------------------------------------------------------------------
 void
-CDXLScalarLimitOffset::AssertValid
-	(
-	const CDXLNode *node,
-	BOOL validate_children
-	) 
-	const
+CDXLScalarLimitOffset::AssertValid(const CDXLNode *node, BOOL validate_children) const
 {
 	const ULONG arity = node->Arity();
 	GPOS_ASSERT(1 >= arity);
@@ -114,13 +99,13 @@ CDXLScalarLimitOffset::AssertValid
 	{
 		CDXLNode *dxlnode_arg = (*node)[ul];
 		GPOS_ASSERT(EdxloptypeScalar == dxlnode_arg->GetOperator()->GetDXLOperatorType());
-		
+
 		if (validate_children)
 		{
 			dxlnode_arg->GetOperator()->AssertValid(dxlnode_arg, validate_children);
 		}
 	}
 }
-#endif // GPOS_DEBUG
+#endif	// GPOS_DEBUG
 
 // EOF

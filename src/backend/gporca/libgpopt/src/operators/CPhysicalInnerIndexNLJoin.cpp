@@ -33,14 +33,8 @@ using namespace gpopt;
 //		Ctor
 //
 //---------------------------------------------------------------------------
-CPhysicalInnerIndexNLJoin::CPhysicalInnerIndexNLJoin
-	(
-	CMemoryPool *mp,
-	CColRefArray *colref_array
-	)
-	:
-	CPhysicalInnerNLJoin(mp),
-	m_pdrgpcrOuterRefs(colref_array)
+CPhysicalInnerIndexNLJoin::CPhysicalInnerIndexNLJoin(CMemoryPool *mp, CColRefArray *colref_array)
+	: CPhysicalInnerNLJoin(mp), m_pdrgpcrOuterRefs(colref_array)
 {
 	GPOS_ASSERT(NULL != colref_array);
 }
@@ -69,11 +63,7 @@ CPhysicalInnerIndexNLJoin::~CPhysicalInnerIndexNLJoin()
 //
 //---------------------------------------------------------------------------
 BOOL
-CPhysicalInnerIndexNLJoin::Matches
-	(
-	COperator *pop
-	)
-	const
+CPhysicalInnerIndexNLJoin::Matches(COperator *pop) const
 {
 	if (pop->Eopid() == Eopid())
 	{
@@ -93,16 +83,11 @@ CPhysicalInnerIndexNLJoin::Matches
 //
 //---------------------------------------------------------------------------
 CDistributionSpec *
-CPhysicalInnerIndexNLJoin::PdsRequired
-	(
-	CMemoryPool *mp,
-	CExpressionHandle &exprhdl,
-	CDistributionSpec *,//pdsRequired,
-	ULONG child_index,
-	CDrvdPropArray *pdrgpdpCtxt,
-	ULONG // ulOptReq
-	)
-	const
+CPhysicalInnerIndexNLJoin::PdsRequired(CMemoryPool *mp, CExpressionHandle &exprhdl,
+									   CDistributionSpec *,	 //pdsRequired,
+									   ULONG child_index, CDrvdPropArray *pdrgpdpCtxt,
+									   ULONG  // ulOptReq
+) const
 {
 	GPOS_ASSERT(2 > child_index);
 
@@ -117,8 +102,7 @@ CPhysicalInnerIndexNLJoin::PdsRequired
 	// we need to match distribution of inner
 	CDistributionSpec *pdsInner = CDrvdPropPlan::Pdpplan((*pdrgpdpCtxt)[0])->Pds();
 	CDistributionSpec::EDistributionType edtInner = pdsInner->Edt();
-	if (CDistributionSpec::EdtSingleton == edtInner ||
-		CDistributionSpec::EdtStrictSingleton == edtInner ||
+	if (CDistributionSpec::EdtSingleton == edtInner || CDistributionSpec::EdtStrictSingleton == edtInner ||
 		CDistributionSpec::EdtUniversal == edtInner)
 	{
 		// enforce executing on a single host
@@ -153,4 +137,3 @@ CPhysicalInnerIndexNLJoin::PdsRequired
 
 
 // EOF
-

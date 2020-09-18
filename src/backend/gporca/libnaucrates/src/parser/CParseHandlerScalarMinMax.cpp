@@ -29,16 +29,11 @@ XERCES_CPP_NAMESPACE_USE
 //		Ctor
 //
 //---------------------------------------------------------------------------
-CParseHandlerScalarMinMax::CParseHandlerScalarMinMax
-	(
-	CMemoryPool *mp,
-	CParseHandlerManager *parse_handler_mgr,
-	CParseHandlerBase *parse_handler_root
-	)
-	:
-	CParseHandlerScalarOp(mp, parse_handler_mgr, parse_handler_root),
-	m_mdid_type(NULL),
-	m_min_max_type(CDXLScalarMinMax::EmmtSentinel)
+CParseHandlerScalarMinMax::CParseHandlerScalarMinMax(CMemoryPool *mp, CParseHandlerManager *parse_handler_mgr,
+													 CParseHandlerBase *parse_handler_root)
+	: CParseHandlerScalarOp(mp, parse_handler_mgr, parse_handler_root),
+	  m_mdid_type(NULL),
+	  m_min_max_type(CDXLScalarMinMax::EmmtSentinel)
 {
 }
 
@@ -51,16 +46,11 @@ CParseHandlerScalarMinMax::CParseHandlerScalarMinMax
 //
 //---------------------------------------------------------------------------
 void
-CParseHandlerScalarMinMax::StartElement
-	(
-	const XMLCh* const element_uri,
-	const XMLCh* const element_local_name,
-	const XMLCh* const element_qname,
-	const Attributes& attrs
-	)
+CParseHandlerScalarMinMax::StartElement(const XMLCh *const element_uri, const XMLCh *const element_local_name,
+										const XMLCh *const element_qname, const Attributes &attrs)
 {
 	if (((0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarMin), element_local_name)) ||
-		(0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarMax), element_local_name))) &&
+		 (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarMax), element_local_name))) &&
 		CDXLScalarMinMax::EmmtSentinel == m_min_max_type)
 	{
 		m_min_max_type = GetMinMaxType(element_local_name);
@@ -73,12 +63,14 @@ CParseHandlerScalarMinMax::StartElement
 		}
 
 		// parse type id
-		m_mdid_type = CDXLOperatorFactory::ExtractConvertAttrValueToMdId(m_parse_handler_mgr->GetDXLMemoryManager(), attrs, EdxltokenTypeId, token_type);
+		m_mdid_type = CDXLOperatorFactory::ExtractConvertAttrValueToMdId(m_parse_handler_mgr->GetDXLMemoryManager(),
+																		 attrs, EdxltokenTypeId, token_type);
 	}
 	else
 	{
 		// parse child
-		CParseHandlerBase *op_parse_handler = CParseHandlerFactory::GetParseHandler(m_mp, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
+		CParseHandlerBase *op_parse_handler = CParseHandlerFactory::GetParseHandler(
+			m_mp, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
 		m_parse_handler_mgr->ActivateParseHandler(op_parse_handler);
 
 		// store parse handlers
@@ -97,18 +89,17 @@ CParseHandlerScalarMinMax::StartElement
 //
 //---------------------------------------------------------------------------
 void
-CParseHandlerScalarMinMax::EndElement
-	(
-	const XMLCh* const ,// element_uri
-	const XMLCh* const element_local_name,
-	const XMLCh* const // element_qname
-	)
+CParseHandlerScalarMinMax::EndElement(const XMLCh *const,  // element_uri
+									  const XMLCh *const element_local_name,
+									  const XMLCh *const  // element_qname
+)
 {
 	CDXLScalarMinMax::EdxlMinMaxType min_max_type = GetMinMaxType(element_local_name);
 
 	if (CDXLScalarMinMax::EmmtSentinel == min_max_type || m_min_max_type != min_max_type)
 	{
-		CWStringDynamic *str = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), element_local_name);
+		CWStringDynamic *str = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(),
+																			element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, str->GetBuffer());
 	}
 
@@ -136,10 +127,7 @@ CParseHandlerScalarMinMax::EndElement
 //
 //---------------------------------------------------------------------------
 CDXLScalarMinMax::EdxlMinMaxType
-CParseHandlerScalarMinMax::GetMinMaxType
-	(
-	const XMLCh *element_local_name
-	)
+CParseHandlerScalarMinMax::GetMinMaxType(const XMLCh *element_local_name)
 {
 	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarMin), element_local_name))
 	{

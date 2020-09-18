@@ -30,16 +30,8 @@ using namespace gpopt;
 //		Ctor
 //
 //---------------------------------------------------------------------------
-CDrvdPropCtxtPlan::CDrvdPropCtxtPlan
-	(
-	CMemoryPool *mp,
-	BOOL fUpdateCTEMap
-	)
-	:
-	CDrvdPropCtxt(mp),
-	m_phmulpdpCTEs(NULL),
-	m_ulExpectedPartitionSelectors(0),
-	m_fUpdateCTEMap(fUpdateCTEMap)
+CDrvdPropCtxtPlan::CDrvdPropCtxtPlan(CMemoryPool *mp, BOOL fUpdateCTEMap)
+	: CDrvdPropCtxt(mp), m_phmulpdpCTEs(NULL), m_ulExpectedPartitionSelectors(0), m_fUpdateCTEMap(fUpdateCTEMap)
 {
 	m_phmulpdpCTEs = GPOS_NEW(m_mp) UlongToDrvdPropPlanMap(m_mp);
 }
@@ -68,11 +60,7 @@ CDrvdPropCtxtPlan::~CDrvdPropCtxtPlan()
 //
 //---------------------------------------------------------------------------
 CDrvdPropCtxt *
-CDrvdPropCtxtPlan::PdpctxtCopy
-	(
-	CMemoryPool *mp
-	)
-	const
+CDrvdPropCtxtPlan::PdpctxtCopy(CMemoryPool *mp) const
 {
 	CDrvdPropCtxtPlan *pdpctxtplan = GPOS_NEW(mp) CDrvdPropCtxtPlan(mp);
 	pdpctxtplan->m_ulExpectedPartitionSelectors = m_ulExpectedPartitionSelectors;
@@ -83,9 +71,9 @@ CDrvdPropCtxtPlan::PdpctxtCopy
 		ULONG id = *(hmulpdpiter.Key());
 		CDrvdPropPlan *pdpplan = const_cast<CDrvdPropPlan *>(hmulpdpiter.Value());
 		pdpplan->AddRef();
-	#ifdef GPOS_DEBUG
+#ifdef GPOS_DEBUG
 		BOOL fInserted =
-	#endif // GPOS_DEBUG
+#endif	// GPOS_DEBUG
 			pdpctxtplan->m_phmulpdpCTEs->Insert(GPOS_NEW(m_mp) ULONG(id), pdpplan);
 		GPOS_ASSERT(fInserted);
 	}
@@ -103,10 +91,7 @@ CDrvdPropCtxtPlan::PdpctxtCopy
 //
 //---------------------------------------------------------------------------
 void
-CDrvdPropCtxtPlan::AddProps
-	(
-	CDrvdProp *pdp
-	)
+CDrvdPropCtxtPlan::AddProps(CDrvdProp *pdp)
 {
 	if (CDrvdProp::EptPlan != pdp->Ept())
 	{
@@ -126,8 +111,7 @@ CDrvdPropCtxtPlan::AddProps
 	if (m_fUpdateCTEMap)
 	{
 		pdpplanProducer->AddRef();
-		BOOL fInserted GPOS_ASSERTS_ONLY =
-				m_phmulpdpCTEs->Insert(GPOS_NEW(m_mp) ULONG(ulProducerId), pdpplanProducer);
+		BOOL fInserted GPOS_ASSERTS_ONLY = m_phmulpdpCTEs->Insert(GPOS_NEW(m_mp) ULONG(ulProducerId), pdpplanProducer);
 		GPOS_ASSERT(fInserted);
 	}
 }
@@ -142,11 +126,7 @@ CDrvdPropCtxtPlan::AddProps
 //
 //---------------------------------------------------------------------------
 IOstream &
-CDrvdPropCtxtPlan::OsPrint
-	(
-	IOstream &os
-	)
-	const
+CDrvdPropCtxtPlan::OsPrint(IOstream &os) const
 {
 	// iterate on local map and print entries
 	UlongToDrvdPropPlanMapIter hmulpdpiter(m_phmulpdpCTEs);
@@ -171,11 +151,7 @@ CDrvdPropCtxtPlan::OsPrint
 //
 //---------------------------------------------------------------------------
 CDrvdPropPlan *
-CDrvdPropCtxtPlan::PdpplanCTEProducer
-	(
-	ULONG ulCTEId
-	)
-	const
+CDrvdPropCtxtPlan::PdpplanCTEProducer(ULONG ulCTEId) const
 {
 	GPOS_ASSERT(NULL != m_phmulpdpCTEs);
 
@@ -192,17 +168,12 @@ CDrvdPropCtxtPlan::PdpplanCTEProducer
 //
 //---------------------------------------------------------------------------
 void
-CDrvdPropCtxtPlan::CopyCTEProducerProps
-	(
-	CDrvdPropPlan *pdpplan,
-	ULONG ulCTEId
-	)
+CDrvdPropCtxtPlan::CopyCTEProducerProps(CDrvdPropPlan *pdpplan, ULONG ulCTEId)
 {
 	GPOS_ASSERT(NULL != pdpplan);
 
 	pdpplan->AddRef();
-	BOOL fInserted GPOS_ASSERTS_ONLY =
-		m_phmulpdpCTEs->Insert(GPOS_NEW(m_mp) ULONG(ulCTEId), pdpplan);
+	BOOL fInserted GPOS_ASSERTS_ONLY = m_phmulpdpCTEs->Insert(GPOS_NEW(m_mp) ULONG(ulCTEId), pdpplan);
 	GPOS_ASSERT(fInserted);
 }
 
@@ -216,18 +187,15 @@ CDrvdPropCtxtPlan::CopyCTEProducerProps
 //
 //---------------------------------------------------------------------------
 void
-CDrvdPropCtxtPlan::SetExpectedPartitionSelectors
-	(
-	COperator *pop,
-	CCostContext *pcc
-	)
+CDrvdPropCtxtPlan::SetExpectedPartitionSelectors(COperator *pop, CCostContext *pcc)
 {
 	ULONG scan_id = 0;
 	if (CUtils::FPhysicalScan(pop) && CPhysicalScan::PopConvert(pop)->FDynamicScan())
 	{
 		scan_id = CPhysicalDynamicScan::PopConvert(pop)->ScanId();
 	}
-	else if (COperator::EopPhysicalSerialUnionAll == pop->Eopid() && CPhysicalUnionAll::PopConvert(pop)->IsPartialIndex())
+	else if (COperator::EopPhysicalSerialUnionAll == pop->Eopid() &&
+			 CPhysicalUnionAll::PopConvert(pop)->IsPartialIndex())
 	{
 		scan_id = CPhysicalUnionAll::PopConvert(pop)->UlScanIdPartialIndex();
 	}

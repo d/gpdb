@@ -16,15 +16,9 @@ using namespace gpopt;
 
 // return statistics object after union all operation with input statistics object
 CStatistics *
-CUnionAllStatsProcessor::CreateStatsForUnionAll
-	(
-	CMemoryPool *mp,
-	const CStatistics *stats_first_child,
-	const CStatistics *stats_second_child,
-	ULongPtrArray *output_colids,
-	ULongPtrArray *first_child_colids,
-	ULongPtrArray *second_child_colids
-	)
+CUnionAllStatsProcessor::CreateStatsForUnionAll(CMemoryPool *mp, const CStatistics *stats_first_child,
+												const CStatistics *stats_second_child, ULongPtrArray *output_colids,
+												ULongPtrArray *first_child_colids, ULongPtrArray *second_child_colids)
 {
 	GPOS_ASSERT(NULL != mp);
 	GPOS_ASSERT(NULL != stats_second_child);
@@ -44,7 +38,8 @@ CUnionAllStatsProcessor::CreateStatsForUnionAll
 	CDouble unionall_rows = CStatistics::MinRows;
 	if (is_empty_unionall)
 	{
-		CHistogram::AddDummyHistogramAndWidthInfo(mp, col_factory, histograms_new, column_to_width_map, output_colids, true /*is_empty*/);
+		CHistogram::AddDummyHistogramAndWidthInfo(mp, col_factory, histograms_new, column_to_width_map, output_colids,
+												  true /*is_empty*/);
 	}
 	else
 	{
@@ -62,7 +57,8 @@ CUnionAllStatsProcessor::CreateStatsForUnionAll
 
 			if (first_child_histogram->IsWellDefined() || second_child_histogram->IsWellDefined())
 			{
-				CHistogram *output_histogram = first_child_histogram->MakeUnionAllHistogramNormalize(stats_first_child->Rows(), second_child_histogram, stats_second_child->Rows());
+				CHistogram *output_histogram = first_child_histogram->MakeUnionAllHistogramNormalize(
+					stats_first_child->Rows(), second_child_histogram, stats_second_child->Rows());
 				CStatisticsUtils::AddHistogram(mp, output_colid, output_histogram, histograms_new);
 				GPOS_DELETE(output_histogram);
 			}
@@ -90,21 +86,16 @@ CUnionAllStatsProcessor::CreateStatsForUnionAll
 	second_child_colids->Release();
 
 	// create an output stats object
-	CStatistics *unionall_stats = GPOS_NEW(mp) CStatistics
-											(
-											mp,
-											histograms_new,
-											column_to_width_map,
-											unionall_rows,
-											is_empty_unionall,
-											0 /* m_num_predicates */
-											);
+	CStatistics *unionall_stats = GPOS_NEW(mp)
+		CStatistics(mp, histograms_new, column_to_width_map, unionall_rows, is_empty_unionall, 0 /* m_num_predicates */
+		);
 
 	// In the output statistics object, the upper bound source cardinality of the UNION ALL column
 	// is the estimate union all cardinality.
 
 	// modify upper bound card information
-	CStatisticsUtils::ComputeCardUpperBounds(mp, stats_first_child, unionall_stats, unionall_rows, CStatistics::EcbmOutputCard /* card_bounding_method */);
+	CStatisticsUtils::ComputeCardUpperBounds(mp, stats_first_child, unionall_stats, unionall_rows,
+											 CStatistics::EcbmOutputCard /* card_bounding_method */);
 
 	return unionall_stats;
 }

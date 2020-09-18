@@ -33,15 +33,7 @@ using namespace gpmd;
 //		Ctor
 //
 //---------------------------------------------------------------------------
-CScalarIf::CScalarIf
-	(
-	CMemoryPool *mp,
-	IMDId *mdid
-	)
-	:
-	CScalar(mp),
-	m_mdid_type(mdid),
-	m_fBoolReturnType(false)
+CScalarIf::CScalarIf(CMemoryPool *mp, IMDId *mdid) : CScalar(mp), m_mdid_type(mdid), m_fBoolReturnType(false)
 {
 	GPOS_ASSERT(mdid->IsValid());
 
@@ -74,13 +66,9 @@ CScalarIf::HashValue() const
 //
 //---------------------------------------------------------------------------
 BOOL
-CScalarIf::Matches
-	(
-	COperator *pop
-	)
-	const
+CScalarIf::Matches(COperator *pop) const
 {
-	if(pop->Eopid() == Eopid())
+	if (pop->Eopid() == Eopid())
 	{
 		CScalarIf *popScIf = CScalarIf::PopConvert(pop);
 
@@ -92,4 +80,3 @@ CScalarIf::Matches
 }
 
 // EOF
-

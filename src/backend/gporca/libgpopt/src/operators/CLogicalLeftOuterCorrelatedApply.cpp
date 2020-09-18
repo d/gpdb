@@ -23,13 +23,9 @@ using namespace gpopt;
 //		Ctor - for patterns
 //
 //---------------------------------------------------------------------------
-CLogicalLeftOuterCorrelatedApply::CLogicalLeftOuterCorrelatedApply
-	(
-	CMemoryPool *mp
-	)
-	:
-	CLogicalLeftOuterApply(mp)
-{}
+CLogicalLeftOuterCorrelatedApply::CLogicalLeftOuterCorrelatedApply(CMemoryPool *mp) : CLogicalLeftOuterApply(mp)
+{
+}
 
 
 //---------------------------------------------------------------------------
@@ -40,15 +36,11 @@ CLogicalLeftOuterCorrelatedApply::CLogicalLeftOuterCorrelatedApply
 //		Ctor
 //
 //---------------------------------------------------------------------------
-CLogicalLeftOuterCorrelatedApply::CLogicalLeftOuterCorrelatedApply
-	(
-	CMemoryPool *mp,
-	CColRefArray *pdrgpcrInner,
-	EOperatorId eopidOriginSubq
-	)
-	:
-	CLogicalLeftOuterApply(mp, pdrgpcrInner, eopidOriginSubq)
-{}
+CLogicalLeftOuterCorrelatedApply::CLogicalLeftOuterCorrelatedApply(CMemoryPool *mp, CColRefArray *pdrgpcrInner,
+																   EOperatorId eopidOriginSubq)
+	: CLogicalLeftOuterApply(mp, pdrgpcrInner, eopidOriginSubq)
+{
+}
 
 
 //---------------------------------------------------------------------------
@@ -60,11 +52,7 @@ CLogicalLeftOuterCorrelatedApply::CLogicalLeftOuterCorrelatedApply
 //
 //---------------------------------------------------------------------------
 CXformSet *
-CLogicalLeftOuterCorrelatedApply::PxfsCandidates
-	(
-	CMemoryPool *mp
-	)
-	const
+CLogicalLeftOuterCorrelatedApply::PxfsCandidates(CMemoryPool *mp) const
 {
 	CXformSet *xform_set = GPOS_NEW(mp) CXformSet(mp);
 	(void) xform_set->ExchangeSet(CXform::ExfImplementLeftOuterCorrelatedApply);
@@ -81,11 +69,7 @@ CLogicalLeftOuterCorrelatedApply::PxfsCandidates
 //
 //---------------------------------------------------------------------------
 BOOL
-CLogicalLeftOuterCorrelatedApply::Matches
-	(
-	COperator *pop
-	)
-	const
+CLogicalLeftOuterCorrelatedApply::Matches(COperator *pop) const
 {
 	if (pop->Eopid() == Eopid())
 	{
@@ -104,12 +88,8 @@ CLogicalLeftOuterCorrelatedApply::Matches
 //
 //---------------------------------------------------------------------------
 COperator *
-CLogicalLeftOuterCorrelatedApply::PopCopyWithRemappedColumns
-	(
-	CMemoryPool *mp,
-	UlongToColRefMap *colref_mapping,
-	BOOL must_exist
-	)
+CLogicalLeftOuterCorrelatedApply::PopCopyWithRemappedColumns(CMemoryPool *mp, UlongToColRefMap *colref_mapping,
+															 BOOL must_exist)
 {
 	CColRefArray *pdrgpcrInner = CUtils::PdrgpcrRemap(mp, m_pdrgpcrInner, colref_mapping, must_exist);
 
@@ -117,4 +97,3 @@ CLogicalLeftOuterCorrelatedApply::PopCopyWithRemappedColumns
 }
 
 // EOF
-

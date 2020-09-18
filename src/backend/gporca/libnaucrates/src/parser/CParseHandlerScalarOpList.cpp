@@ -9,7 +9,7 @@
 //		Implementation of the SAX parse handler class for parsing scalar
 //		operator lists
 //	@owner:
-//		
+//
 //
 //	@test:
 //
@@ -38,15 +38,10 @@ XERCES_CPP_NAMESPACE_USE
 //		Ctor
 //
 //---------------------------------------------------------------------------
-CParseHandlerScalarOpList::CParseHandlerScalarOpList
-	(
-	CMemoryPool *mp,
-	CParseHandlerManager *parse_handler_mgr,
-	CParseHandlerBase *parse_handler_root
-	)
-	:
-	CParseHandlerScalarOp(mp, parse_handler_mgr, parse_handler_root),
-	m_dxl_op_list_type(CDXLScalarOpList::EdxloplistSentinel)
+CParseHandlerScalarOpList::CParseHandlerScalarOpList(CMemoryPool *mp, CParseHandlerManager *parse_handler_mgr,
+													 CParseHandlerBase *parse_handler_root)
+	: CParseHandlerScalarOp(mp, parse_handler_mgr, parse_handler_root),
+	  m_dxl_op_list_type(CDXLScalarOpList::EdxloplistSentinel)
 {
 }
 
@@ -59,20 +54,15 @@ CParseHandlerScalarOpList::CParseHandlerScalarOpList
 //
 //---------------------------------------------------------------------------
 void
-CParseHandlerScalarOpList::StartElement
-	(
-	const XMLCh* const element_uri,
-	const XMLCh* const element_local_name,
-	const XMLCh* const element_qname,
-	const Attributes& attrs
-	)
+CParseHandlerScalarOpList::StartElement(const XMLCh *const element_uri, const XMLCh *const element_local_name,
+										const XMLCh *const element_qname, const Attributes &attrs)
 {
 	CDXLScalarOpList::EdxlOpListType dxl_op_list_type = GetDXLOpListType(element_local_name);
 	if (NULL == m_dxl_node && CDXLScalarOpList::EdxloplistSentinel > dxl_op_list_type)
 	{
 		// create the list
 		m_dxl_op_list_type = dxl_op_list_type;
-		m_dxl_node = GPOS_NEW(m_mp) CDXLNode (m_mp, GPOS_NEW(m_mp) CDXLScalarOpList(m_mp, m_dxl_op_list_type));
+		m_dxl_node = GPOS_NEW(m_mp) CDXLNode(m_mp, GPOS_NEW(m_mp) CDXLScalarOpList(m_mp, m_dxl_op_list_type));
 	}
 	else
 	{
@@ -80,7 +70,8 @@ CParseHandlerScalarOpList::StartElement
 		GPOS_ASSERT(NULL != m_dxl_node);
 
 		// parse scalar child
-		CParseHandlerBase *child_parse_handler = CParseHandlerFactory::GetParseHandler(m_mp, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
+		CParseHandlerBase *child_parse_handler = CParseHandlerFactory::GetParseHandler(
+			m_mp, CDXLTokens::XmlstrToken(EdxltokenScalar), m_parse_handler_mgr, this);
 		m_parse_handler_mgr->ActivateParseHandler(child_parse_handler);
 
 		// store parse handler
@@ -99,10 +90,7 @@ CParseHandlerScalarOpList::StartElement
 //
 //---------------------------------------------------------------------------
 CDXLScalarOpList::EdxlOpListType
-CParseHandlerScalarOpList::GetDXLOpListType
-	(
-	const XMLCh* const element_local_name
-	)
+CParseHandlerScalarOpList::GetDXLOpListType(const XMLCh *const element_local_name)
 {
 	if (0 == XMLString::compareString(CDXLTokens::XmlstrToken(EdxltokenScalarOpList), element_local_name))
 	{
@@ -131,17 +119,16 @@ CParseHandlerScalarOpList::GetDXLOpListType
 //
 //---------------------------------------------------------------------------
 void
-CParseHandlerScalarOpList::EndElement
-	(
-	const XMLCh* const, // element_uri,
-	const XMLCh* const element_local_name,
-	const XMLCh* const // element_qname
-	)
+CParseHandlerScalarOpList::EndElement(const XMLCh *const,  // element_uri,
+									  const XMLCh *const element_local_name,
+									  const XMLCh *const  // element_qname
+)
 {
 	CDXLScalarOpList::EdxlOpListType dxl_op_list_type = GetDXLOpListType(element_local_name);
 	if (m_dxl_op_list_type != dxl_op_list_type)
 	{
-		CWStringDynamic *str = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(), element_local_name);
+		CWStringDynamic *str = CDXLUtils::CreateDynamicStringFromXMLChArray(m_parse_handler_mgr->GetDXLMemoryManager(),
+																			element_local_name);
 		GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, str->GetBuffer());
 	}
 

@@ -27,14 +27,7 @@ using namespace gpdxl;
 //		Constructor
 //
 //---------------------------------------------------------------------------
-CDXLScalarSubquery::CDXLScalarSubquery
-	(
-	CMemoryPool *mp,
-	ULONG colid
-	)
-	:
-	CDXLScalar(mp),
-	m_colid(colid)
+CDXLScalarSubquery::CDXLScalarSubquery(CMemoryPool *mp, ULONG colid) : CDXLScalar(mp), m_colid(colid)
 {
 }
 
@@ -88,12 +81,7 @@ CDXLScalarSubquery::GetOpNameStr() const
 //
 //---------------------------------------------------------------------------
 void
-CDXLScalarSubquery::SerializeToDXL
-	(
-	CXMLSerializer *xml_serializer,
-	const CDXLNode *dxlnode
-	)
-	const
+CDXLScalarSubquery::SerializeToDXL(CXMLSerializer *xml_serializer, const CDXLNode *dxlnode) const
 {
 	const CWStringConst *element_name = GetOpNameStr();
 	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
@@ -111,24 +99,19 @@ CDXLScalarSubquery::SerializeToDXL
 //		CDXLScalarSubquery::AssertValid
 //
 //	@doc:
-//		Checks whether operator node is well-structured 
+//		Checks whether operator node is well-structured
 //
 //---------------------------------------------------------------------------
 void
-CDXLScalarSubquery::AssertValid
-	(
-	const CDXLNode *dxlnode,
-	BOOL validate_children
-	) 
-	const
+CDXLScalarSubquery::AssertValid(const CDXLNode *dxlnode, BOOL validate_children) const
 {
 	GPOS_ASSERT(1 == dxlnode->Arity());
-	
+
 	CDXLNode *child_dxlnode = (*dxlnode)[0];
 	GPOS_ASSERT(EdxloptypeLogical == child_dxlnode->GetOperator()->GetDXLOperatorType());
 
 	dxlnode->AssertValid(validate_children);
 }
-#endif // GPOS_DEBUG
+#endif	// GPOS_DEBUG
 
 // EOF

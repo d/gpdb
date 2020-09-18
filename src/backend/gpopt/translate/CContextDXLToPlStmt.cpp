@@ -16,8 +16,7 @@
 //
 //---------------------------------------------------------------------------
 
-extern "C"
-{
+extern "C" {
 #include "postgres.h"
 #include "nodes/parsenodes.h"
 #include "nodes/plannodes.h"
@@ -40,30 +39,24 @@ using namespace gpdxl;
 //		Ctor
 //
 //---------------------------------------------------------------------------
-CContextDXLToPlStmt::CContextDXLToPlStmt
-	(
-	CMemoryPool *mp,
-	CIdGenerator *plan_id_counter,
-	CIdGenerator *motion_id_counter,
-	CIdGenerator *param_id_counter,
-	DistributionHashOpsKind distribution_hashops
-	)
-	:
-	m_mp(mp),
-	m_plan_id_counter(plan_id_counter),
-	m_motion_id_counter(motion_id_counter),
-	m_param_id_counter(param_id_counter),
-	m_param_types_list(NIL),
-	m_distribution_hashops(distribution_hashops),
-	m_rtable_entries_list(NULL),
-	m_partitioned_tables_list(NULL),
-	m_num_partition_selectors_array(NULL),
-	m_subplan_entries_list(NULL),
-	m_subplan_sliceids_list(NULL),
-	m_slices_list(NULL),
-	m_result_relation_index(0),
-	m_into_clause(NULL),
-	m_distribution_policy(NULL)
+CContextDXLToPlStmt::CContextDXLToPlStmt(CMemoryPool *mp, CIdGenerator *plan_id_counter,
+										 CIdGenerator *motion_id_counter, CIdGenerator *param_id_counter,
+										 DistributionHashOpsKind distribution_hashops)
+	: m_mp(mp),
+	  m_plan_id_counter(plan_id_counter),
+	  m_motion_id_counter(motion_id_counter),
+	  m_param_id_counter(param_id_counter),
+	  m_param_types_list(NIL),
+	  m_distribution_hashops(distribution_hashops),
+	  m_rtable_entries_list(NULL),
+	  m_partitioned_tables_list(NULL),
+	  m_num_partition_selectors_array(NULL),
+	  m_subplan_entries_list(NULL),
+	  m_subplan_sliceids_list(NULL),
+	  m_slices_list(NULL),
+	  m_result_relation_index(0),
+	  m_into_clause(NULL),
+	  m_distribution_policy(NULL)
 {
 	m_cte_consumer_info = GPOS_NEW(m_mp) HMUlCTEConsumerInfo(m_mp);
 	m_num_partition_selectors_array = GPOS_NEW(m_mp) ULongPtrArray(m_mp);
@@ -164,11 +157,7 @@ CContextDXLToPlStmt::GetParamTypes()
 //
 //---------------------------------------------------------------------------
 void
-CContextDXLToPlStmt::AddCTEConsumerInfo
-	(
-	ULONG cte_id,
-	ShareInputScan *share_input_scan
-	)
+CContextDXLToPlStmt::AddCTEConsumerInfo(ULONG cte_id, ShareInputScan *share_input_scan)
 {
 	GPOS_ASSERT(NULL != share_input_scan);
 
@@ -182,8 +171,7 @@ CContextDXLToPlStmt::AddCTEConsumerInfo
 	List *cte_plan = ListMake1(share_input_scan);
 
 	ULONG *key = GPOS_NEW(m_mp) ULONG(cte_id);
-	BOOL result GPOS_ASSERTS_ONLY =
-			m_cte_consumer_info->Insert(key, GPOS_NEW(m_mp) SCTEConsumerInfo(cte_plan));
+	BOOL result GPOS_ASSERTS_ONLY = m_cte_consumer_info->Insert(key, GPOS_NEW(m_mp) SCTEConsumerInfo(cte_plan));
 
 	GPOS_ASSERT(result);
 }
@@ -197,11 +185,7 @@ CContextDXLToPlStmt::AddCTEConsumerInfo
 //		with the given CTE identifier
 //---------------------------------------------------------------------------
 List *
-CContextDXLToPlStmt::GetCTEConsumerList
-	(
-	ULONG cte_id
-	)
-	const
+CContextDXLToPlStmt::GetCTEConsumerList(ULONG cte_id) const
 {
 	SCTEConsumerInfo *cte_info = m_cte_consumer_info->Find(&cte_id);
 	if (NULL != cte_info)
@@ -221,11 +205,7 @@ CContextDXLToPlStmt::GetCTEConsumerList
 //
 //---------------------------------------------------------------------------
 void
-CContextDXLToPlStmt::AddRTE
-	(
-	RangeTblEntry *rte,
-	BOOL is_result_relation
-	)
+CContextDXLToPlStmt::AddRTE(RangeTblEntry *rte, BOOL is_result_relation)
 {
 	m_rtable_entries_list = gpdb::LAppend(m_rtable_entries_list, rte);
 
@@ -248,10 +228,7 @@ CContextDXLToPlStmt::AddRTE
 //
 //---------------------------------------------------------------------------
 void
-CContextDXLToPlStmt::AddPartitionedTable
-	(
-	OID oid
-	)
+CContextDXLToPlStmt::AddPartitionedTable(OID oid)
 {
 	if (!gpdb::ListMemberOid(m_partitioned_tables_list, oid))
 	{
@@ -268,10 +245,7 @@ CContextDXLToPlStmt::AddPartitionedTable
 //
 //---------------------------------------------------------------------------
 void
-CContextDXLToPlStmt::IncrementPartitionSelectors
-	(
-	ULONG scan_id
-	)
+CContextDXLToPlStmt::IncrementPartitionSelectors(ULONG scan_id)
 {
 	// add extra elements to the array if necessary
 	const ULONG len = m_num_partition_selectors_array->Size();
@@ -282,7 +256,7 @@ CContextDXLToPlStmt::IncrementPartitionSelectors
 	}
 
 	ULONG *ul = (*m_num_partition_selectors_array)[scan_id];
-	(*ul) ++;
+	(*ul)++;
 }
 
 //---------------------------------------------------------------------------
@@ -326,7 +300,7 @@ CContextDXLToPlStmt::GetSubplanSliceIdArray()
 	sliceIdArray = (int *) gpdb::GPDBAlloc(numSubplans * sizeof(int));
 
 	i = 0;
-	foreach(lc, m_subplan_sliceids_list)
+	foreach (lc, m_subplan_sliceids_list)
 	{
 		sliceIdArray[i++] = lfirst_int(lc);
 	}
@@ -353,7 +327,7 @@ CContextDXLToPlStmt::GetSlices(int *numSlices_p)
 	sliceArray = (PlanSlice *) gpdb::GPDBAlloc(numSlices * sizeof(PlanSlice));
 
 	i = 0;
-	foreach(lc, m_slices_list)
+	foreach (lc, m_slices_list)
 	{
 		PlanSlice *src = (PlanSlice *) lfirst(lc);
 
@@ -412,15 +386,11 @@ CContextDXLToPlStmt::AddSlice(PlanSlice *slice)
 // GPDB_92_MERGE_FIXME: we really should care about intoClause
 // But planner cheats. FIX that and re-enable ORCA's handling of intoClause
 void
-CContextDXLToPlStmt::AddCtasInfo
-	(
-	IntoClause *into_clause,
-	GpPolicy *distribution_policy
-	)
+CContextDXLToPlStmt::AddCtasInfo(IntoClause *into_clause, GpPolicy *distribution_policy)
 {
-//	GPOS_ASSERT(NULL != into_clause);
+	//	GPOS_ASSERT(NULL != into_clause);
 	GPOS_ASSERT(NULL != distribution_policy);
-	
+
 	m_into_clause = into_clause;
 	m_distribution_policy = distribution_policy;
 }

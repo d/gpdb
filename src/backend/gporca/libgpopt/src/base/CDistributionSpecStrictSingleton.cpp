@@ -22,12 +22,7 @@ using namespace gpopt;
 //		Ctor
 //
 //---------------------------------------------------------------------------
-CDistributionSpecStrictSingleton::CDistributionSpecStrictSingleton
-	(
-	ESegmentType est
-	)
-	:
-	CDistributionSpecSingleton(est)
+CDistributionSpecStrictSingleton::CDistributionSpecStrictSingleton(ESegmentType est) : CDistributionSpecSingleton(est)
 {
 }
 
@@ -41,17 +36,13 @@ CDistributionSpecStrictSingleton::CDistributionSpecStrictSingleton
 //
 //---------------------------------------------------------------------------
 BOOL
-CDistributionSpecStrictSingleton::FSatisfies
-	(
-	const CDistributionSpec *pdss
-	)
-	const
-{	
+CDistributionSpecStrictSingleton::FSatisfies(const CDistributionSpec *pdss) const
+{
 	if (Matches(pdss))
 	{
 		// exact match implies satisfaction
 		return true;
-	 }
+	}
 
 	if (EdtNonSingleton == pdss->Edt())
 	{
@@ -64,8 +55,8 @@ CDistributionSpecStrictSingleton::FSatisfies
 		// a singleton distribution satisfies "any"
 		return true;
 	}
-	
-	return ((EdtSingleton == pdss->Edt() || EdtStrictSingleton == pdss->Edt()) && 
+
+	return ((EdtSingleton == pdss->Edt() || EdtStrictSingleton == pdss->Edt()) &&
 			m_est == ((CDistributionSpecStrictSingleton *) pdss)->Est());
 }
 
@@ -80,15 +71,10 @@ CDistributionSpecStrictSingleton::FSatisfies
 //
 //---------------------------------------------------------------------------
 IOstream &
-CDistributionSpecStrictSingleton::OsPrint
-	(
-	IOstream &os
-	)
-	const
+CDistributionSpecStrictSingleton::OsPrint(IOstream &os) const
 {
 	return os << "STRICT SINGLETON (" << m_szSegmentType[m_est] << ")";
 }
 
 
 // EOF
-

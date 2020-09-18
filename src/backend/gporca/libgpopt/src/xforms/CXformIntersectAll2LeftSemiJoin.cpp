@@ -33,23 +33,16 @@ using namespace gpopt;
 //		Ctor
 //
 //---------------------------------------------------------------------------
-CXformIntersectAll2LeftSemiJoin::CXformIntersectAll2LeftSemiJoin
-	(
-	CMemoryPool *mp
-	)
-	:
-	CXformExploration
-		(
-		 // pattern
-		GPOS_NEW(mp) CExpression
-					(
-					mp,
-					GPOS_NEW(mp) CLogicalIntersectAll(mp),
-					GPOS_NEW(mp) CExpression(mp, GPOS_NEW(mp) CPatternLeaf(mp)), // left relational child
-					GPOS_NEW(mp) CExpression(mp, GPOS_NEW(mp) CPatternLeaf(mp)) // right relational child
-					)
-		)
-{}
+CXformIntersectAll2LeftSemiJoin::CXformIntersectAll2LeftSemiJoin(CMemoryPool *mp)
+	: CXformExploration(
+		  // pattern
+		  GPOS_NEW(mp)
+			  CExpression(mp, GPOS_NEW(mp) CLogicalIntersectAll(mp),
+						  GPOS_NEW(mp) CExpression(mp, GPOS_NEW(mp) CPatternLeaf(mp)),	// left relational child
+						  GPOS_NEW(mp) CExpression(mp, GPOS_NEW(mp) CPatternLeaf(mp))	// right relational child
+						  ))
+{
+}
 
 //---------------------------------------------------------------------------
 //	@function:
@@ -61,13 +54,7 @@ CXformIntersectAll2LeftSemiJoin::CXformIntersectAll2LeftSemiJoin
 //
 //---------------------------------------------------------------------------
 void
-CXformIntersectAll2LeftSemiJoin::Transform
-	(
-	CXformContext *pxfctxt,
-	CXformResult *pxfres,
-	CExpression *pexpr
-	)
-	const
+CXformIntersectAll2LeftSemiJoin::Transform(CXformContext *pxfctxt, CXformResult *pxfres, CExpression *pexpr) const
 {
 	GPOS_ASSERT(NULL != pxfctxt);
 	GPOS_ASSERT(NULL != pxfres);
@@ -103,14 +90,8 @@ CXformIntersectAll2LeftSemiJoin::Transform
 	CExpression *pexprScCond = CUtils::PexprConjINDFCond(mp, pdrgpdrgpcrInputNew);
 
 	// assemble the new logical operator
-	CExpression *pexprLSJ = GPOS_NEW(mp) CExpression
-										(
-										mp,
-										GPOS_NEW(mp) CLogicalLeftSemiJoin(mp),
-										pexprLeftWindow,
-										pexprRightWindow,
-										pexprScCond
-										);
+	CExpression *pexprLSJ = GPOS_NEW(mp)
+		CExpression(mp, GPOS_NEW(mp) CLogicalLeftSemiJoin(mp), pexprLeftWindow, pexprRightWindow, pexprScCond);
 
 	// clean up
 	pdrgpdrgpcrInputNew->Release();

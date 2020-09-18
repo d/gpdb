@@ -32,21 +32,17 @@ using namespace gpmd;
 //		Ctor
 //
 //---------------------------------------------------------------------------
-CScalarFunc::CScalarFunc
-	(
-	CMemoryPool *mp
-	)
-	:
-	CScalar(mp),
-	m_func_mdid(NULL),
-	m_return_type_mdid(NULL),
-	m_return_type_modifier(default_type_modifier),
-	m_pstrFunc(NULL),
-	m_efs(IMDFunction::EfsSentinel),
-	m_efda(IMDFunction::EfdaSentinel),
-	m_returns_set(false),
-	m_returns_null_on_null_input(false),
-	m_fBoolReturnType(false)
+CScalarFunc::CScalarFunc(CMemoryPool *mp)
+	: CScalar(mp),
+	  m_func_mdid(NULL),
+	  m_return_type_mdid(NULL),
+	  m_return_type_modifier(default_type_modifier),
+	  m_pstrFunc(NULL),
+	  m_efs(IMDFunction::EfsSentinel),
+	  m_efda(IMDFunction::EfdaSentinel),
+	  m_returns_set(false),
+	  m_returns_null_on_null_input(false),
+	  m_fBoolReturnType(false)
 {
 }
 
@@ -58,23 +54,16 @@ CScalarFunc::CScalarFunc
 //		Ctor
 //
 //---------------------------------------------------------------------------
-CScalarFunc::CScalarFunc
-	(
-	CMemoryPool *mp,
-	IMDId *mdid_func,
-	IMDId *mdid_return_type,
-	INT return_type_modifier,
-	const CWStringConst *pstrFunc
-	)
-	:
-	CScalar(mp),
-	m_func_mdid(mdid_func),
-	m_return_type_mdid(mdid_return_type),
-	m_return_type_modifier(return_type_modifier),
-	m_pstrFunc(pstrFunc),
-	m_returns_set(false),
-	m_returns_null_on_null_input(false),
-	m_fBoolReturnType(false)
+CScalarFunc::CScalarFunc(CMemoryPool *mp, IMDId *mdid_func, IMDId *mdid_return_type, INT return_type_modifier,
+						 const CWStringConst *pstrFunc)
+	: CScalar(mp),
+	  m_func_mdid(mdid_func),
+	  m_return_type_mdid(mdid_return_type),
+	  m_return_type_modifier(return_type_modifier),
+	  m_pstrFunc(pstrFunc),
+	  m_returns_set(false),
+	  m_returns_null_on_null_input(false),
+	  m_fBoolReturnType(false)
 {
 	GPOS_ASSERT(mdid_func->IsValid());
 	GPOS_ASSERT(mdid_return_type->IsValid());
@@ -160,14 +149,11 @@ CScalarFunc::EfsGetFunctionStability() const
 ULONG
 CScalarFunc::HashValue() const
 {
-	return gpos::CombineHashes(
-					COperator::HashValue(),
-					gpos::CombineHashes(
-						m_func_mdid->HashValue(),
-						m_return_type_mdid->HashValue()));
+	return gpos::CombineHashes(COperator::HashValue(),
+							   gpos::CombineHashes(m_func_mdid->HashValue(), m_return_type_mdid->HashValue()));
 }
 
-	
+
 //---------------------------------------------------------------------------
 //	@function:
 //		CScalarFunc::Matches
@@ -177,22 +163,16 @@ CScalarFunc::HashValue() const
 //
 //---------------------------------------------------------------------------
 BOOL
-CScalarFunc::Matches
-	(
-	COperator *pop
-	)
-	const
+CScalarFunc::Matches(COperator *pop) const
 {
 	if (pop->Eopid() != Eopid())
 	{
 		return false;
-		
 	}
 	CScalarFunc *popScFunc = CScalarFunc::PopConvert(pop);
 
 	// match if func ids are identical
-	return popScFunc->FuncMdId()->Equals(m_func_mdid) &&
-			popScFunc->MdidType()->Equals(m_return_type_mdid);
+	return popScFunc->FuncMdId()->Equals(m_func_mdid) && popScFunc->MdidType()->Equals(m_return_type_mdid);
 }
 
 //---------------------------------------------------------------------------
@@ -224,10 +204,8 @@ CScalarFunc::TypeModifier() const
 //
 //---------------------------------------------------------------------------
 BOOL
-CScalarFunc::FHasNonScalarFunction
-	(
-	CExpressionHandle & //exprhdl
-	)
+CScalarFunc::FHasNonScalarFunction(CExpressionHandle &	//exprhdl
+)
 {
 	return m_returns_set;
 }
@@ -242,16 +220,12 @@ CScalarFunc::FHasNonScalarFunction
 //
 //---------------------------------------------------------------------------
 IOstream &
-CScalarFunc::OsPrint
-	(
-	IOstream &os
-	)
-	const
+CScalarFunc::OsPrint(IOstream &os) const
 {
 	os << SzId() << " (";
 	os << PstrFunc()->GetBuffer();
 	os << ")";
-	
+
 	return os;
 }
 
@@ -264,11 +238,7 @@ CScalarFunc::OsPrint
 //
 //---------------------------------------------------------------------------
 CScalar::EBoolEvalResult
-CScalarFunc::Eber
-	(
-	ULongPtrArray *pdrgpulChildren
-	)
-	const
+CScalarFunc::Eber(ULongPtrArray *pdrgpulChildren) const
 {
 	if (m_returns_null_on_null_input)
 	{
@@ -280,4 +250,3 @@ CScalarFunc::Eber
 
 
 // EOF
-

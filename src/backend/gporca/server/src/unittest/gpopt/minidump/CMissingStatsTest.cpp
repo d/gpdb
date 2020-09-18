@@ -40,10 +40,9 @@ ULONG CMissingStatsTest::m_ulMissingStatsTestCounter = 0;  // start from first t
 GPOS_RESULT
 CMissingStatsTest::EresUnittest()
 {
-	CUnittest rgut[] =
-		{
+	CUnittest rgut[] = {
 		GPOS_UNITTEST_FUNC(EresUnittest_RunTests),
-		};
+	};
 
 	GPOS_RESULT eres = CUnittest::EresExecute(rgut, GPOS_ARRAY_SIZE(rgut));
 
@@ -64,14 +63,13 @@ CMissingStatsTest::EresUnittest()
 GPOS_RESULT
 CMissingStatsTest::EresUnittest_RunTests()
 {
-	SMissingStatsTestCase rgtc[] =
-		{
-			{"../data/dxl/minidump/MissingStats.mdp", 2},
-			{"../data/dxl/minidump/NoMissingStatsAfterDroppedCol.mdp", 0},
-			{"../data/dxl/minidump/NoMissingStats.mdp", 0},
-			{"../data/dxl/minidump/NoMissingStatsForEmptyTable.mdp", 0},
-			{"../data/dxl/minidump/NoMissingStatsAskingForSystemColFOJ.mdp", 0},
-		};
+	SMissingStatsTestCase rgtc[] = {
+		{"../data/dxl/minidump/MissingStats.mdp", 2},
+		{"../data/dxl/minidump/NoMissingStatsAfterDroppedCol.mdp", 0},
+		{"../data/dxl/minidump/NoMissingStats.mdp", 0},
+		{"../data/dxl/minidump/NoMissingStatsForEmptyTable.mdp", 0},
+		{"../data/dxl/minidump/NoMissingStatsAskingForSystemColFOJ.mdp", 0},
+	};
 
 	CAutoMemoryPool amp(CAutoMemoryPool::ElcNone);
 	CMemoryPool *mp = amp.Pmp();
@@ -83,27 +81,15 @@ CMissingStatsTest::EresUnittest_RunTests()
 		ICostModel *pcm = CTestUtils::GetCostModel(mp);
 		CAutoTraceFlag atf1(EopttracePrintColsWithMissingStats, true /*value*/);
 
-		COptimizerConfig *optimizer_config = GPOS_NEW(mp) COptimizerConfig
-												(
-												CEnumeratorConfig::GetEnumeratorCfg(mp, 0 /*plan_id*/),
-												CStatisticsConfig::PstatsconfDefault(mp),
-												CCTEConfig::PcteconfDefault(mp),
-												pcm,
-												CHint::PhintDefault(mp),
-												CWindowOids::GetWindowOids(mp)
-												);
+		COptimizerConfig *optimizer_config = GPOS_NEW(mp) COptimizerConfig(
+			CEnumeratorConfig::GetEnumeratorCfg(mp, 0 /*plan_id*/), CStatisticsConfig::PstatsconfDefault(mp),
+			CCTEConfig::PcteconfDefault(mp), pcm, CHint::PhintDefault(mp), CWindowOids::GetWindowOids(mp));
 		SMissingStatsTestCase testCase = rgtc[ul];
 
-		CDXLNode *pdxlnPlan = CMinidumperUtils::PdxlnExecuteMinidump
-												(
-												mp,
-												testCase.m_szInputFile,
-												GPOPT_TEST_SEGMENTS /*ulSegments*/,
-												1 /*ulSessionId*/,
-												1, /*ulCmdId*/
-												optimizer_config,
-												NULL /*pceeval*/
-												);
+		CDXLNode *pdxlnPlan = CMinidumperUtils::PdxlnExecuteMinidump(
+			mp, testCase.m_szInputFile, GPOPT_TEST_SEGMENTS /*ulSegments*/, 1 /*ulSessionId*/, 1, /*ulCmdId*/
+			optimizer_config, NULL																  /*pceeval*/
+		);
 
 		CStatisticsConfig *stats_config = optimizer_config->GetStatsConf();
 

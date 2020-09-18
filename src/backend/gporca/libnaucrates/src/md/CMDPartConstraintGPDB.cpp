@@ -28,18 +28,12 @@ using namespace gpopt;
 //		Ctor
 //
 //---------------------------------------------------------------------------
-CMDPartConstraintGPDB::CMDPartConstraintGPDB
-	(
-	CMemoryPool *mp,
-	ULongPtrArray *level_with_default_part_array,
-	BOOL is_unbounded,
-	CDXLNode *dxlnode
-	)
-	:
-	m_mp(mp),
-	m_level_with_default_part_array(level_with_default_part_array),
-	m_is_unbounded(is_unbounded),
-	m_dxl_node(dxlnode)
+CMDPartConstraintGPDB::CMDPartConstraintGPDB(CMemoryPool *mp, ULongPtrArray *level_with_default_part_array,
+											 BOOL is_unbounded, CDXLNode *dxlnode)
+	: m_mp(mp),
+	  m_level_with_default_part_array(level_with_default_part_array),
+	  m_is_unbounded(is_unbounded),
+	  m_dxl_node(dxlnode)
 {
 	GPOS_ASSERT(NULL != level_with_default_part_array);
 }
@@ -68,13 +62,8 @@ CMDPartConstraintGPDB::~CMDPartConstraintGPDB()
 //
 //---------------------------------------------------------------------------
 CExpression *
-CMDPartConstraintGPDB::GetPartConstraintExpr
-	(
-	CMemoryPool *mp,
-	CMDAccessor *md_accessor,
-	CColRefArray *colref_array
-	)
-	const
+CMDPartConstraintGPDB::GetPartConstraintExpr(CMemoryPool *mp, CMDAccessor *md_accessor,
+											 CColRefArray *colref_array) const
 {
 	GPOS_ASSERT(NULL != colref_array);
 
@@ -120,15 +109,11 @@ CMDPartConstraintGPDB::IsConstraintUnbounded() const
 //
 //---------------------------------------------------------------------------
 void
-CMDPartConstraintGPDB::Serialize
-	(
-	CXMLSerializer *xml_serializer
-	)
-	const
+CMDPartConstraintGPDB::Serialize(CXMLSerializer *xml_serializer) const
 {
 	xml_serializer->OpenElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix),
-						CDXLTokens::GetDXLTokenStr(EdxltokenPartConstraint));
-	
+								CDXLTokens::GetDXLTokenStr(EdxltokenPartConstraint));
+
 	// serialize default parts
 	CWStringDynamic *default_part_array = CDXLUtils::Serialize(m_mp, m_level_with_default_part_array);
 	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenDefaultPartition), default_part_array);
@@ -141,7 +126,7 @@ CMDPartConstraintGPDB::Serialize
 		m_dxl_node->SerializeToDXL(xml_serializer);
 
 	xml_serializer->CloseElement(CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix),
-						CDXLTokens::GetDXLTokenStr(EdxltokenPartConstraint));
+								 CDXLTokens::GetDXLTokenStr(EdxltokenPartConstraint));
 
 	GPOS_CHECK_ABORT;
 }

@@ -34,23 +34,15 @@ using namespace gpopt;
 //		Ctor
 //
 //---------------------------------------------------------------------------
-CPhysicalDynamicTableScan::CPhysicalDynamicTableScan
-	(
-	CMemoryPool *mp,
-	BOOL is_partial,
-	const CName *pnameAlias,
-	CTableDescriptor *ptabdesc,
-	ULONG ulOriginOpId,
-	ULONG scan_id,
-	CColRefArray *pdrgpcrOutput,
-	CColRef2dArray *pdrgpdrgpcrParts,
-	ULONG ulSecondaryScanId,
-	CPartConstraint *ppartcnstr,
-	CPartConstraint *ppartcnstrRel
-	)
-	:
-	CPhysicalDynamicScan(mp, is_partial, ptabdesc, ulOriginOpId, pnameAlias, scan_id, pdrgpcrOutput, pdrgpdrgpcrParts, ulSecondaryScanId, ppartcnstr, ppartcnstrRel)
-{}
+CPhysicalDynamicTableScan::CPhysicalDynamicTableScan(CMemoryPool *mp, BOOL is_partial, const CName *pnameAlias,
+													 CTableDescriptor *ptabdesc, ULONG ulOriginOpId, ULONG scan_id,
+													 CColRefArray *pdrgpcrOutput, CColRef2dArray *pdrgpdrgpcrParts,
+													 ULONG ulSecondaryScanId, CPartConstraint *ppartcnstr,
+													 CPartConstraint *ppartcnstrRel)
+	: CPhysicalDynamicScan(mp, is_partial, ptabdesc, ulOriginOpId, pnameAlias, scan_id, pdrgpcrOutput, pdrgpdrgpcrParts,
+						   ulSecondaryScanId, ppartcnstr, ppartcnstrRel)
+{
+}
 
 //---------------------------------------------------------------------------
 //	@function:
@@ -61,11 +53,7 @@ CPhysicalDynamicTableScan::CPhysicalDynamicTableScan
 //
 //---------------------------------------------------------------------------
 BOOL
-CPhysicalDynamicTableScan::Matches
-	(
-	COperator *pop
-	)
-	const
+CPhysicalDynamicTableScan::Matches(COperator *pop) const
 {
 	return CUtils::FMatchDynamicScan(this, pop);
 }
@@ -79,14 +67,9 @@ CPhysicalDynamicTableScan::Matches
 //
 //---------------------------------------------------------------------------
 IStatistics *
-CPhysicalDynamicTableScan::PstatsDerive
-	(
-	CMemoryPool *mp,
-	CExpressionHandle &exprhdl,
-	CReqdPropPlan *prpplan,
-	IStatisticsArray * // stats_ctxt
-	)
-	const
+CPhysicalDynamicTableScan::PstatsDerive(CMemoryPool *mp, CExpressionHandle &exprhdl, CReqdPropPlan *prpplan,
+										IStatisticsArray *	// stats_ctxt
+) const
 {
 	GPOS_ASSERT(NULL != prpplan);
 

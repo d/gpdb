@@ -8,8 +8,8 @@
 //	@doc:
 //		Implementation of physical union all operator
 //
-//	@owner: 
-//		
+//	@owner:
+//
 //
 //	@test:
 //
@@ -41,15 +41,9 @@ using namespace gpopt;
 //		Ctor
 //
 //---------------------------------------------------------------------------
-CPhysicalSerialUnionAll::CPhysicalSerialUnionAll
-	(
-	CMemoryPool *mp,
-	CColRefArray *pdrgpcrOutput,
-	CColRef2dArray *pdrgpdrgpcrInput,
-	ULONG ulScanIdPartialIndex
-	)
-	:
-	CPhysicalUnionAll(mp, pdrgpcrOutput, pdrgpdrgpcrInput, ulScanIdPartialIndex)
+CPhysicalSerialUnionAll::CPhysicalSerialUnionAll(CMemoryPool *mp, CColRefArray *pdrgpcrOutput,
+												 CColRef2dArray *pdrgpdrgpcrInput, ULONG ulScanIdPartialIndex)
+	: CPhysicalUnionAll(mp, pdrgpcrOutput, pdrgpdrgpcrInput, ulScanIdPartialIndex)
 {
 	// UnionAll creates two distribution requests to enforce distribution of its children:
 	// (1) (Hashed, Hashed): used to pass hashed distribution (requested from above)
@@ -75,16 +69,8 @@ CPhysicalSerialUnionAll::~CPhysicalSerialUnionAll()
 //
 //---------------------------------------------------------------------------
 CDistributionSpec *
-CPhysicalSerialUnionAll::PdsRequired
-	(
-	CMemoryPool *mp,
-	CExpressionHandle &exprhdl,
-	CDistributionSpec *pdsRequired,
-	ULONG child_index,
-	CDrvdPropArray *pdrgpdpCtxt,
-	ULONG ulOptReq
-	)
-	const
+CPhysicalSerialUnionAll::PdsRequired(CMemoryPool *mp, CExpressionHandle &exprhdl, CDistributionSpec *pdsRequired,
+									 ULONG child_index, CDrvdPropArray *pdrgpdpCtxt, ULONG ulOptReq) const
 {
 	GPOS_ASSERT(NULL != PdrgpdrgpcrInput());
 	GPOS_ASSERT(child_index < PdrgpdrgpcrInput()->Size());
@@ -99,7 +85,8 @@ CPhysicalSerialUnionAll::PdsRequired
 	if (0 == ulOptReq && CDistributionSpec::EdtHashed == pdsRequired->Edt())
 	{
 		// attempt passing requested hashed distribution to children
-		CDistributionSpecHashed *pdshashed = PdshashedPassThru(mp, CDistributionSpecHashed::PdsConvert(pdsRequired), child_index);
+		CDistributionSpecHashed *pdshashed =
+			PdshashedPassThru(mp, CDistributionSpecHashed::PdsConvert(pdsRequired), child_index);
 		if (NULL != pdshashed)
 		{
 			return pdshashed;
@@ -115,8 +102,7 @@ CPhysicalSerialUnionAll::PdsRequired
 	// inspect distribution delivered by outer child
 	CDistributionSpec *pdsOuter = CDrvdPropPlan::Pdpplan((*pdrgpdpCtxt)[0])->Pds();
 
-	if (CDistributionSpec::EdtSingleton == pdsOuter->Edt() ||
-		CDistributionSpec::EdtStrictSingleton == pdsOuter->Edt())
+	if (CDistributionSpec::EdtSingleton == pdsOuter->Edt() || CDistributionSpec::EdtStrictSingleton == pdsOuter->Edt())
 	{
 		// outer child is Singleton, require inner child to have matching Singleton distribution
 		return CPhysical::PdssMatching(mp, CDistributionSpecSingleton::PdssConvert(pdsOuter));

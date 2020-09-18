@@ -25,14 +25,8 @@ using namespace gpopt;
 //		Ctor
 //
 //---------------------------------------------------------------------------
-CPhysicalMotionRandom::CPhysicalMotionRandom
-	(
-	CMemoryPool *mp,
-	CDistributionSpecRandom *pdsRandom
-	)
-	:
-	CPhysicalMotion(mp),
-	m_pdsRandom(pdsRandom)
+CPhysicalMotionRandom::CPhysicalMotionRandom(CMemoryPool *mp, CDistributionSpecRandom *pdsRandom)
+	: CPhysicalMotion(mp), m_pdsRandom(pdsRandom)
 {
 	GPOS_ASSERT(NULL != pdsRandom);
 }
@@ -60,11 +54,7 @@ CPhysicalMotionRandom::~CPhysicalMotionRandom()
 //
 //---------------------------------------------------------------------------
 BOOL
-CPhysicalMotionRandom::Matches
-	(
-	COperator *pop
-	)
-	const
+CPhysicalMotionRandom::Matches(COperator *pop) const
 {
 	return Eopid() == pop->Eopid();
 }
@@ -78,20 +68,15 @@ CPhysicalMotionRandom::Matches
 //
 //---------------------------------------------------------------------------
 CColRefSet *
-CPhysicalMotionRandom::PcrsRequired
-	(
-	CMemoryPool *mp,
-	CExpressionHandle &exprhdl,
-	CColRefSet *pcrsRequired,
-	ULONG child_index,
-	CDrvdPropArray *, // pdrgpdpCtxt
-	ULONG // ulOptReq
-	)
+CPhysicalMotionRandom::PcrsRequired(CMemoryPool *mp, CExpressionHandle &exprhdl, CColRefSet *pcrsRequired,
+									ULONG child_index,
+									CDrvdPropArray *,  // pdrgpdpCtxt
+									ULONG			   // ulOptReq
+)
 {
 	GPOS_ASSERT(0 == child_index);
 
-	return PcrsChildReqd(mp, exprhdl, pcrsRequired, child_index,
-						 gpos::ulong_max);
+	return PcrsChildReqd(mp, exprhdl, pcrsRequired, child_index, gpos::ulong_max);
 }
 
 //---------------------------------------------------------------------------
@@ -103,13 +88,9 @@ CPhysicalMotionRandom::PcrsRequired
 //
 //---------------------------------------------------------------------------
 BOOL
-CPhysicalMotionRandom::FProvidesReqdCols
-	(
-	CExpressionHandle &exprhdl,
-	CColRefSet *pcrsRequired,
-	ULONG // ulOptReq
-	)
-	const
+CPhysicalMotionRandom::FProvidesReqdCols(CExpressionHandle &exprhdl, CColRefSet *pcrsRequired,
+										 ULONG	// ulOptReq
+) const
 {
 	return FUnaryProvidesReqdCols(exprhdl, pcrsRequired);
 }
@@ -123,15 +104,12 @@ CPhysicalMotionRandom::FProvidesReqdCols
 //
 //---------------------------------------------------------------------------
 CEnfdProp::EPropEnforcingType
-CPhysicalMotionRandom::EpetOrder
-	(
-	CExpressionHandle &, // exprhdl
-	const CEnfdOrder *
+CPhysicalMotionRandom::EpetOrder(CExpressionHandle &,  // exprhdl
+								 const CEnfdOrder *
 #ifdef GPOS_DEBUG
-	peo
-#endif // GPOS_DEBUG
-	)
-	const
+									 peo
+#endif	// GPOS_DEBUG
+) const
 {
 	GPOS_ASSERT(NULL != peo);
 	GPOS_ASSERT(!peo->PosRequired()->IsEmpty());
@@ -149,20 +127,17 @@ CPhysicalMotionRandom::EpetOrder
 //
 //---------------------------------------------------------------------------
 COrderSpec *
-CPhysicalMotionRandom::PosRequired
-	(
-	CMemoryPool *mp,
-	CExpressionHandle &, //exprhdl,
-	COrderSpec *,//posInput,
-	ULONG
+CPhysicalMotionRandom::PosRequired(CMemoryPool *mp,
+								   CExpressionHandle &,	 //exprhdl,
+								   COrderSpec *,		 //posInput,
+								   ULONG
 #ifdef GPOS_DEBUG
-	child_index
-#endif // GPOS_DEBUG
-	,
-	CDrvdPropArray *, // pdrgpdpCtxt
-	ULONG // ulOptReq
-	)
-	const
+									   child_index
+#endif	// GPOS_DEBUG
+								   ,
+								   CDrvdPropArray *,  // pdrgpdpCtxt
+								   ULONG			  // ulOptReq
+) const
 {
 	GPOS_ASSERT(0 == child_index);
 
@@ -178,12 +153,9 @@ CPhysicalMotionRandom::PosRequired
 //
 //---------------------------------------------------------------------------
 COrderSpec *
-CPhysicalMotionRandom::PosDerive
-	(
-	CMemoryPool *mp,
-	CExpressionHandle & // exprhdl
-	)
-	const
+CPhysicalMotionRandom::PosDerive(CMemoryPool *mp,
+								 CExpressionHandle &  // exprhdl
+) const
 {
 	return GPOS_NEW(mp) COrderSpec(mp);
 }
@@ -198,14 +170,10 @@ CPhysicalMotionRandom::PosDerive
 //
 //---------------------------------------------------------------------------
 IOstream &
-CPhysicalMotionRandom::OsPrint
-	(
-	IOstream &os
-	)
-	const
+CPhysicalMotionRandom::OsPrint(IOstream &os) const
 {
-	os	<< SzId();
-		
+	os << SzId();
+
 	return os;
 }
 
@@ -219,16 +187,12 @@ CPhysicalMotionRandom::OsPrint
 //
 //---------------------------------------------------------------------------
 CPhysicalMotionRandom *
-CPhysicalMotionRandom::PopConvert
-	(
-	COperator *pop
-	)
+CPhysicalMotionRandom::PopConvert(COperator *pop)
 {
 	GPOS_ASSERT(NULL != pop);
 	GPOS_ASSERT(EopPhysicalMotionRandom == pop->Eopid());
-	
-	return dynamic_cast<CPhysicalMotionRandom*>(pop);
-}			
+
+	return dynamic_cast<CPhysicalMotionRandom *>(pop);
+}
 
 // EOF
-

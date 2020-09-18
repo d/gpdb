@@ -26,22 +26,13 @@ using namespace gpos;
 //		ctor
 //
 //---------------------------------------------------------------------------
-CAutoTaskProxy::CAutoTaskProxy
-	(
-	CMemoryPool *mp,
-	CWorkerPoolManager *pwpm,
-	BOOL propagate_error
-	)
-	:
-	m_mp(mp),
-	m_pwpm(pwpm),
-	m_propagate_error(propagate_error)
+CAutoTaskProxy::CAutoTaskProxy(CMemoryPool *mp, CWorkerPoolManager *pwpm, BOOL propagate_error)
+	: m_mp(mp), m_pwpm(pwpm), m_propagate_error(propagate_error)
 {
 	m_list.Init(GPOS_OFFSET(CTask, m_proxy_link));
 
 	// register new ATP to worker pool
 	m_pwpm->AddRef();
-
 }
 
 
@@ -97,10 +88,7 @@ CAutoTaskProxy::DestroyAll()
 //
 //---------------------------------------------------------------------------
 void
-CAutoTaskProxy::Destroy
-	(
-	CTask *task
-	)
+CAutoTaskProxy::Destroy(CTask *task)
 {
 	// cancel scheduled task
 	if (task->IsScheduled() && !task->IsReported())
@@ -132,12 +120,7 @@ CAutoTaskProxy::Destroy
 //
 //---------------------------------------------------------------------------
 CTask *
-CAutoTaskProxy::Create
-	(
-	void *(*pfunc)(void*),
-	void *arg,
-	BOOL *cancel
-	)
+CAutoTaskProxy::Create(void *(*pfunc)(void *), void *arg, BOOL *cancel)
 {
 	// create memory pool for task
 	CAutoMemoryPool amp(CAutoMemoryPool::ElcStrict);
@@ -207,10 +190,7 @@ CAutoTaskProxy::Create
 //
 //---------------------------------------------------------------------------
 void
-CAutoTaskProxy::Schedule
-	(
-	CTask *task
-	)
+CAutoTaskProxy::Schedule(CTask *task)
 {
 	GPOS_ASSERT(CTask::EtsInit == task->m_status && "Task already scheduled");
 
@@ -227,10 +207,7 @@ CAutoTaskProxy::Schedule
 //
 //---------------------------------------------------------------------------
 GPOS_RESULT
-CAutoTaskProxy::FindFinished
-	(
-	CTask **task
-	)
+CAutoTaskProxy::FindFinished(CTask **task)
 {
 	*task = NULL;
 
@@ -240,12 +217,10 @@ CAutoTaskProxy::FindFinished
 
 	// check if all tasks have been reported as finished
 	BOOL reported_all = true;
-#endif // GPOS_DEBUG
+#endif	// GPOS_DEBUG
 
 	// iterate task list
-	for (CTask *cur_task = m_list.First();
-		 NULL != cur_task;
-		 cur_task = m_list.Next(cur_task))
+	for (CTask *cur_task = m_list.First(); NULL != cur_task; cur_task = m_list.Next(cur_task))
 	{
 #ifdef GPOS_DEBUG
 		// check if task has been scheduled
@@ -253,14 +228,14 @@ CAutoTaskProxy::FindFinished
 		{
 			scheduled = true;
 		}
-#endif // GPOS_DEBUG
+#endif	// GPOS_DEBUG
 
 		// check if task has been reported as finished
 		if (!cur_task->IsReported())
 		{
 #ifdef GPOS_DEBUG
 			reported_all = false;
-#endif // GPOS_DEBUG
+#endif	// GPOS_DEBUG
 
 			// check if task is finished
 			if (cur_task->IsFinished())
@@ -290,10 +265,7 @@ CAutoTaskProxy::FindFinished
 //
 //---------------------------------------------------------------------------
 void
-CAutoTaskProxy::Execute
-	(
-	CTask *task
-	)
+CAutoTaskProxy::Execute(CTask *task)
 {
 	GPOS_ASSERT(CTask::EtsInit == task->m_status && "Task already scheduled");
 
@@ -348,10 +320,7 @@ CAutoTaskProxy::Execute
 //
 //---------------------------------------------------------------------------
 void
-CAutoTaskProxy::Cancel
-	(
-	CTask *task
-	)
+CAutoTaskProxy::Cancel(CTask *task)
 {
 	if (!task->IsFinished())
 	{
@@ -369,10 +338,7 @@ CAutoTaskProxy::Cancel
 //
 //---------------------------------------------------------------------------
 void
-CAutoTaskProxy::CheckError
-	(
-	CTask *sub_task
-	)
+CAutoTaskProxy::CheckError(CTask *sub_task)
 {
 	// sub-task has a pending error
 	if (sub_task->HasPendingExceptions())
@@ -398,7 +364,7 @@ CAutoTaskProxy::CheckError
 		// sub-task was canceled without a pending error
 		GPOS_ASSERT(!sub_task->HasPendingExceptions() && sub_task->IsCanceled());
 	}
-#endif // GPOS_DEBUG
+#endif	// GPOS_DEBUG
 }
 
 
@@ -411,10 +377,7 @@ CAutoTaskProxy::CheckError
 //
 //---------------------------------------------------------------------------
 void
-CAutoTaskProxy::PropagateError
-	(
-		CTask *sub_task
-	)
+CAutoTaskProxy::PropagateError(CTask *sub_task)
 {
 	GPOS_ASSERT(m_propagate_error);
 
@@ -439,4 +402,3 @@ CAutoTaskProxy::PropagateError
 }
 
 // EOF
-

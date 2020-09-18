@@ -16,10 +16,9 @@ using namespace gpos;
 GPOS_RESULT
 CHashSetIterTest::EresUnittest()
 {
-	CUnittest rgut[] =
-		{
+	CUnittest rgut[] = {
 		GPOS_UNITTEST_FUNC(CHashSetIterTest::EresUnittest_Basic),
-		};
+	};
 
 	return CUnittest::EresExecute(rgut, GPOS_ARRAY_SIZE(rgut));
 }
@@ -33,7 +32,7 @@ CHashSetIterTest::EresUnittest_Basic()
 	CMemoryPool *mp = amp.Pmp();
 
 	// test data
-	ULONG rgul[] = {1,2,3,4,5,6,7,8,9};
+	ULONG rgul[] = {1, 2, 3, 4, 5, 6, 7, 8, 9};
 	const ULONG ulCnt = GPOS_ARRAY_SIZE(rgul);
 
 	typedef CHashSet<ULONG, HashValue<ULONG>, gpos::Equals<ULONG>, CleanupNULL<ULONG> > UlongHashSet;
@@ -49,7 +48,7 @@ CHashSetIterTest::EresUnittest_Basic()
 	UlongHashSetIter siEmpty(ps);
 	GPOS_ASSERT(!siEmpty.Advance());
 
-#endif // GPOS_DEBUG
+#endif	// GPOS_DEBUG
 
 	typedef CDynamicPtrArray<const ULONG, CleanupNULL> ULongPtrArray;
 	CAutoRef<ULongPtrArray> pdrgpulValues(GPOS_NEW(mp) ULongPtrArray(mp));
@@ -80,4 +79,3 @@ CHashSetIterTest::EresUnittest_Basic()
 
 
 // EOF
-

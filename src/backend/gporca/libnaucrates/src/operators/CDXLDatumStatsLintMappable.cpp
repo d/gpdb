@@ -9,7 +9,7 @@
 //		Implementation of DXL datum of types having LINT mapping
 //
 //	@owner:
-//		
+//
 //
 //	@test:
 //
@@ -30,19 +30,9 @@ using namespace gpdxl;
 //		Ctor
 //
 //---------------------------------------------------------------------------
-CDXLDatumStatsLintMappable::CDXLDatumStatsLintMappable
-	(
-	CMemoryPool *mp,
-	IMDId *mdid_type,
-	INT type_modifier,
-	BOOL is_null,
-	BYTE *byte_array,
-	ULONG length,
-	LINT value
-	)
-	:
-	CDXLDatumGeneric(mp, mdid_type, type_modifier, is_null, byte_array, length),
-	m_val(value)
+CDXLDatumStatsLintMappable::CDXLDatumStatsLintMappable(CMemoryPool *mp, IMDId *mdid_type, INT type_modifier,
+													   BOOL is_null, BYTE *byte_array, ULONG length, LINT value)
+	: CDXLDatumGeneric(mp, mdid_type, type_modifier, is_null, byte_array, length), m_val(value)
 {
 }
 
@@ -56,10 +46,7 @@ CDXLDatumStatsLintMappable::CDXLDatumStatsLintMappable
 //
 //---------------------------------------------------------------------------
 void
-CDXLDatumStatsLintMappable::Serialize
-	(
-	CXMLSerializer *xml_serializer
-	)
+CDXLDatumStatsLintMappable::Serialize(CXMLSerializer *xml_serializer)
 {
 	m_mdid_type->Serialize(xml_serializer, CDXLTokens::GetDXLTokenStr(EdxltokenTypeId));
 	if (default_type_modifier != TypeModifier())

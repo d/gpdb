@@ -29,27 +29,22 @@ using namespace gpos;
 //
 //---------------------------------------------------------------------------
 void
-CErrorHandlerStandard::Process
-	(
-	CException exception
-	)
+CErrorHandlerStandard::Process(CException exception)
 {
 	CTask *task = CTask::Self();
 
 	GPOS_ASSERT(NULL != task && "No task in current context");
 
 	IErrorContext *err_ctxt = task->GetErrCtxt();
-	CLogger *log = dynamic_cast<CLogger*>(task->GetErrorLogger());
-	
+	CLogger *log = dynamic_cast<CLogger *>(task->GetErrorLogger());
+
 	GPOS_ASSERT(err_ctxt->IsPending() && "No error to process");
-	GPOS_ASSERT(err_ctxt->GetException() == exception &&
-			"Exception processed different from pending");
+	GPOS_ASSERT(err_ctxt->GetException() == exception && "Exception processed different from pending");
 
 	// print error stack trace
 	if (CException::ExmaSystem == exception.Major() && !err_ctxt->IsRethrown())
 	{
-		if (CException::ExmiIOError == exception.Minor() &&
-			0 < errno)
+		if (CException::ExmiIOError == exception.Minor() && 0 < errno)
 		{
 			err_ctxt->AppendErrnoMsg();
 		}
@@ -71,4 +66,3 @@ CErrorHandlerStandard::Process
 }
 
 // EOF
-

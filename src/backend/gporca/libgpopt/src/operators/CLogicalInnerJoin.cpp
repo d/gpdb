@@ -31,12 +31,7 @@ using namespace gpopt;
 //			members, hence, no need for a separate pattern ctor
 //
 //---------------------------------------------------------------------------
-CLogicalInnerJoin::CLogicalInnerJoin
-	(
-	CMemoryPool *mp
-	)
-	:
-	CLogicalJoin(mp)
+CLogicalInnerJoin::CLogicalInnerJoin(CMemoryPool *mp) : CLogicalJoin(mp)
 {
 	GPOS_ASSERT(NULL != mp);
 }
@@ -51,12 +46,8 @@ CLogicalInnerJoin::CLogicalInnerJoin
 //
 //---------------------------------------------------------------------------
 CMaxCard
-CLogicalInnerJoin::DeriveMaxCard
-	(
-	CMemoryPool *, // mp
-	CExpressionHandle &exprhdl
-	)
-	const
+CLogicalInnerJoin::DeriveMaxCard(CMemoryPool *,	 // mp
+								 CExpressionHandle &exprhdl) const
 {
 	return CLogical::Maxcard(exprhdl, 2 /*ulScalarIndex*/, MaxcardDef(exprhdl));
 }
@@ -70,14 +61,10 @@ CLogicalInnerJoin::DeriveMaxCard
 //
 //---------------------------------------------------------------------------
 CXformSet *
-CLogicalInnerJoin::PxfsCandidates
-	(
-	CMemoryPool *mp
-	) 
-	const
+CLogicalInnerJoin::PxfsCandidates(CMemoryPool *mp) const
 {
 	CXformSet *xform_set = GPOS_NEW(mp) CXformSet(mp);
-	
+
 	(void) xform_set->ExchangeSet(CXform::ExfInnerJoin2NLJoin);
 	(void) xform_set->ExchangeSet(CXform::ExfInnerJoin2HashJoin);
 	(void) xform_set->ExchangeSet(CXform::ExfSubqJoin2Apply);
@@ -97,7 +84,7 @@ CLogicalInnerJoin::PxfsCandidates
 	(void) xform_set->ExchangeSet(CXform::ExfInnerJoinSemiJoinSwap);
 	(void) xform_set->ExchangeSet(CXform::ExfInnerJoinAntiSemiJoinSwap);
 	(void) xform_set->ExchangeSet(CXform::ExfInnerJoinAntiSemiJoinNotInSwap);
-	
+
 	return xform_set;
 }
 
@@ -113,12 +100,7 @@ CLogicalInnerJoin::PxfsCandidates
 //
 //---------------------------------------------------------------------------
 BOOL
-CLogicalInnerJoin::FFewerConj
-	(
-	CMemoryPool *mp,
-	CGroupExpression *pgexprFst,
-	CGroupExpression *pgexprSnd
-	)
+CLogicalInnerJoin::FFewerConj(CMemoryPool *mp, CGroupExpression *pgexprFst, CGroupExpression *pgexprSnd)
 {
 	if (NULL == pgexprFst || NULL == pgexprSnd)
 	{
@@ -150,4 +132,3 @@ CLogicalInnerJoin::FFewerConj
 }
 
 // EOF
-
