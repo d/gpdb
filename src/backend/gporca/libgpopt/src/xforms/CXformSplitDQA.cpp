@@ -82,6 +82,39 @@ CXformSplitDQA::Exfp
 	return CXform::ExfpHigh;
 }
 
+// Checks whether or not the project list contains at least one DQA and one
+// non-DQA.
+static bool
+FContainsRideAlongAggregate(CExpression *pexprProjectList)
+{
+	bool hasDQA = false;
+	bool hasNonDQA = false;
+
+	const ULONG size = pexprProjectList->PdrgPexpr()->Size();
+	for (ULONG ul = 0; ul < size; ul++)
+	{
+		CExpression *pexpr = (*pexprProjectList->PdrgPexpr())[ul];
+
+		const ULONG sizeInner = pexpr->PdrgPexpr()->Size();
+		CScalarAggFunc *paggfunc;
+		if (sizeInner != 1 || (paggfunc = CScalarAggFunc::PopConvert((*pexpr->PdrgPexpr())[0]->Pop())) == NULL)
+		{
+			continue;
+		}
+
+		if (paggfunc->IsDistinct())
+		{
+			hasDQA = true;
+		}
+		else
+		{
+			hasNonDQA = true;
+		}
+	}
+
+	return hasDQA && hasNonDQA;
+}
+
 //---------------------------------------------------------------------------
 //	@function:
 //		CXformSplitDQA::Transform
@@ -185,7 +218,7 @@ CXformSplitDQA::Transform
 	//
 	// After we re-implement intermediate aggregate stage in executor we should
 	// be able to re-enable the following transform optimization.
-	if (fScalarDQA && false)
+	if (fScalarDQA && !FContainsRideAlongAggregate(pexprProjectList))
 	{
 		// generate two-stage agg for scalar DQA case
 		// this transform is useful for cases where distinct column is same as distributed column.
