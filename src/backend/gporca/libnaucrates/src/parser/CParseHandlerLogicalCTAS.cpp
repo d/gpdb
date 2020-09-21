@@ -62,9 +62,9 @@ CParseHandlerLogicalCTAS::CParseHandlerLogicalCTAS
 void
 CParseHandlerLogicalCTAS::StartElement
 	(
-	const XMLCh* const,
+	const XMLCh* const element_uri GPOS_UNUSED,
 	const XMLCh* const element_local_name,
-	const XMLCh* const,
+	const XMLCh* const element_qname GPOS_UNUSED,
 	const Attributes &attrs
 	)
 {
