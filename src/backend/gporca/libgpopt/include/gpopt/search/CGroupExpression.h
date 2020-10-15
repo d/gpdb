@@ -177,8 +177,7 @@ private:
 	// print group expression cost contexts
 	IOstream &OsPrintCostContexts(IOstream &os, const CHAR *szPrefix) const;
 
-	// private copy ctor
-	CGroupExpression(const CGroupExpression &);
+	CGroupExpression(const CGroupExpression &) = delete;
 
 	//private dummy ctor; used for creating invalid gexpr
 	CGroupExpression()
@@ -193,7 +192,9 @@ private:
 		  m_fIntermediate(false),
 		  m_estate(estUnexplored),
 		  m_eol(EolLow),
-		  m_ppartialplancostmap(NULL){};
+		  m_ppartialplancostmap(NULL)
+	{
+	}
 
 
 public:
