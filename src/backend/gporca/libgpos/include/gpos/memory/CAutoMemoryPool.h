@@ -49,8 +49,6 @@ public:
 	};
 
 private:
-	CAutoMemoryPool(const CAutoMemoryPool &) = delete;
-
 	// memory pool to protect
 	CMemoryPool *m_mp;
 
@@ -58,6 +56,8 @@ private:
 	ELeakCheck m_leak_check_type;
 
 public:
+	CAutoMemoryPool(const CAutoMemoryPool &) = delete;
+
 	// ctor
 	CAutoMemoryPool(ELeakCheck leak_check_type = ElcExc);
 
