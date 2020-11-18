@@ -235,46 +235,44 @@ CPhysicalDML::PcrsRequired(CMemoryPool *mp,
 	return pcrs;
 }
 
-//---------------------------------------------------------------------------
-//	@function:
-//		CPhysicalDML::PdsRequired
-//
-//	@doc:
-//		Compute required distribution of the n-th child
-//
-//---------------------------------------------------------------------------
-CDistributionSpec *
-CPhysicalDML::PdsRequired(CMemoryPool *mp,
-						  CExpressionHandle &,	// exprhdl,
-						  CDistributionSpec *,	// pdsInput,
-						  ULONG
-#ifdef GPOS_DEBUG
-							  child_index
-#endif	// GPOS_DEBUG
-						  ,
-						  CDrvdPropArray *,	 // pdrgpdpCtxt
-						  ULONG				 // ulOptReq
-) const
+
+CEnfdDistribution *
+CPhysicalDML::Ped(CMemoryPool *mp, CExpressionHandle &exprhdl GPOS_UNUSED,
+				  CReqdPropPlan *prppInput GPOS_UNUSED,
+				  ULONG child_index GPOS_ASSERTS_ONLY,
+				  CDrvdPropArray *pdrgpdpCtxt GPOS_UNUSED,
+				  ULONG ulDistrReq GPOS_UNUSED) const
 {
 	GPOS_ASSERT(0 == child_index);
 
-	if (CDistributionSpec::EdtRandom == m_pds->Edt())
+	switch (m_pds->Edt())
 	{
-		// if insert is performed on a randomly distributed table,
-		// request strict random spec to ensure that CPhysicalMotionRandom
-		// exists prior to CPhysicalDML (Insert),
-		// CPhysicalMotionRandom ensures that there is no skew in the
-		// data inserted
-		if (CLogicalDML::EdmlInsert == m_edmlop)
-		{
-			return GPOS_NEW(mp) CDistributionSpecStrictRandom();
-		}
-		return GPOS_NEW(mp) CDistributionSpecRouted(m_pcrSegmentId);
+		default:
+			m_pds->AddRef();
+			return GPOS_NEW(mp)
+				CEnfdDistribution(m_pds, CEnfdDistribution::EdmExact);
+		case CDistributionSpec::EdtSingleton:
+			m_pds->AddRef();
+			return GPOS_NEW(mp)
+				CEnfdDistribution(m_pds, CEnfdDistribution::EdmSatisfy);
+		case CDistributionSpec::EdtRandom:
+			// if insert is performed on a randomly distributed table,
+			// request strict random spec to ensure that CPhysicalMotionRandom
+			// exists prior to CPhysicalDML (Insert),
+			// CPhysicalMotionRandom ensures that there is no skew in the
+			// data inserted
+			if (CLogicalDML::EdmlInsert == m_edmlop)
+			{
+				return GPOS_NEW(mp) CEnfdDistribution(
+					GPOS_NEW(mp) CDistributionSpecStrictRandom(),
+					CEnfdDistribution::EdmExact);
+			}
+			return GPOS_NEW(mp) CEnfdDistribution(
+				GPOS_NEW(mp) CDistributionSpecRouted(m_pcrSegmentId),
+				CEnfdDistribution::EdmExact);
 	}
-
-	m_pds->AddRef();
-	return m_pds;
 }
+
 
 //---------------------------------------------------------------------------
 //	@function:

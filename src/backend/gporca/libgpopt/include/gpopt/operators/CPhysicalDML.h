@@ -223,13 +223,6 @@ public:
 						  CDrvdPropArray *pdrgpdpCtxt,
 						  ULONG ulOptReq) const override;
 
-	// compute required distribution of the n-th child
-	CDistributionSpec *PdsRequired(CMemoryPool *mp, CExpressionHandle &exprhdl,
-								   CDistributionSpec *pdsRequired,
-								   ULONG child_index,
-								   CDrvdPropArray *pdrgpdpCtxt,
-								   ULONG ulOptReq) const override;
-
 	// compute required rewindability of the n-th child
 	CRewindabilitySpec *PrsRequired(CMemoryPool *mp, CExpressionHandle &exprhdl,
 									CRewindabilitySpec *prsRequired,
@@ -241,24 +234,6 @@ public:
 	BOOL FProvidesReqdCols(CExpressionHandle &exprhdl, CColRefSet *pcrsRequired,
 						   ULONG ulOptReq) const override;
 
-
-	// distribution matching type
-	CEnfdDistribution::EDistributionMatching
-	Edm(CReqdPropPlan *,   // prppInput
-		ULONG,			   // child_index
-		CDrvdPropArray *,  //pdrgpdpCtxt
-		ULONG			   // ulOptReq
-	) const override
-	{
-		if (CDistributionSpec::EdtSingleton == m_pds->Edt())
-		{
-			// if target table is master only, request simple satisfiability, as it will not introduce duplicates
-			return CEnfdDistribution::EdmSatisfy;
-		}
-
-		// avoid duplicates by requesting exact matching of non-singleton distributions
-		return CEnfdDistribution::EdmExact;
-	}
 
 	// compute required partition propagation of the n-th child
 	CPartitionPropagationSpec *PppsRequired(
@@ -330,6 +305,10 @@ public:
 
 	// debug print
 	IOstream &OsPrint(IOstream &os) const override;
+	CEnfdDistribution *Ped(CMemoryPool *mp, CExpressionHandle &exprhdl,
+						   CReqdPropPlan *prppInput, ULONG child_index,
+						   CDrvdPropArray *pdrgpdpCtxt,
+						   ULONG ulDistrReq) const override;
 
 };	// class CPhysicalDML
 
