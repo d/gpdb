@@ -1208,6 +1208,21 @@ CPhysical::FUnaryUsesDefinedColumns(CColRefSet *pcrs,
 	return !pcrs->IsDisjoint(exprhdl.DeriveDefinedColumns(1));
 }
 
+
+CDistributionSpec *
+CPhysical::PdsRequired(CMemoryPool *mp GPOS_UNUSED,
+					   CExpressionHandle &exprhdl GPOS_UNUSED,
+					   CDistributionSpec *pdsRequired GPOS_UNUSED,
+					   ULONG child_index GPOS_UNUSED,
+					   CDrvdPropArray *pdrgpdpCtxt GPOS_UNUSED,
+					   ULONG ulOptReq GPOS_UNUSED) const
+{
+	GPOS_UNREACHABLE(
+		"Tentative base method for removed PdsRequired."
+		" Once all overrides are removed this method will go as well");
+}
+
+
 CEnfdDistribution::EDistributionMatching
 CPhysical::Edm(CReqdPropPlan *, ULONG, CDrvdPropArray *, ULONG) const
 {

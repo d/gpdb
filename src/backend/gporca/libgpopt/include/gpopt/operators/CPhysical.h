@@ -309,7 +309,7 @@ protected:
 										   CDistributionSpec *pdsRequired,
 										   ULONG child_index,
 										   CDrvdPropArray *pdrgpdpCtxt,
-										   ULONG ulOptReq) const = 0;
+										   ULONG ulOptReq) const;
 
 	// distribution matching type
 	virtual CEnfdDistribution::EDistributionMatching Edm(
