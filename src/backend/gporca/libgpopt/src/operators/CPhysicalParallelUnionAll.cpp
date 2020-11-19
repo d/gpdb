@@ -68,15 +68,42 @@ CPhysicalParallelUnionAll::PdsRequired(CMemoryPool *mp, CExpressionHandle &,
 	}
 }
 
-CEnfdDistribution::EDistributionMatching
-CPhysicalParallelUnionAll::Edm(CReqdPropPlan *,	  // prppInput
-							   ULONG,			  // child_index
-							   CDrvdPropArray *,  //pdrgpdpCtxt
-							   ULONG			  // ulOptReq
-) const
+
+CEnfdDistribution *
+CPhysicalParallelUnionAll::Ped(CMemoryPool *mp,
+							   CExpressionHandle &exprhdl GPOS_UNUSED,
+							   CReqdPropPlan *prppInput GPOS_UNUSED,
+							   ULONG child_index,
+							   CDrvdPropArray *pdrgpdpCtxt GPOS_UNUSED,
+							   ULONG ulDistrReq) const
 {
-	return CEnfdDistribution::EdmExact;
+	const CEnfdDistribution::EDistributionMatching edm =
+		CEnfdDistribution::EdmExact;
+	if (0 == ulDistrReq)
+	{
+		CDistributionSpec *pdsChild = (*m_pdrgpds)[child_index];
+		pdsChild->AddRef();
+		return GPOS_NEW(mp) CEnfdDistribution(pdsChild, edm);
+	}
+	else
+	{
+		CColRefArray *pdrgpcrChildInputColumns =
+			(*PdrgpdrgpcrInput())[child_index];
+		CExpressionArray *pdrgpexprFakeRequestedColumns =
+			GPOS_NEW(mp) CExpressionArray(mp);
+
+		CColRef *pcrFirstColumn = (*pdrgpcrChildInputColumns)[0];
+		CExpression *pexprScalarIdent =
+			CUtils::PexprScalarIdent(mp, pcrFirstColumn);
+		pdrgpexprFakeRequestedColumns->Append(pexprScalarIdent);
+
+		return GPOS_NEW(mp) CEnfdDistribution(
+			GPOS_NEW(mp)
+				CDistributionSpecHashedNoOp(pdrgpexprFakeRequestedColumns),
+			edm);
+	}
 }
+
 
 CPhysicalParallelUnionAll::~CPhysicalParallelUnionAll()
 {
