@@ -54,21 +54,6 @@ CPhysicalFullMergeJoin::~CPhysicalFullMergeJoin()
 	m_inner_merge_clauses->Release();
 }
 
-CDistributionSpec *
-CPhysicalFullMergeJoin::PdsRequired(CMemoryPool *mp GPOS_UNUSED,
-									CExpressionHandle &exprhdl GPOS_UNUSED,
-									CDistributionSpec *pdsRequired GPOS_UNUSED,
-									ULONG child_index GPOS_UNUSED,
-									CDrvdPropArray *,  //pdrgpdpCtxt,
-									ULONG ulOptReq GPOS_UNUSED) const
-{
-	GPOS_RAISE(
-		CException::ExmaInvalid, CException::ExmiInvalid,
-		GPOS_WSZ_LIT(
-			"PdsRequired should not be called for CPhysicalFullMergeJoin"));
-	return nullptr;
-}
-
 CEnfdDistribution *
 CPhysicalFullMergeJoin::Ped(CMemoryPool *mp, CExpressionHandle &exprhdl,
 							CReqdPropPlan *prppInput, ULONG child_index,
@@ -224,16 +209,6 @@ CPhysicalFullMergeJoin::EpetOrder(CExpressionHandle &, const CEnfdOrder *
 	// the sense that nulls maybe interleaved;
 	// any order requirements have to be enforced on top
 	return CEnfdProp::EpetRequired;
-}
-
-CEnfdDistribution::EDistributionMatching
-CPhysicalFullMergeJoin::Edm(CReqdPropPlan *,   // prppInput
-							ULONG,			   // child_index,
-							CDrvdPropArray *,  // pdrgpdpCtxt,
-							ULONG			   // ulOptReq
-) const
-{
-	return CEnfdDistribution::EdmExact;
 }
 
 CDistributionSpec *

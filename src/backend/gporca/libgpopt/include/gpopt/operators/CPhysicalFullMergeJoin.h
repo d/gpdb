@@ -51,12 +51,6 @@ public:
 		return dynamic_cast<CPhysicalFullMergeJoin *>(pop);
 	}
 
-	CDistributionSpec *PdsRequired(CMemoryPool *mp, CExpressionHandle &exprhdl,
-								   CDistributionSpec *pdsRequired,
-								   ULONG child_index,
-								   CDrvdPropArray *pdrgpdpCtxt,
-								   ULONG ulOptReq) const override;
-
 	CEnfdDistribution *Ped(CMemoryPool *mp, CExpressionHandle &exprhdl,
 						   CReqdPropPlan *prppInput, ULONG child_index,
 						   CDrvdPropArray *pdrgpdpCtxt,
@@ -77,13 +71,6 @@ public:
 	// return order property enforcing type for this operator
 	CEnfdProp::EPropEnforcingType EpetOrder(
 		CExpressionHandle &exprhdl, const CEnfdOrder *peo) const override;
-
-	CEnfdDistribution::EDistributionMatching Edm(
-		CReqdPropPlan *,   // prppInput
-		ULONG,			   //child_index,
-		CDrvdPropArray *,  // pdrgpdpCtxt,
-		ULONG			   // ulOptReq
-	) const override;
 
 	CDistributionSpec *PdsDerive(CMemoryPool *mp,
 								 CExpressionHandle &exprhdl) const override;
