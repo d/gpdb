@@ -60,87 +60,90 @@ CPhysicalSerialUnionAll::CPhysicalSerialUnionAll(
 CPhysicalSerialUnionAll::~CPhysicalSerialUnionAll() = default;
 
 
-//---------------------------------------------------------------------------
-//	@function:
-//		CPhysicalSerialUnionAll::PdsRequired
-//
-//	@doc:
-//		Compute required distribution of the n-th child
-//
-//---------------------------------------------------------------------------
-CDistributionSpec *
-CPhysicalSerialUnionAll::PdsRequired(
-	CMemoryPool *mp, CExpressionHandle &exprhdl, CDistributionSpec *pdsRequired,
-	ULONG child_index, CDrvdPropArray *pdrgpdpCtxt, ULONG ulOptReq) const
+CEnfdDistribution *
+CPhysicalSerialUnionAll::Ped(CMemoryPool *mp, CExpressionHandle &exprhdl,
+							 CReqdPropPlan *prppInput, ULONG child_index,
+							 CDrvdPropArray *pdrgpdpCtxt,
+							 ULONG ulDistrReq) const
 {
 	GPOS_ASSERT(NULL != PdrgpdrgpcrInput());
 	GPOS_ASSERT(child_index < PdrgpdrgpcrInput()->Size());
-	GPOS_ASSERT(2 > ulOptReq);
+	GPOS_ASSERT(2 > ulDistrReq);
 
-	CDistributionSpec *pds = PdsRequireSingletonOrReplicated(
-		mp, exprhdl, pdsRequired, child_index, ulOptReq);
-	if (NULL != pds)
+	CDistributionSpec *const pdsRequired = prppInput->Ped()->PdsRequired();
+
 	{
-		return pds;
+		CDistributionSpec *pds = PdsRequireSingletonOrReplicated(
+			mp, exprhdl, pdsRequired, child_index, ulDistrReq);
+		if (NULL != pds)
+		{
+			return GPOS_NEW(mp)
+				CEnfdDistribution(pds, CEnfdDistribution::EdmSatisfy);
+		}
 	}
 
-	if (0 == ulOptReq && CDistributionSpec::EdtHashed == pdsRequired->Edt())
+	if (0 == ulDistrReq && CDistributionSpec::EdtHashed == pdsRequired->Edt())
 	{
 		// attempt passing requested hashed distribution to children
 		CDistributionSpecHashed *pdshashed = PdshashedPassThru(
 			mp, CDistributionSpecHashed::PdsConvert(pdsRequired), child_index);
 		if (NULL != pdshashed)
 		{
-			return pdshashed;
+			return GPOS_NEW(mp)
+				CEnfdDistribution(pdshashed, CEnfdDistribution::EdmExact);
 		}
 	}
 
 	if (0 == child_index)
 	{
 		// otherwise, ANY distribution is requested from outer child
-		return GPOS_NEW(mp) CDistributionSpecAny(this->Eopid());
+		return GPOS_NEW(mp)
+			CEnfdDistribution(GPOS_NEW(mp) CDistributionSpecAny(this->Eopid()),
+							  CEnfdDistribution::EdmSatisfy);
 	}
 
 	// inspect distribution delivered by outer child
 	CDistributionSpec *pdsOuter =
 		CDrvdPropPlan::Pdpplan((*pdrgpdpCtxt)[0])->Pds();
 
-	if (CDistributionSpec::EdtSingleton == pdsOuter->Edt() ||
-		CDistributionSpec::EdtStrictSingleton == pdsOuter->Edt())
+	switch (pdsOuter->Edt())
 	{
-		// outer child is Singleton, require inner child to have matching Singleton distribution
-		return CPhysical::PdssMatching(
-			mp, CDistributionSpecSingleton::PdssConvert(pdsOuter));
+		case CDistributionSpec::EdtSingleton:
+		case CDistributionSpec::EdtStrictSingleton:
+			// outer child is Singleton, require inner child to have matching Singleton distribution
+			return GPOS_NEW(mp) CEnfdDistribution(
+				CPhysical::PdssMatching(
+					mp, CDistributionSpecSingleton::PdssConvert(pdsOuter)),
+				CEnfdDistribution::EdmSatisfy);
+			break;
+		case CDistributionSpec::EdtUniversal:
+			// require inner child to be on a single host in order to avoid
+			// duplicate values when doing UnionAll operation with Universal outer child
+			// Example: select 1 union all select i from x;
+			return GPOS_NEW(mp)
+				CEnfdDistribution(GPOS_NEW(mp) CDistributionSpecSingleton(),
+								  CEnfdDistribution::EdmSatisfy);
+		case CDistributionSpec::EdtReplicated:
+		case CDistributionSpec::EdtTaintedReplicated:
+			// outer child is replicated, require inner child to be replicated
+			return GPOS_NEW(mp)
+				CEnfdDistribution(GPOS_NEW(mp) CDistributionSpecReplicated(
+									  CDistributionSpec::EdtReplicated),
+								  CEnfdDistribution::EdmSatisfy);
+		case CDistributionSpec::EdtExternal:
+			// if the outer child delivers external spec, require inner child
+			// to provide any spec
+			return GPOS_NEW(mp) CEnfdDistribution(
+				GPOS_NEW(mp) CDistributionSpecAny(this->Eopid()),
+				CEnfdDistribution::EdmSatisfy);
+		default:
+			// outer child is non-replicated and is distributed across segments,
+			// we need to the inner child to be distributed across segments that does
+			// not generate duplicate results. That is, inner child should not be replicated.
+
+			return GPOS_NEW(mp) CEnfdDistribution(
+				GPOS_NEW(mp)
+					CDistributionSpecNonSingleton(false /*fAllowReplicated*/),
+				CEnfdDistribution::EdmSatisfy);
 	}
-
-	if (CDistributionSpec::EdtUniversal == pdsOuter->Edt())
-	{
-		// require inner child to be on a single host in order to avoid
-		// duplicate values when doing UnionAll operation with Universal outer child
-		// Example: select 1 union all select i from x;
-		return GPOS_NEW(mp) CDistributionSpecSingleton();
-	}
-
-	if (CDistributionSpec::EdtStrictReplicated == pdsOuter->Edt() ||
-		CDistributionSpec::EdtTaintedReplicated == pdsOuter->Edt())
-	{
-		// outer child is replicated, require inner child to be replicated
-		return GPOS_NEW(mp)
-			CDistributionSpecReplicated(CDistributionSpec::EdtReplicated);
-	}
-
-	if (CDistributionSpec::EdtExternal == pdsOuter->Edt())
-	{
-		// if the outer child delivers external spec, require inner child
-		// to provide any spec
-		return GPOS_NEW(mp) CDistributionSpecAny(this->Eopid());
-	}
-
-	// outer child is non-replicated and is distributed across segments,
-	// we need to the inner child to be distributed across segments that does
-	// not generate duplicate results. That is, inner child should not be replicated.
-
-	return GPOS_NEW(mp)
-		CDistributionSpecNonSingleton(false /*fAllowReplicated*/);
 }
-

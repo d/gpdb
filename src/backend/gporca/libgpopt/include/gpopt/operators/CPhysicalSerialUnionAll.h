@@ -47,31 +47,11 @@ public:
 		return "CPhysicalSerialUnionAll";
 	}
 
-	// distribution matching type
-	CEnfdDistribution::EDistributionMatching
-	Edm(CReqdPropPlan *prppInput,
-		ULONG,			   // child_index
-		CDrvdPropArray *,  //pdrgpdpCtxt
-		ULONG ulOptReq) const override
-	{
-		if (0 == ulOptReq && CDistributionSpec::EdtHashed ==
-								 prppInput->Ped()->PdsRequired()->Edt())
-		{
-			// use exact matching if optimizing first request
-			return CEnfdDistribution::EdmExact;
-		}
 
-		// use relaxed matching if optimizing other requests
-		return CEnfdDistribution::EdmSatisfy;
-	}
-
-
-	// compute required distribution of the n-th child
-	CDistributionSpec *PdsRequired(CMemoryPool *mp, CExpressionHandle &exprhdl,
-								   CDistributionSpec *pdsRequired,
-								   ULONG child_index,
-								   CDrvdPropArray *pdrgpdpCtxt,
-								   ULONG ulOptReq) const override;
+	CEnfdDistribution *Ped(CMemoryPool *mp, CExpressionHandle &exprhdl,
+						   CReqdPropPlan *prppInput, ULONG child_index,
+						   CDrvdPropArray *pdrgpdpCtxt,
+						   ULONG ulDistrReq) const override;
 
 };	// class CPhysicalSerialUnionAll
 
