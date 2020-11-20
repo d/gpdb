@@ -89,5 +89,3 @@ CXformSelect2DynamicBitmapBoolOp::Transform(CXformContext *pxfctxt,
 		pxfres->Add(pexprRedundantSelect);
 	}
 }
-
-// EOF

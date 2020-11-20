@@ -172,5 +172,3 @@ CXformGbAgg2HashAgg::FApplicable(CExpression *pexpr) const
 
 	return true;
 }
-
-// EOF

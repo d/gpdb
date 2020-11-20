@@ -142,5 +142,3 @@ public:
 }  // namespace gpmd
 
 #endif	// !GPMD_CMDIndexGPDB_H
-
-// EOF

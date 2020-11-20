@@ -124,5 +124,3 @@ CSearchStage::PdrgpssDefault(CMemoryPool *mp)
 
 	return search_stage_array;
 }
-
-// EOF

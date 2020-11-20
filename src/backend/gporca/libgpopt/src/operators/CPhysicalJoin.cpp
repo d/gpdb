@@ -1248,5 +1248,3 @@ CPhysicalJoin::PppsRequiredJoinChild(CMemoryPool *mp,
 	ppps->AddRef();
 	return ppps;
 }
-
-// EOF

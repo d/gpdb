@@ -212,4 +212,3 @@ CDXLPhysicalNLJoin::GetNestLoopParamsColRefs() const
 {
 	return m_nest_params_col_refs;
 }
-// EOF

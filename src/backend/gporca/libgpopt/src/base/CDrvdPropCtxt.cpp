@@ -20,5 +20,3 @@
 namespace gpopt
 {
 }  // namespace gpopt
-
-// EOF

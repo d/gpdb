@@ -273,6 +273,3 @@ CXformSimplifySubquery::Transform(CXformContext *pxfctxt, CXformResult *pxfres,
 		}
 	}
 }
-
-
-// EOF

@@ -287,5 +287,3 @@ public:
 }  // namespace gpos
 
 #endif	// !GPOS_CException_H
-
-// EOF

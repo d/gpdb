@@ -109,5 +109,3 @@ CMinidumpWithConstExprEvaluatorTest::
 
 	return eres;
 }
-
-// EOF

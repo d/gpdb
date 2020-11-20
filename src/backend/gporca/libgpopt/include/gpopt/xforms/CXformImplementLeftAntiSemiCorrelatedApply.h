@@ -69,5 +69,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CXformImplementLeftAntiSemiCorrelatedApply_H
-
-// EOF

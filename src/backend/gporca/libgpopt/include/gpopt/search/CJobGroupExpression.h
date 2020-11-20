@@ -111,6 +111,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CJobGroupExpression_H
-
-
-// EOF

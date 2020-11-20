@@ -93,5 +93,3 @@ public:
 }  // namespace gpdxl
 
 #endif	// !GPDXL_CDXLScalarBooleanTest_H
-
-// EOF

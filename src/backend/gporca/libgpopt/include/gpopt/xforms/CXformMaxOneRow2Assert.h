@@ -63,5 +63,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CXformMaxOneRow2Assert_H
-
-// EOF

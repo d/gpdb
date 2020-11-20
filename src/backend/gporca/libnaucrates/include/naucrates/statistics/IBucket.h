@@ -59,5 +59,3 @@ public:
 }  // namespace gpnaucrates
 
 #endif	// !GPNAUCRATES_IBucket_H
-
-// EOF

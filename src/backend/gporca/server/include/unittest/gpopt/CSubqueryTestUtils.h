@@ -281,5 +281,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CSubqueryTestUtils_H
-
-// EOF

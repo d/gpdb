@@ -65,5 +65,3 @@ public:
 
 
 #endif	// !GPOPT_CXformExpandNAryJoin_H
-
-// EOF

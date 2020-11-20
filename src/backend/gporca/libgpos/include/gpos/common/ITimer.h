@@ -54,5 +54,3 @@ public:
 }  // namespace gpos
 
 #endif	// !GPOS_ITimer_H
-
-// EOF

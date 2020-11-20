@@ -86,5 +86,3 @@ public:
 }  // namespace gpos
 
 #endif	// !GPOS_ITask_H
-
-// EOF

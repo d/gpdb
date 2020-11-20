@@ -83,5 +83,3 @@ CPhysicalLeftAntiSemiHashJoin::PppsRequired(
 	return CPhysical::PppsRequiredPushThruNAry(mp, exprhdl, pppsRequired,
 											   child_index);
 }
-
-// EOF

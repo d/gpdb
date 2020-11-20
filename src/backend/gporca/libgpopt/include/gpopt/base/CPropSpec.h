@@ -84,5 +84,3 @@ operator<<(IOstream &os, const CPropSpec &ospec)
 }  // namespace gpopt
 
 #endif	// !GPOPT_CPropSpec_H
-
-// EOF

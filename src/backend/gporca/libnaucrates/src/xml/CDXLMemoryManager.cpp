@@ -56,6 +56,3 @@ CDXLMemoryManager::deallocate(void *pv)
 {
 	GPOS_DELETE_ARRAY(reinterpret_cast<BYTE *>(pv));
 }
-
-
-// EOF

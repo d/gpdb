@@ -166,5 +166,3 @@ typedef CDynamicPtrArray<CDistributionSpec, CleanupRelease>
 }  // namespace gpopt
 
 #endif	// !GPOPT_IDistributionSpec_H
-
-// EOF

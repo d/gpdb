@@ -209,6 +209,3 @@ CXformSimplifyGbAgg::Transform(CXformContext *pxfctxt, CXformResult *pxfres,
 		CExpression(mp, popAggNew, pexprRelational, pexprProjectList);
 	pxfres->Add(pexprResult);
 }
-
-
-// EOF

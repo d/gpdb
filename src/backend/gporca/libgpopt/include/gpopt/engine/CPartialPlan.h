@@ -114,5 +114,3 @@ public:
 
 
 #endif	// !GPOPT_CPartialPlan_H
-
-// EOF

@@ -82,5 +82,3 @@ CSystemId::HashValue() const
 		(BYTE *) m_sysid_char,
 		GPOS_WSZ_LENGTH(m_sysid_char) * GPOS_SIZEOF(WCHAR));
 }
-
-// EOF

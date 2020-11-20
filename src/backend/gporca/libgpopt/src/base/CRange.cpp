@@ -719,5 +719,3 @@ CRange::OsPrintBound(IOstream &os, IDatum *datum, const CHAR *szInfinity) const
 
 	return os;
 }
-
-// EOF

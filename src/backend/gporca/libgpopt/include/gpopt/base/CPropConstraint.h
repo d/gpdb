@@ -105,5 +105,3 @@ operator<<(IOstream &os, CPropConstraint &pc)
 }  // namespace gpopt
 
 #endif	// !GPOPT_CPropConstraint_H
-
-// EOF

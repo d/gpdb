@@ -437,5 +437,3 @@ CUnittest::Init(CUnittest *rgut, ULONG ulUtCnt, void (*pfConfig)(),
 	// disable allocations using global new operator
 	CMemoryPoolManager::GetMemoryPoolMgr()->DisableGlobalNew();
 }
-
-// EOF

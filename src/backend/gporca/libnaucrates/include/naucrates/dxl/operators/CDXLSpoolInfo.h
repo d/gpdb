@@ -88,5 +88,3 @@ public:
 
 
 #endif	// !GPDXL_CDXLSpoolInfo_H
-
-// EOF

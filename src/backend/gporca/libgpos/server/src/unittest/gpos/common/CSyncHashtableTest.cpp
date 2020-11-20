@@ -344,5 +344,3 @@ CSyncHashtableTest::EresUnittest_NonConcurrentIteration()
 
 	return GPOS_OK;
 }
-
-// EOF

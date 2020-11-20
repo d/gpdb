@@ -80,5 +80,3 @@ public:
 }  // namespace gpos
 
 #endif	// !GPOS_CWStringDynamic_H
-
-// EOF

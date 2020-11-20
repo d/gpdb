@@ -338,5 +338,3 @@ CPhysicalMotion::EpetRewindability(CExpressionHandle &exprhdl,
 	// motion does not provide rewindability on its output
 	return CEnfdProp::EpetRequired;
 }
-
-// EOF

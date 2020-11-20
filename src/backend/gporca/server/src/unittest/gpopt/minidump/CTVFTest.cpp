@@ -75,5 +75,3 @@ CTVFTest::EresUnittest_RunTests()
 											 &m_ulTVFTestCounter,
 											 GPOS_ARRAY_SIZE(rgszTVFFileNames));
 }
-
-// EOF

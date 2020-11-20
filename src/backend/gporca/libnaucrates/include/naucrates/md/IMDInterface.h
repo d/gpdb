@@ -39,5 +39,3 @@ public:
 
 
 #endif	// !GPMD_IMDInterface_H
-
-// EOF

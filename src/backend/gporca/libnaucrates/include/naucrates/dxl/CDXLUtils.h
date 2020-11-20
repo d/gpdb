@@ -317,5 +317,3 @@ CDXLUtils::Serialize(CMemoryPool *mp,
 }  // namespace gpdxl
 
 #endif	// GPDXL_CDXLUtils_H
-
-// EOF

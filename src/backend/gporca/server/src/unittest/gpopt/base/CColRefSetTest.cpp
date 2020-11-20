@@ -95,6 +95,3 @@ CColRefSetTest::EresUnittest_Basics()
 
 	return GPOS_OK;
 }
-
-
-// EOF

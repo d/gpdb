@@ -55,5 +55,3 @@ CConstTblGetTest::EresUnittest_RunTests()
 	return CTestUtils::EresUnittest_RunTests(rgszCTGMdpFiles, &m_ulTestCounter,
 											 GPOS_ARRAY_SIZE(rgszCTGMdpFiles));
 }
-
-// EOF

@@ -43,5 +43,3 @@ public:
 }  // namespace gpos
 
 #endif	// !GPOS_CTimerUser_H
-
-// EOF

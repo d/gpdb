@@ -356,5 +356,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CPhysicalJoin_H
-
-// EOF

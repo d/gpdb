@@ -133,5 +133,3 @@ public:
 
 
 #endif	// !GPOPT_CScalarBoolOp_H
-
-// EOF

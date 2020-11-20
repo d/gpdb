@@ -272,5 +272,3 @@ typedef CDynamicPtrArray<CConstraintInterval, CleanupRelease>
 }  // namespace gpopt
 
 #endif	// !GPOPT_CConstraintInterval_H
-
-// EOF

@@ -109,5 +109,3 @@ CMDProviderGeneric::SysidDefault() const
 {
 	return CSystemId(IMDId::EmdidGPDB, GPMD_GPDB_SYSID);
 }
-
-// EOF

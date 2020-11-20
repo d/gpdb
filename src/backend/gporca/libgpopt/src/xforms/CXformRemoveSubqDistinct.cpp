@@ -134,5 +134,3 @@ CXformRemoveSubqDistinct::Transform(CXformContext *pxfctxt,
 		}
 	}
 }
-
-// EOF

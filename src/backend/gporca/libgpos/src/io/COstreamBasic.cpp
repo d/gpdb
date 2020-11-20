@@ -58,5 +58,3 @@ COstreamBasic::operator<<(const WCHAR wc)
 	m_ostream = &(*m_ostream << wc);
 	return *this;
 }
-
-// EOF

@@ -601,5 +601,3 @@ private:
 }  // namespace gpdxl
 
 #endif	// !GPDXL_CTranslatorDxlToPlStmt_H
-
-// EOF

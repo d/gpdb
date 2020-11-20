@@ -70,5 +70,3 @@ CSerializableQuery::Serialize(COstream &oos)
 							  false /*indentation*/
 	);
 }
-
-// EOF

@@ -93,5 +93,3 @@ CXformUnion2UnionAll::Transform(CXformContext *pxfctxt, CXformResult *pxfres,
 	// add alternative to results
 	pxfres->Add(pexprAgg);
 }
-
-// EOF

@@ -352,5 +352,3 @@ CMinidumperUtils::PdxlnExecuteMinidump(
 
 	return pdxlnPlan;
 }
-
-// EOF

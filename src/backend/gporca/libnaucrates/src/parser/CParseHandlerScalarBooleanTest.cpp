@@ -190,5 +190,3 @@ CParseHandlerScalarBooleanTest::GetDxlBooleanTestType(
 
 	return EdxlbooleantestSentinel;
 }
-
-// EOF

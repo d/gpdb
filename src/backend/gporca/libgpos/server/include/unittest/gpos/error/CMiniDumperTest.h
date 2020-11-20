@@ -95,5 +95,3 @@ public:
 }  // namespace gpos
 
 #endif	// !GPOS_CMiniDumperTest_H
-
-// EOF

@@ -265,6 +265,3 @@ CMessage::GetMessage(ULONG index)
 
 	return &msg[index];
 }
-
-
-// EOF

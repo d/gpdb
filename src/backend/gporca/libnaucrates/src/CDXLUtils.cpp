@@ -1793,5 +1793,3 @@ CDXLUtils::DebugPrintMDIdArray(IOstream &os, IMdIdArray *mdid_array)
 	os << std::endl;
 }
 #endif
-
-// EOF

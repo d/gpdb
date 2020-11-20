@@ -70,5 +70,3 @@ CParseHandlerExternalScan::EndElement(const XMLCh *const,  // element_uri,
 	CParseHandlerTableScan::EndElement(element_local_name,
 									   EdxltokenPhysicalExternalScan);
 }
-
-// EOF

@@ -38,5 +38,3 @@ public:
 };
 }  // namespace gpdxl
 #endif	// GPDXL_CIdGenerator_H
-
-// EOF

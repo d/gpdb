@@ -76,5 +76,3 @@ CAutoRef<T>::~CAutoRef()
 }  // namespace gpos
 
 #endif	// !GPOS_CAutoRef_H
-
-// EOF

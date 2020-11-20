@@ -26,5 +26,3 @@ public:
 }  // namespace gpnaucrates
 
 #endif	// !GPNAUCRATES_CLeftSemiJoinStatsProcessor_H
-
-// EOF

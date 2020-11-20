@@ -100,5 +100,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CScalarDMLAction_H
-
-// EOF

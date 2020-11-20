@@ -202,5 +202,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOS_CLogicalSequenceProject_H
-
-// EOF

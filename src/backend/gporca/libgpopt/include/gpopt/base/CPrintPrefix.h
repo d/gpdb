@@ -57,6 +57,3 @@ operator<<(IOstream &os, CPrintPrefix &pfx)
 }  // namespace gpopt
 
 #endif	// !GPOS_CPrintPrefix_H
-
-
-// EOF

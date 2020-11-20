@@ -400,5 +400,3 @@ public:
 }  // namespace gpos
 
 #endif	// !GPOS_CDynamicPtrArray_H
-
-// EOF

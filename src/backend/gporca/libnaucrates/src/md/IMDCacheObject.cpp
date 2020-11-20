@@ -83,5 +83,3 @@ IMDCacheObject::SerializeMDIdList(CXMLSerializer *xml_serializer,
 	xml_serializer->CloseElement(
 		CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), strTokenList);
 }
-
-// EOF

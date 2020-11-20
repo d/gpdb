@@ -221,5 +221,3 @@ public:
 
 
 #endif	// !GPOPT_CReqdPropPlan_H
-
-// EOF

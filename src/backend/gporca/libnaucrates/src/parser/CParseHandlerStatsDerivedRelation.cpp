@@ -178,5 +178,3 @@ CParseHandlerStatsDerivedRelation::EndElement(
 	// deactivate handler
 	m_parse_handler_mgr->DeactivateHandler();
 }
-
-// EOF

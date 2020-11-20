@@ -981,5 +981,3 @@ CJoinOrderDP::DbgPrint()
 	OsPrint(at.Os());
 }
 #endif
-
-// EOF

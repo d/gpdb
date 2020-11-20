@@ -114,5 +114,3 @@ public:
 }  // namespace gpdxl
 
 #endif	// !GPDXL_CDXLPhysicalRowTrigger_H
-
-// EOF

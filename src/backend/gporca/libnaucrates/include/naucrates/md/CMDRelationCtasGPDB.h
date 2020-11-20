@@ -288,5 +288,3 @@ public:
 }  // namespace gpmd
 
 #endif	// !GPMD_CMDRelationCTASGPDB_H
-
-// EOF

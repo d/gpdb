@@ -58,6 +58,3 @@ CXformGbAgg2Apply::Exfp(CExpressionHandle &exprhdl) const
 
 	return CXform::ExfpNone;
 }
-
-
-// EOF

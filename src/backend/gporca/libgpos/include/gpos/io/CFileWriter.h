@@ -60,5 +60,3 @@ public:
 }  // namespace gpos
 
 #endif	// !GPOS_CFileWriter_H
-
-// EOF

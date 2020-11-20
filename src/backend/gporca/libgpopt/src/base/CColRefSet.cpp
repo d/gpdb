@@ -464,6 +464,3 @@ CColRefSet::FCovered(CColRefSetArray *pdrgpcrs, CColRefSet *pcrs)
 
 	return true;
 }
-
-
-// EOF

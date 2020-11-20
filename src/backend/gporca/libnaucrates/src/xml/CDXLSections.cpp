@@ -52,5 +52,3 @@ const WCHAR *CDXLSections::m_wszStackTraceHeader =
 
 const WCHAR *CDXLSections::m_wszStackTraceFooter =
 	GPOS_WSZ_LIT("</dxl:Stacktrace>");
-
-// EOF

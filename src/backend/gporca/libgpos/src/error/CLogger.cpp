@@ -206,5 +206,3 @@ CLogger::ReportFailure()
 	CLoggerSyslog::Alert(GPOS_WSZ_LIT(
 		"Log write failure, check disc space and filesystem integrity"));
 }
-
-// EOF

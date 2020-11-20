@@ -120,6 +120,3 @@ CMiniDumper::GetOStream()
 
 	return *m_oos;
 }
-
-
-// EOF

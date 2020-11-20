@@ -65,5 +65,3 @@ CDXLScalarSubqueryAll::GetOpNameStr() const
 {
 	return CDXLTokens::GetDXLTokenStr(EdxltokenScalarSubqueryAll);
 }
-
-// EOF

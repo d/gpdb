@@ -199,5 +199,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CLogicalLimit_H
-
-// EOF

@@ -111,5 +111,3 @@ IOstream &operator<<(IOstream &os, const CDrvdProp &drvdprop);
 
 
 #endif	// !GPOPT_CDrvdProp_H
-
-// EOF

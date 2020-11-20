@@ -147,6 +147,3 @@ operator<<(IOstream &os, CColRefSet &crf)
 }  // namespace gpopt
 
 #endif	// !GPOS_CColRefSet_H
-
-
-// EOF

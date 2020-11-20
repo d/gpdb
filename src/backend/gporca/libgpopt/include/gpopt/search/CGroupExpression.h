@@ -437,5 +437,3 @@ public:
 
 
 #endif	// !GPOPT_CGroupExpression_H
-
-// EOF

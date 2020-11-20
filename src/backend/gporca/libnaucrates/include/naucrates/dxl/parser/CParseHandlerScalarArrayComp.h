@@ -62,5 +62,3 @@ public:
 
 }  // namespace gpdxl
 #endif	// GPDXL_CParseHandlerScalarArrayComp_H
-
-//EOF

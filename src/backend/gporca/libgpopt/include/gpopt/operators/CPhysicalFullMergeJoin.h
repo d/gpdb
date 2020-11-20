@@ -93,5 +93,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CPhysicalFullMergeJoin_H
-
-// EOF

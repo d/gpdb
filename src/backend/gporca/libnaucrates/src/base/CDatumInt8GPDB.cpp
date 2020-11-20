@@ -255,5 +255,3 @@ CDatumInt8GPDB::OsPrint(IOstream &os) const
 
 	return os;
 }
-
-// EOF

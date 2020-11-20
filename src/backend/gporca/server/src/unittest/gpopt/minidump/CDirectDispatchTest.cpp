@@ -79,5 +79,3 @@ CDirectDispatchTest::EresUnittest_RunTests()
 		rgszDirectDispatchFileNames, &m_ulDirectDispatchCounter,
 		GPOS_ARRAY_SIZE(rgszDirectDispatchFileNames));
 }
-
-// EOF

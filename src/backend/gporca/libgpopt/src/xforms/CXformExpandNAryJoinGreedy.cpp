@@ -109,5 +109,3 @@ CXformExpandNAryJoinGreedy::Transform(CXformContext *pxfctxt,
 		pxfres->Add(pexprNormalized);
 	}
 }
-
-// EOF

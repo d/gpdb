@@ -241,5 +241,3 @@ public:
 }  // namespace gpos
 
 #endif	// !GPOS_CHashSet_H
-
-// EOF

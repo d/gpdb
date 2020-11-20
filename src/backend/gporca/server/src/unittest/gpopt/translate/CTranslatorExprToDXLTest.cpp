@@ -300,5 +300,3 @@ CTranslatorExprToDXLTest::EresUnittest_RunMinidumpTests()
 										false	// fTestSpacePruning
 	);
 }
-
-// EOF

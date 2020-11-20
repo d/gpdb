@@ -25,5 +25,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CCastTest_H
-
-// EOF

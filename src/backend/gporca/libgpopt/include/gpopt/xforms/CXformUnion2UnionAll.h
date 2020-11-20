@@ -74,5 +74,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CXformUnion2UnionAll_H
-
-// EOF

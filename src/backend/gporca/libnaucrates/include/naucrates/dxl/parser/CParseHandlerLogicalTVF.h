@@ -68,5 +68,3 @@ public:
 
 }  // namespace gpdxl
 #endif	// GPDXL_CParseHandlerLogicalTVF_H
-
-// EOF

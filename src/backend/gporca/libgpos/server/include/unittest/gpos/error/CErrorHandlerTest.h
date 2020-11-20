@@ -40,5 +40,3 @@ public:
 }  // namespace gpos
 
 #endif	// !GPOS_CErrorHandlerTest_H
-
-// EOF

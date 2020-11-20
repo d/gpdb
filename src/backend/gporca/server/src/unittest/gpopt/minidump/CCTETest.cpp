@@ -98,5 +98,3 @@ CCTETest::EresUnittest_RunTests()
 											 &m_ulCTETestCounter,
 											 GPOS_ARRAY_SIZE(rgszCTEFileNames));
 }
-
-// EOF

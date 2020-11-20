@@ -68,5 +68,3 @@ CDXLDatumStatsDoubleMappable::Serialize(CXMLSerializer *xml_serializer)
 	xml_serializer->AddAttribute(
 		CDXLTokens::GetDXLTokenStr(EdxltokenDoubleValue), GetDoubleMapping());
 }
-
-// EOF

@@ -123,5 +123,3 @@ CMDCache::Reset()
 	Shutdown();
 	Init();
 }
-
-// EOF

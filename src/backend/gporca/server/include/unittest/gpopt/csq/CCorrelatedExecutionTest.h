@@ -55,5 +55,3 @@ public:
 
 
 #endif	// !GPOPT_CCorrelatedExecutionTest_H
-
-// EOF

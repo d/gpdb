@@ -72,6 +72,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CSearchStrategyTest_H
-
-
-// EOF

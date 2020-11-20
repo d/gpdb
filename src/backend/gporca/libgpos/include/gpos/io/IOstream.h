@@ -64,5 +64,3 @@ public:
 }  // namespace gpos
 
 #endif	// !GPOS_IOstream_H
-
-// EOF

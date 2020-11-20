@@ -139,5 +139,3 @@ public:
 }  // namespace gpmd
 
 #endif	// !GPMD_CMDTriggerGPDB_H
-
-// EOF

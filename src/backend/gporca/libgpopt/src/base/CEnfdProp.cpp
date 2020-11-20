@@ -27,5 +27,3 @@ operator<<(IOstream &os, CEnfdProp &efdprop)
 }
 
 }  // namespace gpopt
-
-// EOF

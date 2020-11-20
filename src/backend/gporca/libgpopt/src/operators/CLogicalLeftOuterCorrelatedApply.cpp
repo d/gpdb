@@ -100,5 +100,3 @@ CLogicalLeftOuterCorrelatedApply::PopCopyWithRemappedColumns(
 	return GPOS_NEW(mp)
 		CLogicalLeftOuterCorrelatedApply(mp, pdrgpcrInner, m_eopidOriginSubq);
 }
-
-// EOF

@@ -123,5 +123,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CPhysicalMotionRandom_H
-
-// EOF

@@ -37,6 +37,3 @@ CLoggerStream::CLoggerStream(IOstream &os) : CLogger(), m_os(os)
 //
 //---------------------------------------------------------------------------
 CLoggerStream::~CLoggerStream() = default;
-
-
-// EOF

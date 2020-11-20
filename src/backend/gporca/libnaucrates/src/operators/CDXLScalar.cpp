@@ -38,6 +38,3 @@ CDXLScalar::GetDXLOperatorType() const
 {
 	return EdxloptypeScalar;
 }
-
-
-// EOF

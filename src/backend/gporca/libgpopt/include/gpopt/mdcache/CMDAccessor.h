@@ -375,5 +375,3 @@ public:
 
 
 #endif	// !GPOPT_CMDAccessor_H
-
-// EOF

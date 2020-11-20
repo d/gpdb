@@ -172,5 +172,3 @@ public:
 }  // namespace gpopt
 
 #endif	// ! GPOPT_CExpressionFactorizer_H
-
-// EOF

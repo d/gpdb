@@ -52,5 +52,3 @@ CDXLScalarCoerceViaIO::GetOpNameStr() const
 {
 	return CDXLTokens::GetDXLTokenStr(EdxltokenScalarCoerceViaIO);
 }
-
-// EOF

@@ -169,7 +169,3 @@ CDXLScalarComp::AssertValid(const CDXLNode *node, BOOL validate_children) const
 	}
 }
 #endif	// GPOS_DEBUG
-
-
-
-// EOF

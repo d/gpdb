@@ -56,5 +56,3 @@ IWorker::CheckAbort(const CHAR *file, ULONG line_num)
 		worker->CheckForAbort(file, line_num);
 	}
 }
-
-// EOF

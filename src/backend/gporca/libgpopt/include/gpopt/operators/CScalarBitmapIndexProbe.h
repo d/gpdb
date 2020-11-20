@@ -128,5 +128,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CScalarBitmapIndexProbe_H
-
-// EOF

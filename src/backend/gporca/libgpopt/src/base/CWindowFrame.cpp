@@ -327,6 +327,3 @@ CWindowFrame::OsPrint(IOstream &os, const CWindowFrameArray *pdrgpwf)
 
 	return os << "]";
 }
-
-
-// EOF

@@ -188,6 +188,3 @@ public:
 }  // namespace gpnaucrates
 
 #endif	// !GPNAUCRATES_CFilterCardinalityTest_H
-
-
-// EOF

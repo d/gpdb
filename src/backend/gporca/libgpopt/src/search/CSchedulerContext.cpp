@@ -84,6 +84,3 @@ CSchedulerContext::Init(CMemoryPool *pmpGlobal, CJobFactory *pjf,
 	m_peng = peng;
 	m_fInit = true;
 }
-
-
-// EOF

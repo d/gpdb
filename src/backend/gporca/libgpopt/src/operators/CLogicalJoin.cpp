@@ -65,5 +65,3 @@ CLogicalJoin::PstatsDerive(CMemoryPool *mp, CExpressionHandle &exprhdl,
 {
 	return CJoinStatsProcessor::DeriveJoinStats(mp, exprhdl, stats_ctxt);
 }
-
-// EOF

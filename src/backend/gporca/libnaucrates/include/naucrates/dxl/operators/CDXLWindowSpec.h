@@ -100,5 +100,3 @@ public:
 typedef CDynamicPtrArray<CDXLWindowSpec, CleanupRelease> CDXLWindowSpecArray;
 }  // namespace gpdxl
 #endif	// !GPDXL_CDXLWindowSpec_H
-
-// EOF

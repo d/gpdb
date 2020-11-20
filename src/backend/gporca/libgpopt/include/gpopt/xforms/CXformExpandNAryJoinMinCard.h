@@ -79,5 +79,3 @@ public:
 
 
 #endif	// !GPOPT_CXformExpandNAryJoinMinCard_H
-
-// EOF

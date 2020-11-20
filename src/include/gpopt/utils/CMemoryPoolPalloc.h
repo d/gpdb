@@ -58,5 +58,3 @@ public:
 }  // namespace gpos
 
 #endif	// !GPDXL_CMemoryPoolPalloc_H
-
-// EOF

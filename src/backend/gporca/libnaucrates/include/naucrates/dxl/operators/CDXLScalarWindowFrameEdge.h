@@ -117,5 +117,3 @@ public:
 };
 }  // namespace gpdxl
 #endif	// !GPDXL_CDXLScalarWindowFrameEdge_H
-
-// EOF

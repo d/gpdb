@@ -121,5 +121,3 @@ typedef CDynamicPtrArray<CMDColumn, CleanupRelease> CMDColumnArray;
 }  // namespace gpmd
 
 #endif	// !GPMD_CDXLColumn_H
-
-// EOF

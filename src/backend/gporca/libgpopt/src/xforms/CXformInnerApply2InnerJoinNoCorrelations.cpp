@@ -59,6 +59,3 @@ CXformInnerApply2InnerJoinNoCorrelations::Transform(CXformContext *pxfctxt,
 
 	CreateJoinAlternative(pxfctxt, pxfres, pexpr);
 }
-
-
-// EOF

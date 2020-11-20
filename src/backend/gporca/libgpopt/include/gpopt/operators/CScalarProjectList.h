@@ -98,5 +98,3 @@ public:
 
 
 #endif	// !GPOPT_CScalarProjectList_H
-
-// EOF

@@ -66,5 +66,3 @@ CErrorHandlerStandard::Process(CException exception)
 				 __LINE__);
 	}
 }
-
-// EOF

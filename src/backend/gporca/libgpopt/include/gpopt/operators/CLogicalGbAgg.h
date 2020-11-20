@@ -280,5 +280,3 @@ private:
 
 
 #endif	// !GPOS_CLogicalGbAgg_H
-
-// EOF

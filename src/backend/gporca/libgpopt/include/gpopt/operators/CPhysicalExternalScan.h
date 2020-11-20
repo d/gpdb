@@ -94,5 +94,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CPhysicalExternalScan_H
-
-// EOF

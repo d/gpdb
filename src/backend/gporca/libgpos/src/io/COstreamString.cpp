@@ -100,6 +100,3 @@ COstreamString::operator<<(const CHAR c)
 
 	return *this;
 }
-
-
-// EOF

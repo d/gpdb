@@ -879,5 +879,3 @@ CMDAccessorTest::PvInitMDAAndLookup(void *pv)
 
 	return NULL;
 }
-
-// EOF

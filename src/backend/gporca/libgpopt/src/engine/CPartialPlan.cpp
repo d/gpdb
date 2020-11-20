@@ -306,6 +306,3 @@ CPartialPlan::Equals(const CPartialPlan *pppFst, const CPartialPlan *pppSnd)
 			   pppSnd->Pgexpr() &&	// use pointers for fast comparison
 		   CReqdPropPlan::FEqualForCostBounding(pppFst->Prpp(), pppSnd->Prpp());
 }
-
-
-// EOF

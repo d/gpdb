@@ -82,5 +82,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CXformSplitLimit_H
-
-// EOF

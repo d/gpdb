@@ -116,5 +116,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CScalarAssertConstraint_H
-
-// EOF

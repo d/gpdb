@@ -144,7 +144,3 @@ CMDRequest::Serialize(CXMLSerializer *xml_serializer)
 		CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix),
 		CDXLTokens::GetDXLTokenStr(EdxltokenMDRequest));
 }
-
-
-
-// EOF

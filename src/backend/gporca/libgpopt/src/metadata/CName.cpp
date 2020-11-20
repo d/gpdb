@@ -174,5 +174,3 @@ CName::OsPrint(IOstream &os) const
 	   << GPOPT_NAME_QUOTE_END;
 	return os;
 }
-
-// EOF

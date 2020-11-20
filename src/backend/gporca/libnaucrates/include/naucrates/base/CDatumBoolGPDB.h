@@ -79,5 +79,3 @@ public:
 }  // namespace gpnaucrates
 
 #endif	// !GPNAUCRATES_CDatumBoolGPDB_H
-
-// EOF

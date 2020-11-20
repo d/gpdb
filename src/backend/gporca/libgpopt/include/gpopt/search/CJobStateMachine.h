@@ -216,6 +216,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CJobStateMachine_H
-
-
-// EOF

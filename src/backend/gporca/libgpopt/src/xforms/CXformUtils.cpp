@@ -4793,6 +4793,3 @@ CXformUtils::AddALinearStackOfUnaryExpressions(
 
 	return GPOS_NEW(mp) CExpression(mp, pop, childrenArray);
 }
-
-
-// EOF

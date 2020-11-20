@@ -195,4 +195,3 @@ CKeyCollectionTest::EresUnittest_Subsumes()
 
 	return GPOS_OK;
 }
-// EOF

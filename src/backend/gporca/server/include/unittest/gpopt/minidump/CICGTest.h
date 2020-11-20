@@ -87,5 +87,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CICGTest_H
-
-// EOF

@@ -92,5 +92,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CXformSplitGbAgg_H
-
-// EOF

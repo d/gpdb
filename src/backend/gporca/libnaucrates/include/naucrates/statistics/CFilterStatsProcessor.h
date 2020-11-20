@@ -105,5 +105,3 @@ public:
 }  // namespace gpnaucrates
 
 #endif	// !GPNAUCRATES_CFilterStatsProcessor_H
-
-// EOF

@@ -53,5 +53,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CWindowOids_H
-
-// EOF

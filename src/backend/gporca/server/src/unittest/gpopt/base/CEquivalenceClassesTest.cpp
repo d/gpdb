@@ -169,4 +169,3 @@ CEquivalenceClassesTest::EresUnittest_IntersectEquivalanceClasses()
 
 	return GPOS_OK;
 }
-// EOF

@@ -40,5 +40,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CExternalTableTest_H
-
-// EOF

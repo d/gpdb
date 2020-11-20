@@ -215,5 +215,3 @@ public:
 
 
 #endif	// !GPOPT_CLogicalDynamicGetBase_H
-
-// EOF

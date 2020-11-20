@@ -278,5 +278,3 @@ CMCVTest::EresUnittest_MergeHistMCV()
 
 	return GPOS_OK;
 }
-
-// EOF

@@ -159,5 +159,3 @@ public:
 }  // namespace gpdxl
 
 #endif	// !GPDXL_CParseHandlerMDGPDBType_H
-
-// EOF

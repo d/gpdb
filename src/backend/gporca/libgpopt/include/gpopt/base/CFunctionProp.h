@@ -93,5 +93,3 @@ operator<<(IOstream &os, CFunctionProp &fp)
 }  // namespace gpopt
 
 #endif	// !GPOPT_CFunctionProp_H
-
-// EOF

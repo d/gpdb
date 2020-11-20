@@ -405,5 +405,3 @@ CAutoTaskProxy::PropagateError(CTask *sub_task)
 	// propagate the error
 	CException::Reraise(current_err_ctxt->GetException(), true /*propagate*/);
 }
-
-// EOF

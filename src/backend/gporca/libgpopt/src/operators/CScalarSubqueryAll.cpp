@@ -54,5 +54,3 @@ CScalarSubqueryAll::PopCopyWithRemappedColumns(CMemoryPool *mp,
 	return GPOS_NEW(mp)
 		CScalarSubqueryAll(mp, scalar_op_mdid, pstrScalarOp, colref);
 }
-
-// EOF

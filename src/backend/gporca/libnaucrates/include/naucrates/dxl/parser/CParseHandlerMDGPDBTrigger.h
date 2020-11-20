@@ -81,5 +81,3 @@ public:
 }  // namespace gpdxl
 
 #endif	// !GPDXL_CParseHandlerMDGPDBTrigger_H
-
-// EOF

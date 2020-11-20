@@ -105,5 +105,3 @@ CXformCTEAnchor2TrivialSelect::Transform(CXformContext *pxfctxt,
 
 	pxfres->Add(pexprSelect);
 }
-
-// EOF

@@ -93,5 +93,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPNAUCRATES_CCost_H
-
-// EOF

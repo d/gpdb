@@ -384,5 +384,3 @@ operator<<(IOstream &os, CCTEMap &cm)
 }
 
 }  // namespace gpopt
-
-// EOF

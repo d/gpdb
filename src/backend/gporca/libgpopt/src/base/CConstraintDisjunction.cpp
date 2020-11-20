@@ -256,5 +256,3 @@ CConstraintDisjunction::PexprScalar(CMemoryPool *mp)
 
 	return m_pexprScalar;
 }
-
-// EOF

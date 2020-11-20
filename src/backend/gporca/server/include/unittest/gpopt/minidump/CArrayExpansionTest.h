@@ -26,5 +26,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CArrayExpansionTest_H
-
-// EOF

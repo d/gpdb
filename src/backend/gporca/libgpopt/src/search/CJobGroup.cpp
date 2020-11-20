@@ -95,5 +95,3 @@ CJobGroup::PgexprFirstUnschedLogical()
 
 	return pgexpr;
 }
-
-// EOF

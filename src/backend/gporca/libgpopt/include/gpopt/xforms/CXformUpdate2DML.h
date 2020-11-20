@@ -63,5 +63,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CXformUpdate2DML_H
-
-// EOF

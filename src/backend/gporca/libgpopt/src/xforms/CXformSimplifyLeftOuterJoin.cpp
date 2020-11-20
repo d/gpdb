@@ -112,5 +112,3 @@ CXformSimplifyLeftOuterJoin::Transform(CXformContext *pxfctxt,
 
 	pxfres->Add(pexprResult);
 }
-
-// EOF

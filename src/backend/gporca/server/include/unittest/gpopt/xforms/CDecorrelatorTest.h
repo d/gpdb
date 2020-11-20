@@ -47,5 +47,3 @@ public:
 
 
 #endif	// !GPOPT_CDecorrelatorTest_H
-
-// EOF

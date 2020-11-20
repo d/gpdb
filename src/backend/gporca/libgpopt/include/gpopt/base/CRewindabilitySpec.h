@@ -195,5 +195,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CRewindabilitySpec_H
-
-// EOF

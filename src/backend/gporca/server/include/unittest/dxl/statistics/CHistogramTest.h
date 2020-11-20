@@ -54,6 +54,3 @@ public:
 }  // namespace gpnaucrates
 
 #endif	// !GPNAUCRATES_CHistogramTest_H
-
-
-// EOF

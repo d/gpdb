@@ -65,5 +65,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CXformExternalGet2ExternalScan_H
-
-// EOF

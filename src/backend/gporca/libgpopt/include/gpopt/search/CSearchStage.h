@@ -155,6 +155,3 @@ operator<<(IOstream &os, CSearchStage &ss)
 }  // namespace gpopt
 
 #endif	// !GPOPT_CSearchStage_H
-
-
-// EOF

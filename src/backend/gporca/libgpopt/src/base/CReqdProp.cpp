@@ -41,6 +41,3 @@ CReqdProp::CReqdProp() = default;
 //
 //---------------------------------------------------------------------------
 CReqdProp::~CReqdProp() = default;
-
-
-// EOF

@@ -855,5 +855,3 @@ CDecorrelator::FProcessLimit(CMemoryPool *mp, CExpression *pexpr,
 
 	return true;
 }
-
-// EOF

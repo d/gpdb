@@ -81,5 +81,3 @@ CMDName::~CMDName()
 		GPOS_DELETE(m_name);
 	}
 }
-
-// EOF

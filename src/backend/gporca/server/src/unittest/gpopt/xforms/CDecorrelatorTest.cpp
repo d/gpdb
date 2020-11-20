@@ -114,5 +114,3 @@ CDecorrelatorTest::EresUnittest_Decorrelate()
 
 	return GPOS_OK;
 }
-
-// EOF

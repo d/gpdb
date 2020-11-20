@@ -1987,6 +1987,3 @@ CJoinOrderDPv2::DbgPrint()
 	OsPrint(at.Os());
 }
 #endif
-
-
-// EOF

@@ -164,6 +164,3 @@ CParseHandlerScalarMinMax::GetMinMaxType(const XMLCh *element_local_name)
 
 	return CDXLScalarMinMax::EmmtSentinel;
 }
-
-
-//EOF

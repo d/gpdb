@@ -589,5 +589,3 @@ CDistributionSpecTest::EresUnittest_NegativeRandom()
 	return GPOS_FAILED;
 }
 #endif	// GPOS_DEBUG
-
-// EOF

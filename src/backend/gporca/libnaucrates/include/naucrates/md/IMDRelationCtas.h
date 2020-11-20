@@ -119,5 +119,3 @@ public:
 }  // namespace gpmd
 
 #endif	// !GPMD_IMDRelationCTAS_H
-
-// EOF

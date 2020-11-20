@@ -65,5 +65,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CXformInlineCTEConsumer_H
-
-// EOF

@@ -65,5 +65,3 @@ CWString::Append(const CWStringBase *str)
 	}
 	GPOS_ASSERT(IsValid());
 }
-
-// EOF

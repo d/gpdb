@@ -106,5 +106,3 @@ gpos::syslib::CloseLog()
 {
 	closelog();
 }
-
-// EOF

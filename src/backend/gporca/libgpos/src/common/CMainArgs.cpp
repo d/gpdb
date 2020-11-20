@@ -91,5 +91,3 @@ CMainArgs::Getopt(CHAR *pch)
 
 	return false;
 }
-
-// EOF

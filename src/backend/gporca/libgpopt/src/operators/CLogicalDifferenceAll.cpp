@@ -186,5 +186,3 @@ CLogicalDifferenceAll::PxfsCandidates(CMemoryPool *mp) const
 	(void) xform_set->ExchangeSet(CXform::ExfDifferenceAll2LeftAntiSemiJoin);
 	return xform_set;
 }
-
-// EOF

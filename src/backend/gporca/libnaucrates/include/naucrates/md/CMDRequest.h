@@ -116,5 +116,3 @@ public:
 }  // namespace gpmd
 
 #endif	// !GPMD_CMDRequest_H
-
-// EOF

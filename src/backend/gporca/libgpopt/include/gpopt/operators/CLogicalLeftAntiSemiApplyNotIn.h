@@ -94,5 +94,3 @@ public:
 
 
 #endif	// !GPOPT_CLogicalLeftAntiSemiApplyNotIn_H
-
-// EOF

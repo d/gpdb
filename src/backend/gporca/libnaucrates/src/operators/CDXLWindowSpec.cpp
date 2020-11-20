@@ -108,5 +108,3 @@ CDXLWindowSpec::SerializeToDXL(CXMLSerializer *xml_serializer) const
 	xml_serializer->CloseElement(
 		CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 }
-
-// EOF

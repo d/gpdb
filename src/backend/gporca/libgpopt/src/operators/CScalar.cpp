@@ -419,5 +419,3 @@ CScalar::FHasScalarArrayCmp(CExpressionHandle &exprhdl)
 
 	return false;
 }
-
-// EOF

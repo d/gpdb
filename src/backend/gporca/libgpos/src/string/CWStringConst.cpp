@@ -116,5 +116,3 @@ CWStringConst::GetBuffer() const
 {
 	return m_w_str_buffer;
 }
-
-// EOF

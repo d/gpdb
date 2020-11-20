@@ -69,5 +69,3 @@ public:
 }  // namespace gpdxl
 
 #endif	// !GPDXL_CParseHandlerWindowSpecList_H
-
-// EOF

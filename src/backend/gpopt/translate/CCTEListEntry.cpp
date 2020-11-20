@@ -143,5 +143,3 @@ CCTEListEntry::AddCTEProducer(CMemoryPool *mp, CommonTableExpr *cte,
 
 	GPOS_ASSERT(result);
 }
-
-// EOF

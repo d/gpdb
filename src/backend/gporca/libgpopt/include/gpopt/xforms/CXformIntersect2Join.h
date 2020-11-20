@@ -69,5 +69,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CXformIntersect2Join_H
-
-// EOF

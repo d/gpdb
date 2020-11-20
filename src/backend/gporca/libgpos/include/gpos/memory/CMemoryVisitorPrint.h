@@ -61,5 +61,3 @@ public:
 }  // namespace gpos
 
 #endif	// GPOS_CMemoryVisitorPrint_H
-
-// EOF

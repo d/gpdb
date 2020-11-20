@@ -102,5 +102,3 @@ CXformDifferenceAll2LeftAntiSemiJoin::Transform(CXformContext *pxfctxt,
 	// add alternative to results
 	pxfres->Add(pexprLASJ);
 }
-
-// EOF

@@ -40,7 +40,3 @@ CDXLLogical::GetDXLOperatorType() const
 {
 	return EdxloptypeLogical;
 }
-
-
-
-// EOF

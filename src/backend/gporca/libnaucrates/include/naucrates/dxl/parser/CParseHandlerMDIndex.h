@@ -93,5 +93,3 @@ public:
 }  // namespace gpdxl
 
 #endif	// !GPDXL_CParseHandlerMDIndex_H
-
-// EOF

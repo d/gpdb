@@ -32,5 +32,3 @@ protected:
 }  // namespace gpos
 
 #endif	// !GPOS_CHeapObject_H
-
-// EOF

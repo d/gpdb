@@ -119,5 +119,3 @@ public:
 
 
 #endif	// !GPNAUCRATES_IDatumInt8_H
-
-// EOF

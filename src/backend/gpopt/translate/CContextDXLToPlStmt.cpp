@@ -531,5 +531,3 @@ CContextDXLToPlStmt::SetStaticPruneResult(ULONG scanId,
 	m_static_prune_results.resize(scanId);
 	m_static_prune_results[scanId - 1] = static_prune_result;
 }
-
-// EOF

@@ -181,5 +181,3 @@ public:
 }  // namespace gpmd
 
 #endif	// !GPMD_IMDCacheType_H
-
-// EOF

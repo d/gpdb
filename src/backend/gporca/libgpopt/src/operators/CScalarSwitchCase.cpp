@@ -41,5 +41,3 @@ CScalarSwitchCase::Matches(COperator *pop) const
 {
 	return (pop->Eopid() == Eopid());
 }
-
-// EOF

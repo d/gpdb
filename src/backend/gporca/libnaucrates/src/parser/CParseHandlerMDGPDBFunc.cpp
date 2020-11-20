@@ -270,5 +270,3 @@ CParseHandlerMDGPDBFunc::ParseFuncDataAccess(const XMLCh *xml_val)
 
 	return CMDFunctionGPDB::EfdaSentinel;
 }
-
-// EOF

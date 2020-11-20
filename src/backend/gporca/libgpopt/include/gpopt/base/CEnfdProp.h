@@ -133,5 +133,3 @@ IOstream &operator<<(IOstream &os, CEnfdProp &efdprop);
 
 
 #endif	// !GPOPT_CEnfdProp_H
-
-// EOF

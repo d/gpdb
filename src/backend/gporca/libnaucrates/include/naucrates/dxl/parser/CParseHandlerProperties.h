@@ -82,5 +82,3 @@ public:
 }  // namespace gpdxl
 
 #endif	// !GPDXL_CParseHandlerProperties_H
-
-// EOF

@@ -81,5 +81,3 @@ public:
 }  // namespace gpos
 
 #endif	// GPOS_CAutoMemoryPool_H
-
-// EOF

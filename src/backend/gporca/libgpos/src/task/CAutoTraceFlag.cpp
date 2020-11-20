@@ -47,6 +47,3 @@ CAutoTraceFlag::~CAutoTraceFlag()
 	// reset original value
 	ITask::Self()->SetTrace(m_trace, m_orig);
 }
-
-
-// EOF

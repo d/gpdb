@@ -248,5 +248,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CPhysicalLimit_H
-
-// EOF

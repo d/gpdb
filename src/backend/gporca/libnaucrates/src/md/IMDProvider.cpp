@@ -55,5 +55,3 @@ IMDProvider::GetGPDBTypeMdid(CMemoryPool *mp,
 			return NULL;
 	}
 }
-
-// EOF

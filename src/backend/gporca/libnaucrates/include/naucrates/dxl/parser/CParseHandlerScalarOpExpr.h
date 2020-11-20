@@ -64,5 +64,3 @@ public:
 
 }  // namespace gpdxl
 #endif	// GPDXL_CParseHandlerScalarOpExpr_H
-
-//EOF

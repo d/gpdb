@@ -408,5 +408,3 @@ public:
 
 
 #endif	// !GPDXL_CTranslatorRelcacheToDXL_H
-
-// EOF

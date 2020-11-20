@@ -114,5 +114,3 @@ CMiniDumperDXL::SerializeEntryFooter()
 {
 	*m_oos << CDXLSections::m_wszThreadFooter;
 }
-
-// EOF

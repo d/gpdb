@@ -186,5 +186,3 @@ CDXLScalarIdent::AssertValid(const CDXLNode *node,
 	GPOS_ASSERT(NULL != m_dxl_colref);
 }
 #endif	// GPOS_DEBUG
-
-// EOF

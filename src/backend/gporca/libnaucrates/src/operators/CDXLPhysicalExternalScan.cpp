@@ -71,5 +71,3 @@ CDXLPhysicalExternalScan::GetOpNameStr() const
 {
 	return CDXLTokens::GetDXLTokenStr(EdxltokenPhysicalExternalScan);
 }
-
-// EOF

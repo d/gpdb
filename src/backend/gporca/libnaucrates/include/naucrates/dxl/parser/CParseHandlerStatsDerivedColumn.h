@@ -89,5 +89,3 @@ public:
 }  // namespace gpdxl
 
 #endif	// !GPDXL_CParseHandlerStatsDerivedColumn_H
-
-// EOF

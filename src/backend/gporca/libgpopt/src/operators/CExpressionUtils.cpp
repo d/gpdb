@@ -290,5 +290,3 @@ CExpressionUtils::PexprDedupChildren(CMemoryPool *mp, CExpression *pexpr)
 	pop->AddRef();
 	return GPOS_NEW(mp) CExpression(mp, pop, pdrgpexprChildren);
 }
-
-// EOF

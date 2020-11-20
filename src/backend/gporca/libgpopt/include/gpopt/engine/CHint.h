@@ -153,5 +153,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CHint_H
-
-// EOF

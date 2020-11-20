@@ -84,5 +84,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CTranslatorDXLToExprTest_H
-
-// EOF

@@ -35,5 +35,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CColumnFactoryTest_H
-
-// EOF

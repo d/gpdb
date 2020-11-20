@@ -113,5 +113,3 @@ public:
 
 
 #endif	// !GPOPT_CEnfdOrder_H
-
-// EOF

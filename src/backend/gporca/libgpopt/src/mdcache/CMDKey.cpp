@@ -99,5 +99,3 @@ CMDKey::UlHashMDKey(CMDKey *const &pv)
 {
 	return pv->MDId()->HashValue();
 }
-
-// EOF

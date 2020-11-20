@@ -118,5 +118,3 @@ EqualGPDBAttInfo(const CGPDBAttInfo *gpdb_att_info_a,
 }  // namespace gpdxl
 
 #endif	// !GPDXL_CGPDBAttInfo_H
-
-// EOF

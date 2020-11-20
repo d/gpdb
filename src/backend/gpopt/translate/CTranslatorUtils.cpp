@@ -2278,5 +2278,3 @@ CTranslatorUtils::GetNumNonSystemColumns(const IMDRelation *rel)
 
 	return num_non_system_cols;
 }
-
-// EOF

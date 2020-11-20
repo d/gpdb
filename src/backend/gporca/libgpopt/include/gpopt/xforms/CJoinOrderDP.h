@@ -198,5 +198,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CJoinOrderDP_H
-
-// EOF

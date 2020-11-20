@@ -77,5 +77,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CXformLeftAntiSemiApply2LeftAntiSemiJoinNoCorrelations_H
-
-// EOF

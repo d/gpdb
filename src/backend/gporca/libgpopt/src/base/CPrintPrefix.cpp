@@ -54,6 +54,3 @@ CPrintPrefix::OsPrint(IOstream &os) const
 	os << m_sz;
 	return os;
 }
-
-
-// EOF

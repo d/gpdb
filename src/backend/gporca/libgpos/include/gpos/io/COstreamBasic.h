@@ -51,5 +51,3 @@ public:
 }  // namespace gpos
 
 #endif	// !GPOS_COstreamBasic_H
-
-// EOF

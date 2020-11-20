@@ -1856,5 +1856,3 @@ CStatisticsUtils::ComputeCardUpperBounds(
 		output_stats->AddCardUpperBound(upper_bound_NDVs_copy);
 	}
 }
-
-// EOF

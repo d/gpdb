@@ -77,5 +77,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CPhysicalDynamicTableScan_H
-
-// EOF

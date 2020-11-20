@@ -734,5 +734,3 @@ CParseHandlerDXL::ExtractScalarExpr(CParseHandlerBase *parse_handler_base)
 	m_scalar_expr_dxl = parse_handler_scalar_expr->CreateDXLNode();
 	m_scalar_expr_dxl->AddRef();
 }
-
-// EOF

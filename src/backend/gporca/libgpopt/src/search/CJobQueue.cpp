@@ -138,5 +138,3 @@ CJobQueue::OsPrintQueuedJobs(IOstream &os)
 }
 
 #endif	// GPOS_DEBUG
-
-// EOF

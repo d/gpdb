@@ -488,6 +488,3 @@ public:
 
 
 #endif	// !GPOPT_CStateMachine_H
-
-
-// EOF

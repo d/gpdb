@@ -123,5 +123,3 @@ public:
 }  // namespace gpdxl
 
 #endif	// !GPDXL_CParseHandlerMDRelation_H
-
-// EOF

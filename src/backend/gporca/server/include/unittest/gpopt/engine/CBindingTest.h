@@ -37,5 +37,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CBindingTest_H
-
-// EOF

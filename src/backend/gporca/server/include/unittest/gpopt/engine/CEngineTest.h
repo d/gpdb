@@ -107,6 +107,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CEngineTest_H
-
-
-// EOF

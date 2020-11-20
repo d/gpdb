@@ -82,5 +82,3 @@ CXformSelect2BitmapBoolOp::Transform(CXformContext *pxfctxt,
 		pxfres->Add(pexprResult);
 	}
 }
-
-// EOF

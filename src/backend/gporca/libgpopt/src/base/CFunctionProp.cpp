@@ -88,5 +88,3 @@ CFunctionProp::OsPrint(IOstream &os) const
 	os << rgszStability[m_efs] << ", " << rgszDataAccess[m_efda];
 	return os;
 }
-
-// EOF

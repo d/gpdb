@@ -133,5 +133,3 @@ public:
 
 
 #endif	// !GPOPT_CScalarIdent_H
-
-// EOF

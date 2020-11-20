@@ -801,5 +801,3 @@ CPartConstraint::PpartcnstrmapCombine(
 
 	return ppartcnstrmap;
 }
-
-// EOF

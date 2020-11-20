@@ -114,5 +114,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOS_CLogicalProject_H
-
-// EOF

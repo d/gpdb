@@ -62,5 +62,3 @@ public:
 }  // namespace gpmd
 
 #endif	// !GPMD_IMDAggregate_H
-
-// EOF

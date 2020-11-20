@@ -116,5 +116,3 @@ public:
 }  // namespace gpdxl
 
 #endif	// !GPDXL_CDXLScalarSubqueryQuantified_H
-
-// EOF

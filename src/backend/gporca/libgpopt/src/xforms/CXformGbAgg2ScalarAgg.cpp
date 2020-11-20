@@ -113,6 +113,3 @@ CXformGbAgg2ScalarAgg::Transform(CXformContext *pxfctxt, CXformResult *pxfres,
 	// add alternative to transformation result
 	pxfres->Add(pexprAlt);
 }
-
-
-// EOF

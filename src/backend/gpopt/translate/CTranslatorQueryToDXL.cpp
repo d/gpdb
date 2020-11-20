@@ -4547,5 +4547,3 @@ CTranslatorQueryToDXL::IsDMLQuery()
 {
 	return (m_is_top_query_dml || m_query->resultRelation != 0);
 }
-
-// EOF

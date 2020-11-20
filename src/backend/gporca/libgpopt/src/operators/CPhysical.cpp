@@ -1279,5 +1279,3 @@ CPhysical::Ped(CMemoryPool *mp, CExpressionHandle &exprhdl,
 		Edm(prppInput, child_index, pdrgpdpCtxt, ulDistrReq));
 	;
 }
-
-// EOF

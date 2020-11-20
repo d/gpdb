@@ -34,4 +34,3 @@ CJoinOrderDPTest::EresUnittest()
 		rgszFileNames, &ulTestCounter, GPOS_ARRAY_SIZE(rgszFileNames), true,
 		true);
 }
-// EOF

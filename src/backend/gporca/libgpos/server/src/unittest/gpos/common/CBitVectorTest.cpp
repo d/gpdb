@@ -272,5 +272,3 @@ CBitVectorTest::EresUnittest_OutOfBounds()
 }
 
 #endif	// GPOS_DEBUG
-
-// EOF

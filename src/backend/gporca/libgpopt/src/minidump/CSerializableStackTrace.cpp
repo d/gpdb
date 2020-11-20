@@ -75,5 +75,3 @@ CSerializableStackTrace::Serialize(COstream &oos)
 
 	oos << wszStackBuffer;
 }
-
-// EOF

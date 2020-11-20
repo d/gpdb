@@ -190,5 +190,3 @@ CConstExprEvaluatorDXLTest::EresUnittest_ScalarContainingVariables()
 
 	return GPOS_OK;
 }
-
-// EOF

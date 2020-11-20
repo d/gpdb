@@ -156,6 +156,3 @@ CXformIndexGet2IndexOnlyScan::Transform(CXformContext *pxfctxt,
 		pexprIndexCond);
 	pxfres->Add(pexprAlt);
 }
-
-
-// EOF

@@ -56,5 +56,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CXformRemoveSubqDistinct_H
-
-// EOF

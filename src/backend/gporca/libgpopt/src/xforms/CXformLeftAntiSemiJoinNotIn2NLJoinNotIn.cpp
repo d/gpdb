@@ -78,6 +78,3 @@ CXformLeftAntiSemiJoinNotIn2NLJoinNotIn::Transform(CXformContext *pxfctxt,
 	CXformUtils::ImplementNLJoin<CPhysicalLeftAntiSemiNLJoinNotIn>(
 		pxfctxt, pxfres, pexpr);
 }
-
-
-// EOF

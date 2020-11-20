@@ -133,5 +133,3 @@ public:
 
 
 #endif	// !GPOPT_CScalarArray_H
-
-// EOF

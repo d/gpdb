@@ -479,5 +479,3 @@ CICGTest::EresUnittest_PreferHashJoinVersusIndexJoinWhenRiskIsHigh()
 
 	return eres;
 }
-
-// EOF

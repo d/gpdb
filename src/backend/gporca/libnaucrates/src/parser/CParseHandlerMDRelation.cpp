@@ -418,6 +418,3 @@ CParseHandlerMDRelation::ParseChildNodes()
 	this->Append(trigger_list_parse_handler);
 	this->Append(check_constraint_list_parse_handler);
 }
-
-
-// EOF

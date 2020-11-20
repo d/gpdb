@@ -105,5 +105,3 @@ public:
 }  // namespace gpdxl
 
 #endif	// !GPDXL_CParseHandlerCostParam_H
-
-// EOF

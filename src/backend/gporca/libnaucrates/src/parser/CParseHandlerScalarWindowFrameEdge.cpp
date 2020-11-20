@@ -145,5 +145,3 @@ CParseHandlerScalarWindowFrameEdge::EndElement(
 				   str->GetBuffer());
 	}
 }
-
-// EOF

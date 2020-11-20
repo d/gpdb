@@ -67,6 +67,3 @@ CColumnDescriptor::OsPrint(IOstream &os) const
 {
 	return m_name.OsPrint(os);
 }
-
-
-// EOF

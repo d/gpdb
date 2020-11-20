@@ -75,5 +75,3 @@ CDXLDatumInt4::Serialize(CXMLSerializer *xml_serializer)
 			CDXLTokens::GetDXLTokenStr(EdxltokenIsNull), true);
 	}
 }
-
-// EOF

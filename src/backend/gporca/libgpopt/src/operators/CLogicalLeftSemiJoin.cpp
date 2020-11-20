@@ -155,4 +155,3 @@ CLogicalLeftSemiJoin::PstatsDerive(CMemoryPool *mp, CExpressionHandle &exprhdl,
 
 	return pstatsSemiJoin;
 }
-// EOF

@@ -106,5 +106,3 @@ ResetTraceflags(CBitSet *pbsEnabled, CBitSet *pbsDisabled)
 		GPOS_UNSET_TRACE(ulTraceFlag);
 	}
 }
-
-// EOF

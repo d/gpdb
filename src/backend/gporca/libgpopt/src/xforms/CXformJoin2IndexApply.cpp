@@ -801,5 +801,3 @@ CXformJoin2IndexApply::AddUnionPlanForPartialIndexes(
 		mp, GPOS_NEW(mp) CLogicalCTEAnchor(mp, ulCTEId), pexprUnion);
 	pxfres->Add(pexprAnchor);
 }
-
-// EOF

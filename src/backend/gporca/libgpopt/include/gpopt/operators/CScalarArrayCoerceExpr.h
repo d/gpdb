@@ -80,5 +80,3 @@ public:
 
 
 #endif	// !GPOPT_CScalarArrayCoerceExpr_H
-
-// EOF

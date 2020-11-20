@@ -43,5 +43,3 @@ CAutoTrace::~CAutoTrace()
 		GPOS_TRACE(m_wstr.GetBuffer());
 	}
 }
-
-// EOF

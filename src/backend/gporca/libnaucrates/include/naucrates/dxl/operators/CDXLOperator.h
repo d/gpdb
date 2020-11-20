@@ -266,5 +266,3 @@ public:
 }  // namespace gpdxl
 
 #endif	// !GPDXL_CDXLOperator_H
-
-// EOF

@@ -180,5 +180,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CPhysicalComputeScalar_H
-
-// EOF

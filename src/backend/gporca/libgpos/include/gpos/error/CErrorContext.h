@@ -196,5 +196,3 @@ public:
 }  // namespace gpos
 
 #endif	// !GPOS_CErrorContext_H
-
-// EOF

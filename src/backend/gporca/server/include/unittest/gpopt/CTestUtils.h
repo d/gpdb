@@ -879,5 +879,3 @@ CTestUtils::PexprLogicalApplyWithOuterRef(CMemoryPool *mp)
 
 
 #endif	// !GPOPT_CTestUtils_H
-
-// EOF

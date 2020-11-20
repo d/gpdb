@@ -25,5 +25,3 @@ CRefCount::DbgPrint() const
 	OsPrint(at.Os());
 }
 #endif	// GPOS_DEBUG
-
-// EOF

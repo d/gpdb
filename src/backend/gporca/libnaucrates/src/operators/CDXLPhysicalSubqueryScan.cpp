@@ -153,5 +153,3 @@ CDXLPhysicalSubqueryScan::AssertValid(const CDXLNode *dxlnode,
 	GPOS_ASSERT(m_mdname_alias->GetMDName()->IsValid());
 }
 #endif	// GPOS_DEBUG
-
-// EOF

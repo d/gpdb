@@ -219,4 +219,3 @@ CWStringBase::CountOccurrencesOf(const WCHAR wc) const
 	}
 	return occurrences;
 }
-// EOF

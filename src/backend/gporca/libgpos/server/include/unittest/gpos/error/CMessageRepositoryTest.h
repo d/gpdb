@@ -34,5 +34,3 @@ public:
 }  // namespace gpos
 
 #endif	// !GPOS_CMessageRepositoryTest_H
-
-// EOF

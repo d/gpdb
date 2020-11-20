@@ -811,5 +811,3 @@ CTranslatorDXLToExprTest::EresUnittest_MetadataColumnMapping()
 
 	return GPOS_OK;
 }
-
-// EOF

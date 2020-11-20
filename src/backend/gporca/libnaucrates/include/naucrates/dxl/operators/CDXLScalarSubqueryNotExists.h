@@ -75,5 +75,3 @@ public:
 
 
 #endif	// !GPDXL_CDXLScalarSubqueryNotExists_H
-
-// EOF

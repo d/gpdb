@@ -73,5 +73,3 @@ CEscapeMechanismTest::EresUnittest_RunTests()
 		true /* fTestSpacePruning */
 	);
 }
-
-// EOF

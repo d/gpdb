@@ -293,5 +293,3 @@ CJoinOrderGreedy::GetAdjacentComponentsToJoinCandidate()
 
 	return candidate_component_set;
 }
-
-// EOF

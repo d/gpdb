@@ -128,5 +128,3 @@ CDXLScalarConstValue::AssertValid(const CDXLNode *node,
 	GPOS_ASSERT(m_dxl_datum->MDId()->IsValid());
 }
 #endif	// GPOS_DEBUG
-
-// EOF

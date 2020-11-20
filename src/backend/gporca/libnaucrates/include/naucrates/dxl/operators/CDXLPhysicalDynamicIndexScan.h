@@ -110,5 +110,3 @@ public:
 };
 }  // namespace gpdxl
 #endif	// !GPDXL_CDXLPhysicalDynamicIndexScan_H
-
-// EOF

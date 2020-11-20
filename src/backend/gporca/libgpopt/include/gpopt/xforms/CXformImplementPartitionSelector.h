@@ -70,5 +70,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CXformImplementPartitionSelector_H
-
-// EOF

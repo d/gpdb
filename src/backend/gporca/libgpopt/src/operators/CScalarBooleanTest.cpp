@@ -156,7 +156,3 @@ CScalarBooleanTest::OsPrint(IOstream &os) const
 
 	return os;
 }
-
-
-
-// EOF

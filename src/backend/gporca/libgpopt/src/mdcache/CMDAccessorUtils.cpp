@@ -437,6 +437,3 @@ CMDAccessorUtils::FCommutativeScalarOp(CMDAccessor *md_accessor, IMDId *mdid_op)
 
 	return mdid_op->Equals(md_scalar_op->GetCommuteOpMdid());
 }
-
-
-// EOF

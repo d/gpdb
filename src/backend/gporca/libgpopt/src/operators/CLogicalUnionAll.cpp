@@ -195,5 +195,3 @@ CLogicalUnionAll::PstatsDerive(CMemoryPool *mp, CExpressionHandle &exprhdl,
 
 	return PstatsDeriveUnionAll(mp, exprhdl);
 }
-
-// EOF

@@ -110,5 +110,3 @@ public:
 };
 }  // namespace gpdxl
 #endif	// !GPDXL_CDXLPhysicalPartitionSelector_H
-
-// EOF

@@ -51,6 +51,3 @@ CTimerUser::Restart()
 {
 	syslib::GetRusage(&m_rusage);
 }
-
-
-// EOF

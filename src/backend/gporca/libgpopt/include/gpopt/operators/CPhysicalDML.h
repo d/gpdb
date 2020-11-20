@@ -337,5 +337,3 @@ public:
 
 
 #endif	// !GPOS_CPhysicalDML_H
-
-// EOF

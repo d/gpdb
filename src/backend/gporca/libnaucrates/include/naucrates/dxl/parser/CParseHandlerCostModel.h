@@ -72,5 +72,3 @@ public:
 }  // namespace gpdxl
 
 #endif	// !GPDXL_CParseHandlerCostModel_H
-
-// EOF

@@ -204,6 +204,3 @@ CDXLPhysicalMotion::SerializeSegmentInfoToDXL(
 	GPOS_DELETE(input_segment_ids_str);
 	GPOS_DELETE(output_segment_ids_str);
 }
-
-
-// EOF

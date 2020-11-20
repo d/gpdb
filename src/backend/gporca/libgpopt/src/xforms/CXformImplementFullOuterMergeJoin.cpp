@@ -49,5 +49,3 @@ CXformImplementFullOuterMergeJoin::Transform(CXformContext *pxfctxt,
 	CXformUtils::ImplementMergeJoin<CPhysicalFullMergeJoin>(pxfctxt, pxfres,
 															pexpr);
 }
-
-// EOF

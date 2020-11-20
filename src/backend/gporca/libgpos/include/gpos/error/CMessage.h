@@ -99,5 +99,3 @@ public:
 }  // namespace gpos
 
 #endif	// !GPOS_CMessage_H
-
-// EOF

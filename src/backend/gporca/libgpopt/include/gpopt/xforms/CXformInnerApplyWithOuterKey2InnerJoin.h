@@ -76,5 +76,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CXformInnerApplyWithOuterKey2InnerJoin_H
-
-// EOF

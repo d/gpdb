@@ -282,5 +282,3 @@ CSearchStrategyTest::BuildMemo(CMemoryPool *mp, CExpression *pexprInput,
 
 	GPOS_CHECK_ABORT;
 }
-
-// EOF

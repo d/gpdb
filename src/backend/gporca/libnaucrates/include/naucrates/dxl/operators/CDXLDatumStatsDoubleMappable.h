@@ -94,5 +94,3 @@ public:
 }  // namespace gpdxl
 
 #endif	// !GPDXL_CDXLDatumStatsDoubleMappable_H
-
-// EOF

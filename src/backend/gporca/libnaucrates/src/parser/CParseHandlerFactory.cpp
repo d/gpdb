@@ -2099,4 +2099,3 @@ CParseHandlerFactory::CreateNLJIndexParamParseHandler(
 	return GPOS_NEW(mp) CParseHandlerNLJIndexParam(mp, parse_handler_manager,
 												   parse_handler_root);
 }
-// EOF

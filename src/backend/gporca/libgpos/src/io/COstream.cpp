@@ -283,5 +283,3 @@ COstream::operator<<(WOSTREAM &(*func_ptr)(WOSTREAM &) __attribute__((unused)))
 	(*this) << '\n';
 	return *this;
 }
-
-// EOF

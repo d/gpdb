@@ -175,5 +175,3 @@ CParseHandlerHint::GetHint() const
 {
 	return m_hint;
 }
-
-// EOF

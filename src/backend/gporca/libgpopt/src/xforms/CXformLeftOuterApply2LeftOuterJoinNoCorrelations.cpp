@@ -60,6 +60,3 @@ CXformLeftOuterApply2LeftOuterJoinNoCorrelations::Transform(
 
 	CreateJoinAlternative(pxfctxt, pxfres, pexpr);
 }
-
-
-// EOF

@@ -29,6 +29,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CEquivalenceClassesTest_H
-
-
-// EOF

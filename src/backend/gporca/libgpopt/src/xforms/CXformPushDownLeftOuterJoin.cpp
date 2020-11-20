@@ -205,5 +205,3 @@ CXformPushDownLeftOuterJoin::Transform(CXformContext *pxfctxt,
 
 	pxfres->Add(pexprResult);
 }
-
-// EOF

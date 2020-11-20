@@ -379,5 +379,3 @@ CEnumeratorConfig::PrintPlanSample() const
 		at.Os() << UllPlanSample(ulSamples - 1) + 1 << std::endl;
 	}
 }
-
-// EOF

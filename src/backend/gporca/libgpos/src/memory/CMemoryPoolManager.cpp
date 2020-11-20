@@ -272,5 +272,3 @@ CMemoryPoolManager::Shutdown()
 
 	Free(internal);
 }
-
-// EOF

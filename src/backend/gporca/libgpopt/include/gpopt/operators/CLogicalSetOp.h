@@ -159,5 +159,3 @@ public:
 
 
 #endif	// !GPOS_CLogicalSetOp_H
-
-// EOF

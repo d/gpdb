@@ -451,5 +451,3 @@ CXMLSerializer::AddAttribute(const CWStringBase *pstrAttr, BOOL is_null,
 		GPOS_DELETE(str);
 	}
 }
-
-// EOF

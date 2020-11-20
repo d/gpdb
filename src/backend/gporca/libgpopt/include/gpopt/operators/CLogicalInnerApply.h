@@ -120,5 +120,3 @@ public:
 
 
 #endif	// !GPOPT_CLogicalInnerApply_H
-
-// EOF

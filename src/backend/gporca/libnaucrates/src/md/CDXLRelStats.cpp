@@ -205,5 +205,3 @@ CDXLRelStats::CreateDXLDummyRelStats(CMemoryPool *mp, IMDId *mdid)
 	mdname.Reset();
 	return rel_stats_dxl.Reset();
 }
-
-// EOF

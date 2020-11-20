@@ -80,5 +80,3 @@ CPhysicalDynamicTableScan::PstatsDerive(CMemoryPool *mp,
 	return CStatisticsUtils::DeriveStatsForDynamicScan(
 		mp, exprhdl, ScanId(), prpplan->Pepp()->PpfmDerived());
 }
-
-// EOF

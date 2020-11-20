@@ -98,5 +98,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CPhysicalInnerHashJoin_H
-
-// EOF

@@ -88,5 +88,3 @@ public:
 }  // namespace gpmd
 
 #endif	// !GPMD_CMDIdGPDBCTAS_H
-
-// EOF

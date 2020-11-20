@@ -76,5 +76,3 @@ public:
 }  // namespace gpdxl
 
 #endif	// !GPDXL_CParseHandlerMetadataIdList_H
-
-// EOF

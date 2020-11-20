@@ -180,5 +180,3 @@
 #include "gpopt/operators/CPredicateUtils.h"
 
 #endif	// !GPOPT_ops_H
-
-// EOF

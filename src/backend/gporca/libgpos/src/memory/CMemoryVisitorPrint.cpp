@@ -93,6 +93,3 @@ CMemoryVisitorPrint::Visit(void *user_addr, SIZE_T user_size, void *total_addr,
 
 	++m_visits;
 }
-
-
-// EOF

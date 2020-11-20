@@ -1305,5 +1305,3 @@ CFilterCardinalityTest::EresUnittest_CStatisticsAccumulateCard()
 
 	return GPOS_OK;
 }
-
-// EOF

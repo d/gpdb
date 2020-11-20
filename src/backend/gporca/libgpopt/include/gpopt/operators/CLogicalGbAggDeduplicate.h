@@ -149,5 +149,3 @@ public:
 
 
 #endif	// !GPOS_CLogicalGbAggDeduplicate_H
-
-// EOF

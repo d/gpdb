@@ -83,5 +83,3 @@ public:
 
 
 #endif	// !GPOPT_CXformExploration_H
-
-// EOF

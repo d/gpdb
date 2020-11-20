@@ -175,5 +175,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CExpressionPreprocessorTest_H
-
-// EOF

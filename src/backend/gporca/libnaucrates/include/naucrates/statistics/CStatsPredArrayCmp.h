@@ -86,5 +86,3 @@ public:
 }  // namespace gpnaucrates
 
 #endif	// !GPNAUCRATES_CStatsPredArrayCmp_H
-
-// EOF

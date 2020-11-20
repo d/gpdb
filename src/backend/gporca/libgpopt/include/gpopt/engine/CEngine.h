@@ -418,6 +418,3 @@ operator<<(IOstream &os, const CEngine &eng)
 }  // namespace gpopt
 
 #endif	// !GPOPT_CEngine_H
-
-
-// EOF

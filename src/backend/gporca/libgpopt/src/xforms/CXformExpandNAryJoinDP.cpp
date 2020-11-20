@@ -137,5 +137,3 @@ CXformExpandNAryJoinDP::Transform(CXformContext *pxfctxt, CXformResult *pxfres,
 		}
 	}
 }
-
-// EOF

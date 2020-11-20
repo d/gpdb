@@ -301,5 +301,3 @@ CXformLeftSemiApplyWithExternalCorrs2InnerJoin::Transform(
 		pxfres->Add(pexprResult);
 	}
 }
-
-// EOF

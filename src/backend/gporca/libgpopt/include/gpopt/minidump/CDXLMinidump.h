@@ -124,5 +124,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CDXLMinidump_H
-
-// EOF

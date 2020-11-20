@@ -78,5 +78,3 @@ public:
 
 
 #endif	// !GPDXL_CDXLColRef_H
-
-// EOF

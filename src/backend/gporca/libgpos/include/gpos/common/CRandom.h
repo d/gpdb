@@ -46,5 +46,3 @@ public:
 };	//class CRandom
 }  // namespace gpos
 #endif /* CRANDOM_H_ */
-
-// EOF

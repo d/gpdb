@@ -98,5 +98,3 @@ public:
 }  // namespace gpdxl
 
 #endif	// !GPDXL_CDXLScalarFuncExpr_H
-
-// EOF

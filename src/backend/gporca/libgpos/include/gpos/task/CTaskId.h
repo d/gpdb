@@ -76,5 +76,3 @@ public:
 }  // namespace gpos
 
 #endif	// !GPOS_CTaskId_H
-
-// EOF

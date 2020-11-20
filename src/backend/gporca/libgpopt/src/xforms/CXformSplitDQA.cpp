@@ -827,5 +827,3 @@ CXformSplitDQA::ExtractDistinctCols(
 	}
 	pcrsArgDQA->Release();
 }
-
-// EOF

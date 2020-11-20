@@ -57,5 +57,3 @@ public:
 };
 }  // namespace gpdxl
 #endif	// !GPDXL_CParseHandlerScalarLimitOffset_H
-
-//EOF

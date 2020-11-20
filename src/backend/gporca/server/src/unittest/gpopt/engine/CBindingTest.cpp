@@ -152,4 +152,3 @@ CBindingTest::EresUnittest_Basic()
 
 	return eres;
 }
-// EOF

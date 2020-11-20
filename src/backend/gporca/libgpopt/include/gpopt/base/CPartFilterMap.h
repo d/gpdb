@@ -179,5 +179,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CPartFilterMap_H
-
-// EOF

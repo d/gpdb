@@ -107,5 +107,3 @@ public:
 }  // namespace gpdxl
 
 #endif	// !GPDXL_CDXLScalarAggref_H
-
-// EOF

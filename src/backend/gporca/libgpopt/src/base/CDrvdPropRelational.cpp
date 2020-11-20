@@ -644,4 +644,3 @@ CDrvdPropRelational::DeriveTableDescriptor(CExpressionHandle &exprhdl)
 
 	return m_table_descriptor;
 }
-// EOF

@@ -45,6 +45,3 @@ public:
 }  // namespace gpos
 
 #endif	// GPOS_CAutoSuspendAbort_H
-
-
-// EOF

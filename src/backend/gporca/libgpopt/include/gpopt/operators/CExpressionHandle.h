@@ -343,5 +343,3 @@ public:
 
 
 #endif	// !GPOPT_CExpressionHandle_H
-
-// EOF

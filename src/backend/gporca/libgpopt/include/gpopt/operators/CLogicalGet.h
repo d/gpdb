@@ -238,5 +238,3 @@ public:
 
 
 #endif	// !GPOPT_CLogicalGet_H
-
-// EOF

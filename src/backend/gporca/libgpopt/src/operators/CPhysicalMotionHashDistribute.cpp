@@ -235,5 +235,3 @@ CPhysicalMotionHashDistribute::PdsRequired(
 		return pdsHashed;
 	}
 }
-
-// EOF

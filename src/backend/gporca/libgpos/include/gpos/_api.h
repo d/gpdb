@@ -77,5 +77,3 @@ void gpos_terminate(void);
 #endif /* __cplusplus */
 
 #endif /* !GPOS_api_H */
-
-// EOF

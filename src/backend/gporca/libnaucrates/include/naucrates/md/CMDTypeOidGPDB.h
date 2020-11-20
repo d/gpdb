@@ -247,5 +247,3 @@ public:
 }  // namespace gpmd
 
 #endif	// !GPMD_CMDTypeOidGPDB_H
-
-// EOF

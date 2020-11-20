@@ -127,5 +127,3 @@ CProjectStatsProcessor::CalcProjStats(CMemoryPool *mp,
 
 	return projection_stats;
 }
-
-// EOF

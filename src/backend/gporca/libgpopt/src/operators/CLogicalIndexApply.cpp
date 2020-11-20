@@ -127,5 +127,3 @@ CLogicalIndexApply::PopCopyWithRemappedColumns(CMemoryPool *mp,
 
 	return result;
 }
-
-// EOF

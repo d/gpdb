@@ -109,5 +109,3 @@ CCorrelatedExecutionTest::EresUnittest_RunAllPositiveTests()
 
 	return GPOS_OK;
 }
-
-// EOF

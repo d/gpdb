@@ -413,5 +413,3 @@ CMDIndexGPDB::IsCompatible(const IMDScalarOp *md_scalar_op, ULONG key_pos) const
 
 	return false;
 }
-
-// EOF

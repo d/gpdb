@@ -64,5 +64,3 @@ public:
 }  // namespace gpmd
 
 #endif	// !GPMD_IMDCheckConstraint_H
-
-// EOF

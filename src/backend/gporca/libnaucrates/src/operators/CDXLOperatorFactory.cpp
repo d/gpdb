@@ -3580,5 +3580,3 @@ CDXLOperatorFactory::ParseIndexType(const Attributes &attrs)
 
 	return IMDIndex::EmdindSentinel;
 }
-
-// EOF

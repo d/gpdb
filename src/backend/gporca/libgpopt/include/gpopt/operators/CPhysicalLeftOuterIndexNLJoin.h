@@ -96,5 +96,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CPhysicalLeftOuterIndexNLJoin_H
-
-// EOF

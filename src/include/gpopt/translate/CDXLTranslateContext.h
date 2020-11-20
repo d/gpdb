@@ -121,5 +121,3 @@ typedef CDynamicPtrArray<const CDXLTranslateContext, CleanupNULL>
 }  // namespace gpdxl
 
 #endif	// !GPDXL_CDXLTranslateContext_H
-
-// EOF

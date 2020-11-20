@@ -681,5 +681,3 @@ CJoinStatsProcessor::DeriveStatsWithOuterRefs(
 
 	return result_stats;
 }
-
-// EOF

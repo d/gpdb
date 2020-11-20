@@ -127,5 +127,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CIndexDescriptor_H
-
-// EOF

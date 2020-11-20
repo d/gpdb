@@ -103,5 +103,3 @@ CPhysicalDynamicBitmapTableScan::PstatsDerive(
 
 	return stats;
 }
-
-// EOF

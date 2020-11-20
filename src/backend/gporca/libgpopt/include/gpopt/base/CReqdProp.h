@@ -118,5 +118,3 @@ operator<<(IOstream &os, const CReqdProp &reqdprop)
 
 
 #endif	// !GPOPT_CReqdProp_H
-
-// EOF

@@ -35,5 +35,3 @@ public:
 }  // namespace gpos
 
 #endif	// !GPOS_CAutoRgTest_H
-
-// EOF

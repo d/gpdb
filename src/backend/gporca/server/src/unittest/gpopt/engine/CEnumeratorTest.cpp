@@ -655,5 +655,3 @@ CEnumeratorTest::EresUnittest_CheckNoOneStageAgg()
 
 
 #endif	// GPOS_DEBUG
-
-// EOF

@@ -51,6 +51,3 @@ CSerializable::~CSerializable()
 
 	task->ConvertErrCtxt()->Unregister(this);
 }
-
-
-// EOF

@@ -479,5 +479,3 @@ public:
 }  // namespace gpnaucrates
 
 #endif	// !GPNAUCRATES_CHistogram_H
-
-// EOF

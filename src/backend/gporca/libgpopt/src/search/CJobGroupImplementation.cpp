@@ -310,5 +310,3 @@ CJobGroupImplementation::OsPrint(IOstream &os) const
 }
 
 #endif	// GPOS_DEBUG
-
-// EOF

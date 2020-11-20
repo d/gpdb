@@ -187,5 +187,3 @@ CStackTest::EresUnittest_Pop()
 	return GPOS_FAILED;
 }
 #endif
-
-// EOF

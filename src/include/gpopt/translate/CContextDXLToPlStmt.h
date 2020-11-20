@@ -261,5 +261,3 @@ public:
 
 }  // namespace gpdxl
 #endif	// !GPDXL_CContextDXLToPlStmt_H
-
-//EOF

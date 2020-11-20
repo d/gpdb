@@ -61,5 +61,3 @@ public:
 
 
 #endif	// !GPMD_IMDPartConstraint_H
-
-// EOF

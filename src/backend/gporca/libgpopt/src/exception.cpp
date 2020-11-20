@@ -133,6 +133,3 @@ gpopt::EresExceptionInit(CMemoryPool *mp)
 
 	return eres;
 }
-
-
-// EOF

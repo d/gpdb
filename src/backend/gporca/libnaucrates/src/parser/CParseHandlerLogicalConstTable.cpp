@@ -173,4 +173,3 @@ CParseHandlerLogicalConstTable::EndElement(
 				   str->GetBuffer());
 	}
 }
-// EOF

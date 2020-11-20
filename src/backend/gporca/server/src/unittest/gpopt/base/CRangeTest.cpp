@@ -350,5 +350,3 @@ CRangeTest::PrintRange(CMemoryPool *mp, CColRef *colref, CRange *prange)
 			<< *pexpr << std::endl;
 	pexpr->Release();
 }
-
-// EOF

@@ -118,5 +118,3 @@ public:
 
 
 #endif	// !GPOS_CPhysicalHashAggDeduplicate_H
-
-// EOF

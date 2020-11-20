@@ -547,5 +547,3 @@ CDatumGenericGPDB::GetTrailingWildcardSelectivity(const BYTE *dest,
 
 	return CDouble(1.0);
 }
-
-// EOF

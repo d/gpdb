@@ -72,5 +72,3 @@ public:
 }  // namespace gpdxl
 
 #endif	// !GPDXL_CParseHandlerScalarSubPlanTestExpr_H
-
-// EOF

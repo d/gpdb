@@ -1513,5 +1513,3 @@ CNormalizer::FLocalColsSubsetOfInputCols(CMemoryPool *mp, CExpression *pexpr)
 }
 
 #endif	//GPOS_DEBUG
-
-// EOF

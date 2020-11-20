@@ -46,6 +46,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOS_CDistributionSpecTest_H
-
-
-// EOF

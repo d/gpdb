@@ -71,5 +71,3 @@ public:
 
 
 #endif	// !GPMD_CMDProviderGeneric_H
-
-// EOF

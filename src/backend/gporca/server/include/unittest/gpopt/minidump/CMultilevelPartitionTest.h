@@ -41,5 +41,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CMultilevelPartitionTest_H
-
-// EOF

@@ -70,5 +70,3 @@ public:
 
 
 #endif	// !GPOPT_CXformJoinAssociativity_H
-
-// EOF

@@ -287,6 +287,3 @@ COptimizationJobsTest::EresUnittest_StateMachine()
 
 	return GPOS_OK;
 }
-
-
-// EOF

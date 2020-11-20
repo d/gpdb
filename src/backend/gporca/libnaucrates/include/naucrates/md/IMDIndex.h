@@ -97,5 +97,3 @@ public:
 
 
 #endif	// !GPMD_IMDIndex_H
-
-// EOF

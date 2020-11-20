@@ -1806,5 +1806,3 @@ CSubqueryTestUtils::PexprSubqueryWithDisjunction(CMemoryPool *mp)
 
 	return CUtils::PexprLogicalSelect(mp, pexprOuter, pexprBoolOp);
 }
-
-// EOF

@@ -70,5 +70,3 @@ public:
 };
 }  // namespace gpdxl
 #endif	// !GPDXL_CDXLScalarFilter_H
-
-// EOF

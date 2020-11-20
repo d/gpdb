@@ -2904,5 +2904,3 @@ CPredicateUtils::ExprsContainsOnlyStrictComparisons(CExpressionArray *conjuncts)
 
 	return result;
 }
-
-// EOF

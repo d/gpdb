@@ -134,5 +134,3 @@ public:
 }  // namespace gpdxl
 
 #endif	//!GPDXL_CXMLSerializer_H
-
-// EOF

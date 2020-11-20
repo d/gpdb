@@ -187,5 +187,3 @@ public:
 
 
 #endif	// !GPOPT_CNormalizer_H
-
-// EOF

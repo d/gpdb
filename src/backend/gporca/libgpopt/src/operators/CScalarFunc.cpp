@@ -252,6 +252,3 @@ CScalarFunc::Eber(ULongPtrArray *pdrgpulChildren) const
 
 	return EberAny;
 }
-
-
-// EOF

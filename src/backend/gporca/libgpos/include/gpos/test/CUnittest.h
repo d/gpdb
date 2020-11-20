@@ -197,5 +197,3 @@ public:
 }  // namespace gpos
 
 #endif	// GPOS_CUnittest_H
-
-// EOF

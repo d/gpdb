@@ -1385,6 +1385,3 @@ CBucket::MakeBucketSingleton(CMemoryPool *mp, IDatum *datum)
 				true /* is_lower_closed */, true /* is_upper_closed */,
 				CDouble(1.0), CDouble(1.0));
 }
-
-
-// EOF

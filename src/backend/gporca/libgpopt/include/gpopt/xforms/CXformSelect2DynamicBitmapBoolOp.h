@@ -64,5 +64,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CXformSelect2DynamicBitmapBoolOp_H
-
-// EOF

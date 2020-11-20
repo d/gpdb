@@ -65,5 +65,3 @@ CCastTest::EresUnittest_RunTests()
 	return CTestUtils::EresUnittest_RunTests(rgszCastMdpFiles, &m_ulTestCounter,
 											 GPOS_ARRAY_SIZE(rgszCastMdpFiles));
 }
-
-// EOF

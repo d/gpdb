@@ -180,5 +180,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CPhysicalFilter_H
-
-// EOF

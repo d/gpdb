@@ -115,5 +115,3 @@ public:
 }  // namespace gpos
 
 #endif	// !GPOS_CHashMapIter_H
-
-// EOF

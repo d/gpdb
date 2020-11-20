@@ -122,5 +122,3 @@ CDXLScalarPartListValues::Cast(CDXLOperator *dxl_op)
 
 	return dynamic_cast<CDXLScalarPartListValues *>(dxl_op);
 }
-
-// EOF

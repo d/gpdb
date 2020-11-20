@@ -177,5 +177,3 @@ CErrorHandlerTest::EresUnittest_Unhandled()
 }
 
 #endif	// GPOS_DEBUG
-
-// EOF

@@ -60,6 +60,3 @@ ICostModel::SetParams(ICostModelParamsArray *pdrgpcp)
 									   pcp->GetUpperBoundVal());
 	}
 }
-
-
-// EOF

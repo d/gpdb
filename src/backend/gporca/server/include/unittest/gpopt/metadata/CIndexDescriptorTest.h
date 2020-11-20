@@ -35,5 +35,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CIndexDescriptorTest_H
-
-// EOF

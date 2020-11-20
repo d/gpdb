@@ -239,5 +239,3 @@ public:
 }  // namespace gpnaucrates
 
 #endif	// !GPNAUCRATES_CBucket_H
-
-// EOF

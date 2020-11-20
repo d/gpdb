@@ -128,5 +128,3 @@ CXformSelect2IndexGet::Transform(CXformContext *pxfctxt, CXformResult *pxfres,
 	pcrsReqd->Release();
 	pdrgpexpr->Release();
 }
-
-// EOF

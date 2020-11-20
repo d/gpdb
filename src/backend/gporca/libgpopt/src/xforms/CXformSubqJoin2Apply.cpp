@@ -371,6 +371,3 @@ CXformSubqJoin2Apply::Transform(CXformContext *pxfctxt, CXformResult *pxfres,
 	pexprResult->Release();
 	pxfres->Add(pexprNormalized);
 }
-
-
-// EOF

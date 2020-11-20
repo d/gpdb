@@ -122,5 +122,3 @@ public:
 
 
 #endif	// !GPOPT_CScalarProjectElement_H
-
-// EOF

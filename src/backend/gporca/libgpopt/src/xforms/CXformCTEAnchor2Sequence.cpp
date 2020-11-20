@@ -114,5 +114,3 @@ CXformCTEAnchor2Sequence::Transform(CXformContext *pxfctxt,
 
 	pxfres->Add(pexprSequence);
 }
-
-// EOF

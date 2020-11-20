@@ -276,5 +276,3 @@ public:
 }  // namespace gpos
 
 #endif	// !GPOS_CSyncHashtable_H
-
-// EOF

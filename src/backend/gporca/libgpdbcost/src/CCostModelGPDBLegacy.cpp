@@ -1094,5 +1094,3 @@ CCostModelGPDBLegacy::Cost(
 
 	return pfnc(m_mp, exprhdl, this, pci);
 }
-
-// EOF

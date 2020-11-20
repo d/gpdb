@@ -229,5 +229,3 @@ public:
 
 
 #endif	// !GPOPT_CExpressionPreprocessor_H
-
-// EOF

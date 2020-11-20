@@ -129,5 +129,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOS_CLogicalAssert_H
-
-// EOF

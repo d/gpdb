@@ -101,5 +101,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CXformInnerJoinWithInnerSelect2PartialDynamicIndexGetApply_H
-
-// EOF

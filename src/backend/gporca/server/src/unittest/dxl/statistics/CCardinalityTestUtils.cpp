@@ -249,6 +249,3 @@ CCardinalityTestUtils::PrintStats(CMemoryPool *mp, const CStatistics *stats)
 	oss << std::endl;
 	GPOS_TRACE(str.GetBuffer());
 }
-
-
-// EOF

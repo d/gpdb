@@ -714,6 +714,3 @@ CReqdPropPlan::PrppRemap(CMemoryPool *mp, CReqdPropPlan *prppInput,
 
 	return GPOS_NEW(mp) CReqdPropPlan(pcrsRequired, peo, ped, per, pepp, pcter);
 }
-
-
-// EOF

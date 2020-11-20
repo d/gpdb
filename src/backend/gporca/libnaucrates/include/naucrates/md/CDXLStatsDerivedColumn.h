@@ -118,5 +118,3 @@ typedef CDynamicPtrArray<CDXLStatsDerivedColumn, CleanupRelease>
 }  // namespace gpmd
 
 #endif	// !GPMD_CDXLStatsDerivedColumn_H
-
-// EOF

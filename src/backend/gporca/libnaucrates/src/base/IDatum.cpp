@@ -220,5 +220,3 @@ IDatum::StatsAreComparable(const IDatum *datum) const
 
 	return is_double_comparison || is_lint_comparison;
 }
-
-//EOF

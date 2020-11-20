@@ -152,5 +152,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CPhysicalMotionGather_H
-
-// EOF

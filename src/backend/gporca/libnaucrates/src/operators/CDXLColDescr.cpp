@@ -196,5 +196,3 @@ CDXLColDescr::SerializeToDXL(CXMLSerializer *xml_serializer) const
 
 	GPOS_CHECK_ABORT;
 }
-
-// EOF

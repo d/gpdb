@@ -107,5 +107,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !CDefaultComparator_H
-
-// EOF

@@ -99,6 +99,3 @@ CLogicalMaxOneRow::PstatsDerive(CMemoryPool *mp, CExpressionHandle &exprhdl,
 	IStatistics *stats = exprhdl.Pstats(0);
 	return stats->ScaleStats(mp, CDouble(1.0 / stats->Rows()));
 }
-
-
-// EOF

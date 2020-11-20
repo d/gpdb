@@ -88,5 +88,3 @@ public:
 
 
 #endif	// !GPOPT_CDrvdPropCtxtRelational_H
-
-// EOF

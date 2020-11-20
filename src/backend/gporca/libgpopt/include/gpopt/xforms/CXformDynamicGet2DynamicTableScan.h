@@ -71,5 +71,3 @@ public:
 
 
 #endif	// !GPOPT_CXformDynamicGet2DynamicTableScan_H
-
-// EOF

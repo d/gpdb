@@ -770,5 +770,3 @@ CParseHandlerTest::EresParseAndSerializeScalarExpr(CMemoryPool *mp,
 
 	return eres;
 }
-
-// EOF

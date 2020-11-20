@@ -293,5 +293,3 @@ CParseHandlerPhysicalDML::GetDmlOpType(const XMLCh *dml_op_type_xml)
 
 	return EdxldmlSentinel;
 }
-
-// EOF

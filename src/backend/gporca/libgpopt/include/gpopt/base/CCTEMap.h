@@ -225,5 +225,3 @@ IOstream &operator<<(IOstream &os, CCTEMap &cm);
 }  // namespace gpopt
 
 #endif	// !GPOPT_CCTEMap_H
-
-// EOF

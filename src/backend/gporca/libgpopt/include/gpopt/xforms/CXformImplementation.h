@@ -52,5 +52,3 @@ public:
 
 
 #endif	// !GPOPT_CXformImplementation_H
-
-// EOF

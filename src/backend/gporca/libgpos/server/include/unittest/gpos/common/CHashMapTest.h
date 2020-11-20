@@ -35,5 +35,3 @@ public:
 }  // namespace gpos
 
 #endif	// !GPOS_CHashMapTest_H
-
-// EOF

@@ -64,5 +64,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CXformCTEAnchor2TrivialSelect_H
-
-// EOF

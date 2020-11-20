@@ -76,5 +76,3 @@ public:
 }  // namespace gpdxl
 
 #endif	// !GPDXL_CParseHandlerTraceFlags_H
-
-// EOF

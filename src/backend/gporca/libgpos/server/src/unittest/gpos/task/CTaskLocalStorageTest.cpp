@@ -111,4 +111,3 @@ CTaskLocalStorageTest::EresUnittest_TraceFlags()
 
 	return GPOS_OK;
 }
-// EOF

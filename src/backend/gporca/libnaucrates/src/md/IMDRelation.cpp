@@ -116,5 +116,3 @@ IMDRelation::IsPartialIndex(IMDId *	 // mdid
 {
 	return false;
 }
-
-// EOF

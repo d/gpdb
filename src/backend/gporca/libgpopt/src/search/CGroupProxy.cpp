@@ -214,6 +214,3 @@ CGroupProxy::PgexprNextLogical(CGroupExpression *pgexpr)
 
 	return PgexprSkip(PgexprNext(pgexpr), false /*fSkipLogical*/);
 }
-
-
-// EOF

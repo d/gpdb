@@ -64,5 +64,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CXformCollapseProject_H
-
-// EOF

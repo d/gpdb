@@ -327,5 +327,3 @@ CParseHandlerMDGPDBScalarOp::IsSupportedChildElem(const XMLCh *const xml_str)
 						 EdxltokenGPDBScalarOpLegacyHashOpfamily),
 					 xml_str));
 }
-
-// EOF

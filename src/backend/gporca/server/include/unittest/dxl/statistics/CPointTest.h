@@ -40,6 +40,3 @@ public:
 }  // namespace gpnaucrates
 
 #endif	// !GPNAUCRATES_CPointTest_H
-
-
-// EOF

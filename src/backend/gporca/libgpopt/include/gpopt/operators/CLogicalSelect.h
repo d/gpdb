@@ -145,5 +145,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOS_CLogicalSelect_H
-
-// EOF

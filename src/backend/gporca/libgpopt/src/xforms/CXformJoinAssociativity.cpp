@@ -294,6 +294,3 @@ CXformJoinAssociativity::Transform(CXformContext *pxfctxt, CXformResult *pxfres,
 		pdrgpexprUpper->Release();
 	}
 }
-
-
-// EOF

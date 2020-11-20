@@ -242,5 +242,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CDistributionSpecHashed_H
-
-// EOF

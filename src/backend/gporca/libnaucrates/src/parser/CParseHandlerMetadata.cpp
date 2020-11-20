@@ -273,5 +273,3 @@ CParseHandlerMetadata::GetSrcSysIdArray(const Attributes &attrs,
 
 	return src_sys_id_array;
 }
-
-// EOF

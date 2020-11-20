@@ -122,5 +122,3 @@ CParseHandlerOptimizerConfigSerializeTest::EresUnittest()
 	return GPOS_OK;
 }
 }  // namespace gpdxl
-
-// EOF

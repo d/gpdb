@@ -134,5 +134,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CPhysicalMotionHashDistribute_H
-
-// EOF

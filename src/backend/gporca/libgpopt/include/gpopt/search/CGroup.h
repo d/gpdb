@@ -628,6 +628,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CGroup_H
-
-
-// EOF

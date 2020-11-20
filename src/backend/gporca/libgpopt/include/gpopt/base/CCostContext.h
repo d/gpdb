@@ -306,5 +306,3 @@ public:
 
 
 #endif	// !GPOPT_CCostContext_H
-
-// EOF

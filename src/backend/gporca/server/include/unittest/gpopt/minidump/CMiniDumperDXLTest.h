@@ -38,5 +38,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CMiniDumperDXLTest_H
-
-// EOF

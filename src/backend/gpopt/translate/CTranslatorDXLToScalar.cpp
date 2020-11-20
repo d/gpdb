@@ -2126,5 +2126,3 @@ CTranslatorDXLToScalar::HasConstNull(CDXLNode *dxlnode)
 
 	return dxlop->GetDatumVal()->IsNull();
 }
-
-// EOF

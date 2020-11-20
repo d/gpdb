@@ -91,5 +91,3 @@ CXformLeftAntiSemiJoinNotIn2HashJoinNotIn::Transform(CXformContext *pxfctxt,
 		}
 	}
 }
-
-// EOF

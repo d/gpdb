@@ -172,6 +172,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CJobGroupOptimization_H
-
-
-// EOF

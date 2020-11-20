@@ -359,5 +359,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_ICostModel_H
-
-// EOF

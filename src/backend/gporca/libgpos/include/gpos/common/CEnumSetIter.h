@@ -57,5 +57,3 @@ public:
 
 
 #endif	// !GPOS_CEnumSetIter_H
-
-// EOF

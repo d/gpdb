@@ -79,5 +79,3 @@ CCollapseProjectTest::EresUnittest_RunTests()
 		rgszCollapseProjectFileNames, &m_ulCollapseProjectTestCounter,
 		GPOS_ARRAY_SIZE(rgszCollapseProjectFileNames));
 }
-
-// EOF

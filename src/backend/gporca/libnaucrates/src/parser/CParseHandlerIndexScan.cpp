@@ -247,5 +247,3 @@ CParseHandlerIndexScan::EndElementHelper(const XMLCh *const element_local_name,
 	// deactivate handler
 	m_parse_handler_mgr->DeactivateHandler();
 }
-
-// EOF

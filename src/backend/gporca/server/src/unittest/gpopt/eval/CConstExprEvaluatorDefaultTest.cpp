@@ -90,5 +90,3 @@ CConstExprEvaluatorDefaultTest::EresUnittest()
 
 	return GPOS_OK;
 }
-
-// EOF

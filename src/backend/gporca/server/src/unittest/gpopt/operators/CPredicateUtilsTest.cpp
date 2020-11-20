@@ -424,4 +424,3 @@ CPredicateUtilsTest::EresUnittest_Implication()
 
 	return GPOS_OK;
 }
-// EOF

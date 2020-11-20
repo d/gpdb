@@ -3398,5 +3398,3 @@ CTranslatorRelcacheToDXL::RetrieveScOpOpFamilies(CMemoryPool *mp,
 
 	return input_col_mdids;
 }
-
-// EOF

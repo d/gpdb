@@ -112,5 +112,3 @@ CXformInlineCTEConsumerUnderSelect::Transform(CXformContext *pxfctxt,
 	// add alternative to xform result
 	pxfres->Add(pexprNormalized);
 }
-
-// EOF

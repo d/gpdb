@@ -75,5 +75,3 @@ public:
 
 
 #endif	// !GPMD_CMDProviderMemory_H
-
-// EOF

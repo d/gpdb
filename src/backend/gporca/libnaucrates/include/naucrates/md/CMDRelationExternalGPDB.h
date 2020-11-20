@@ -226,5 +226,3 @@ public:
 }  // namespace gpmd
 
 #endif	// !GPMD_CMDRelationExternalGPDB_H
-
-// EOF

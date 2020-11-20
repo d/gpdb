@@ -1041,5 +1041,3 @@ CConstraint::PrintConjunctionDisjunction(IOstream &os,
 
 	return os;
 }
-
-// EOF

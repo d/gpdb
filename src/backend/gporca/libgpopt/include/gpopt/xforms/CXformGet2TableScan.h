@@ -65,5 +65,3 @@ public:
 
 
 #endif	// !GPOPT_CXformGet2TableScan_H
-
-// EOF

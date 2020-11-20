@@ -146,5 +146,3 @@ CDXLPhysicalLimit::AssertValid(const CDXLNode *node,
 	}
 }
 #endif	// GPOS_DEBUG
-
-// EOF

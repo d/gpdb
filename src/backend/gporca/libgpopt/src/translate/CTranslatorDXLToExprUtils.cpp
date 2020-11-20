@@ -290,6 +290,3 @@ CTranslatorDXLToExprUtils::FCastFunc(CMDAccessor *md_accessor,
 
 	return (pmdcast->GetCastFuncMdId()->Equals(pdxlopScFunc->FuncMdId()));
 }
-
-
-// EOF

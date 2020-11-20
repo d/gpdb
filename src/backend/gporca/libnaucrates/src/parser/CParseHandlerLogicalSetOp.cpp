@@ -235,4 +235,3 @@ CParseHandlerLogicalSetOp::EndElement(const XMLCh *const,  // element_uri,
 	// deactivate handler
 	m_parse_handler_mgr->DeactivateHandler();
 }
-// EOF

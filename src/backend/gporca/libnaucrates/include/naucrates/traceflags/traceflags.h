@@ -275,5 +275,3 @@ void ResetTraceflags(gpos::CBitSet *enable_bitset,
 #endif	// __cplusplus
 
 #endif	// ! GPOPT_traceflags_H
-
-// EOF

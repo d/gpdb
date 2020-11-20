@@ -80,5 +80,3 @@ void CreateTempDir(CHAR *dir_path);
 }  // namespace gpos
 
 #endif	// !GPOS_ioutils_H
-
-// EOF

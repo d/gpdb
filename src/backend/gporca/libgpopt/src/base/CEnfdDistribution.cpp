@@ -195,6 +195,3 @@ CEnfdDistribution::OsPrint(IOstream &os) const
 
 	return os << " match: " << m_szDistributionMatching[m_edm];
 }
-
-
-// EOF

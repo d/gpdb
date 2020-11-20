@@ -175,5 +175,3 @@ CDXLCtasStorageOptions::GetOnCommitActionStr(
 			return NULL;
 	}
 }
-
-// EOF

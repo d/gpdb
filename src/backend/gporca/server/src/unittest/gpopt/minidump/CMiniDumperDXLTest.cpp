@@ -258,4 +258,3 @@ CMiniDumperDXLTest::EresUnittest_Load()
 	);
 	return eres;
 }
-// EOF

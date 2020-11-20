@@ -98,5 +98,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CXformInnerJoin2PartialDynamicIndexGetApply_H
-
-// EOF

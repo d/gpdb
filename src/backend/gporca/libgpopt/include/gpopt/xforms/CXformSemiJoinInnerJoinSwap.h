@@ -63,5 +63,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CXformSemiJoinInnerJoinSwap_H
-
-// EOF

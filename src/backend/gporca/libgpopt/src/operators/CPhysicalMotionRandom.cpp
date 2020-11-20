@@ -197,5 +197,3 @@ CPhysicalMotionRandom::PopConvert(COperator *pop)
 
 	return dynamic_cast<CPhysicalMotionRandom *>(pop);
 }
-
-// EOF

@@ -90,5 +90,3 @@ public:
 }  // namespace gpnaucrates
 
 #endif	// !GPNAUCRATES_CUpperBoundNDVs_H
-
-// EOF

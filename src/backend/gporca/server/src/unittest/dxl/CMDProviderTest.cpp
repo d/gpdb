@@ -242,5 +242,3 @@ CMDProviderTest::EresUnittest_Negative()
 
 	return GPOS_FAILED;
 }
-
-// EOF

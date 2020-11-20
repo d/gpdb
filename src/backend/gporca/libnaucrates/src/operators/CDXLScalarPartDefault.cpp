@@ -102,5 +102,3 @@ CDXLScalarPartDefault::AssertValid(const CDXLNode *dxlnode,
 	GPOS_ASSERT(0 == dxlnode->Arity());
 }
 #endif	// GPOS_DEBUG
-
-// EOF

@@ -181,5 +181,3 @@ public:
 
 
 #endif	// !GPOPT_CPhysicalCorrelatedLeftSemiNLJoin_H
-
-// EOF

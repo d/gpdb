@@ -104,5 +104,3 @@ public:
 
 
 #endif	// !GPOPT_CScalarSwitchCase_H
-
-// EOF

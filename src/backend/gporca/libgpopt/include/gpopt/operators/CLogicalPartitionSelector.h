@@ -206,5 +206,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CLogicalPartitionSelector_H
-
-// EOF

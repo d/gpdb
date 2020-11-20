@@ -125,5 +125,3 @@ public:
 }  // namespace gpos
 
 #endif	// !GPOS_CMemoryPoolTracker_H
-
-// EOF

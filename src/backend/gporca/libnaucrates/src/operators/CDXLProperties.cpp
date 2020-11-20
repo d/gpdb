@@ -100,5 +100,3 @@ CDXLProperties::SerializeStatsToDXL(CXMLSerializer *xml_serializer) const
 		m_dxl_stats_derived_relation->Serialize(xml_serializer);
 	}
 }
-
-// EOF

@@ -858,5 +858,3 @@ CDXLTokens::XmlstrFromWsz(const WCHAR *wsz)
 	GPOS_DELETE_ARRAY(sz);
 	return pxmlsz;
 }
-
-// EOF

@@ -135,5 +135,3 @@ CContradictionTest::EresUnittest_Constraint()
 
 	return GPOS_OK;
 }
-
-// EOF

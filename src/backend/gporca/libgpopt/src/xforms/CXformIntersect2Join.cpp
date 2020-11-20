@@ -101,5 +101,3 @@ CXformIntersect2Join::Transform(CXformContext *pxfctxt, CXformResult *pxfres,
 
 	pxfres->Add(pexprJoin);
 }
-
-// EOF

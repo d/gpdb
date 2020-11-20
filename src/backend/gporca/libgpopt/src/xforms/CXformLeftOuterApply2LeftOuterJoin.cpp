@@ -59,6 +59,3 @@ CXformLeftOuterApply2LeftOuterJoin::Transform(CXformContext *pxfctxt,
 
 	Decorrelate(pxfctxt, pxfres, pexpr);
 }
-
-
-// EOF

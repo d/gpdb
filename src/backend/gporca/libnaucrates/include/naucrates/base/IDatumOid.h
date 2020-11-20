@@ -117,5 +117,3 @@ public:
 }  // namespace gpnaucrates
 
 #endif	// !GPNAUCRATES_IDatumOid_H
-
-// EOF

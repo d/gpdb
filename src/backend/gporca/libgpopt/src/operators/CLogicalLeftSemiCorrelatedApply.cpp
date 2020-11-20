@@ -78,6 +78,3 @@ CLogicalLeftSemiCorrelatedApply::PopCopyWithRemappedColumns(
 	return GPOS_NEW(mp)
 		CLogicalLeftSemiCorrelatedApply(mp, pdrgpcrInner, m_eopidOriginSubq);
 }
-
-
-// EOF

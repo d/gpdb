@@ -308,5 +308,3 @@ CPartConstraintTest::EresUnittest_DateIntervals()
 
 	return GPOS_OK;
 }
-
-// EOF

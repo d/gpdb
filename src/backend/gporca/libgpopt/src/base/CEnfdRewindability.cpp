@@ -134,6 +134,3 @@ CEnfdRewindability::OsPrint(IOstream &os) const
 
 	return os << " match: " << m_szRewindabilityMatching[m_erm];
 }
-
-
-// EOF

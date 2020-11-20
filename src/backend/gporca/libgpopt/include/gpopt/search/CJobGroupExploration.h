@@ -140,6 +140,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CJobGroupExploration_H
-
-
-// EOF

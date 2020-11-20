@@ -77,5 +77,3 @@ CDXLPhysicalProperties::GetDXLOperatorCost() const
 {
 	return m_operator_cost_dxl;
 }
-
-// EOF

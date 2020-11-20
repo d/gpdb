@@ -4877,4 +4877,3 @@ CUtils::AddExprs(CExpressionArrays *results_exprs,
 	}
 	GPOS_ASSERT(results_exprs->Size() >= input_exprs->Size());
 }
-// EOF

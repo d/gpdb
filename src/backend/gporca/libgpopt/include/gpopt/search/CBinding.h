@@ -93,5 +93,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CBinding_H
-
-// EOF

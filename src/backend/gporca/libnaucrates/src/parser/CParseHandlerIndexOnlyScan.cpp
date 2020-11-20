@@ -70,5 +70,3 @@ CParseHandlerIndexOnlyScan::EndElement(const XMLCh *const,	// element_uri,
 {
 	EndElementHelper(element_local_name, EdxltokenPhysicalIndexOnlyScan);
 }
-
-// EOF

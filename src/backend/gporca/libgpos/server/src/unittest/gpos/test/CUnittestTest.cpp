@@ -38,5 +38,3 @@ CUnittestTest::EresSubtest(ULONG ulSubtest)
 }
 
 }  // namespace gpos
-
-// EOF

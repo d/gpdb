@@ -368,6 +368,3 @@ CWStringDynamic::Capacity(ULONG requested)
 
 	return capacity;
 }
-
-
-// EOF

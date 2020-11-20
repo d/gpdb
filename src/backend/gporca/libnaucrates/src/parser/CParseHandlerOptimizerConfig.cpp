@@ -298,5 +298,3 @@ CParseHandlerOptimizerConfig::GetOptimizerConfig() const
 {
 	return m_optimizer_config;
 }
-
-// EOF

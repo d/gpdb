@@ -100,5 +100,3 @@ CScalarArrayRef::Matches(COperator *pop) const
 		   m_pmdidElem->Equals(popArrayRef->PmdidElem()) &&
 		   m_pmdidArray->Equals(popArrayRef->PmdidArray());
 }
-
-// EOF

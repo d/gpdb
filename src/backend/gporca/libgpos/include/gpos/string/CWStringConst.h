@@ -50,5 +50,3 @@ public:
 }  // namespace gpos
 
 #endif	// #ifndef GPOS_CWStringConst_H
-
-// EOF

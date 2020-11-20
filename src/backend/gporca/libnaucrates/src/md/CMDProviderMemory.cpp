@@ -224,5 +224,3 @@ CMDProviderMemory::MDId(CMemoryPool *mp, CSystemId sysid,
 {
 	return GetGPDBTypeMdid(mp, sysid, type_info);
 }
-
-// EOF

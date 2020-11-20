@@ -454,5 +454,3 @@ CLogicalSequenceProject::PopRemoveLocalOuterRefs(CMemoryPool *mp,
 
 	return GPOS_NEW(mp) CLogicalSequenceProject(mp, pds, pdrgpos, m_pdrgpwf);
 }
-
-// EOF

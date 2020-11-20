@@ -46,6 +46,3 @@ CIdGenerator::current_id()
 {
 	return id;
 }
-
-
-// EOF

@@ -61,5 +61,3 @@ CDXLPhysicalIndexOnlyScan::GetOpNameStr() const
 {
 	return CDXLTokens::GetDXLTokenStr(EdxltokenPhysicalIndexOnlyScan);
 }
-
-// EOF

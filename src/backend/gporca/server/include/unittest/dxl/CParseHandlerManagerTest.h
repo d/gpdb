@@ -41,5 +41,3 @@ public:
 }  // namespace gpdxl
 
 #endif	// GPOPT_CParseHandlerManagerTest_H
-
-// EOF

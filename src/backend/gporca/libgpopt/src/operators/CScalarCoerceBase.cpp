@@ -135,5 +135,3 @@ CScalarCoerceBase::PopCopyWithRemappedColumns(
 {
 	return PopCopyDefault();
 }
-
-// EOF

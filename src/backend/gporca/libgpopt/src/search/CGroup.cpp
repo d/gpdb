@@ -2129,5 +2129,3 @@ CGroup::DbgPrintWithProperties()
 }
 
 #endif
-
-// EOF

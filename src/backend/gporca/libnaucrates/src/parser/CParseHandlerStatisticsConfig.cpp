@@ -160,5 +160,3 @@ CParseHandlerStatisticsConfig::GetStatsConf() const
 {
 	return m_stats_conf;
 }
-
-// EOF

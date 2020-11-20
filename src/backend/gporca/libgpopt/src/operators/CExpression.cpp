@@ -1617,4 +1617,3 @@ CExpression::DeriveHasScalarArrayCmp()
 	exprhdl.Attach(this);
 	return m_pdpscalar->DeriveHasScalarArrayCmp(exprhdl);
 }
-// EOF

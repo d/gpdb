@@ -135,5 +135,3 @@ CMissingStatsTest::EresUnittest_RunTests()
 
 	return eres;
 }
-
-// EOF

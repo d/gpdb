@@ -127,5 +127,3 @@ public:
 
 
 #endif	// !GPOPT_CEnfdPartitionPropagation_H
-
-// EOF

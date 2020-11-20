@@ -62,5 +62,3 @@ public:
 
 }  // namespace gpdxl
 #endif	// GPDXL_CParseHandlerScalarNullTest_H
-
-//EOF

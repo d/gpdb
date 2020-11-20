@@ -141,5 +141,3 @@ enum ELocale
 }  // namespace gpos
 
 #endif	// !GPOS_types_H
-
-// EOF

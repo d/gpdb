@@ -53,5 +53,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CXformJoin2BitmapIndexGetApply_H
-
-// EOF

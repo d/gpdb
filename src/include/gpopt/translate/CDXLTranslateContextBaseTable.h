@@ -91,5 +91,3 @@ public:
 }  // namespace gpdxl
 
 #endif	// !GPDXL_CDXLTranslateContextBaseTable_H
-
-// EOF

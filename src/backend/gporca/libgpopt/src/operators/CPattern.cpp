@@ -99,5 +99,3 @@ CPattern::PopCopyWithRemappedColumns(CMemoryPool *,		  //mp,
 		!"PopCopyWithRemappedColumns should not be called for a pattern");
 	return NULL;
 }
-
-// EOF

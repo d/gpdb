@@ -141,4 +141,3 @@ CParseHandlerGroupingColList::GetGroupingColidArray()
 {
 	return m_grouping_colids_array;
 }
-// EOF

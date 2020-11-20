@@ -1066,4 +1066,3 @@ CDistributionSpecHashed::MakeHashedDistrSpec(
 	return GPOS_NEW(mp) CDistributionSpecHashed(pdrgpexpr, fNullsColocated,
 												pdshashedEquiv, opfamilies);
 }
-// EOF

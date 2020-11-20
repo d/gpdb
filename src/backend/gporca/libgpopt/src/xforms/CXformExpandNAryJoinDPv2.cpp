@@ -147,5 +147,3 @@ CXformExpandNAryJoinDPv2::Transform(CXformContext *pxfctxt,
 		pxfres->Add(pexprNormalized);
 	}
 }
-
-// EOF

@@ -1380,5 +1380,3 @@ CExpressionTest::PexprComplexJoinTree(CMemoryPool *mp)
 
 	return pexprTopJoin;
 }
-
-// EOF

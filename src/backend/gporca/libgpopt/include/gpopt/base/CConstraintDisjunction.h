@@ -96,5 +96,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CConstraintDisjunction_H
-
-// EOF

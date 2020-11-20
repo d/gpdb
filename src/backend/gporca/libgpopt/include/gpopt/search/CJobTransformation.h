@@ -126,6 +126,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CJobTransformation_H
-
-
-// EOF

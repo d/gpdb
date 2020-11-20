@@ -51,5 +51,3 @@ public:
 }  // namespace gpos
 
 #endif	// !GPOS_CAutoTimer_H
-
-// EOF

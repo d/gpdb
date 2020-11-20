@@ -418,6 +418,3 @@ CBinding::PexprExtract(CMemoryPool *mp, CGroup *pgroup,
 	// group exhausted
 	return NULL;
 }
-
-
-// EOF

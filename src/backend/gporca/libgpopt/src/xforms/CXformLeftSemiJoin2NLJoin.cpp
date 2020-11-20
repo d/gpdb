@@ -79,6 +79,3 @@ CXformLeftSemiJoin2NLJoin::Transform(CXformContext *pxfctxt,
 	CXformUtils::ImplementNLJoin<CPhysicalLeftSemiNLJoin>(pxfctxt, pxfres,
 														  pexpr);
 }
-
-
-// EOF

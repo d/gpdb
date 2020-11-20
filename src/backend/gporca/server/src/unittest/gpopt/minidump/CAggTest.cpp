@@ -131,5 +131,3 @@ CAggTest::EresUnittest_RunTests()
 											 &m_ulAggTestCounter,
 											 GPOS_ARRAY_SIZE(rgszAggFileNames));
 }
-
-// EOF

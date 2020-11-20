@@ -980,5 +980,3 @@ public:
 }  // namespace gpdxl
 
 #endif	// !GPDXL_CParseHandlerFactory_H
-
-// EOF

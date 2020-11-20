@@ -50,5 +50,3 @@ public:
 }  // namespace gpdxl
 
 #endif	// !GPOPT_CMDProviderTest_H
-
-// EOF

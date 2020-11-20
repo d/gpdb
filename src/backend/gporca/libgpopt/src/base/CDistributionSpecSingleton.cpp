@@ -151,6 +151,3 @@ CDistributionSpecSingleton::OsPrint(IOstream &os) const
 {
 	return os << "SINGLETON (" << m_szSegmentType[m_est] << ")";
 }
-
-
-// EOF

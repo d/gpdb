@@ -120,5 +120,3 @@ public:
 
 
 #endif	// !GPOS_CLogicalLeftAntiSemiJoin_H
-
-// EOF

@@ -73,5 +73,3 @@ public:
 }  // namespace gpdxl
 
 #endif	// ! GPOPT_CGUCMapping_H
-
-// EOF

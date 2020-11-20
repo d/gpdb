@@ -98,5 +98,3 @@ operator<<(IOstream &os, CPartKeys &partkeys)
 }  // namespace gpopt
 
 #endif	// !GPOPT_CPartKeys_H
-
-// EOF

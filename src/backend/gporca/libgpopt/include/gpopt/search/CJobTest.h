@@ -128,6 +128,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CJobTest_H
-
-
-// EOF

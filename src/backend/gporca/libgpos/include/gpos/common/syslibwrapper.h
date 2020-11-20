@@ -40,4 +40,3 @@ void CloseLog();
 }  // namespace gpos
 
 #endif
-// EOF

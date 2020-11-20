@@ -104,5 +104,3 @@ public:
 }  // namespace gpos
 
 #endif	// !GPOPT_CStack_H
-
-// EOF

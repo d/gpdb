@@ -80,5 +80,3 @@ public:
 
 
 #endif	// !GPOPT_CScalarCoerceBase_H
-
-// EOF

@@ -2420,5 +2420,3 @@ CEngine::OsPrint(IOstream &os) const
 {
 	return m_pmemo->OsPrint(os);
 }
-
-// EOF

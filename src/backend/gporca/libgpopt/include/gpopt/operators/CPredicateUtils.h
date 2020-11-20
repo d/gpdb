@@ -485,5 +485,3 @@ public:
 
 
 #endif	// !GPOPT_CPredicateUtils_H
-
-// EOF

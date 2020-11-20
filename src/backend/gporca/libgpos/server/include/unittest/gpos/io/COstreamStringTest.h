@@ -36,5 +36,3 @@ public:
 }  // namespace gpos
 
 #endif	// !GPOS_COstreamStringTest_H
-
-// EOF

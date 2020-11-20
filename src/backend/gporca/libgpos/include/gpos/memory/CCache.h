@@ -526,5 +526,3 @@ const K CCacheEntry<T, K>::m_invalid_key = NULL;
 }  // namespace gpos
 
 #endif	// GPOS_CCACHE_H_
-
-// EOF

@@ -156,6 +156,3 @@ CXformInnerApplyWithOuterKey2InnerJoin::Transform(CXformContext *pxfctxt,
 
 	pxfres->Add(pexprSelect);
 }
-
-
-// EOF

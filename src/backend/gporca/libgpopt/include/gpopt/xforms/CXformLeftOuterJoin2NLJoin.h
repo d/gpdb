@@ -66,5 +66,3 @@ public:
 
 
 #endif	// !GPOPT_CXformLeftOuterJoin2NLJoin_H
-
-// EOF

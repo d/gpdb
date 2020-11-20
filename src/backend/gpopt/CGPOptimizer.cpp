@@ -298,5 +298,3 @@ TerminateGPOPT()
 	GPOS_CATCH_END;
 }
 }
-
-// EOF

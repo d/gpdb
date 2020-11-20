@@ -82,5 +82,3 @@ CParseHandlerLogicalOp::EndElement(const XMLCh *const,	// element_uri,
 {
 	GPOS_ASSERT(!"Invalid call of endElement inside CParseHandlerLogicalOp");
 }
-
-// EOF

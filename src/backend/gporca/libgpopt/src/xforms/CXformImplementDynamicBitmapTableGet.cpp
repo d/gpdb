@@ -101,5 +101,3 @@ CXformImplementDynamicBitmapTableGet::Transform(CXformContext *pxfctxt,
 		CExpression(mp, popPhysical, pexprCondition, pexprIndexPath);
 	pxfres->Add(pexprPhysical);
 }
-
-// EOF

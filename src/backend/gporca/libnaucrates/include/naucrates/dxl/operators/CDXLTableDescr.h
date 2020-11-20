@@ -84,5 +84,3 @@ public:
 
 
 #endif	// !GPDXL_CDXLTableDescriptor_H
-
-// EOF

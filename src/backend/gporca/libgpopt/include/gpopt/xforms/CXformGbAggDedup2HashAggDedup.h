@@ -63,5 +63,3 @@ public:
 
 
 #endif	// !GPOPT_CXformGbAggDedup2HashAggDedup_H
-
-// EOF

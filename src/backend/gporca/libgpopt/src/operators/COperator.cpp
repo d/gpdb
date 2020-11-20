@@ -161,5 +161,3 @@ COperator::PopCopyDefault()
 	this->AddRef();
 	return this;
 }
-
-// EOF

@@ -79,5 +79,3 @@ CXformInnerJoin2HashJoin::Transform(CXformContext *pxfctxt,
 	CXformUtils::ImplementHashJoin<CPhysicalInnerHashJoin>(pxfctxt, pxfres,
 														   pexpr);
 }
-
-// EOF

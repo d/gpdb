@@ -292,5 +292,3 @@ public:
 }  // namespace gpos
 
 #endif	// !GPOS_CTask_H
-
-// EOF

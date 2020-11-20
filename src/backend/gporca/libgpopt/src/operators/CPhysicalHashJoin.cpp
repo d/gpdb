@@ -923,6 +923,3 @@ CPhysicalHashJoin::FNullableHashKey(ULONG ulKey, CColRefSet *pcrsNotNull,
 	// determine nullability
 	return true;
 }
-
-
-// EOF

@@ -314,5 +314,3 @@ CQueryContext::MapComputedToUsedCols(CColumnFactory *col_factory,
 		MapComputedToUsedCols(col_factory, (*pexpr)[ul]);
 	}
 }
-
-// EOF

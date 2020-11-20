@@ -126,5 +126,3 @@ public:
 
 
 #endif	// !GPOPT_CLogicalIntersect_H
-
-// EOF

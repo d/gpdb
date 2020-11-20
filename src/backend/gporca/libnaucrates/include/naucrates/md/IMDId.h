@@ -180,5 +180,3 @@ typedef CHashSetIter<IMDId, IMDId::MDIdHash, IMDId::MDIdCompare,
 
 
 #endif	// !GPMD_IMDId_H
-
-// EOF

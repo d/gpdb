@@ -103,5 +103,3 @@ CSubqueryTest::EresUnittest_RunTests()
 		rgszSubqueryFileNames, &m_ulSubQueryTestCounter,
 		GPOS_ARRAY_SIZE(rgszSubqueryFileNames));
 }
-
-// EOF

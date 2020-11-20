@@ -76,5 +76,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CXformDifference2DifferenceAll_H
-
-// EOF

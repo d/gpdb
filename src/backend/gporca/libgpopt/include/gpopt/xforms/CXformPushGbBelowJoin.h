@@ -66,5 +66,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CXformPushGbBelowJoin_H
-
-// EOF

@@ -73,6 +73,3 @@ CXformImplementConstTableGet::Transform(CXformContext *pxfctxt,
 	// add alternative to transformation result
 	pxfres->Add(pexprAlt);
 }
-
-
-// EOF

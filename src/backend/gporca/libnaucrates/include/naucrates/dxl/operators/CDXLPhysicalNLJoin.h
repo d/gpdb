@@ -104,5 +104,3 @@ public:
 };
 }  // namespace gpdxl
 #endif	// !GPDXL_CDXLPhysicalNLJoin_H
-
-// EOF

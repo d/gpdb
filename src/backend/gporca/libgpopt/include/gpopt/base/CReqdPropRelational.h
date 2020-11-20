@@ -103,5 +103,3 @@ public:
 
 
 #endif	// !GPOPT_CReqdPropRelational_H
-
-// EOF

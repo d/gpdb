@@ -63,5 +63,3 @@ public:
 }  // namespace gpdxl
 
 #endif	// !GPDXL_CParseHandlerRandomMotion_H
-
-// EOF

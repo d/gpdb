@@ -186,5 +186,3 @@ public:
 };
 }  // namespace gpdxl
 #endif	// !GPDXL_CDXLPhysicalCTAS_H
-
-// EOF

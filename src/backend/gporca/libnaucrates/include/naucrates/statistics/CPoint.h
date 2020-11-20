@@ -102,5 +102,3 @@ typedef CDynamicPtrArray<CPoint, CleanupRelease> CPointArray;
 }  // namespace gpnaucrates
 
 #endif	// !GPNAUCRATES_CPoint_H
-
-// EOF

@@ -193,5 +193,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CXformPushGbBelowSetOp_H
-
-// EOF

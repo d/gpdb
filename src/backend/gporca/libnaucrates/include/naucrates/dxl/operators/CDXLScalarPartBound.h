@@ -102,5 +102,3 @@ public:
 }  // namespace gpdxl
 
 #endif	// !GPDXL_CDXLScalarPartBound_H
-
-// EOF

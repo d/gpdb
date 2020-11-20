@@ -98,6 +98,3 @@ CScalarAssertConstraint::MdidType() const
 	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
 	return md_accessor->PtMDType<IMDTypeBool>()->MDId();
 }
-
-
-// EOF

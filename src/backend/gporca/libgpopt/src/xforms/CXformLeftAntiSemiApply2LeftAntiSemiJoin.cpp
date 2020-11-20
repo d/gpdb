@@ -59,6 +59,3 @@ CXformLeftAntiSemiApply2LeftAntiSemiJoin::Transform(CXformContext *pxfctxt,
 
 	Decorrelate(pxfctxt, pxfres, pexpr);
 }
-
-
-// EOF

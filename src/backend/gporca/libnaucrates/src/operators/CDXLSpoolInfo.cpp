@@ -141,7 +141,3 @@ CDXLSpoolInfo::SerializeToDXL(CXMLSerializer *xml_serializer) const
 		CDXLTokens::GetDXLTokenStr(EdxltokenExecutorSliceId),
 		m_executor_slice_id);
 }
-
-
-
-// EOF

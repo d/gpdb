@@ -78,5 +78,3 @@ typedef CDynamicPtrArray<CSystemId, CleanupDelete> CSystemIdArray;
 
 
 #endif	// !GPMD_CSystemId_H
-
-// EOF

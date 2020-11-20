@@ -72,5 +72,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CXformLeftOuterApply2LeftOuterJoinNoCorrelations_H
-
-// EOF

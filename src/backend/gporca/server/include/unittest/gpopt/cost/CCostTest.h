@@ -46,5 +46,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CCostTest_H
-
-// EOF

@@ -31,5 +31,3 @@ public:
 }  // namespace gpos
 
 #endif	// !GPOS_CLink_H
-
-// EOF

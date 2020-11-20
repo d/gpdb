@@ -25,5 +25,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CConstTblGetTest_H
-
-// EOF

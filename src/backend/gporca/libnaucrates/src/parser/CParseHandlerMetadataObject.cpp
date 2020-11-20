@@ -61,7 +61,3 @@ CParseHandlerMetadataObject::GetImdObj() const
 {
 	return m_imd_obj;
 }
-
-
-
-// EOF

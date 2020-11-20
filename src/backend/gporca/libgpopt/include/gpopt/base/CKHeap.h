@@ -215,5 +215,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CKHeap_H
-
-// EOF

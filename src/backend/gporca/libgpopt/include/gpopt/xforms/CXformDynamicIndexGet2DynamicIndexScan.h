@@ -71,5 +71,3 @@ public:
 
 
 #endif	// !GPOPT_CXformDynamicIndexGet2DynamicIndexScan_H
-
-// EOF

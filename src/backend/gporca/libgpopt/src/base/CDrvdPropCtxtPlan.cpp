@@ -227,5 +227,3 @@ CDrvdPropCtxtPlan::SetExpectedPartitionSelectors(COperator *pop,
 										 ->Ppim()
 										 ->UlExpectedPropagators(scan_id);
 }
-
-// EOF

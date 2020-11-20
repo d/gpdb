@@ -39,5 +39,3 @@ public:
 }  // namespace gpos
 
 #endif	// !GPOS_CBitSetIterTest_H
-
-// EOF

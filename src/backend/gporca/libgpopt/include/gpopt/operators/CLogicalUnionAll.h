@@ -137,5 +137,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CLogicalUnionAll_H
-
-// EOF

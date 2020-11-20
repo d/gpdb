@@ -827,5 +827,3 @@ COptTasks::SetXform(char *xform_str, bool should_disable)
 
 	return false;
 }
-
-// EOF

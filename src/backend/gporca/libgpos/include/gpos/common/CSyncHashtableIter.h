@@ -191,5 +191,3 @@ public:
 }  // namespace gpos
 
 #endif	// !GPOS_CSyncHashtableIter_H
-
-// EOF

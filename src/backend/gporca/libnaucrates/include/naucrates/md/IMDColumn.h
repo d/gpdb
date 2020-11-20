@@ -75,5 +75,3 @@ public:
 
 
 #endif	// !GPMD_IMDColumn_H
-
-// EOF

@@ -108,5 +108,3 @@ public:
 };
 }  // namespace gpdxl
 #endif	// !GPDXL_CDXLLogicalConstTable_H
-
-// EOF

@@ -49,5 +49,3 @@ CRandom::Next()
 }
 
 CRandom::~CRandom() = default;
-
-// EOF

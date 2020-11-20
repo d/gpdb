@@ -230,5 +230,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CXformJoin2IndexApplyBase_H
-
-// EOF

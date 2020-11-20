@@ -100,5 +100,3 @@ public:
 };
 }  // namespace gpdxl
 #endif	// !GPDXL_CParseHandlerManager_H
-
-// EOF

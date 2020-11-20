@@ -231,5 +231,3 @@ CPoint::GetDatumVal(CMemoryPool *mp, CMDAccessor *md_accessor) const
 	IMDId *mdid = m_datum->MDId();
 	return md_accessor->RetrieveType(mdid)->GetDatumVal(mp, m_datum);
 }
-
-// EOF

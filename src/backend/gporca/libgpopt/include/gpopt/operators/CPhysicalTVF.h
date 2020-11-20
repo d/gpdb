@@ -256,5 +256,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CPhysicalTVF_H
-
-// EOF

@@ -155,5 +155,3 @@ public:
 }  // namespace gpos
 
 #endif	// !GPOS_CWorkerPoolManager_H
-
-// EOF

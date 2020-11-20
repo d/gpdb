@@ -96,5 +96,3 @@ CScalarSubqueryExistential::PpartinfoDerive(CMemoryPool *,	// mp,
 	ppartinfoChild->AddRef();
 	return ppartinfoChild;
 }
-
-// EOF

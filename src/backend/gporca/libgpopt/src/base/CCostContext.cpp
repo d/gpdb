@@ -763,5 +763,3 @@ CCostContext::OsPrint(IOstream &os) const
 
 	return os << std::endl;
 }
-
-// EOF

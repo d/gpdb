@@ -94,5 +94,3 @@ operator<<(IOstream &os, CKeyCollection &kc)
 }  // namespace gpopt
 
 #endif	// !GPOPT_CKeyCollection_H
-
-// EOF

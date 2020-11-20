@@ -357,5 +357,3 @@ public:
 }  // namespace gpdxl
 
 #endif	// !GPDXL_CTranslatorUtils_H
-
-// EOF

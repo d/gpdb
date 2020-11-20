@@ -62,5 +62,3 @@ public:
 }  // namespace gpdxl
 
 #endif	// !GPDXL_CParseHandlerPhysicalRowTrigger_H
-
-// EOF

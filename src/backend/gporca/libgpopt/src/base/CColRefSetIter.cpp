@@ -53,5 +53,3 @@ CColRefSetIter::Pcr() const
 	// resolve id through column factory
 	return m_pcf->LookupColRef(id);
 }
-
-// EOF

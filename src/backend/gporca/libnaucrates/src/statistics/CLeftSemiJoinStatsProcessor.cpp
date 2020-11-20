@@ -60,5 +60,3 @@ CLeftSemiJoinStatsProcessor::CalcLSJoinStatsStatic(
 
 	return semi_join_stats;
 }
-
-// EOF

@@ -411,4 +411,3 @@ CDatumTest::StatsComparisonIntEqual()
 
 	return GPOS_FAILED;
 }
-// EOF

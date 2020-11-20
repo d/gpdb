@@ -105,5 +105,3 @@ public:
 
 
 #endif	// !GPOPT_CPatternNode_H
-
-// EOF

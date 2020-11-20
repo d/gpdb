@@ -76,5 +76,3 @@ CStatsPredDisj::GetColId() const
 {
 	return m_colid;
 }
-
-// EOF

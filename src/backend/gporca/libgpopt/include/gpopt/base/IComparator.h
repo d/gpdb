@@ -66,5 +66,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_IComparator_H
-
-// EOF

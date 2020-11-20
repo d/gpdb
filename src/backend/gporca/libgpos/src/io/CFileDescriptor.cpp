@@ -127,5 +127,3 @@ CFileDescriptor::CloseFile()
 
 	m_file_descriptor = GPOS_FILE_DESCR_INVALID;
 }
-
-// EOF

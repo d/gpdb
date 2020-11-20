@@ -170,5 +170,3 @@ CParseHandlerManager::CheckForAborts()
 		m_iteration_since_last_abortcheck = 0;
 	}
 }
-
-// EOF

@@ -129,5 +129,3 @@ public:
 
 
 #endif	// !GPOPT_CScalarBooleanTest_H
-
-// EOF

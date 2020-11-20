@@ -142,5 +142,3 @@ CXformExpandNAryJoin::Transform(CXformContext *pxfctxt, CXformResult *pxfres,
 	pexprSelect->Release();
 	pxfres->Add(pexprNormalized);
 }
-
-// EOF

@@ -163,5 +163,3 @@ public:
 }  // namespace gpmd
 
 #endif	// !GPMD_CMDScalarOpGPDB_H
-
-// EOF

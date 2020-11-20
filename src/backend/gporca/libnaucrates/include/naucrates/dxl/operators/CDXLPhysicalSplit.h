@@ -145,5 +145,3 @@ public:
 }  // namespace gpdxl
 
 #endif	// !GPDXL_CDXLPhysicalSplit_H
-
-// EOF

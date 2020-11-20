@@ -74,5 +74,3 @@ public:
 
 
 #endif	// !GPDXL_CDXLOperatorCost_H
-
-// EOF

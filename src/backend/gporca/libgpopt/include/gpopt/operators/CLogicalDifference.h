@@ -125,5 +125,3 @@ public:
 
 
 #endif	// !GPOPT_CLogicalDifference_H
-
-// EOF

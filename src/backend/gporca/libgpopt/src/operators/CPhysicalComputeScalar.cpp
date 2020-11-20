@@ -499,4 +499,3 @@ CPhysicalComputeScalar::EpetRewindability(CExpressionHandle &exprhdl,
 	// rewindability is enforced on operator's output
 	return CEnfdProp::EpetRequired;
 }
-// EOF

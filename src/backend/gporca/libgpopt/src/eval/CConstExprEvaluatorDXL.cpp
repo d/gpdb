@@ -102,7 +102,3 @@ CConstExprEvaluatorDXL::FCanEvalExpressions()
 {
 	return m_pconstdxleval->FCanEvalExpressions();
 }
-
-
-
-// EOF

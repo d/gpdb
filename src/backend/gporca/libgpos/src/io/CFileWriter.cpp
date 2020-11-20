@@ -119,5 +119,3 @@ CFileWriter::Write(const BYTE *read_buffer, const ULONG_PTR write_size)
 		bytes_left_to_write -= current_byte;
 	}
 }
-
-// EOF

@@ -427,6 +427,3 @@ CPhysicalSequence::EpetRewindability(CExpressionHandle &,		 // exprhdl
 	// rewindability must be enforced on operator's output
 	return CEnfdProp::EpetRequired;
 }
-
-
-// EOF

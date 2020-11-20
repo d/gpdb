@@ -220,6 +220,3 @@ operator<<(IOstream &os, CScheduler &
 }  // namespace gpopt
 
 #endif	// !GPOPT_CScheduler_H
-
-
-// EOF

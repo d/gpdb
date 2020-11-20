@@ -70,5 +70,3 @@ public:
 
 
 #endif	// !GPOPT_CXformImplementSequence_H
-
-// EOF

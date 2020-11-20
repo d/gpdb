@@ -1111,5 +1111,3 @@ CXformUtils::ImplementNLJoin(CXformContext *pxfctxt, CXformResult *pxfres,
 }  // namespace gpopt
 
 #endif	// !GPOPT_CXformUtils_H
-
-// EOF

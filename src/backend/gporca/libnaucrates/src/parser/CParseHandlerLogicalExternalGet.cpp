@@ -70,5 +70,3 @@ CParseHandlerLogicalExternalGet::EndElement(
 	CParseHandlerLogicalGet::EndElement(element_local_name,
 										EdxltokenLogicalExternalGet);
 }
-
-// EOF

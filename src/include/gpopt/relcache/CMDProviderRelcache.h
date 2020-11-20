@@ -74,5 +74,3 @@ public:
 
 
 #endif	// !GPMD_CMDProviderRelcache_H
-
-// EOF

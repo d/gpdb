@@ -114,5 +114,3 @@ CUnionAllStatsProcessor::CreateStatsForUnionAll(
 
 	return unionall_stats;
 }
-
-// EOF

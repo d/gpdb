@@ -148,5 +148,3 @@ typedef CDynamicPtrArray<IDatum, CleanupRelease> IDatumArray;
 
 
 #endif	// !GPNAUCRATES_IDatum_H
-
-// EOF

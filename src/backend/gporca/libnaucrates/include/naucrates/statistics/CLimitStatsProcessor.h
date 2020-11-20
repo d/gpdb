@@ -30,5 +30,3 @@ public:
 }  // namespace gpnaucrates
 
 #endif	// !GPNAUCRATES_CLimitStatsProcessor_H
-
-// EOF

@@ -134,5 +134,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CColumnDescriptor_H
-
-// EOF

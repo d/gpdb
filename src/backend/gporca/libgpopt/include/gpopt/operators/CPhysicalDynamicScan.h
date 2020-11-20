@@ -155,5 +155,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CPhysicalDynamicScan_H
-
-// EOF

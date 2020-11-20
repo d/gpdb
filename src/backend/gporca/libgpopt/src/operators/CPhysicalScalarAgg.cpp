@@ -122,5 +122,3 @@ CPhysicalScalarAgg::EpetOrder(CExpressionHandle &,	// exprhdl
 	// even though the NLJ's max card may be > 1
 	return CEnfdProp::EpetRequired;
 }
-
-// EOF

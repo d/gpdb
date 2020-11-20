@@ -199,5 +199,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CLogicalCTEConsumer_H
-
-// EOF

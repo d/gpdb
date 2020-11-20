@@ -833,5 +833,3 @@ public:
 }  // namespace gpdxl
 
 #endif	// !GPDXL_dxltokens_H
-
-// EOF

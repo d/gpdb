@@ -100,5 +100,3 @@ CAutoRg<T>::~CAutoRg()
 }  // namespace gpos
 
 #endif	// !GPOS_CAutoRg_H
-
-// EOF

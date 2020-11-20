@@ -186,5 +186,3 @@ public:
 }  //namespace gpos
 
 #endif	// GPOS_CCACHEACCESSOR_H_
-
-// EOF

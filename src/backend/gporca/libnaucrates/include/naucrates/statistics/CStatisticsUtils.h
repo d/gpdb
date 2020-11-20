@@ -338,5 +338,3 @@ CStatisticsUtils::GetMcvPairCmpFunc(const void *val1, const void *val2)
 
 
 #endif	// !GPOPT_CStatisticsUtils_H
-
-// EOF

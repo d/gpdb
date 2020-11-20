@@ -824,5 +824,3 @@ extern PGDLLIMPORT Node *newNodeMacroHolder;
 #define PStrDup(str) gpdb::MemCtxtStrdup(CurrentMemoryContext, (str))
 
 #endif	// !GPDB_gpdbwrappers_H
-
-// EOF

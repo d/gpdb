@@ -178,5 +178,3 @@ public:
 
 
 #endif	// !GPOPT_CPhysicalCorrelatedInnerNLJoin_H
-
-// EOF

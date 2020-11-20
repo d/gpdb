@@ -976,5 +976,3 @@ operator<<(IOstream &os, CPartIndexMap &pim)
 }
 
 }  // namespace gpopt
-
-// EOF

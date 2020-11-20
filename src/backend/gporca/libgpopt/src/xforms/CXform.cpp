@@ -289,4 +289,3 @@ CXform::IsApplyOnce()
 {
 	return false;
 }
-// EOF

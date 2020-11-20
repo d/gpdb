@@ -24,5 +24,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CJoinOrderDPTest_H
-
-// EOF

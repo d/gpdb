@@ -762,5 +762,3 @@ CLogicalGbAgg::OsPrintGbAggType(IOstream &os, COperator::EGbAggType egbaggtype)
 	}
 	return os;
 }
-
-// EOF

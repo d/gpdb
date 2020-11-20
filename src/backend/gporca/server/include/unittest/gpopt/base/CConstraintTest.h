@@ -134,6 +134,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CConstraintTest_H
-
-
-// EOF

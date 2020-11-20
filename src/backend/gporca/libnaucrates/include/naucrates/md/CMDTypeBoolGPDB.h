@@ -252,5 +252,3 @@ public:
 }  // namespace gpmd
 
 #endif	// !GPMD_CMDTypeBoolGPDB_H
-
-// EOF

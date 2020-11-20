@@ -187,5 +187,3 @@ public:
 
 
 #endif	// !GPOPT_CLogicalApply_H
-
-// EOF

@@ -79,6 +79,3 @@ CXformLeftOuterJoin2HashJoin::Transform(CXformContext *pxfctxt,
 	CXformUtils::ImplementHashJoin<CPhysicalLeftOuterHashJoin>(pxfctxt, pxfres,
 															   pexpr);
 }
-
-
-// EOF

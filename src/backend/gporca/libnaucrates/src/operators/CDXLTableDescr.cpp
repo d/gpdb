@@ -224,5 +224,3 @@ CDXLTableDescr::SerializeToDXL(CXMLSerializer *xml_serializer) const
 		CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix),
 		CDXLTokens::GetDXLTokenStr(EdxltokenTableDescr));
 }
-
-// EOF

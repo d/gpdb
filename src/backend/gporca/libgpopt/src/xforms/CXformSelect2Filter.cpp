@@ -96,6 +96,3 @@ CXformSelect2Filter::Transform(CXformContext *pxfctxt, CXformResult *pxfres,
 	// add alternative to results
 	pxfres->Add(pexprFilter);
 }
-
-
-// EOF

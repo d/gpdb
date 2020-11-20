@@ -167,5 +167,3 @@ operator<<(IOstream &os, CBitSet &bs)
 }  // namespace gpos
 
 #endif	// !GPOS_CBitSet_H
-
-// EOF

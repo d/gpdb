@@ -83,6 +83,3 @@ public:
 }  // namespace gpnaucrates
 
 #endif	// !GPNAUCRATES_CCardinalityTestUtils_H
-
-
-// EOF

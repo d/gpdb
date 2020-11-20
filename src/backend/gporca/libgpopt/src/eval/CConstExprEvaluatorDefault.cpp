@@ -60,5 +60,3 @@ CConstExprEvaluatorDefault::FCanEvalExpressions()
 {
 	return false;
 }
-
-// EOF

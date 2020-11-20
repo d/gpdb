@@ -95,5 +95,3 @@ CConstExprEvaluatorProxy::EvaluateExpr(const CDXLNode *dxl_expr)
 
 	return dxl_result;
 }
-
-// EOF

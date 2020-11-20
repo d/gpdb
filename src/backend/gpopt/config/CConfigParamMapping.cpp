@@ -474,5 +474,3 @@ CConfigParamMapping::PackConfigParamInBitset(
 
 	return traceflag_bitset;
 }
-
-// EOF

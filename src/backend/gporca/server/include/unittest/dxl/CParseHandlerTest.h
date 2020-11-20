@@ -123,5 +123,3 @@ public:
 }  // namespace gpdxl
 
 #endif	// !GPOPT_CParseHandlerTest_H
-
-// EOF

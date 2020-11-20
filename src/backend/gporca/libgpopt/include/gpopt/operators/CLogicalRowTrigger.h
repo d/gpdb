@@ -211,5 +211,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CLogicalRowTrigger_H
-
-// EOF

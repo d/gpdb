@@ -511,6 +511,3 @@ CPartitionPropagationSpec::OsPrint(IOstream &os) const
 	os << "]";
 	return os;
 }
-
-
-// EOF

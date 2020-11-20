@@ -127,5 +127,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOS_CLogicalUnary_H
-
-// EOF

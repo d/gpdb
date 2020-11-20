@@ -112,5 +112,3 @@ public:
 
 
 #endif	// !GPOS_CPhysicalHashAgg_H
-
-// EOF

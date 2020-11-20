@@ -144,5 +144,3 @@ CXformSelect2DynamicIndexGet::Transform(CXformContext *pxfctxt,
 	pcrsReqd->Release();
 	pdrgpexpr->Release();
 }
-
-// EOF

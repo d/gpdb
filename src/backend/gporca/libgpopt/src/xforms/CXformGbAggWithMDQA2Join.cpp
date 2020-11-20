@@ -239,4 +239,3 @@ CXformGbAggWithMDQA2Join::IsApplyOnce()
 {
 	return true;
 }
-// EOF

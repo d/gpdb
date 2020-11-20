@@ -33,6 +33,3 @@ void gpdxl_terminate(void);
 #endif	// __cplusplus
 
 #endif	// !GPDXL_init_H
-
-
-// EOF

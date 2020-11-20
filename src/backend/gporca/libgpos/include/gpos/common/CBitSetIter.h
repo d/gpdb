@@ -65,5 +65,3 @@ public:
 
 
 #endif	// !GPOS_CBitSetIter_H
-
-// EOF

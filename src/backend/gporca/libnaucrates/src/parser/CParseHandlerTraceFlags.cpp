@@ -151,4 +151,3 @@ CParseHandlerTraceFlags::GetTraceFlagBitSet()
 {
 	return m_trace_flags_bitset;
 }
-// EOF

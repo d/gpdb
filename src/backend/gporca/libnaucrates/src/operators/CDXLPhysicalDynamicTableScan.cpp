@@ -176,5 +176,3 @@ CDXLPhysicalDynamicTableScan::AssertValid(const CDXLNode *node,
 	GPOS_ASSERT(m_dxl_table_descr->MdName()->GetMDName()->IsValid());
 }
 #endif	// GPOS_DEBUG
-
-// EOF

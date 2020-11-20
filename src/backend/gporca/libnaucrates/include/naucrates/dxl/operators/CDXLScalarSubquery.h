@@ -84,5 +84,3 @@ public:
 }  // namespace gpdxl
 
 #endif	// !GPDXL_CDXLScalarSubquery_H
-
-// EOF

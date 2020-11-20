@@ -242,5 +242,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CPhysicalConstTableGet_H
-
-// EOF

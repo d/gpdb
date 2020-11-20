@@ -229,6 +229,3 @@ CPhysicalNLJoin::PppsRequiredNLJoinChild(
 	return PppsRequiredJoinChild(mp, exprhdl, pppsRequired, child_index,
 								 pdrgpdpCtxt, true);
 }
-
-
-// EOF

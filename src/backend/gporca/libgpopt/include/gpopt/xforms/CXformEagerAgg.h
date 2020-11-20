@@ -118,5 +118,3 @@ private:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CXformEagerAgg_H
-
-// EOF

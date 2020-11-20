@@ -64,5 +64,3 @@ CAutoExceptionStack::SetLocalJmp(void *local_jump)
 {
 	*m_global_exception_stack = local_jump;
 }
-
-// EOF

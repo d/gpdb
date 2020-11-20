@@ -198,5 +198,3 @@ CXformUpdate2DML::Transform(CXformContext *pxfctxt, CXformResult *pxfres,
 
 	pxfres->Add(pexprDML);
 }
-
-// EOF

@@ -51,4 +51,3 @@ CScalarDMLAction::MdidType() const
 	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
 	return md_accessor->PtMDType<IMDTypeInt4>()->MDId();
 }
-// EOF

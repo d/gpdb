@@ -144,4 +144,3 @@ CPhysicalSerialUnionAll::PdsRequired(
 		CDistributionSpecNonSingleton(false /*fAllowReplicated*/);
 }
 
-// EOF

@@ -136,5 +136,3 @@ CDMLTest::EresUnittest_RunTests()
 											 &m_ulDMLTestCounter,
 											 GPOS_ARRAY_SIZE(rgszDMLFileNames));
 }
-
-// EOF

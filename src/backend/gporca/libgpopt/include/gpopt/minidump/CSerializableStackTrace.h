@@ -47,5 +47,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CSerializableStackTrace_H
-
-// EOF

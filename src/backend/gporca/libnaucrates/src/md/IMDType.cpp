@@ -84,6 +84,3 @@ IMDType::StatsAreComparable(const IMDType *mdtype_first,
 
 	return datum_first->StatsAreComparable(datum_second);
 }
-
-
-// EOF

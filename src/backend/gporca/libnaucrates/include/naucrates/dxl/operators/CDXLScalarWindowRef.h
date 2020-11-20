@@ -164,5 +164,3 @@ public:
 }  // namespace gpdxl
 
 #endif	// !GPDXL_CDXLScalarWindowRef_H
-
-// EOF

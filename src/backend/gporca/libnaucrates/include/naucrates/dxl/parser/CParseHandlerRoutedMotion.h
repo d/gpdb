@@ -63,5 +63,3 @@ public:
 }  // namespace gpdxl
 
 #endif	// !GPDXL_CParseHandlerRoutedMotion_H
-
-// EOF

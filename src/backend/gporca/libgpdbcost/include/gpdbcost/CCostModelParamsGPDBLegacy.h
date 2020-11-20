@@ -130,5 +130,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPDBCOST_CCostModelParamsGPDBLegacy_H
-
-// EOF

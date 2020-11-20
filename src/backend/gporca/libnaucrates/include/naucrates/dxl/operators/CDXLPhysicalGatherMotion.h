@@ -83,5 +83,3 @@ public:
 }  // namespace gpdxl
 
 #endif	// !GPDXL_CDXLPhysicalGatherMotion_H
-
-// EOF

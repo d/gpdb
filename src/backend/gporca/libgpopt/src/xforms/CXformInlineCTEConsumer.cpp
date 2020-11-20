@@ -85,5 +85,3 @@ CXformInlineCTEConsumer::Transform(CXformContext *
 	// add alternative to xform result
 	pxfres->Add(pexprAlt);
 }
-
-// EOF

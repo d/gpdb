@@ -481,5 +481,3 @@ COptimizationContext::OsPrintWithPrefix(IOstream &os,
 
 	return os;
 }
-
-// EOF

@@ -97,5 +97,3 @@ public:
 }  // namespace gpdxl
 
 #endif	// !GPDXL_CParseHandlerMDGPDBScalarOp_H
-
-// EOF

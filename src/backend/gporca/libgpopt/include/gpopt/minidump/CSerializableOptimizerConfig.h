@@ -58,5 +58,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOS_CSerializableOptimizerConfig_H
-
-// EOF

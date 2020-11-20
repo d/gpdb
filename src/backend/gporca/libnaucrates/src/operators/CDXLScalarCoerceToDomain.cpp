@@ -45,5 +45,3 @@ CDXLScalarCoerceToDomain::GetOpNameStr() const
 {
 	return CDXLTokens::GetDXLTokenStr(EdxltokenScalarCoerceToDomain);
 }
-
-// EOF

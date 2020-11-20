@@ -424,5 +424,3 @@ CMDRelationCtasGPDB::DebugPrint(IOstream &os) const
 }
 
 #endif	// GPOS_DEBUG
-
-// EOF

@@ -65,6 +65,3 @@ public:
 }  // namespace gpnaucrates
 
 #endif	// !GPNAUCRATES_CDatumTest_H
-
-
-// EOF

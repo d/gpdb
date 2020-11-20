@@ -149,5 +149,3 @@ CParseHandlerBase::error(const SAXParseException &to_catch)
 		to_catch.getMessage(), m_parse_handler_mgr->GetDXLMemoryManager());
 	GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLValidationError, message);
 }
-
-// EOF

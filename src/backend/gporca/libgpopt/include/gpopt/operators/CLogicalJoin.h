@@ -152,5 +152,3 @@ public:
 
 
 #endif	// !GPOS_CLogicalJoin_H
-
-// EOF

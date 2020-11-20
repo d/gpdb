@@ -347,6 +347,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CEnumeratorConfig_H
-
-
-// EOF

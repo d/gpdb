@@ -82,5 +82,3 @@ CExternalTableTest::EresUnittest_RunMinidumpTests()
 		rgszExternalTableFileNames, &m_ulTestCounter,
 		GPOS_ARRAY_SIZE(rgszExternalTableFileNames));
 }
-
-// EOF

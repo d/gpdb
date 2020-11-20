@@ -606,5 +606,3 @@ gpos::clib::Dladdr(void *addr, DL_INFO *info)
 
 	GPOS_ASSERT(0 != res);
 }
-
-// EOF

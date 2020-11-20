@@ -196,5 +196,3 @@ CParseHandlerPlan::EndElement(const XMLCh *const,  // element_uri,
 
 	m_parse_handler_mgr->DeactivateHandler();
 }
-
-// EOF

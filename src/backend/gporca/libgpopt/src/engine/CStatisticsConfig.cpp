@@ -107,6 +107,3 @@ CStatisticsConfig::CollectMissingStatsColumns(IMdIdArray *pdrgmdid)
 		pdrgmdid->Append(mdid_col_stats);
 	}
 }
-
-
-// EOF

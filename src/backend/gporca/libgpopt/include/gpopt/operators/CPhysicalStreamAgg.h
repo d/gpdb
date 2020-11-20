@@ -138,5 +138,3 @@ public:
 
 
 #endif	// !GPOS_CPhysicalStreamAgg_H
-
-// EOF

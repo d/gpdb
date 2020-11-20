@@ -57,5 +57,3 @@ CDXLPhysicalJoin::GetJoinTypeNameStr() const
 {
 	return CDXLOperator::GetJoinTypeNameStr(m_join_type);
 }
-
-// EOF

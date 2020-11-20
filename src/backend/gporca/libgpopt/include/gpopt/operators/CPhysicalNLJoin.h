@@ -122,5 +122,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CPhysicalNLJoin_H
-
-// EOF

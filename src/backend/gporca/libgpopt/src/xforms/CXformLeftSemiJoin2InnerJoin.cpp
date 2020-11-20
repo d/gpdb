@@ -142,6 +142,3 @@ CXformLeftSemiJoin2InnerJoin::Transform(CXformContext *pxfctxt,
 	pcrsGb->Release();
 	pxfres->Add(pexprInnerJoin);
 }
-
-
-// EOF

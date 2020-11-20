@@ -198,5 +198,3 @@ public:
 
 
 #endif	// !GPOPT_CLogicalConstTableGet_H
-
-// EOF

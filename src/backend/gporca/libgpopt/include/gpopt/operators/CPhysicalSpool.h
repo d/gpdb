@@ -215,5 +215,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CPhysicalSpool_H
-
-// EOF

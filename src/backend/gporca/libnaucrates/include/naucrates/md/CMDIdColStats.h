@@ -132,5 +132,3 @@ public:
 
 
 #endif	// !GPMD_CMDIdColStats_H
-
-// EOF

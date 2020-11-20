@@ -245,5 +245,3 @@ CMessageRepository::LoadStandardMessages()
 		}
 	}
 }
-
-// EOF

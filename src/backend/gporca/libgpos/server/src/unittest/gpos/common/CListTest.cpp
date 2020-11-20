@@ -215,5 +215,3 @@ CListTest::EresUnittest_Cursor()
 	GPOS_DELETE_ARRAY(rgelem);
 	return GPOS_OK;
 }
-
-// EOF

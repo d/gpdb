@@ -77,5 +77,3 @@ public:
 }  // namespace gpdxl
 
 #endif	// !GPDXL_CParseHandlerSearchStrategy_H
-
-// EOF

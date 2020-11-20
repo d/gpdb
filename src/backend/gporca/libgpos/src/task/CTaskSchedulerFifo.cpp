@@ -76,7 +76,3 @@ CTaskSchedulerFifo::Cancel(CTask *task)
 
 	return GPOS_NOT_FOUND;
 }
-
-
-
-// EOF

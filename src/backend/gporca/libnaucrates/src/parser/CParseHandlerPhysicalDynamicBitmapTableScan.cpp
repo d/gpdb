@@ -63,5 +63,3 @@ CParseHandlerPhysicalDynamicBitmapTableScan::EndElement(
 					 EdxltokenPhysicalDynamicBitmapTableScan, m_part_index_id,
 					 m_part_index_id_printable);
 }
-
-// EOF

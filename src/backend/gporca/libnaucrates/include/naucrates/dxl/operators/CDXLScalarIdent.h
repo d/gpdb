@@ -84,5 +84,3 @@ public:
 
 
 #endif	// !GPDXL_CDXLScalarIdent_H
-
-// EOF

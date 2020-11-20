@@ -353,5 +353,3 @@ CPhysicalAssert::OsPrint(IOstream &os) const
 	os << SzId() << " (Error code: " << m_pexc->GetSQLState() << ")";
 	return os;
 }
-
-// EOF

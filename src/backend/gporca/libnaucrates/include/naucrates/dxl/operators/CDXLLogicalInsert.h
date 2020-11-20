@@ -92,5 +92,3 @@ public:
 }  // namespace gpdxl
 
 #endif	// !GPDXL_CDXLLogicalInsert_H
-
-// EOF

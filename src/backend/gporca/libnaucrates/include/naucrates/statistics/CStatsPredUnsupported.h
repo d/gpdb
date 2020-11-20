@@ -83,5 +83,3 @@ public:
 }  // namespace gpnaucrates
 
 #endif	// !GPNAUCRATES_CStatsPredUnsupported_H
-
-// EOF

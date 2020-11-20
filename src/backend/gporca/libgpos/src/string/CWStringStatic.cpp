@@ -287,6 +287,3 @@ CWStringStatic::AppendEscape(const CWStringBase *str, WCHAR wc,
 	m_length = ulLengthNew;
 	GPOS_ASSERT(IsValid());
 }
-
-
-// EOF

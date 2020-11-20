@@ -72,5 +72,3 @@ public:
 
 
 #endif	// !GPDXL_CDXLScalarSubqueryAll_H
-
-// EOF

@@ -67,5 +67,3 @@ public:
 
 
 #endif	// !GPMD_IMDColStats_H
-
-// EOF

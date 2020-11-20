@@ -325,6 +325,3 @@ CXformTest::EresUnittest_Mapping()
 	return GPOS_OK;
 }
 #endif	// GPOS_DEBUG
-
-
-// EOF

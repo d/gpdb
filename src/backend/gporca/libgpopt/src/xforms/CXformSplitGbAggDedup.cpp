@@ -117,5 +117,3 @@ CXformSplitGbAggDedup::Transform(CXformContext *pxfctxt, CXformResult *pxfres,
 
 	pxfres->Add(pexprGlobal);
 }
-
-// EOF

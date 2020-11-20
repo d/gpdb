@@ -355,5 +355,3 @@ public:
 
 
 #endif	// !GPOPT_COptimizationContext_H
-
-// EOF

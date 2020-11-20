@@ -183,5 +183,3 @@ CParseHandlerCostModel::GetCostModel() const
 {
 	return m_cost_model;
 }
-
-// EOF

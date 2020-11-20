@@ -350,5 +350,3 @@ IOstream &operator<<(IOstream &os, CPartIndexMap &pim);
 }  // namespace gpopt
 
 #endif	// !GPOPT_CPartIndexMap_H
-
-// EOF

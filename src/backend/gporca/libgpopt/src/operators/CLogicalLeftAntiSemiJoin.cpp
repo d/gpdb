@@ -140,4 +140,3 @@ CLogicalLeftAntiSemiJoin::PstatsDerive(CMemoryPool *mp,
 
 	return pstatsLASJoin;
 }
-// EOF

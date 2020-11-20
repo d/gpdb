@@ -83,5 +83,3 @@ CLogicalUnary::PstatsDeriveProject(CMemoryPool *mp, CExpressionHandle &exprhdl,
 
 	return stats;
 }
-
-// EOF

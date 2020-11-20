@@ -48,5 +48,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CMinidumpWithConstExprEvaluatorTest_H
-
-// EOF

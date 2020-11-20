@@ -104,5 +104,3 @@ CXformExpandNAryJoinMinCard::Transform(CXformContext *pxfctxt,
 	pexprResult->Release();
 	pxfres->Add(pexprNormalized);
 }
-
-// EOF

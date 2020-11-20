@@ -79,5 +79,3 @@ public:
 }  // namespace gpos
 
 #endif	// !GPOS_CRefCountTest_H
-
-// EOF

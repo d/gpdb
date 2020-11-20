@@ -84,6 +84,3 @@ CColumnDescriptorTest::EresUnittest_Basic()
 
 	return GPOS_OK;
 }
-
-
-// EOF

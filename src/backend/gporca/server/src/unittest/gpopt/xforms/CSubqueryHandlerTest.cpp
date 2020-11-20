@@ -356,6 +356,3 @@ CSubqueryHandlerTest::EresUnittest_SubqueryWithDisjunction()
 
 	return GPOS_OK;
 }
-
-
-// EOF

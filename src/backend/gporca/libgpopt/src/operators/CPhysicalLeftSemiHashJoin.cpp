@@ -84,5 +84,3 @@ CPhysicalLeftSemiHashJoin::PppsRequired(CMemoryPool *mp,
 	return PppsRequiredJoinChild(mp, exprhdl, pppsRequired, child_index,
 								 pdrgpdpCtxt, false);
 }
-
-// EOF

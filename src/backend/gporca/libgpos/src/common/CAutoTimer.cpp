@@ -51,5 +51,3 @@ CAutoTimer::~CAutoTimer() throw()
 						  ulElapsedTimeMS);
 	}
 }
-
-// EOF

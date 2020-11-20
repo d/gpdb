@@ -241,6 +241,3 @@ CMiniDumperTest::CSerializableStack::Serialize(COstream &oos)
 
 	oos << wstr.GetBuffer();
 }
-
-
-// EOF

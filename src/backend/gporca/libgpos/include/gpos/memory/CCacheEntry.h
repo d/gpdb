@@ -207,5 +207,3 @@ public:
 }  // namespace gpos
 
 #endif	// GPOS_CCACHEENTRY_H_
-
-// EOF

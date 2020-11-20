@@ -99,5 +99,3 @@ CDXLScalarPartListNullTest::Cast(CDXLOperator *dxl_op)
 
 	return dynamic_cast<CDXLScalarPartListNullTest *>(dxl_op);
 }
-
-// EOF

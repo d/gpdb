@@ -25,6 +25,3 @@ using namespace gpos;
 //
 //---------------------------------------------------------------------------
 CStackObject::CStackObject() = default;
-
-
-// EOF

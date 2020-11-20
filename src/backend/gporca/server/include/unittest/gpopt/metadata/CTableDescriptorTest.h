@@ -39,5 +39,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CTableDescriptorTest_H
-
-// EOF

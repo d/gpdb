@@ -118,5 +118,3 @@ operator<<(IOstream &os, CFunctionalDependency &fd)
 }  // namespace gpopt
 
 #endif	// !GPOPT_CFunctionalDependency_H
-
-// EOF

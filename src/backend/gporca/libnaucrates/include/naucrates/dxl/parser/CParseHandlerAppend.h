@@ -63,5 +63,3 @@ public:
 };
 }  // namespace gpdxl
 #endif	// GPDXL_CParseHandlerAppend_H
-
-// EOF

@@ -170,6 +170,3 @@ CPhysicalDynamicScan::PopConvert(COperator *pop)
 
 	return dynamic_cast<CPhysicalDynamicScan *>(pop);
 }
-
-
-// EOF

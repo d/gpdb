@@ -442,4 +442,3 @@ CXformLeftOuter2InnerUnionAllLeftAntiSemiJoin::IsApplyOnce()
 {
 	return true;
 }
-// EOF

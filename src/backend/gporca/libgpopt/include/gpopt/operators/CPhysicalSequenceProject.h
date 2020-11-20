@@ -235,5 +235,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CPhysicalSequenceProject_H
-
-// EOF

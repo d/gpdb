@@ -95,6 +95,3 @@ CParseHandlerDynamicIndexScan::EndElement(const XMLCh *const,  // element_uri,
 	EndElementHelper(element_local_name, EdxltokenPhysicalDynamicIndexScan,
 					 m_part_index_id, m_part_index_id_printable);
 }
-
-
-// EOF

@@ -124,6 +124,3 @@ public:
 }  // namespace gpnaucrates
 
 #endif	// !GPNAUCRATES_CStatisticsTest_H
-
-
-// EOF

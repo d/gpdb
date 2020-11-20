@@ -59,5 +59,3 @@
 
 
 #endif	// !GPOS_assert_H
-
-// EOF

@@ -352,5 +352,3 @@ public:
 
 
 #endif	// !GPOPT_CLogical_H
-
-// EOF

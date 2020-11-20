@@ -110,5 +110,3 @@ CDXLOperatorCost::SerializeToDXL(CXMLSerializer *xml_serializer) const
 		CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix),
 		CDXLTokens::GetDXLTokenStr(EdxltokenCost));
 }
-
-// EOF

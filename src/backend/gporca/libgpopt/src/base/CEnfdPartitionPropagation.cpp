@@ -216,5 +216,3 @@ CEnfdPartitionPropagation::SzPropagationMatching(
 
 	return rgszPropagationMatching[eppm];
 }
-
-// EOF

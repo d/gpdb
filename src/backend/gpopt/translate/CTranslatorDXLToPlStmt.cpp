@@ -5897,4 +5897,3 @@ CTranslatorDXLToPlStmt::TranslateNestLoopParamList(
 	}
 	return nest_params_list;
 }
-// EOF

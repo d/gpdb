@@ -31,5 +31,3 @@ CInnerJoinStatsProcessor::CalcInnerJoinStatsStatic(
 		true /* DoIgnoreLASJHistComputation */
 	);
 }
-
-// EOF

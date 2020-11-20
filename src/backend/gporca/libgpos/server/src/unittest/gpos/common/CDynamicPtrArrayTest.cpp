@@ -347,5 +347,3 @@ CDynamicPtrArrayTest::EresUnittest_PdrgpulSubsequenceIndexes()
 
 	return GPOS_OK;
 }
-
-// EOF

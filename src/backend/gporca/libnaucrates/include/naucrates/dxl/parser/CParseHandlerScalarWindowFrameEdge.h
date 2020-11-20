@@ -56,5 +56,3 @@ public:
 }  // namespace gpdxl
 
 #endif	// !GPDXL_CParseHandlerScalarWindowFrameEdge_H
-
-//EOF

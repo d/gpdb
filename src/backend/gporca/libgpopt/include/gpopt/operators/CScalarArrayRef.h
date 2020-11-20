@@ -132,5 +132,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CScalarArrayRef_H
-
-// EOF

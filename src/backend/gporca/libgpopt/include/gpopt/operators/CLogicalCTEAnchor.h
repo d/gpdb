@@ -170,5 +170,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CLogicalCTEAnchor_H
-
-// EOF

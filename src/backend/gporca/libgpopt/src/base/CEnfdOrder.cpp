@@ -128,6 +128,3 @@ CEnfdOrder::OsPrint(IOstream &os) const
 {
 	return os << (*m_pos) << " match: " << m_szOrderMatching[m_eom] << " ";
 }
-
-
-// EOF

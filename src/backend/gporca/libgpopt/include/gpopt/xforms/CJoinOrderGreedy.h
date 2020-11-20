@@ -57,5 +57,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CJoinOrderGreedy_H
-
-// EOF

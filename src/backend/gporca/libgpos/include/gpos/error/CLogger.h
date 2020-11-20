@@ -97,5 +97,3 @@ public:
 }  // namespace gpos
 
 #endif	// !GPOS_CLogger_H
-
-// EOF

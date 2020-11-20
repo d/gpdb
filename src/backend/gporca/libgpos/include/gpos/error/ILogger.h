@@ -104,5 +104,3 @@ public:
 }  // namespace gpos
 
 #endif	// !GPOS_ILogger_H
-
-// EOF

@@ -294,5 +294,3 @@ CXformSplitGbAgg::FApplicable(CExpression *pexpr)
 
 	return true;
 }
-
-// EOF

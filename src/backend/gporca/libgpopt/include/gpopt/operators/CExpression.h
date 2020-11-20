@@ -341,5 +341,3 @@ typedef CHashMapIter<ULONG, CExpression, gpos::HashValue<ULONG>,
 
 
 #endif	// !GPOPT_CExpression_H
-
-// EOF

@@ -203,5 +203,3 @@ CPhysicalMotionBroadcast::PopConvert(COperator *pop)
 
 	return dynamic_cast<CPhysicalMotionBroadcast *>(pop);
 }
-
-// EOF

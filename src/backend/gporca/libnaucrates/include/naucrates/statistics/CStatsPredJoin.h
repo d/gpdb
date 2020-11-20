@@ -97,5 +97,3 @@ typedef CDynamicPtrArray<CStatsPredJoin, CleanupRelease> CStatsPredJoinArray;
 }  // namespace gpnaucrates
 
 #endif	// !GPNAUCRATES_CStatsPredJoin_H
-
-// EOF

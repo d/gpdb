@@ -198,6 +198,3 @@ CDXLMinidump::GetPlanSpaceSize() const
 {
 	return m_plan_space_size;
 }
-
-
-// EOF

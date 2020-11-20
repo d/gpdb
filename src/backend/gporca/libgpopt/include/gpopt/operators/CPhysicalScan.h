@@ -311,5 +311,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CPhysicalScan_H
-
-// EOF

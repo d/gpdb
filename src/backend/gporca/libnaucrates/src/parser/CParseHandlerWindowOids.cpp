@@ -98,5 +98,3 @@ CParseHandlerWindowOids::GetWindowOids() const
 {
 	return m_window_oids;
 }
-
-// EOF

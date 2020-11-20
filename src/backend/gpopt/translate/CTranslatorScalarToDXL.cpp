@@ -2367,5 +2367,3 @@ CTranslatorScalarToDXL::CreateIDatumFromGpdbDatum(CMemoryPool *mp,
 	datum_dxl->Release();
 	return datum;
 }
-
-// EOF

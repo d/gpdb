@@ -84,5 +84,3 @@ CSerializableMDAccessor::Serialize(COstream &oos)
 	m_pmda->Serialize(oos);
 	SerializeFooter(oos);
 }
-
-// EOF

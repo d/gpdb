@@ -31,5 +31,3 @@ namespace gpopt
 
 #endif // !GPOPT_${test_name}_H
 
-// EOF
-

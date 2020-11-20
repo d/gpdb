@@ -586,5 +586,3 @@ CCostModelParamsGPDB::SzNameLookup(ULONG id) const
 	GPOS_ASSERT(EcpSentinel > ecp);
 	return rgszCostParamNames[ecp];
 }
-
-// EOF

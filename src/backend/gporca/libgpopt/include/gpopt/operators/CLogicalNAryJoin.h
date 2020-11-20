@@ -185,5 +185,3 @@ public:
 
 
 #endif	// !GPOS_CLogicalNAryJoin_H
-
-// EOF

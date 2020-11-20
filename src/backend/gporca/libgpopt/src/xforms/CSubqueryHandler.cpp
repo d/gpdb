@@ -2259,6 +2259,3 @@ CSubqueryHandler::FProcess(
 	return FProcessScalarOperator(pexprOuter, pexprScalar, esqctxt,
 								  ppexprNewOuter, ppexprResidualScalar);
 }
-
-
-// EOF

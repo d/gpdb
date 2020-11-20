@@ -121,5 +121,3 @@ CTaskLocalStorage::Remove(CTaskLocalStorageObject *obj)
 
 	HashTableAccessor.Remove(obj);
 }
-
-// EOF

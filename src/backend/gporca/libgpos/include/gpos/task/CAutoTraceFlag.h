@@ -51,5 +51,3 @@ public:
 
 
 #endif	// !GPOS_CAutoTraceFlag_H
-
-// EOF

@@ -102,5 +102,3 @@ public:
 }  // namespace gpos
 
 #endif	// !GPOS_CAutoTaskProxy_H_
-
-// EOF

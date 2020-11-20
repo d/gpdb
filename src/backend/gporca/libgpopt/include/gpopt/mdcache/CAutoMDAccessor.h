@@ -122,5 +122,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CAutoMDAccessor_H
-
-// EOF

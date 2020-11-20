@@ -71,6 +71,3 @@ CDXLDatumStatsLintMappable::Serialize(CXMLSerializer *xml_serializer)
 	xml_serializer->AddAttribute(CDXLTokens::GetDXLTokenStr(EdxltokenLintValue),
 								 GetLINTMapping());
 }
-
-
-// EOF

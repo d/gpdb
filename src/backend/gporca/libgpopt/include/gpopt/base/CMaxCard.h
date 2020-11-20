@@ -141,5 +141,3 @@ operator==(ULLONG ull, const CMaxCard &mc)
 }  // namespace gpopt
 
 #endif	// !GPOPT_CMaxCard_H
-
-// EOF

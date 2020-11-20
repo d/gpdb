@@ -76,6 +76,3 @@ CXformProject2ComputeScalar::Transform(CXformContext *pxfctxt,
 	// add alternative to results
 	pxfres->Add(pexprComputeScalar);
 }
-
-
-// EOF

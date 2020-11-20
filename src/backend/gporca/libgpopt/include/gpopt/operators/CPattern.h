@@ -92,5 +92,3 @@ public:
 
 
 #endif	// !GPOPT_CPattern_H
-
-// EOF

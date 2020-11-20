@@ -127,5 +127,3 @@ public:
 
 
 #endif	// !GPMD_CMDIdRelStats_H
-
-// EOF

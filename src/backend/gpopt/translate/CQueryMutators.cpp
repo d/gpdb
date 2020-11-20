@@ -1624,5 +1624,3 @@ CQueryMutators::ReassignSortClause(Query *top_level_query,
 	derived_table_query->limitOffset = NULL;
 	derived_table_query->limitCount = NULL;
 }
-
-// EOF

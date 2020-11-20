@@ -72,5 +72,3 @@ public:
 
 
 #endif	// !GPOPT_CXformGbAgg2HashAgg_H
-
-// EOF

@@ -99,5 +99,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CXformLeftSemiApplyWithExternalCorrs2InnerJoin_H
-
-// EOF

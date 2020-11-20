@@ -60,5 +60,3 @@ public:
 }  // namespace gpmd
 
 #endif	// !GPMD_IMDTypeInt8_H
-
-// EOF

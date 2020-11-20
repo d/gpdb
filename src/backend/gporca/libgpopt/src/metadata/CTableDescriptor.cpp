@@ -353,5 +353,3 @@ CTableDescriptor::FDescriptorWithPartialIndexes()
 
 	return false;
 }
-
-// EOF

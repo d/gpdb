@@ -1383,5 +1383,3 @@ void PrintMemo(void *pv);
 #endif	// GPOS_DEBUG
 
 #endif	// !GPOPT_CUtils_H
-
-// EOF

@@ -256,6 +256,3 @@ CStringStatic::IsValid() const
 }
 
 #endif	// GPOS_DEBUG
-
-
-// EOF

@@ -68,5 +68,3 @@ public:
 }  // namespace gpdxl
 
 #endif	// !GPDXL_CParseHandlerGroupingColList_H
-
-// EOF

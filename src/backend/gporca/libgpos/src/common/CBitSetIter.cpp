@@ -81,5 +81,3 @@ CBitSetIter::Bit() const
 
 	return m_bsl->GetOffset() + m_cursor;
 }
-
-// EOF

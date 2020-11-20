@@ -59,5 +59,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CXformSequenceProject2Apply_H
-
-// EOF

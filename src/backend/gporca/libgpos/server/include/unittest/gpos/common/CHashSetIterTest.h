@@ -20,5 +20,3 @@ public:
 }  // namespace gpos
 
 #endif	// !GPOS_CHashSetIterTest_H
-
-// EOF

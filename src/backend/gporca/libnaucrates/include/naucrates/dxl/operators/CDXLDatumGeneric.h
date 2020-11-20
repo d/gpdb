@@ -117,5 +117,3 @@ public:
 }  // namespace gpdxl
 
 #endif	// !GPDXL_CDXLDatumGeneric_H
-
-// EOF

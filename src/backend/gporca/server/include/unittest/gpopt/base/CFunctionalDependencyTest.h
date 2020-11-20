@@ -36,6 +36,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CFunctionalDependencyTest_H
-
-
-// EOF

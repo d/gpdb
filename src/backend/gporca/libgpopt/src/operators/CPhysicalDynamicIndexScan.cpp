@@ -199,5 +199,3 @@ CPhysicalDynamicIndexScan::PstatsDerive(CMemoryPool *mp,
 
 	return stats;
 }
-
-// EOF

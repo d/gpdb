@@ -543,6 +543,3 @@ COrderSpec::OsPrint(IOstream &os, const COrderSpecArray *pdrgpos)
 
 	return os << "]";
 }
-
-
-// EOF

@@ -394,5 +394,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CTranslatorExprToDXLUtils_H
-
-// EOF

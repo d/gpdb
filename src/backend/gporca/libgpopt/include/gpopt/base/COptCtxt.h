@@ -288,5 +288,3 @@ public:
 
 
 #endif	// !GPOPT_COptCtxt_H
-
-// EOF

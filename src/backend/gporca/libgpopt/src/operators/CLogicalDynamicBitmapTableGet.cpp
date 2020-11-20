@@ -237,5 +237,3 @@ CLogicalDynamicBitmapTableGet::PxfsCandidates(CMemoryPool *mp) const
 
 	return xform_set;
 }
-
-// EOF

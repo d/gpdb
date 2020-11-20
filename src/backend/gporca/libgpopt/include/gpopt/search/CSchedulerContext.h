@@ -116,6 +116,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CSchedulerContext_H
-
-
-// EOF

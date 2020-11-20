@@ -177,6 +177,3 @@ CReqdPropRelational::OsPrint(IOstream &os) const
 
 	return os;
 }
-
-
-// EOF

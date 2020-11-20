@@ -67,5 +67,3 @@ public:
 
 
 #endif	// !GPOPT_CWindowPreprocessor_H
-
-// EOF

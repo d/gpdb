@@ -73,5 +73,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CXformUnnestTVF_H
-
-// EOF

@@ -189,5 +189,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CLogicalDynamicIndexGet_H
-
-// EOF

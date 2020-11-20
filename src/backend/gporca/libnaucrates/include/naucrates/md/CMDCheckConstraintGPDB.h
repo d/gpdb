@@ -110,5 +110,3 @@ public:
 }  // namespace gpmd
 
 #endif	// !GPMD_CMDCheckConstraintGPDB_H
-
-// EOF

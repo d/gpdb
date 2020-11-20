@@ -58,5 +58,3 @@ public:
 }  // namespace gpdxl
 
 #endif	// !GPDXL_CParseHandlerScalarScalarPartOid_H
-
-// EOF

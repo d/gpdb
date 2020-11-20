@@ -323,5 +323,3 @@ GPOS_DELETE_ARRAY(T *object_array)
 	::gpos::delete_detail::CDeleter<T>::DeleteArray(object_array);
 }
 #endif	// !GPOS_CMemoryPool_H
-
-// EOF

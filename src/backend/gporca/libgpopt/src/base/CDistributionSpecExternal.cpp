@@ -85,5 +85,3 @@ CDistributionSpecExternal::OsPrint(IOstream &os) const
 {
 	return os << this->SzId();
 }
-
-// EOF

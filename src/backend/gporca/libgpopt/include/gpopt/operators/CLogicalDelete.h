@@ -199,5 +199,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CLogicalDelete_H
-
-// EOF

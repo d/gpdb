@@ -421,5 +421,3 @@ gpos::ioutils::CreateTempDir(CHAR *dir_path)
 
 	return;
 }
-
-// EOF

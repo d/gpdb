@@ -102,5 +102,3 @@ public:
 
 
 #endif	// CCACHEFACTORY_H_
-
-// EOF

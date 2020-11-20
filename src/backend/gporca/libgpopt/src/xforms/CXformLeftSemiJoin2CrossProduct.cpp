@@ -116,6 +116,3 @@ CXformLeftSemiJoin2CrossProduct::Transform(CXformContext *pxfctxt,
 
 	pxfres->Add(pexprNormalized);
 }
-
-
-// EOF

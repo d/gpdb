@@ -89,5 +89,3 @@ CConstExprEvaluatorForDates::PexprEval(CExpression *pexpr)
 
 	return pexprResult;
 }
-
-// EOF

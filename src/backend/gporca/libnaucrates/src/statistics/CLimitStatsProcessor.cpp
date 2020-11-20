@@ -47,5 +47,3 @@ CLimitStatsProcessor::CalcLimitStats(CMemoryPool *mp,
 
 	return pstatsLimit;
 }
-
-// EOF

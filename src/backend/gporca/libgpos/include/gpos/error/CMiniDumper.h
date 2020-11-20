@@ -72,5 +72,3 @@ public:
 }  // namespace gpos
 
 #endif	// !GPOS_CMiniDumper_H
-
-// EOF

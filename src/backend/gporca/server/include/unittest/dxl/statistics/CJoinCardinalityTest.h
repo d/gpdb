@@ -113,6 +113,3 @@ public:
 }  // namespace gpnaucrates
 
 #endif	// !GPNAUCRATES_CJoinCardinalityTest_H
-
-
-// EOF

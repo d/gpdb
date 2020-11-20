@@ -36,6 +36,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOS_CKeyCollectionTest_H
-
-
-// EOF

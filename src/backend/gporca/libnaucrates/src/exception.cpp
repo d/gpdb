@@ -306,6 +306,3 @@ gpdxl::EresExceptionInit(CMemoryPool *mp)
 
 	return eres;
 }
-
-
-// EOF

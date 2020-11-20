@@ -80,5 +80,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CXformSimplifyGbAgg_H
-
-// EOF

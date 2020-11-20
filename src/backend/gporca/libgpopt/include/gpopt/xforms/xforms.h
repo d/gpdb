@@ -167,5 +167,3 @@
 #include "gpopt/xforms/CXformRemoveSubqDistinct.h"
 
 #endif	// !GPOPT_xforms_H
-
-// EOF

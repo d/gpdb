@@ -70,5 +70,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CXformIntersectAll2LeftSemiJoin_H
-
-// EOF

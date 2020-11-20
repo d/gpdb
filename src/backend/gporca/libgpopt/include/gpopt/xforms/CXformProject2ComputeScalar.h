@@ -72,5 +72,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CXformProject2ComputeScalar_H
-
-// EOF

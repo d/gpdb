@@ -266,5 +266,3 @@ CLogicalSelect::PexprPartPred(CMemoryPool *mp, CExpressionHandle &exprhdl,
 
 	return pexprPredOnPartKey;
 }
-
-// EOF

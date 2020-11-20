@@ -71,5 +71,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CXformSimplifyLeftOuterJoin_H
-
-// EOF

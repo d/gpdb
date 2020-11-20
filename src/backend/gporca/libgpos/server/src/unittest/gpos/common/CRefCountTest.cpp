@@ -175,5 +175,3 @@ CRefCountTest::EresUnittest_Check()
 }
 
 #endif	// GPOS_DEBUG
-
-// EOF

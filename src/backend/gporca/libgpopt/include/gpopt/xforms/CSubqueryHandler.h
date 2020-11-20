@@ -301,5 +301,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CSubqueryHandler_H
-
-// EOF

@@ -1401,5 +1401,3 @@ CLogical::PcrsDist(CMemoryPool *mp, const CTableDescriptor *ptabdesc,
 
 	return pcrsDist;
 }
-
-// EOF

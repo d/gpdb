@@ -80,5 +80,3 @@ CScalarIf::Matches(COperator *pop) const
 
 	return false;
 }
-
-// EOF

@@ -72,5 +72,3 @@ public:
 typedef CDynamicPtrArray<CDXLWindowKey, CleanupRelease> CDXLWindowKeyArray;
 }  // namespace gpdxl
 #endif	// !GPDXL_CDXLWindowKey_H
-
-// EOF

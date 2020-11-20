@@ -112,5 +112,3 @@ CDXLScalarSubqueryQuantified::AssertValid(const CDXLNode *dxlnode,
 	dxlnode->AssertValid(validate_children);
 }
 #endif	// GPOS_DEBUG
-
-// EOF

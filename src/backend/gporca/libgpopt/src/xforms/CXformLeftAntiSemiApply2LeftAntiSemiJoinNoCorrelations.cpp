@@ -59,6 +59,3 @@ CXformLeftAntiSemiApply2LeftAntiSemiJoinNoCorrelations::Transform(
 
 	CreateJoinAlternative(pxfctxt, pxfres, pexpr);
 }
-
-
-// EOF

@@ -211,5 +211,3 @@ CStackDescriptor::HashValue() const
 	return gpos::HashByteArray((BYTE *) m_array_of_addresses,
 							   m_depth * GPOS_SIZEOF(m_array_of_addresses[0]));
 }
-
-// EOF

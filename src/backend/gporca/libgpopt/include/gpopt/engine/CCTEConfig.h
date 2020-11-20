@@ -61,5 +61,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CCTEConfig_H
-
-// EOF

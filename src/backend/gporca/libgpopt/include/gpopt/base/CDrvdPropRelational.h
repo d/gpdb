@@ -257,5 +257,3 @@ public:
 
 
 #endif	// !GPOPT_CDrvdPropRelational_H
-
-// EOF

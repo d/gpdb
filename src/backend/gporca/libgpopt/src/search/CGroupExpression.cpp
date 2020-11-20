@@ -1218,5 +1218,3 @@ CGroupExpression::DbgPrintWithProperties()
 	(void) this->OsPrint(at.Os());
 }
 #endif	// GPOS_DEBUG
-
-// EOF

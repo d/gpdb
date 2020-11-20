@@ -34,5 +34,3 @@ using namespace gpdxl;
 using namespace gpdbcost;
 
 #endif	// UNITTEST_BASE_H
-
-// EOF

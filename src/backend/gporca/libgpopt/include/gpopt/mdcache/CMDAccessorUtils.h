@@ -86,5 +86,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CMDAccessorUtils_H
-
-// EOF

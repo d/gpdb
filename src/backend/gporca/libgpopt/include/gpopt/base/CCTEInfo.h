@@ -297,5 +297,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CCTEInfo_H
-
-// EOF

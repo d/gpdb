@@ -73,5 +73,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOS_CColRefComputed_H
-
-// EOF

@@ -128,5 +128,3 @@ public:
 
 
 #endif	// !GPOPT_CLogicalLeftOuterApply_H
-
-// EOF

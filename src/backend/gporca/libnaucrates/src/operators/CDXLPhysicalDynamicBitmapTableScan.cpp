@@ -64,5 +64,3 @@ CDXLPhysicalDynamicBitmapTableScan::SerializeToDXL(
 	xml_serializer->CloseElement(
 		CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), element_name);
 }
-
-// EOF

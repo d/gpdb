@@ -149,6 +149,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CEnumeratorTest_H
-
-
-// EOF

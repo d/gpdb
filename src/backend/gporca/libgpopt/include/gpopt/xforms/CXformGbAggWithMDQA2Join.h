@@ -78,5 +78,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CXformGbAggWithMDQA2Join_H
-
-// EOF

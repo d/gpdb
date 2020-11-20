@@ -105,5 +105,3 @@ public:
 
 
 #endif	// !GPOS_CPhysicalScalarAgg_H
-
-// EOF

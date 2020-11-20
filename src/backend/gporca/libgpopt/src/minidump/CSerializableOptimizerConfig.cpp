@@ -72,5 +72,3 @@ CSerializableOptimizerConfig::Serialize(COstream &oos)
 	m_optimizer_config->Serialize(m_mp, &xml_serializer, pbs);
 	pbs->Release();
 }
-
-// EOF

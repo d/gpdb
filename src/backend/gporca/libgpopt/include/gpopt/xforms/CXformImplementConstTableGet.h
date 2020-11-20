@@ -70,5 +70,3 @@ public:
 
 
 #endif	// !GPOPT_CXformImplementConstTableGet_H
-
-// EOF

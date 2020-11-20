@@ -184,5 +184,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CMemo_H
-
-// EOF

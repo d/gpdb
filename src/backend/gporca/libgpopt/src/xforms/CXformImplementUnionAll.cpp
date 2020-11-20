@@ -98,5 +98,3 @@ CXformImplementUnionAll::Transform(CXformContext *pxfctxt, CXformResult *pxfres,
 		pxfres->Add(pexprParallelUnionAll);
 	}
 }
-
-// EOF

@@ -33,5 +33,3 @@ ITask::Self()
 	}
 	return NULL;
 }
-
-// EOF

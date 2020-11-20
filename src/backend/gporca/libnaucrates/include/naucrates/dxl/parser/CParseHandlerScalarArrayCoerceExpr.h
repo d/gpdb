@@ -71,5 +71,3 @@ public:
 
 }  // namespace gpdxl
 #endif	// GPDXL_CParseHandlerScalarArrayCoerceExpr_H
-
-//EOF

@@ -53,5 +53,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_IConstDXLNodeEvaluator_H
-
-// EOF

@@ -85,5 +85,3 @@ CStatsPredPoint::PreprocessDatum(CMemoryPool *mp, const CColRef *colref,
 
 	return datum->MakePaddedDatum(mp, colref_table->Width());
 }
-
-// EOF

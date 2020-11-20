@@ -86,6 +86,3 @@ CXformImplementSequenceProject::Transform(CXformContext *pxfctxt,
 	// add alternative to results
 	pxfres->Add(pexprSequenceProject);
 }
-
-
-// EOF

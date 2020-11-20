@@ -192,5 +192,3 @@ public:
 
 
 #endif	// !GPOPT_CStatsPredUtils_H
-
-// EOF

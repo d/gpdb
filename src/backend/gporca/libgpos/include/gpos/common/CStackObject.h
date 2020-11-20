@@ -33,5 +33,3 @@ protected:
 }  // namespace gpos
 
 #endif	// !GPOS_CStackObject_H
-
-// EOF

@@ -105,5 +105,3 @@ CGroupByStatsProcessor::CalcGroupByStats(CMemoryPool *mp,
 
 	return agg_stats;
 }
-
-// EOF

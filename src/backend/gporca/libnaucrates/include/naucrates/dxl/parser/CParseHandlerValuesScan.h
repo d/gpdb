@@ -64,5 +64,3 @@ public:
 }  // namespace gpdxl
 
 #endif	// !GPDXL_CParseHandlerValuesScan_H
-
-// EOF

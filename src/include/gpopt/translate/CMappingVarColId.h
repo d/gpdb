@@ -163,5 +163,3 @@ public:
 }  // namespace gpdxl
 
 #endif	//GPDXL_CMappingVarColId_H
-
-// EOF

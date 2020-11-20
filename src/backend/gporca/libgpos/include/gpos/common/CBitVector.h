@@ -91,5 +91,3 @@ public:
 }  // namespace gpos
 
 #endif	// !GPOS_CBitVector_H
-
-// EOF

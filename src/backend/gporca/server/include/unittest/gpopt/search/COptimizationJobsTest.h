@@ -40,6 +40,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_COptimizationJobsTest_H
-
-
-// EOF

@@ -245,5 +245,3 @@ CJobFactory::Truncate(CJob::EJobType ejt)
 		}
 	}
 }
-
-// EOF

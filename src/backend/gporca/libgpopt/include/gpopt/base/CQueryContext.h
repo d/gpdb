@@ -159,5 +159,3 @@ public:
 
 
 #endif	// !GPOPT_CQueryContext_H
-
-// EOF

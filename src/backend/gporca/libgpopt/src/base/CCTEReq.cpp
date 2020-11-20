@@ -505,5 +505,3 @@ operator<<(IOstream &os, CCTEReq &cter)
 }
 
 }  // namespace gpopt
-
-// EOF

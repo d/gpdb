@@ -103,5 +103,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CConstExprEvaluatorDXLTest_H
-
-// EOF

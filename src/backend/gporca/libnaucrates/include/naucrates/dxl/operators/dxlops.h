@@ -147,5 +147,3 @@
 #include "naucrates/dxl/operators/CDXLCtasStorageOptions.h"
 
 #endif	// !GPDXL_dxlops_H
-
-// EOF

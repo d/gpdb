@@ -73,5 +73,3 @@ public:
 
 
 #endif	// !GPOPT_CXformJoinCommutativity_H
-
-// EOF

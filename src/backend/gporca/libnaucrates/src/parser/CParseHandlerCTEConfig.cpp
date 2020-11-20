@@ -145,5 +145,3 @@ CParseHandlerCTEConfig::GetCteConf() const
 {
 	return m_cte_conf;
 }
-
-// EOF

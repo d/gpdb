@@ -191,5 +191,3 @@ gpos::Multiply(ULLONG first, ULLONG second)
 
 	return res;
 }
-
-// EOF

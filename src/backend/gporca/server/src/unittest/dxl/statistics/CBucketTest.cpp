@@ -918,4 +918,3 @@ CBucketTest::EresUnittest_CBucketMergeCommutativityDoubleDatumSameUpperBounds()
 
 	return GPOS_OK;
 }
-// EOF

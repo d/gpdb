@@ -58,5 +58,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CXformSelect2Apply_H
-
-// EOF

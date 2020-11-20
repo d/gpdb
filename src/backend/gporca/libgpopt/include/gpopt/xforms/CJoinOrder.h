@@ -250,5 +250,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CJoinOrder_H
-
-// EOF

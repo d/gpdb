@@ -41,5 +41,3 @@ public:
 }  // namespace gpos
 
 #endif	// !GPOS_CBitVectorTest_H
-
-// EOF

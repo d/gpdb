@@ -137,5 +137,3 @@ public:
 }  // namespace gpdxl
 
 #endif	// !GPDXL_CDXLScalarSubPlan_H
-
-//EOF

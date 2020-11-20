@@ -50,6 +50,3 @@ CWallClock::Restart()
 {
 	syslib::GetTimeOfDay(&m_time, NULL /*timezone*/);
 }
-
-
-// EOF

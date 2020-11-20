@@ -66,5 +66,3 @@ public:
 
 }  // namespace gpdxl
 #endif	// GPDXL_CParseHandlerScalarBitmapBoolOp_H
-
-//EOF

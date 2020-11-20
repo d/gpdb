@@ -85,6 +85,3 @@ CParseHandlerOp::AddChildFromParseHandler(
 	child_dxlnode->AddRef();
 	m_dxl_node->AddChild(child_dxlnode);
 }
-
-
-// EOF

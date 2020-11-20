@@ -36,5 +36,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CContradictionTest_H
-
-// EOF

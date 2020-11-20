@@ -64,5 +64,3 @@ public:
 }  // namespace gpos
 
 #endif	// !GPOS_CAutoExceptionStack_H
-
-// EOF

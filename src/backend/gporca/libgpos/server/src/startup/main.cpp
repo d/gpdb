@@ -177,6 +177,3 @@ main(INT iArgs, const CHAR **rgszArgs)
 		return 0;
 	}
 }
-
-
-// EOF

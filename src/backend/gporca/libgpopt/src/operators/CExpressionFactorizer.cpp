@@ -812,6 +812,3 @@ CExpressionFactorizer::PexprExtractInferredFilters(CMemoryPool *mp,
 									   NULL /*pexprLowestLogicalAncestor*/,
 									   PexprExtractInferredFiltersFromDisj);
 }
-
-
-// EOF

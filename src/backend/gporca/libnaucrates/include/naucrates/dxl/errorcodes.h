@@ -23,5 +23,3 @@ enum EErrorCode
 }
 
 #endif	// ! GPOPT_errorcodes_H
-
-// EOF

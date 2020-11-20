@@ -177,5 +177,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CPhysicalIndexOnlyScan_H
-
-// EOF

@@ -73,5 +73,3 @@ public:
 }  // namespace gpdxl
 
 #endif	// GPDXL_CDXLMemoryManager_H
-
-// EOF

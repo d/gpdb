@@ -89,5 +89,3 @@ CMaxCardTest::EresUnittest_RunMinidumpTests()
 	return CTestUtils::EresUnittest_RunTests(rgszFileNames, &ulTestCounter,
 											 GPOS_ARRAY_SIZE(rgszFileNames));
 }
-
-// EOF

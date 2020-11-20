@@ -55,5 +55,3 @@ public:
 }  // namespace gpos
 
 #endif	// !GPOS_CTaskLocalStorageTest_H
-
-// EOF

@@ -129,5 +129,3 @@ CLogicalInnerJoin::FFewerConj(CMemoryPool *mp, CGroupExpression *pgexprFst,
 
 	return ulConjFst < ulConjSnd;
 }
-
-// EOF

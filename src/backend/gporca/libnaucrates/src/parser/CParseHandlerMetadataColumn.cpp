@@ -201,5 +201,3 @@ CParseHandlerMetadataColumn::GetMdCol()
 {
 	return m_mdcol;
 }
-
-// EOF

@@ -280,5 +280,3 @@ public:
 };
 }  // namespace gpdxl
 #endif	// !GPDXL_CTranslatorDXLToScalar_H
-
-// EOF

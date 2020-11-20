@@ -233,5 +233,3 @@ CException::GetSQLState(ULONG major, ULONG minor)
 
 	return sql_state;
 }
-
-// EOF

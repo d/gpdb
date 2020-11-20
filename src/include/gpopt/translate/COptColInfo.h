@@ -105,5 +105,3 @@ FEqualOptColInfo(const COptColInfo *opt_col_infoA,
 }  // namespace gpdxl
 
 #endif	// !GPDXL_COptColInfo_H
-
-// EOF

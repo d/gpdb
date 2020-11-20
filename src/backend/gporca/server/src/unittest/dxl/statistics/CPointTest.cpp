@@ -106,5 +106,3 @@ CPointTest::EresUnittest_CPointBool()
 
 	return GPOS_OK;
 }
-
-// EOF

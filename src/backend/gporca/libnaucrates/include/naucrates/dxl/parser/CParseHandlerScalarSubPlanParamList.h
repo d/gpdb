@@ -75,5 +75,3 @@ public:
 
 }  // namespace gpdxl
 #endif	// GPDXL_CParseHandlerScalarSubPlanParamList_H
-
-//EOF

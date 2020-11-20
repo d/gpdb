@@ -117,5 +117,3 @@ public:
 }  // namespace gpmd
 
 #endif	// !GPMD_IMDRelationExternal_H
-
-// EOF

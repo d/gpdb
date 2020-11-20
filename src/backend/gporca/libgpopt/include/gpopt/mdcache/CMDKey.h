@@ -72,5 +72,3 @@ public:
 
 
 #endif	// !GPOPT_CMDKey_H
-
-// EOF

@@ -88,5 +88,3 @@ public:
 }  // namespace gpmd
 
 #endif	// !GPMD_IMDFunction_H
-
-// EOF

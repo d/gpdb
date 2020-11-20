@@ -560,6 +560,3 @@ CScaleFactorUtils::CalcScaleFactorCumulativeDisj(
 	// return an accumulated scale factor based on accumulated row estimate
 	return CDouble(total_rows / rows);
 }
-
-
-// EOF

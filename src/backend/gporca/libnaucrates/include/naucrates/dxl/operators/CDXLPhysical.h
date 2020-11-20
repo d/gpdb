@@ -54,5 +54,3 @@ public:
 }  // namespace gpdxl
 
 #endif	// !GPDXL_CDXLPhysical_H
-
-// EOF

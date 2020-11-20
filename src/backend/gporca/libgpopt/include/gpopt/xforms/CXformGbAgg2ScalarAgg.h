@@ -65,5 +65,3 @@ public:
 
 
 #endif	// !GPOPT_CXformGbAgg2ScalarAgg_H
-
-// EOF

@@ -64,6 +64,3 @@ CJobGroupExpression::ScheduleTransformations(CSchedulerContext *psc,
 		CJobTransformation::ScheduleJob(psc, m_pgexpr, pxform, this);
 	}
 }
-
-
-// EOF

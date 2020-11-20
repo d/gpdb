@@ -140,5 +140,3 @@ public:
 
 
 #endif	// !GPOPT_CScalarCast_H
-
-// EOF

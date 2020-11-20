@@ -203,5 +203,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CWindowFrame_H
-
-// EOF

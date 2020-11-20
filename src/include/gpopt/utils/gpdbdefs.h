@@ -66,5 +66,3 @@ extern "C" {
 
 
 #endif	// GPDBDefs_H
-
-// EOF

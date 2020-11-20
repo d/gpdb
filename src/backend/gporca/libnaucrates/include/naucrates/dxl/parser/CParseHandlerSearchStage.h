@@ -99,5 +99,3 @@ public:
 }  // namespace gpdxl
 
 #endif	// !GPDXL_CParseHandlerSearchStage_H
-
-// EOF

@@ -91,5 +91,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CXformSubqJoin2Apply_H
-
-// EOF

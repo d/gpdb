@@ -61,5 +61,3 @@ public:
 }  // namespace gpdxl
 
 #endif	// !GPDXL_CParseHandlerExternalScan_H
-
-// EOF

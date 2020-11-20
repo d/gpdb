@@ -38,4 +38,3 @@ CWindowTest::EresUnittest()
 		rgszWindowFunctionFileNames, &ulTestCounter,
 		GPOS_ARRAY_SIZE(rgszWindowFunctionFileNames), true, true);
 }
-// EOF

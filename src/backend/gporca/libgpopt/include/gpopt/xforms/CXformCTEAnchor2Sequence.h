@@ -63,5 +63,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CXformCTEAnchor2Sequence_H
-
-// EOF

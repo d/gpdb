@@ -526,5 +526,3 @@ CMappingVarColId::CopyRemapColId(CMemoryPool *mp, ULongPtrArray *old_colids,
 
 	return var_colid_mapping;
 }
-
-// EOF

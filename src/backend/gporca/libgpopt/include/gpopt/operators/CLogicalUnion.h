@@ -126,5 +126,3 @@ public:
 
 
 #endif	// !GPOPT_CLogicalUnion_H
-
-// EOF

@@ -2820,5 +2820,3 @@ gpdb::RelIsPartitioned(Oid relid)
 	}
 	GP_WRAP_END;
 }
-
-// EOF

@@ -118,5 +118,3 @@ CDXLDirectDispatchInfo::Serialize(CXMLSerializer *xml_serializer)
 		CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix),
 		CDXLTokens::GetDXLTokenStr(EdxltokenDirectDispatchInfo));
 }
-
-// EOF

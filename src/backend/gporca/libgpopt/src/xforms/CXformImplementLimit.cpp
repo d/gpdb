@@ -86,6 +86,3 @@ CXformImplementLimit::Transform(CXformContext *pxfctxt, CXformResult *pxfres,
 	// add alternative to results
 	pxfres->Add(pexprLimit);
 }
-
-
-// EOF

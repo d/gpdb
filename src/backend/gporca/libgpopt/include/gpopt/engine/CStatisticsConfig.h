@@ -114,5 +114,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CStatisticsConfig_H
-
-// EOF

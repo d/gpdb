@@ -361,5 +361,3 @@ typedef CEnumSetIter<CXform::EXformId, CXform::ExfSentinel> CXformSetIter;
 
 
 #endif	// !GPOPT_CXform_H
-
-// EOF

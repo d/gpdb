@@ -134,5 +134,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CDistributionSpecAny_H
-
-// EOF

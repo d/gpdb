@@ -108,6 +108,3 @@ CXformPushGbWithHavingBelowJoin::Transform(CXformContext *pxfctxt,
 		pxfres->Add(pexprResult);
 	}
 }
-
-
-// EOF

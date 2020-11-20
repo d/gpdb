@@ -397,5 +397,3 @@ CPhysicalSort::OsPrint(IOstream &os) const
 	os << SzId() << "  ";
 	return Pos()->OsPrint(os);
 }
-
-// EOF

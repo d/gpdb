@@ -223,5 +223,3 @@ public:
 
 
 #endif	// !GPOPT_CLogicalTVF_H
-
-// EOF

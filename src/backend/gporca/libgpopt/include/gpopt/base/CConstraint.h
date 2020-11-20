@@ -274,5 +274,3 @@ operator<<(IOstream &os, const CConstraint &cnstr)
 }  // namespace gpopt
 
 #endif	// !GPOPT_CConstraint_H
-
-// EOF

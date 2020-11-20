@@ -57,5 +57,3 @@ public:
 }  // namespace gpdxl
 
 #endif	// !GPDXL_CParseHandlerScalarSwitchCase_H
-
-//EOF

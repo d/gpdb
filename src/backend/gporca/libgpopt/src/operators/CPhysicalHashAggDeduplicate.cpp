@@ -87,6 +87,3 @@ CPhysicalHashAggDeduplicate::OsPrint(IOstream &os) const
 	return os;
 }
 
-// EOF
-
-// EOF

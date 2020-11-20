@@ -215,5 +215,3 @@ operator<<(IOstream &os, CRange &range)
 }  // namespace gpopt
 
 #endif	// !GPOPT_CRange_H
-
-// EOF

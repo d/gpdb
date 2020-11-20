@@ -183,5 +183,3 @@ CMDIdScCmp::OsPrint(IOstream &os) const
 	os << "(" << m_str.GetBuffer() << ")";
 	return os;
 }
-
-// EOF

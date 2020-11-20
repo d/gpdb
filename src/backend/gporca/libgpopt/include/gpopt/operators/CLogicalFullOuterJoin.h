@@ -125,5 +125,3 @@ public:
 
 
 #endif	// !GPOS_CLogicalFullOuterJoin_H
-
-// EOF

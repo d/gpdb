@@ -253,5 +253,3 @@ CDatumInt2GPDB::OsPrint(IOstream &os) const
 
 	return os;
 }
-
-// EOF

@@ -151,5 +151,3 @@ CBitSetIterTest::EresUnittest_Overrun()
 }
 
 #endif	// GPOS_DEBUG
-
-// EOF

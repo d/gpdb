@@ -88,5 +88,3 @@ private:
 }  // namespace gpos
 
 #endif	// !GPOS_COstream_H
-
-// EOF

@@ -117,5 +117,3 @@ CDXLScalarBitmapIndexProbe::AssertValid(const CDXLNode *dxlnode,
 	GPOS_ASSERT(m_dxl_index_descr->MdName()->GetMDName()->IsValid());
 }
 #endif	// GPOS_DEBUG
-
-// EOF

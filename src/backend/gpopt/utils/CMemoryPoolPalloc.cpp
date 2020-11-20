@@ -99,6 +99,3 @@ CMemoryPoolPalloc::UserSizeOfAlloc(const void *ptr)
 		static_cast<SArrayAllocHeader *>(void_header);
 	return header->m_user_size;
 }
-
-
-// EOF

@@ -2115,4 +2115,3 @@ CExpressionHandle::DeriveHasScalarArrayCmp(ULONG child_index)
 
 	return GetDrvdScalarProps(child_index)->HasScalarArrayCmp();
 }
-// EOF

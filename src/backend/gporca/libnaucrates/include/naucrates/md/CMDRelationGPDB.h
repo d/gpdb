@@ -267,5 +267,3 @@ public:
 
 
 #endif	// !GPMD_CMDRelationGPDB_H
-
-// EOF

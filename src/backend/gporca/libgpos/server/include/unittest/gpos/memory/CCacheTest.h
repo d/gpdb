@@ -166,5 +166,3 @@ public:
 }  // namespace gpos
 
 #endif	// GPOS_CCACHETEST_H_
-
-// EOF

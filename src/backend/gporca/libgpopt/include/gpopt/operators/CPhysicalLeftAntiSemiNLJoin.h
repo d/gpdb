@@ -75,5 +75,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CPhysicalLeftAntiSemiNLJoin_H
-
-// EOF

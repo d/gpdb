@@ -50,5 +50,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CXformImplementFullOuterMergeJoin_H
-
-// EOF

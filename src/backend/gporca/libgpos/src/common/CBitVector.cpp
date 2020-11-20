@@ -415,6 +415,3 @@ CBitVector::HashValue() const
 	return gpos::HashByteArray((BYTE *) &m_vec[0],
 							   GPOS_SIZEOF(m_vec[0]) * m_len);
 }
-
-
-// EOF

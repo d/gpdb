@@ -249,5 +249,3 @@ CBitSetTest::EresUnittest_Performance()
 
 	return GPOS_OK;
 }
-
-// EOF

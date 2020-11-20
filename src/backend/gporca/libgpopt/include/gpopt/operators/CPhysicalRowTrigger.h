@@ -239,5 +239,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CPhysicalRowTrigger_H
-
-// EOF

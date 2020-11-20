@@ -82,5 +82,3 @@ CPruneColumnsTest::EresUnittest_RunTests()
 		rgszPruneColumnsFileNames, &m_ulPruneColumnsTestCounter,
 		GPOS_ARRAY_SIZE(rgszPruneColumnsFileNames));
 }
-
-// EOF

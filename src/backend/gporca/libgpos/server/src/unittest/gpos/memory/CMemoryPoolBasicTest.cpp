@@ -341,5 +341,3 @@ CMemoryPoolBasicTest::Size(ULONG offset)
 	}
 	return GPOS_MEM_TEST_ALLOC_LARGE;
 }
-
-// EOF

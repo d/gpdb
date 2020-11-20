@@ -128,5 +128,3 @@ typedef CHashMapIter<ULONG, CCTEListEntry, gpos::HashValue<ULONG>,
 
 }  // namespace gpdxl
 #endif	// !GPDXL_CCTEListEntry_H
-
-//EOF

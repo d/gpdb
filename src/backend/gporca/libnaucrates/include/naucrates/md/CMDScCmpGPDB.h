@@ -104,5 +104,3 @@ public:
 }  // namespace gpmd
 
 #endif	// !GPMD_CMDScCmpGPDB_H
-
-// EOF

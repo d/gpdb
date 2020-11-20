@@ -122,5 +122,3 @@ COstreamBasicTest::EresUnittest_Numbers()
 
 	return GPOS_OK;
 }
-
-// EOF

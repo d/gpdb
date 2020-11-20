@@ -98,5 +98,3 @@ CMessageTest::EresUnittest_Basic(const void *pv, ...)
 
 	return GPOS_OK;
 }
-
-// EOF

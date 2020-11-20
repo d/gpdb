@@ -215,6 +215,3 @@ CScalarConst::TypeModifier() const
 {
 	return m_pdatum->TypeModifier();
 }
-
-
-// EOF

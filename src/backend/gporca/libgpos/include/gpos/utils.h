@@ -117,5 +117,3 @@ extern COstreamBasic oswcout;
 
 
 #endif	// !GPOS_utils_H
-
-// EOF

@@ -116,5 +116,3 @@ CLogicalInnerApply::PopCopyWithRemappedColumns(CMemoryPool *mp,
 
 	return GPOS_NEW(mp) CLogicalInnerApply(mp, pdrgpcrInner, m_eopidOriginSubq);
 }
-
-// EOF

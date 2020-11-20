@@ -224,6 +224,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CJobGroupExpressionOptimization_H
-
-
-// EOF

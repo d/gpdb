@@ -97,5 +97,3 @@ CLogicalInnerCorrelatedApply::PopCopyWithRemappedColumns(
 	return GPOS_NEW(mp)
 		CLogicalInnerCorrelatedApply(mp, pdrgpcrInner, m_eopidOriginSubq);
 }
-
-// EOF

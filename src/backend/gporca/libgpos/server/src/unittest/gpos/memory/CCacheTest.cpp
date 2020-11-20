@@ -987,5 +987,3 @@ CCacheTest::EresUnittest_IterativeDeletion()
 
 	return GPOS_OK;
 }
-
-// EOF

@@ -35,5 +35,3 @@ public:
 }  // namespace gpos
 
 #endif	// !GPOS_CUnittestTest_H
-
-// EOF

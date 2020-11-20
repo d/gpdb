@@ -78,5 +78,3 @@ public:
 };
 }  // namespace gpdxl
 #endif	// !GPDXL_CDXLPhysicalMergeJoin_H
-
-// EOF

@@ -62,5 +62,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CXformGbAgg2Apply_H
-
-// EOF

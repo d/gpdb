@@ -146,5 +146,3 @@ public:
 }  // namespace gpdxl
 
 #endif	// !GPDXL_CDXLLogicalUpdate_H
-
-// EOF

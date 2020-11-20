@@ -95,5 +95,3 @@ CXformDelete2DML::Transform(CXformContext *pxfctxt, CXformResult *pxfres,
 	// add alternative to transformation result
 	pxfres->Add(pexprAlt);
 }
-
-// EOF

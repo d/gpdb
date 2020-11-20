@@ -30,5 +30,3 @@ CXformImplementTVFNoArgs::CXformImplementTVFNoArgs(CMemoryPool *mp)
 		  GPOS_NEW(mp) CExpression(mp, GPOS_NEW(mp) CLogicalTVF(mp)))
 {
 }
-
-// EOF

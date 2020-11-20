@@ -110,6 +110,3 @@ public:
 }  // namespace gpnaucrates
 
 #endif	// !GPNAUCRATES_CBucketTest_H
-
-
-// EOF

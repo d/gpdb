@@ -139,5 +139,3 @@ CMDPartConstraintGPDB::Serialize(CXMLSerializer *xml_serializer) const
 
 	GPOS_CHECK_ABORT;
 }
-
-// EOF

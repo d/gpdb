@@ -129,5 +129,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CScalarSubquery_H
-
-// EOF

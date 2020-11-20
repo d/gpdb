@@ -274,6 +274,3 @@ CWorkerPoolManager::Cancel(CTaskId tid)
 		}
 	}
 }
-
-
-// EOF

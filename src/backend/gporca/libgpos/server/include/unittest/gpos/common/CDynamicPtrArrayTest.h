@@ -41,5 +41,3 @@ public:
 }  // namespace gpos
 
 #endif	// !GPOS_CDynamicPtrArrayTest_H
-
-// EOF

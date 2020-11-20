@@ -91,5 +91,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CXformSelect2PartialDynamicIndexGet_H
-
-// EOF

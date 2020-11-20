@@ -71,6 +71,3 @@ CColRefTable::CColRefTable(const IMDType *pmdtype, INT type_modifier, INT attno,
 //
 //---------------------------------------------------------------------------
 CColRefTable::~CColRefTable() = default;
-
-
-// EOF

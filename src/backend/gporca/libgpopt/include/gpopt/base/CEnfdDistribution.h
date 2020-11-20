@@ -115,5 +115,3 @@ public:
 
 
 #endif	// !GPOPT_CEnfdDistribution_H
-
-// EOF

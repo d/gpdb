@@ -139,5 +139,3 @@ CParseHandlerPhysicalCTEConsumer::EndElement(
 
 	m_parse_handler_mgr->DeactivateHandler();
 }
-
-// EOF

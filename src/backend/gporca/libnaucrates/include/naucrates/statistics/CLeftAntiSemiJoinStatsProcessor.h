@@ -47,5 +47,3 @@ public:
 }  // namespace gpnaucrates
 
 #endif	// !GPNAUCRATES_CLeftAntiSemiJoinStatsProcessor_H
-
-// EOF

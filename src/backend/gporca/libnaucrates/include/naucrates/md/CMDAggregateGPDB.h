@@ -126,5 +126,3 @@ public:
 }  // namespace gpmd
 
 #endif	// !GPMD_CMDAggregateGPDB_H
-
-// EOF

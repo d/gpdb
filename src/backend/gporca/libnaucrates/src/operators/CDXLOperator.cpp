@@ -109,5 +109,3 @@ CDXLOperator::GetIdxScanDirectionStr(EdxlIndexScanDirection idx_scan_direction)
 			return CDXLTokens::GetDXLTokenStr(EdxltokenUnknown);
 	}
 }
-
-// EOF

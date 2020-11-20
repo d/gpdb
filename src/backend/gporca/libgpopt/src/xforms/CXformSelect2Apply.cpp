@@ -37,5 +37,3 @@ CXformSelect2Apply::CXformSelect2Apply(CMemoryPool *mp)
 		  ))
 {
 }
-
-// EOF

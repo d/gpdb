@@ -86,5 +86,3 @@ typedef CDynamicPtrArray<CIndexQualInfo, CleanupDelete> CIndexQualInfoArray;
 }  // namespace gpdxl
 
 #endif	// !GPDXL_CIndexQualInfo_H
-
-// EOF

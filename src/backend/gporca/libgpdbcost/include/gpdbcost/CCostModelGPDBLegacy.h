@@ -234,5 +234,3 @@ public:
 }  // namespace gpdbcost
 
 #endif	// !GPDBCOST_CCostModelGPDBLegacy_H
-
-// EOF

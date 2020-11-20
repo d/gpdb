@@ -220,5 +220,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CLogicalUpdate_H
-
-// EOF

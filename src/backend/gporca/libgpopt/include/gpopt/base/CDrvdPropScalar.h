@@ -197,5 +197,3 @@ public:
 
 
 #endif	// !GPOPT_CDrvdPropScalar_H
-
-// EOF

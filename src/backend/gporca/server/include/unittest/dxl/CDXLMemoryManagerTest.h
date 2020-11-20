@@ -43,5 +43,3 @@ public:
 }  // namespace gpdxl
 
 #endif	// !GPOPT_CDXLMemoryManagerTest_H
-
-// EOF

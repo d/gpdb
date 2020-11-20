@@ -241,5 +241,3 @@ public:
 
 
 #endif	// !GPMD_CMDIdGPDB_H
-
-// EOF

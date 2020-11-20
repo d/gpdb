@@ -141,5 +141,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CPhysicalPartitionSelectorDML_H
-
-// EOF

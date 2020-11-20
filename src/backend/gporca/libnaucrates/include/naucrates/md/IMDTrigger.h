@@ -66,5 +66,3 @@ public:
 }  // namespace gpmd
 
 #endif	// !GPMD_IMDTrigger_H
-
-// EOF

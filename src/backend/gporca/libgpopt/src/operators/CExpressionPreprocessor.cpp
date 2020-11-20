@@ -2710,5 +2710,3 @@ CExpressionPreprocessor::PexprPreprocess(
 
 	return pexprNormalized2;
 }
-
-// EOF

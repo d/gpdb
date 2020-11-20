@@ -118,6 +118,3 @@ CLeftAntiSemiJoinStatsProcessor::NullFreqLASJ(
 
 	return outer_histogram->GetNullFreq();
 }
-
-
-// EOF

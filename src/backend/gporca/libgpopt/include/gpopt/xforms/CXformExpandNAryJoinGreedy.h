@@ -81,5 +81,3 @@ public:
 
 
 #endif	// !GPOPT_CXformExpandNAryJoinGreedy_H
-
-// EOF

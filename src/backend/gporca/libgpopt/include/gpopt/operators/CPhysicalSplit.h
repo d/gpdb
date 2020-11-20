@@ -264,5 +264,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOS_CPhysicalSplit_H
-
-// EOF

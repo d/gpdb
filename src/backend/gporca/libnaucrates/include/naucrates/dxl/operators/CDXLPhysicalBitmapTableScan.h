@@ -75,5 +75,3 @@ public:
 }  // namespace gpdxl
 
 #endif	// !GPDXL_CDXLPhysicalBitmapTableScan_H
-
-// EOF

@@ -168,5 +168,3 @@ public:
 };
 
 #endif	// COptTasks_H
-
-// EOF

@@ -26,5 +26,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CWindowTest_H
-
-// EOF

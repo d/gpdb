@@ -46,5 +46,3 @@ public:
 
 
 #endif	// !GPOS_CTraceFlagIter_H
-
-// EOF

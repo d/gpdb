@@ -58,5 +58,3 @@ public:
 
 
 #endif	// !GPOPT_CXformContext_H
-
-// EOF

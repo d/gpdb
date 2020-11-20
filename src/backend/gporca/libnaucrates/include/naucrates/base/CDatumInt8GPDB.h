@@ -83,5 +83,3 @@ public:
 
 
 #endif	// !GPNAUCRATES_CDatumInt8GPDB_H
-
-// EOF

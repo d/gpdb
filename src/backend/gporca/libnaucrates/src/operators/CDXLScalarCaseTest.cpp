@@ -144,5 +144,3 @@ CDXLScalarCaseTest::AssertValid(const CDXLNode *dxlnode,
 	GPOS_ASSERT(m_mdid_type->IsValid());
 }
 #endif	// GPOS_DEBUG
-
-// EOF

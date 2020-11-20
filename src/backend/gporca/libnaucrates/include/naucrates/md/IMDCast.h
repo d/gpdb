@@ -69,5 +69,3 @@ public:
 }  // namespace gpmd
 
 #endif	// !GPMD_IMDCast_H
-
-// EOF

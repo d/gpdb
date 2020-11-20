@@ -88,5 +88,3 @@ public:
 
 
 #endif	// !GPOPT_CLogicalLeftSemiCorrelatedApply_H
-
-// EOF

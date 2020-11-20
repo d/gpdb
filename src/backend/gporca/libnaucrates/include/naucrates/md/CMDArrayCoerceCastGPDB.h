@@ -84,5 +84,3 @@ public:
 }  // namespace gpmd
 
 #endif	// !GPMD_CMDArrayCoerceCastGPDB_H
-
-// EOF

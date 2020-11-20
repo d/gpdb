@@ -161,5 +161,3 @@ public:
 
 
 #endif	// !GPNAUCRATES_CDatumGenericGPDB_H
-
-// EOF

@@ -115,6 +115,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CGroupProxy_H
-
-
-// EOF

@@ -321,6 +321,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CJob_H
-
-
-// EOF

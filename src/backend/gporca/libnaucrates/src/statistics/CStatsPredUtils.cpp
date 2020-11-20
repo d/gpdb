@@ -1482,6 +1482,3 @@ CStatsPredUtils::IsUnsupportedPredOnDefinedCol(CStatsPred *pred_stats)
 	return ((CStatsPred::EsptUnsupported == pred_stats->GetPredStatsType()) &&
 			(gpos::ulong_max == pred_stats->GetColId()));
 }
-
-
-// EOF

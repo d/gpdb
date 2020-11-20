@@ -146,5 +146,3 @@ public:
 }  // namespace gpos
 
 #endif	// !GPOS_CRefCount_H
-
-// EOF

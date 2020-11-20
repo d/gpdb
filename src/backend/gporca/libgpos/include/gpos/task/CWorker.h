@@ -95,5 +95,3 @@ public:
 }  // namespace gpos
 
 #endif	// !GPOS_CWorker_H
-
-// EOF

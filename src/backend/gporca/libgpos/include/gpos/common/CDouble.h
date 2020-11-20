@@ -258,5 +258,3 @@ operator<<(IOstream &os, CDouble d)
 }  // namespace gpos
 
 #endif	// !GPOS_CDouble_H
-
-// EOF

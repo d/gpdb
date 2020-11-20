@@ -52,5 +52,3 @@ public:
 
 
 #endif	// !GPNAUCRATES_IDatumGeneric_H
-
-// EOF

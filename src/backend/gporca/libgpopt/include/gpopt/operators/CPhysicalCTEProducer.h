@@ -212,5 +212,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CPhysicalCTEProducer_H
-
-// EOF

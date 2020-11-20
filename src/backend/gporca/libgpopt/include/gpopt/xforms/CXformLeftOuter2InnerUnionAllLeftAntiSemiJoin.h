@@ -117,5 +117,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CXformLeftOuter2InnerUnionAllLeftAntiSemiJoin_H
-
-// EOF

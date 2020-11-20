@@ -298,5 +298,3 @@ public:
 
 
 #endif	// !GPOS_CPhysicalAgg_H
-
-// EOF

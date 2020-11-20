@@ -102,5 +102,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CXformImplementCorrelatedApply_H
-
-// EOF

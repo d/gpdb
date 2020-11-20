@@ -59,5 +59,3 @@ public:
 }  // namespace gpos
 
 #endif	// !GPOS_CLoggerStream_H
-
-// EOF

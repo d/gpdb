@@ -2281,4 +2281,3 @@ CHistogram::IsHistogramForTextRelatedTypes() const
 	}
 	return false;
 }
-// EOF

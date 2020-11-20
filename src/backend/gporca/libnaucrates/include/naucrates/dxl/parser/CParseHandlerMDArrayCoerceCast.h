@@ -57,5 +57,3 @@ public:
 }  // namespace gpdxl
 
 #endif	// !GPDXL_CParseHandlerMDArrayCoerceCast_H
-
-// EOF

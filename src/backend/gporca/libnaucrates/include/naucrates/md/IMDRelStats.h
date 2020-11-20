@@ -55,5 +55,3 @@ public:
 }  // namespace gpmd
 
 #endif	// !GPMD_IMDRelStats_H
-
-// EOF

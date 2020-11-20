@@ -1460,5 +1460,3 @@ CConstraintTest::EresUnittest_ConstraintsOnDates()
 
 	return GPOS_OK;
 }
-
-// EOF

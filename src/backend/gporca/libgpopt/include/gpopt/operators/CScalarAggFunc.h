@@ -214,5 +214,3 @@ public:
 
 
 #endif	// !GPOPT_CScalarAggFunc_H
-
-// EOF

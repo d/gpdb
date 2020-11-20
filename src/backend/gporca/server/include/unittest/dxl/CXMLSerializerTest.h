@@ -55,5 +55,3 @@ public:
 }  // namespace gpdxl
 
 #endif	// !GPOPT_CXMLSerializerTest_H
-
-// EOF

@@ -68,5 +68,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CConstExprEvaluatorForDates_H
-
-// EOF

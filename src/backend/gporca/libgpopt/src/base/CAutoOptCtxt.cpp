@@ -92,5 +92,3 @@ CAutoOptCtxt::~CAutoOptCtxt()
 
 	GPOS_DELETE(ptlsobj);
 }
-
-// EOF

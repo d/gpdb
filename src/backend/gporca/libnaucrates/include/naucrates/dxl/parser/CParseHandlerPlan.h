@@ -92,5 +92,3 @@ public:
 }  // namespace gpdxl
 
 #endif	// !GPDXL_CParseHandlerPlan_H
-
-// EOF

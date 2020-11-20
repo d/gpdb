@@ -131,5 +131,3 @@ public:
 }  // namespace gpdxl
 
 #endif	// !GPDXL_CDXLCTASStorageOptions_H
-
-// EOF

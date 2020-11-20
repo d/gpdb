@@ -78,5 +78,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CPhysicalLeftSemiHashJoin_H
-
-// EOF

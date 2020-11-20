@@ -67,5 +67,3 @@ public:
 }  // namespace gpdxl
 
 #endif	// !GPDXL_CParseHandlerDynamicIndexScan_H
-
-// EOF

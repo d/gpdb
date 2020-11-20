@@ -89,5 +89,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CScalarNAryJoinPredList_H
-
-// EOF

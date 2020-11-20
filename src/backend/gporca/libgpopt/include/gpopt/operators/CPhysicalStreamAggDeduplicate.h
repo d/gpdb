@@ -130,5 +130,3 @@ public:
 
 
 #endif	// !GPOS_CPhysicalStreamAggDeduplicate_H
-
-// EOF

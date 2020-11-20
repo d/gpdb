@@ -51,6 +51,3 @@ CIOUtils::Dump(CHAR *file_name, CHAR *sz)
 	}
 	GPOS_CATCH_END;
 }
-
-
-// EOF

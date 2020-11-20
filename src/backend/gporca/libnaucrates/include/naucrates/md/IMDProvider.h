@@ -64,5 +64,3 @@ typedef CDynamicPtrArray<IMDProvider, CleanupRelease> CMDProviderArray;
 
 
 #endif	// !GPMD_IMDProvider_H
-
-// EOF

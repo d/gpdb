@@ -170,5 +170,3 @@ CParseHandlerDirectDispatchInfo::GetDXLDirectDispatchInfo() const
 {
 	return m_direct_dispatch_info;
 }
-
-// EOF

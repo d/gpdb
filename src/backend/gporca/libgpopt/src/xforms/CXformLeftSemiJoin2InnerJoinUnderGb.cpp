@@ -119,5 +119,3 @@ CXformLeftSemiJoin2InnerJoinUnderGb::Transform(CXformContext *pxfctxt,
 
 	pxfres->Add(pexprGb);
 }
-
-// EOF

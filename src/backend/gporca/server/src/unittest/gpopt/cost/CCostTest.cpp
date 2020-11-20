@@ -427,5 +427,3 @@ CCostTest::EresUnittest_SetParams()
 
 	return GPOS_OK;
 }
-
-// EOF

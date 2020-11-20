@@ -110,5 +110,3 @@ typedef CDynamicPtrArray<IMDCacheObject, CleanupRelease> IMDCacheObjectArray;
 
 
 #endif	// !GPMD_IMDCacheObject_H
-
-// EOF

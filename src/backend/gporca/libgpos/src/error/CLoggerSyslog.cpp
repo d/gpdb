@@ -88,5 +88,3 @@ CLoggerSyslog::Alert(const WCHAR *msg)
 {
 	m_alert_logger.Write(msg, CException::ExsevError);
 }
-
-// EOF

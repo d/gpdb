@@ -172,5 +172,3 @@ CParseHandlerColStatsBucket::EndElement(const XMLCh *const,	 // element_uri,
 				   str->GetBuffer());
 	}
 }
-
-// EOF

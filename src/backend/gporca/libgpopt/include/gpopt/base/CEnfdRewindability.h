@@ -114,5 +114,3 @@ public:
 
 
 #endif	// !GPOPT_CEnfdRewindability_H
-
-// EOF

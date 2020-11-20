@@ -78,5 +78,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CPhysicalSerialUnionAll_H
-
-// EOF

@@ -204,5 +204,3 @@ CXformExpandFullOuterJoin::PexprLogicalJoinOverCTEs(
 
 	return CUtils::PexprLogicalJoin(mp, edxljointype, pdrgpexprChildren);
 }
-
-// EOF

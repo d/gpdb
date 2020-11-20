@@ -46,5 +46,3 @@ CParseHandlerUtils::SetProperties(CDXLNode *dxlnode,
 		dxl_properties->SetStats(dxl_stats_derived_relation);
 	}
 }
-
-// EOF

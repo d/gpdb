@@ -71,5 +71,3 @@ CSerializablePlan::Serialize(COstream &oos)
 							 false /*indentation*/
 	);
 }
-
-// EOF

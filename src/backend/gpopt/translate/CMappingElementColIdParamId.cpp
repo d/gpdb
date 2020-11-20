@@ -43,5 +43,3 @@ CMappingElementColIdParamId::CMappingElementColIdParamId(ULONG colid,
 	  m_type_modifier(type_modifier)
 {
 }
-
-// EOF

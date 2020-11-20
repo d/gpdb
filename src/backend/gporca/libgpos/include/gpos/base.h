@@ -21,5 +21,3 @@
 #include "gpos/memory/CMemoryPool.h"
 
 #endif	// GPOS_base_H
-
-// EOF

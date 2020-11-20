@@ -119,5 +119,3 @@ public:
 }  // namespace gpdxl
 
 #endif	// !GPDXL_CDXLLogicalTVF_H
-
-// EOF

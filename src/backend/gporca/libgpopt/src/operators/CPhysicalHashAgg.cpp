@@ -118,5 +118,3 @@ CPhysicalHashAgg::EpetOrder(CExpressionHandle &,  // exprhdl
 
 	return CEnfdProp::EpetRequired;
 }
-
-// EOF

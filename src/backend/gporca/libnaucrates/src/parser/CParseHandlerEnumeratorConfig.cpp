@@ -152,5 +152,3 @@ CParseHandlerEnumeratorConfig::GetEnumeratorCfg() const
 {
 	return m_enumerator_cfg;
 }
-
-// EOF

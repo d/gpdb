@@ -834,6 +834,3 @@ CStatistics::GetNDVs(const CColRef *colref)
 	// the number of rows as NDVs estimate
 	return std::min(m_rows, GetColUpperBoundNDVs(colref));
 }
-
-
-// EOF

@@ -95,5 +95,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CXformJoinSwap_H
-
-// EOF

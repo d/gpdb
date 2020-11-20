@@ -84,6 +84,3 @@ CLoggerTest::EresUnittest_LoggerSyslog()
 
 	return GPOS_OK;
 }
-
-
-// EOF

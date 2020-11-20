@@ -30,5 +30,3 @@ operator<<(IOstream &os, const CDrvdProp &drvdprop)
 }
 
 }  // namespace gpopt
-
-// EOF

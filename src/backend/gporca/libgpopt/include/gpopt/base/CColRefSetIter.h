@@ -56,6 +56,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOS_CColRefSetIter_H
-
-
-// EOF

@@ -143,6 +143,3 @@ public:
 
 
 #endif	// !GPOPT_CJobFactory_H
-
-
-// EOF

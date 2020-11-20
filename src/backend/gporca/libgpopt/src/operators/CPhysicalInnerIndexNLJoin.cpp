@@ -176,6 +176,3 @@ CPhysicalInnerIndexNLJoin::Ped(CMemoryPool *mp, CExpressionHandle &exprhdl,
 			CDistributionSpecReplicated(CDistributionSpec::EdtReplicated),
 		CEnfdDistribution::EdmSatisfy);
 }
-
-
-// EOF

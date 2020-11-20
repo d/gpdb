@@ -145,6 +145,3 @@ CXformCollapseGbAgg::Transform(CXformContext *pxfctxt, CXformResult *pxfres,
 
 	pxfres->Add(pexprGbAggNew);
 }
-
-
-// EOF

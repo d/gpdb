@@ -257,5 +257,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CLogicalDML_H
-
-// EOF

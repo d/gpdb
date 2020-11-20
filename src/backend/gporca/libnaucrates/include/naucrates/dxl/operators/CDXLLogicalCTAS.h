@@ -229,5 +229,3 @@ public:
 }  // namespace gpdxl
 
 #endif	// !GPDXL_CDXLLogicalCTAS_H
-
-// EOF

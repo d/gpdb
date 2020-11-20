@@ -34,5 +34,3 @@ CDXLScalarRecheckCondFilter::GetOpNameStr() const
 {
 	return CDXLTokens::GetDXLTokenStr(EdxltokenScalarRecheckCondFilter);
 }
-
-// EOF

@@ -111,5 +111,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CXformImplementIndexApply_H
-
-// EOF

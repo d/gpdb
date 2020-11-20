@@ -124,5 +124,3 @@ void Dladdr(void *addr, DL_INFO *info);
 }  // namespace gpos
 
 #endif	// !GPOS_clibwrapper_H
-
-// EOF

@@ -99,5 +99,3 @@ public:
 }  // namespace gpnaucrates
 
 #endif	// !GPNAUCRATES_CJoinStatsProcessor_H
-
-// EOF

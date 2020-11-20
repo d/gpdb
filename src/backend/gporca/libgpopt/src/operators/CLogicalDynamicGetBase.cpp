@@ -366,5 +366,3 @@ CLogicalDynamicGetBase::PstatsDeriveFilter(CMemoryPool *mp,
 
 	return result_stats;
 }
-
-// EOF

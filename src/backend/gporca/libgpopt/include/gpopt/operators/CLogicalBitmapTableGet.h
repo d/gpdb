@@ -207,5 +207,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CLogicalBitmapTableGet_H
-
-// EOF

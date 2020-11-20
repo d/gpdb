@@ -41,5 +41,3 @@ enum ETraceFlag
 }
 
 #endif	// ! GPOS_traceflags_H
-
-// EOF

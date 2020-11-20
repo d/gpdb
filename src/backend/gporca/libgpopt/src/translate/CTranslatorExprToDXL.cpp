@@ -8133,4 +8133,3 @@ CTranslatorExprToDXL::FNeedsMaterializeUnderResult(CDXLNode *proj_list_dxlnode,
 	}
 	return fMotionHazard;
 }
-// EOF

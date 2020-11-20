@@ -108,5 +108,3 @@ COstreamStringTest::EresUnittest_EndlAssert()
 	return GPOS_FAILED;
 }
 #endif
-
-// EOF

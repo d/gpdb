@@ -90,7 +90,3 @@ CQueryToDXLResult::CreateDXLNode() const
 {
 	return m_query_dxl;
 }
-
-
-
-// EOF

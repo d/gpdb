@@ -56,5 +56,3 @@ CMemoryPoolPallocManager::Init()
 	return CMemoryPoolManager::SetupGlobalMemoryPoolManager<
 		CMemoryPoolPallocManager, CMemoryPoolPalloc>();
 }
-
-// EOF

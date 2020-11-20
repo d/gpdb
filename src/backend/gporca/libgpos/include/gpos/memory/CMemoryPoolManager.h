@@ -200,5 +200,3 @@ public:
 }  // namespace gpos
 
 #endif	// !GPOS_CMemoryPoolManager_H
-
-// EOF

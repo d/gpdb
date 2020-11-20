@@ -120,5 +120,3 @@ public:
 
 
 #endif	// !GPOPT_CXformFactory_H
-
-// EOF

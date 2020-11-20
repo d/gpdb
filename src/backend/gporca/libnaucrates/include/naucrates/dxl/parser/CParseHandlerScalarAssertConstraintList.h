@@ -71,5 +71,3 @@ public:
 }  // namespace gpdxl
 
 #endif	// !GPDXL_CParseHandlerScalarAssertConstraintList_H
-
-// EOF

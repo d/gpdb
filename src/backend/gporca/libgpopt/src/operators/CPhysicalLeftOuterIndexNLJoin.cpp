@@ -151,6 +151,3 @@ CPhysicalLeftOuterIndexNLJoin::Ped(CMemoryPool *mp, CExpressionHandle &exprhdl,
 			CDistributionSpecReplicated(CDistributionSpec::EdtStrictReplicated),
 		dmatch);
 }
-
-
-// EOF

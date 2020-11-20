@@ -135,6 +135,3 @@ CLogicalSequence::DerivePartitionInfo(CMemoryPool *mp,
 {
 	return PpartinfoDeriveCombine(mp, exprhdl);
 }
-
-
-// EOF

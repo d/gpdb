@@ -112,5 +112,3 @@ CXformIntersectAll2LeftSemiJoin::Transform(CXformContext *pxfctxt,
 
 	pxfres->Add(pexprLSJ);
 }
-
-// EOF

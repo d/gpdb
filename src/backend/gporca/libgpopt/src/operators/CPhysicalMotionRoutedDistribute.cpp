@@ -212,5 +212,3 @@ CPhysicalMotionRoutedDistribute::PopConvert(COperator *pop)
 
 	return dynamic_cast<CPhysicalMotionRoutedDistribute *>(pop);
 }
-
-// EOF

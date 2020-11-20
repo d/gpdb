@@ -132,5 +132,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOS_CColRefTable_H
-
-// EOF

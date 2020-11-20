@@ -151,5 +151,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CScalarCmp_H
-
-// EOF

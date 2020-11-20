@@ -67,5 +67,3 @@ public:
 }  // namespace gpos
 
 #endif	// !GPOS_CFile_H
-
-// EOF

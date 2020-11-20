@@ -221,5 +221,3 @@ CDoubleTest::EresUnittest_Limits()
 
 	return GPOS_OK;
 }
-
-// EOF

@@ -47,5 +47,3 @@ CXformPushGbDedupBelowJoin::CXformPushGbDedupBelowJoin(CMemoryPool *mp)
 		  ))
 {
 }
-
-// EOF

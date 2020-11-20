@@ -67,5 +67,3 @@ public:
 
 
 #endif	// !GPOPT_CPatternTree_H
-
-// EOF

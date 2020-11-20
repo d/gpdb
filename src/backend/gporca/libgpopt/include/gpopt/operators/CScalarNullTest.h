@@ -99,5 +99,3 @@ public:
 
 
 #endif	// !GPOPT_CScalarNullTest_H
-
-// EOF

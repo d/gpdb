@@ -90,6 +90,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CJobQueue_H
-
-
-// EOF

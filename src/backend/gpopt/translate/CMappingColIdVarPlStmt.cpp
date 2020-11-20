@@ -231,5 +231,3 @@ CMappingColIdVarPlStmt::VarFromDXLNodeScId(const CDXLScalarIdent *dxlop)
 
 	return var;
 }
-
-// EOF

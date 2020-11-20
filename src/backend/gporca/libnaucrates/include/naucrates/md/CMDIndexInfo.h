@@ -56,5 +56,3 @@ public:
 }  // namespace gpmd
 
 #endif	// !GPMD_CMDIndexInfo_H
-
-// EOF

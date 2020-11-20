@@ -93,5 +93,3 @@ CTaskContext::SetTrace(ULONG trace, BOOL val)
 		return m_bitset->ExchangeClear(trace);
 	}
 }
-
-// EOF

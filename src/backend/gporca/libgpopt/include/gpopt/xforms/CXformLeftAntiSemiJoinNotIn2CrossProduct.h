@@ -76,5 +76,3 @@ public:
 
 
 #endif	// !GPOPT_CXformLeftAntiSemiJoinNotIn2CrossProduct_H
-
-// EOF

@@ -111,5 +111,3 @@ public:
 
 
 #endif	// !GPOS_CLogicalInnerJoin_H
-
-// EOF

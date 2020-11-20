@@ -107,5 +107,3 @@ public:
 }  // namespace gpos
 
 #endif	// !GPOS_CTaskContext_H
-
-// EOF

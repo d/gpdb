@@ -252,5 +252,3 @@ public:
 }  // namespace gpmd
 
 #endif	// !GPMD_CMDTypeInt8GPDB_H
-
-// EOF

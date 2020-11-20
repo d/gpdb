@@ -100,5 +100,3 @@ public:
 
 
 #endif	// !GPDXL_CDXLColDescr_H
-
-// EOF

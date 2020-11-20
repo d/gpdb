@@ -184,5 +184,3 @@ CLogicalDifference::PstatsDerive(CMemoryPool *mp, CExpressionHandle &exprhdl,
 
 	return stats;
 }
-
-// EOF

@@ -2528,5 +2528,3 @@ CTranslatorExprToDXLUtils::FDirectDispatchableFilter(CExpression *pexprFilter)
 
 	return (CUtils::FPhysicalScan(pop));
 }
-
-// EOF

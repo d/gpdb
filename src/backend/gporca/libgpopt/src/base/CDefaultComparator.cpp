@@ -277,5 +277,3 @@ CDefaultComparator::IsGreaterThanOrEqual(const IDatum *datum1,
 
 	return FEvalComparison(amp.Pmp(), datum1, datum2, IMDType::EcmptGEq);
 }
-
-// EOF

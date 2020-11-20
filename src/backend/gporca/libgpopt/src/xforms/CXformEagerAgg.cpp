@@ -364,4 +364,3 @@ CXformEagerAgg::PopulateUpperProjectElement(
 	*upper_proj_elem_expr =
 		CUtils::PexprScalarProjectElement(mp, output_colref, upper_agg_expr);
 }
-// EOF

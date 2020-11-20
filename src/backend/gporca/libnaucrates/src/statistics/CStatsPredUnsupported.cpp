@@ -63,5 +63,3 @@ CStatsPredUnsupported::InitScaleFactor()
 {
 	return (1 / CHistogram::DefaultSelectivity).Get();
 }
-
-// EOF

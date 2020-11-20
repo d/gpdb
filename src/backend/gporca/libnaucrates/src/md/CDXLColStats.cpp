@@ -242,5 +242,3 @@ CDXLColStats::CreateDXLDummyColStats(CMemoryPool *mp, IMDId *mdid,
 	dxl_bucket_array.Reset();
 	return dxl_col_stats.Reset();
 }
-
-// EOF

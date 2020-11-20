@@ -219,5 +219,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CLogicalSplit_H
-
-// EOF

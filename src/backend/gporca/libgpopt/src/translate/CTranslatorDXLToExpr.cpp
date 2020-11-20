@@ -3888,5 +3888,3 @@ CTranslatorDXLToExpr::MarkUnknownColsAsUnused()
 		}
 	}
 }
-
-// EOF

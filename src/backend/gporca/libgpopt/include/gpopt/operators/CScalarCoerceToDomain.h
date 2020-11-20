@@ -91,5 +91,3 @@ public:
 
 
 #endif	// !GPOPT_CScalarCoerceToDomain_H
-
-// EOF

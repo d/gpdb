@@ -112,5 +112,3 @@ typedef CDynamicPtrArray<CDXLDatumArray, CleanupRelease> CDXLDatum2dArray;
 }  // namespace gpdxl
 
 #endif	// !GPDXL_CDXLDatum_H
-
-// EOF

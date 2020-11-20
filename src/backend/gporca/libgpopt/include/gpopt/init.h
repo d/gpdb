@@ -27,6 +27,3 @@ void gpopt_terminate(void);
 #endif	// __cplusplus
 
 #endif	// !GPOPT_init_H
-
-
-// EOF

@@ -308,5 +308,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CXformApply2Join_H
-
-// EOF

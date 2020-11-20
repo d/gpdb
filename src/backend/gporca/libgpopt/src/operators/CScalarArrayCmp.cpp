@@ -250,7 +250,3 @@ CScalarArrayCmp::PexprExpand(CMemoryPool *mp, CExpression *pexprArrayCmp)
 
 	return CPredicateUtils::PexprConjunction(mp, pdrgpexprDeduped);
 }
-
-
-
-// EOF

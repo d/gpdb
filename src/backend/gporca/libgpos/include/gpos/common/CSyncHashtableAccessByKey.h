@@ -121,5 +121,3 @@ public:
 }  // namespace gpos
 
 #endif	// !GPOS_CSyncHashtableAccessByKey_H
-
-// EOF

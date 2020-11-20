@@ -190,5 +190,3 @@ CDXLBucket::DebugPrint(IOstream &  //os
 }
 
 #endif	// GPOS_DEBUG
-
-// EOF

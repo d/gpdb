@@ -346,5 +346,3 @@ CMDTypeInt2GPDB::DebugPrint(IOstream &os) const
 }
 
 #endif	// GPOS_DEBUG
-
-// EOF

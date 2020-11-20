@@ -65,5 +65,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CXformIndexGet2IndexOnlyScan_H
-
-// EOF

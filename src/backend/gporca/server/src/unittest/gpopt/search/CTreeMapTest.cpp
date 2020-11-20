@@ -455,5 +455,3 @@ CTreeMapTest::EresUnittest_Cycle()
 }
 
 #endif	// GPOS_FAILED
-
-// EOF

@@ -228,5 +228,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CPhysicalCTEConsumer_H
-
-// EOF

@@ -156,5 +156,3 @@ CParseHandlerLogicalGet::EndElement(const XMLCh *const,	 // element_uri,
 {
 	EndElement(element_local_name, EdxltokenLogicalGet);
 }
-
-// EOF

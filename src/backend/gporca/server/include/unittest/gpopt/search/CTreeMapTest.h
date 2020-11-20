@@ -88,6 +88,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CTreeMapTest_H
-
-
-// EOF

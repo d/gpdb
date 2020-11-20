@@ -484,6 +484,3 @@ CPhysicalFilter::EpetRewindability(CExpressionHandle &exprhdl,
 	// always force spool to be on top of filter
 	return CEnfdProp::EpetRequired;
 }
-
-
-// EOF

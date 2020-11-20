@@ -177,5 +177,3 @@ CParseHandlerMDRequest::GetMDTypeRequestArray() const
 {
 	return m_mdtype_request_array;
 }
-
-// EOF

@@ -120,5 +120,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CColumnFactory_H
-
-// EOF

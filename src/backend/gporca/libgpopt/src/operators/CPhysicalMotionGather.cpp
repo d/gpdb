@@ -252,5 +252,3 @@ CPhysicalMotionGather::PopConvert(COperator *pop)
 
 	return dynamic_cast<CPhysicalMotionGather *>(pop);
 }
-
-// EOF

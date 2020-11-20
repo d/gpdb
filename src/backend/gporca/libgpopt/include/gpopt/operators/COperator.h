@@ -359,5 +359,3 @@ public:
 
 
 #endif	// !GPOPT_COperator_H
-
-// EOF

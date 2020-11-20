@@ -467,5 +467,3 @@ COptimizer::CreateDXLNode(CMemoryPool *mp, CMDAccessor *md_accessor,
 
 	return pdxlnPlan;
 }
-
-// EOF

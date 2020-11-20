@@ -593,5 +593,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CTreeMap_H
-
-// EOF

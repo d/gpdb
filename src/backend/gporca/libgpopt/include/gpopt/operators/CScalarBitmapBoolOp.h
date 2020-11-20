@@ -131,5 +131,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CScalarBitmapBoolOp_H
-
-// EOF

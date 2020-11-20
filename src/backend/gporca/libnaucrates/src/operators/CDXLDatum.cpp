@@ -92,5 +92,3 @@ CDXLDatum::Serialize(CXMLSerializer *xml_serializer,
 	xml_serializer->CloseElement(
 		CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix), datum_string);
 }
-
-// EOF

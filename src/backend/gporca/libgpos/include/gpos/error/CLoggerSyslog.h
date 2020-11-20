@@ -60,5 +60,3 @@ public:
 }  // namespace gpos
 
 #endif	// !GPOS_CLoggerSyslog_H
-
-// EOF

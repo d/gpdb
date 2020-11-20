@@ -168,5 +168,3 @@ gpdxl_terminate()
 	}
 #endif	// GPOS_DEBUG
 }
-
-// EOF

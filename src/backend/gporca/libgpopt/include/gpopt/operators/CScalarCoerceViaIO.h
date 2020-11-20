@@ -87,5 +87,3 @@ public:
 
 
 #endif	// !GPOPT_CScalarCoerceViaIO_H
-
-// EOF

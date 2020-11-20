@@ -701,5 +701,3 @@ CStatisticsTest::EresUnittest_CStatisticsSelectDerivation()
 		true  // ignore mismatch in output dxl due to column id differences
 	);
 }
-
-// EOF

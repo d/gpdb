@@ -84,5 +84,3 @@ public:
 }  // namespace gpdxl
 
 #endif	// GPDXL_CMappingElementColIdParamId_H
-
-// EOF

@@ -212,5 +212,3 @@ typedef CDynamicPtrArray<CMDIndexInfo, CleanupRelease> CMDIndexInfoArray;
 
 
 #endif	// !GPMD_IMDRelation_H
-
-// EOF

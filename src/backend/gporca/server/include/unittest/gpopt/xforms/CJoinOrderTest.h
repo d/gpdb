@@ -42,5 +42,3 @@ public:
 
 
 #endif	// !GPOPT_CJoinOrderTest_H
-
-// EOF

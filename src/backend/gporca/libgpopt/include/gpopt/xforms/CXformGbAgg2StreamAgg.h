@@ -68,5 +68,3 @@ public:
 
 
 #endif	// !GPOPT_CXformGbAgg2StreamAgg_H
-
-// EOF

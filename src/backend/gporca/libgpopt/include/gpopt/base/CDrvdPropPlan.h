@@ -151,5 +151,3 @@ public:
 
 
 #endif	// !GPOPT_CDrvdPropPlan_H
-
-// EOF

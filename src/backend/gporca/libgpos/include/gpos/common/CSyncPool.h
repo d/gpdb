@@ -293,6 +293,3 @@ public:
 }  // namespace gpos
 
 #endif	// !GPOS_CSyncPool_H
-
-
-// EOF

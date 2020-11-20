@@ -56,5 +56,3 @@ CDXLLogicalExternalGet::GetOpNameStr() const
 {
 	return CDXLTokens::GetDXLTokenStr(EdxltokenLogicalExternalGet);
 }
-
-// EOF

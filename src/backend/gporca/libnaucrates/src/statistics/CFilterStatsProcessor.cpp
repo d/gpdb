@@ -934,5 +934,3 @@ CFilterStatsProcessor::IsNewStatsColumn(ULONG colid, ULONG last_colid)
 {
 	return (gpos::ulong_max == colid || colid != last_colid);
 }
-
-// EOF

@@ -49,5 +49,3 @@ CParseHandlerDummy::error(const SAXParseException &sax_parse_ex)
 		XMLString::transcode(sax_parse_ex.getMessage(), m_dxl_memory_manager);
 	GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLValidationError, message);
 }
-
-// EOF

@@ -79,5 +79,3 @@ CStatsPredLike::DefaultScaleFactor() const
 {
 	return m_default_scale_factor;
 }
-
-// EOF

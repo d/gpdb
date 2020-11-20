@@ -243,5 +243,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_COrderSpec_H
-
-// EOF

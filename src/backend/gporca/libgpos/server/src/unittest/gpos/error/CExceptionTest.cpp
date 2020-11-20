@@ -299,5 +299,3 @@ CExceptionTest::EresUnittest_AssertIffRHS()
 }
 
 #endif	// GPOS_DEBUG
-
-// EOF

@@ -283,4 +283,3 @@ CParseHandlerMetadataIdList::GetMdIdArray()
 {
 	return m_mdid_array;
 }
-// EOF

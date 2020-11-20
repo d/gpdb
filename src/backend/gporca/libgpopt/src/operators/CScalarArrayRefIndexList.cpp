@@ -52,5 +52,3 @@ CScalarArrayRefIndexList::Matches(COperator *pop) const
 
 	return m_eilt == popIndexList->Eilt();
 }
-
-// EOF

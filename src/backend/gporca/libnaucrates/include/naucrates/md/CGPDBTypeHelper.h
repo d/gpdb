@@ -195,5 +195,3 @@ public:
 }  // namespace gpmd
 
 #endif	// !CGPMD_GPDBHelper_H
-
-// EOF

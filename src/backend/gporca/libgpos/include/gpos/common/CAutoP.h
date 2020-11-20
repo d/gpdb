@@ -111,5 +111,3 @@ CAutoP<T>::~CAutoP()
 
 
 #endif	// !GPOS_CAutoP_H
-
-// EOF

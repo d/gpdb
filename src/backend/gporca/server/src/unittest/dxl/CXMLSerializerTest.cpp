@@ -178,5 +178,3 @@ CXMLSerializerTest::EresUnittest_Base64()
 
 	return GPOS_OK;
 }
-
-// EOF

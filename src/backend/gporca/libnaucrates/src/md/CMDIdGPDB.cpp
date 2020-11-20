@@ -350,5 +350,3 @@ CMDIdGPDB::OsPrint(IOstream &os) const
 	os << "(" << Oid() << "," << VersionMajor() << "." << VersionMinor() << ")";
 	return os;
 }
-
-// EOF

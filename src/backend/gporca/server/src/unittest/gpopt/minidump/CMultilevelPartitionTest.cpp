@@ -94,5 +94,3 @@ CMultilevelPartitionTest::EresUnittest_RunTests()
 										true   // fTestSpacePruning
 	);
 }
-
-// EOF

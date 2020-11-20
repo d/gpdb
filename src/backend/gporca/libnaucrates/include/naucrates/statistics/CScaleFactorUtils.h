@@ -156,5 +156,3 @@ public:
 }  // namespace gpnaucrates
 
 #endif	// !GPOPT_CScaleFactorUtils_H
-
-// EOF

@@ -25,6 +25,3 @@ using namespace gpos;
 //
 //---------------------------------------------------------------------------
 CHeapObject::CHeapObject() = default;
-
-
-// EOF

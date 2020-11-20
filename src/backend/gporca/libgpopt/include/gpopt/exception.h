@@ -47,6 +47,3 @@ gpos::GPOS_RESULT EresExceptionInit(gpos::CMemoryPool *mp);
 }  // namespace gpopt
 
 #endif	// !GPOPT_exception_H
-
-
-// EOF

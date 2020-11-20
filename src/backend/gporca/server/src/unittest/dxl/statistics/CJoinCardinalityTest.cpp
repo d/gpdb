@@ -374,5 +374,3 @@ CJoinCardinalityTest::PdrgpstatspredjoinNullableCols(CMemoryPool *mp)
 
 	return join_preds_stats;
 }
-
-// EOF

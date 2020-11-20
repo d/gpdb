@@ -150,6 +150,3 @@ CWorker::CheckStackSize(ULONG request) const
 	}
 	return true;
 }
-
-
-// EOF

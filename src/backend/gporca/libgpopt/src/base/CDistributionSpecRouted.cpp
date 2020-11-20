@@ -222,5 +222,3 @@ CDistributionSpecRouted::OsPrint(IOstream &os) const
 	m_pcrSegmentId->OsPrint(os);
 	return os << " ]";
 }
-
-// EOF

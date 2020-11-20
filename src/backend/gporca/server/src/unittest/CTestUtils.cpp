@@ -4194,4 +4194,3 @@ CTestUtils::createEquivalenceClasses(CMemoryPool *mp, CColRefSet *pcrs,
 	pdrgcrs->Append(pcrsLoop);
 	return pdrgcrs;
 }
-// EOF

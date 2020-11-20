@@ -84,5 +84,3 @@ public:
 }  // namespace gpmd
 
 #endif	// !GPMD_CMDPartConstraintGPDB_H
-
-// EOF

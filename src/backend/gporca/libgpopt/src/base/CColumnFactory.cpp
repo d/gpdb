@@ -371,6 +371,3 @@ CColumnFactory::AddComputedToUsedColsMap(CExpression *pexpr)
 		GPOS_ASSERT(fres);
 	}
 }
-
-
-// EOF

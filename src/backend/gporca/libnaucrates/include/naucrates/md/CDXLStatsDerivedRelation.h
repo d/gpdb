@@ -90,5 +90,3 @@ typedef CDynamicPtrArray<CDXLStatsDerivedRelation, CleanupRelease>
 }  // namespace gpmd
 
 #endif	// !GPMD_CDXLStatsDerivedRelation_H
-
-// EOF

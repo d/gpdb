@@ -71,5 +71,3 @@ public:
 }  // namespace gpos
 
 #endif	// !GPOS_CWString_H
-
-// EOF

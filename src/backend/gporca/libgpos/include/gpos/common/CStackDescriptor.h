@@ -73,5 +73,3 @@ public:
 }  // namespace gpos
 
 #endif	// !GPOS_CStackDescriptor_H_
-
-// EOF

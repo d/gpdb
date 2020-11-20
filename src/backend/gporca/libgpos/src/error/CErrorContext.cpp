@@ -218,6 +218,3 @@ CErrorContext::Serialize()
 
 	m_serializing = false;
 }
-
-
-// EOF

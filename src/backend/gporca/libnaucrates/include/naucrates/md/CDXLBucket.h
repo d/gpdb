@@ -115,5 +115,3 @@ typedef CDynamicPtrArray<CDXLBucket, CleanupRelease> CDXLBucketArray;
 }  // namespace gpmd
 
 #endif	// !GPMD_CDXLBucket_H
-
-// EOF

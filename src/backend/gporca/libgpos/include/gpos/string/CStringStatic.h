@@ -115,5 +115,3 @@ public:
 }  // namespace gpos
 
 #endif	// !GPOS_CStringStatic_H
-
-// EOF

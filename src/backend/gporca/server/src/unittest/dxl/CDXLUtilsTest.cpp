@@ -230,5 +230,3 @@ CDXLUtilsTest::EresUnittest_Encoding()
 
 	return GPOS_OK;
 }
-
-// EOF

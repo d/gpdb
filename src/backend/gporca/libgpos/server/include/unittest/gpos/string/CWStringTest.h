@@ -42,5 +42,3 @@ public:
 }  // namespace gpos
 
 #endif	// !GPOS_CWStringTest_H
-
-// EOF

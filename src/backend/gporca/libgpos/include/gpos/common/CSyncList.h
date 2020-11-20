@@ -117,6 +117,3 @@ public:
 }  // namespace gpos
 
 #endif	// !GPOS_CSyncList_H
-
-
-// EOF

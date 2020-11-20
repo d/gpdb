@@ -103,5 +103,3 @@ public:
 }  // namespace gpdxl
 
 #endif	// !GPDXL_CConstExprEvaluator_H
-
-// EOF

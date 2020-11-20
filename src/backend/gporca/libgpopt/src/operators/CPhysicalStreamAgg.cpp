@@ -255,5 +255,3 @@ CPhysicalStreamAgg::EpetOrder(CExpressionHandle &exprhdl,
 	// required order will be enforced on limit's output
 	return CEnfdProp::EpetRequired;
 }
-
-// EOF

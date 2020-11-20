@@ -96,5 +96,3 @@ public:
 }  // namespace gpdxl
 
 #endif	// !GPDXL_CDXLScalarBitmapBoolOp_H
-
-// EOF

@@ -79,5 +79,3 @@ public:
 
 
 #endif	// !GPDXL_CDXLDatumInt4_H
-
-// EOF

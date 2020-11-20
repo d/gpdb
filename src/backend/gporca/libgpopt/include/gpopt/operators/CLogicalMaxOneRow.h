@@ -175,5 +175,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CLogicalMaxOneRow_H
-
-// EOF

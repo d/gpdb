@@ -562,5 +562,3 @@ public:
 
 
 #endif	// !GPOPT_CPhysical_H
-
-// EOF

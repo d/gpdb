@@ -753,4 +753,3 @@ CJoinOrder::AddComponent(CMemoryPool *mp, CExpression *expr, INT loj_id,
 	// component always covers itself
 	(void) m_rgpcomp[comp_num]->m_pbs->ExchangeSet(comp_num);
 }
-// EOF

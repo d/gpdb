@@ -127,5 +127,3 @@ CAutoMemoryPool::~CAutoMemoryPool() noexcept(false)
 
 #endif	// GPOS_DEBUG
 }
-
-// EOF

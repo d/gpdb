@@ -58,5 +58,3 @@ public:
 }  // namespace gpmd
 
 #endif	// !GPMD_IMDScCmp_H
-
-// EOF

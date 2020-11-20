@@ -86,5 +86,3 @@ public:
 }  // namespace gpmd
 
 #endif	// !GPMD_IMDScalarOp_H
-
-// EOF

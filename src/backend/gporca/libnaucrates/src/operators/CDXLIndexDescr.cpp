@@ -99,5 +99,3 @@ CDXLIndexDescr::SerializeToDXL(CXMLSerializer *xml_serializer) const
 		CDXLTokens::GetDXLTokenStr(EdxltokenNamespacePrefix),
 		CDXLTokens::GetDXLTokenStr(EdxltokenIndexDescr));
 }
-
-// EOF

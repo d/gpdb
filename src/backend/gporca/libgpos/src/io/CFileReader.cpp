@@ -160,5 +160,3 @@ CFileReader::FileReadSize() const
 {
 	return m_file_read_size;
 }
-
-// EOF

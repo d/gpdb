@@ -90,5 +90,3 @@ private:
 }  // namespace gpos
 
 #endif	// !GPOS_CTaskLocalStorage_H
-
-// EOF

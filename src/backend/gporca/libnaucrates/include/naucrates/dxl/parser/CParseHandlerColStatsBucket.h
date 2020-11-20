@@ -97,5 +97,3 @@ public:
 }  // namespace gpdxl
 
 #endif	// !GPDXL_CParseHandlerColStatsBucket_H
-
-// EOF

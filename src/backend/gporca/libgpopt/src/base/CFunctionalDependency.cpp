@@ -230,6 +230,3 @@ CFunctionalDependency::PdrgpcrKeys(CMemoryPool *mp,
 
 	return colref_array;
 }
-
-
-// EOF

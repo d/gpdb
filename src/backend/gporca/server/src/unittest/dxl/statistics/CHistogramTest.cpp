@@ -430,4 +430,3 @@ CHistogramTest::EresUnittest_MergeUnionDoubleLessThanEpsilon()
 
 	return GPOS_OK;
 }
-// EOF

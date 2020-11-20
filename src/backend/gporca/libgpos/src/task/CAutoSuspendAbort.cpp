@@ -51,6 +51,3 @@ CAutoSuspendAbort::~CAutoSuspendAbort()
 		m_task->ResumeAbort();
 	}
 }
-
-
-// EOF

@@ -85,6 +85,3 @@ gpos::GPOS_RESULT EresExceptionInit(gpos::CMemoryPool *mp);
 }  // namespace gpdxl
 
 #endif	// !DXL_exception_H
-
-
-// EOF

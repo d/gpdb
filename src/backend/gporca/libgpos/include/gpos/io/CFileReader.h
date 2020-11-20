@@ -65,5 +65,3 @@ public:
 }  // namespace gpos
 
 #endif	// !GPOS_CFileReader_H
-
-// EOF

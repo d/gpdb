@@ -61,5 +61,3 @@ public:
 
 
 #endif	// !GPOPT_CAutoOptCtxt_H
-
-// EOF

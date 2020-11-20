@@ -107,5 +107,3 @@ CStatsPred::StatsPredSortCmpFunc(const void *val1, const void *val2)
 }  // namespace gpnaucrates
 
 #endif	// !GPNAUCRATES_CStatsPred_H
-
-// EOF

@@ -305,5 +305,3 @@ CXformSelect2PartialDynamicIndexGet::PexprSelectOverDynamicGet(
 
 	return pexprSelect;
 }
-
-// EOF

@@ -327,7 +327,3 @@ CDXLNode::AssertValid(BOOL validate_children) const
 	}
 }
 #endif	// GPOS_DEBUG
-
-
-
-// EOF

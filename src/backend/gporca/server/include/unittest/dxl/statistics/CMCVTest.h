@@ -50,6 +50,3 @@ public:
 }  // namespace gpnaucrates
 
 #endif	// !GPNAUCRATES_CMCVTest_H
-
-
-// EOF

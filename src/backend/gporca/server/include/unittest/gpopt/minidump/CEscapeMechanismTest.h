@@ -40,5 +40,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CEscapeMechanismTest_H
-
-// EOF

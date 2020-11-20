@@ -128,5 +128,3 @@ public:
 
 
 #endif	// !GPOPT_CScalarIf_H
-
-// EOF

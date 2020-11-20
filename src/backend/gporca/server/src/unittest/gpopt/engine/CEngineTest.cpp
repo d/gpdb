@@ -668,5 +668,3 @@ CEngineTest::EresUnittest_BuildMemoWithCTE()
 }
 
 #endif	// GPOS_DEBUG
-
-// EOF

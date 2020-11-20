@@ -36,5 +36,3 @@ public:
 
 
 #endif	// !GPOPT_CIOUtils_H
-
-// EOF

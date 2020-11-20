@@ -168,5 +168,3 @@ public:
 
 
 #endif	// !GPOPT_CLogicalSequence_H
-
-// EOF

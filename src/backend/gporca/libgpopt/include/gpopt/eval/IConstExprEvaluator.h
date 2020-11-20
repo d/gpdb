@@ -54,5 +54,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_IConstExprEvaluator_H
-
-// EOF

@@ -1506,5 +1506,3 @@ CConstraintInterval::PciRangeFromColConstCmp(CMemoryPool *mp,
 
 	return pdrgprng;
 }
-
-// EOF

@@ -92,5 +92,3 @@ CXformImplementPartitionSelector::Transform(CXformContext *pxfctxt,
 	// add alternative to results
 	pxfres->Add(pexprPartitionSelector);
 }
-
-// EOF

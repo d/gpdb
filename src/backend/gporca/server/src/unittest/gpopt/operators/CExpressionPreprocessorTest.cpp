@@ -2599,5 +2599,3 @@ CExpressionPreprocessorTest::
 
 	return GPOS_OK;
 }
-
-// EOF

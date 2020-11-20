@@ -82,5 +82,3 @@ CPhysicalLeftAntiSemiHashJoinNotIn::Ped(
 	return CPhysicalHashJoin::Ped(mp, exprhdl, prppInput, child_index,
 								  pdrgpdpCtxt, ulOptReq);
 }
-
-// EOF

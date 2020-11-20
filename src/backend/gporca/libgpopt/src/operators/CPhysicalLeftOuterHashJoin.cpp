@@ -43,5 +43,3 @@ CPhysicalLeftOuterHashJoin::CPhysicalLeftOuterHashJoin(
 //
 //---------------------------------------------------------------------------
 CPhysicalLeftOuterHashJoin::~CPhysicalLeftOuterHashJoin() = default;
-
-// EOF

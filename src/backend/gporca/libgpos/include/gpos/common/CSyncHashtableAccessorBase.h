@@ -150,5 +150,3 @@ public:
 }  // namespace gpos
 
 #endif	// GPOS_CSyncHashtableAccessorBase_H_
-
-// EOF

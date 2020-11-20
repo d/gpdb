@@ -96,6 +96,3 @@ CParseHandlerScalarOp::EndElement(const XMLCh *const,  //= element_uri,
 		m_parse_handler_mgr->GetDXLMemoryManager(), element_local_name);
 	GPOS_RAISE(gpdxl::ExmaDXL, gpdxl::ExmiDXLUnexpectedTag, str->GetBuffer());
 }
-
-
-// EOF

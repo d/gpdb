@@ -126,5 +126,3 @@ public:
 
 
 #endif	// !GPMD_CDXLRelStats_H
-
-// EOF

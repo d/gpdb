@@ -207,5 +207,3 @@ CLeftOuterJoinStatsProcessor::AddHistogramsLOJInner(
 		GPOS_DELETE(LOJ_histogram);
 	}
 }
-
-// EOF

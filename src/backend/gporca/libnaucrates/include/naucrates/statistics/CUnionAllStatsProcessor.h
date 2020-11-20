@@ -28,5 +28,3 @@ public:
 }  // namespace gpnaucrates
 
 #endif	// !GPNAUCRATES_CUnionAllStatsProcessor_H
-
-// EOF

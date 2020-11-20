@@ -328,5 +328,3 @@ CCastUtils::PexprCast(CMemoryPool *mp, CMDAccessor *md_accessor,
 
 	return pexprCast;
 }
-
-// EOF

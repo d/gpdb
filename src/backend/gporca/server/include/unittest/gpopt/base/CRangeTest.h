@@ -64,6 +64,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CRangeTest_H
-
-
-// EOF

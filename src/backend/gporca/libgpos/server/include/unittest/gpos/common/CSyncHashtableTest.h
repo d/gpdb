@@ -157,5 +157,3 @@ public:
 }  // namespace gpos
 
 #endif	// !GPOS_CSyncHashtableTest_H
-
-// EOF

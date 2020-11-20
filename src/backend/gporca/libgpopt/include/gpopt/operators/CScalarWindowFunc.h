@@ -149,5 +149,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CScalarWindowFunc_H
-
-// EOF

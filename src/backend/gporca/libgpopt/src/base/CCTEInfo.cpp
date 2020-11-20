@@ -707,6 +707,3 @@ CCTEInfo::PhmulcrConsumerToProducer(
 	}
 	return colref_mapping;
 }
-
-
-// EOF

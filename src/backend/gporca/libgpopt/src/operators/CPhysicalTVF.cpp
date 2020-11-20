@@ -354,5 +354,3 @@ CPhysicalTVF::EpetRewindability(CExpressionHandle &exprhdl,
 
 	return CEnfdProp::EpetRequired;
 }
-
-// EOF

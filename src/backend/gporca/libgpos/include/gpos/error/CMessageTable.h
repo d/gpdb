@@ -82,5 +82,3 @@ public:
 }  // namespace gpos
 
 #endif	// !GPOS_CMessageTable_H
-
-// EOF

@@ -74,5 +74,3 @@ CMessageTable::AddMessage(CMessage *msg)
 	// TODO: 6/24/2010; raise approp. error for duplicate message
 	// or simply ignore?
 }
-
-// EOF

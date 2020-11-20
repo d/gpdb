@@ -60,5 +60,3 @@ typedef CDynamicPtrArray<CMDName, CleanupDelete> CMDNameArray;
 }  // namespace gpmd
 
 #endif	// !GPMD_CMDName_H
-
-// EOF

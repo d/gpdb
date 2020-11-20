@@ -187,5 +187,3 @@ operator<<(IOstream &os, CPartInfo &partinfo)
 }  // namespace gpopt
 
 #endif	// !GPOPT_CPartInfo_H
-
-// EOF

@@ -53,5 +53,3 @@ public:
 
 
 #endif	// !GPOPT_CSubqueryHandlerTest_H
-
-// EOF

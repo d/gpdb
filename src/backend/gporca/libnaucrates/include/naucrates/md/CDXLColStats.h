@@ -155,5 +155,3 @@ typedef CDynamicPtrArray<CDXLColStats, CleanupRelease> CDXLColStatsArray;
 
 
 #endif	// !GPMD_CDXLColStats_H
-
-// EOF

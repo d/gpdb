@@ -67,6 +67,3 @@ typedef ULONG OID;
 #define GPDB_ANY OID(2283)
 
 #endif	// !GPDXL_gpdb_types_H
-
-
-// EOF

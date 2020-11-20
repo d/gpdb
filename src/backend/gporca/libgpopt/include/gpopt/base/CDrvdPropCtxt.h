@@ -114,5 +114,3 @@ public:
 
 
 #endif	// !GPOPT_CDrvdPropCtxt_H
-
-// EOF

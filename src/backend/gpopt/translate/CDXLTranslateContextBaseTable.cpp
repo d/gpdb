@@ -155,5 +155,3 @@ CDXLTranslateContextBaseTable::InsertMapping(ULONG dxl_colid, INT att_no)
 
 	return res;
 }
-
-// EOF

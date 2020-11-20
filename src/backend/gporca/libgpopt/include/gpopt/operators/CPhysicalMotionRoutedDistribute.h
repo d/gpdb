@@ -121,5 +121,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CPhysicalMotionRoutedDistribute_H
-
-// EOF

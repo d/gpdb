@@ -95,6 +95,3 @@ CDXLColRef::Id() const
 {
 	return m_id;
 }
-
-
-// EOF

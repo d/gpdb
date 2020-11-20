@@ -281,5 +281,3 @@ gpos_terminate()
 	CMemoryPoolManager::GetMemoryPoolMgr()->Shutdown();
 #endif	// GPOS_DEBUG
 }
-
-// EOF

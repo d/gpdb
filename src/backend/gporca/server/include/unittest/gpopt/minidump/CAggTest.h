@@ -39,5 +39,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CAggTest_H
-
-// EOF

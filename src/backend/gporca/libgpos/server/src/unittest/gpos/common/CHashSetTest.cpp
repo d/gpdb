@@ -127,5 +127,3 @@ CHashSetTest::EresUnittest_Ownership()
 
 	return GPOS_OK;
 }
-
-// EOF

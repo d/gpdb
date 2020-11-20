@@ -556,5 +556,3 @@ CWStringTest::EresUnittest_AppendEscape()
 
 	return GPOS_OK;
 }
-
-// EOF

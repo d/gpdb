@@ -90,5 +90,3 @@ public:
 }  // namespace gpdxl
 
 #endif	// !GPDXL_CDXLScalarNullTest_H
-
-// EOF

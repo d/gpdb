@@ -111,5 +111,3 @@ public:
 }  // namespace gpdxl
 
 #endif	// !GPDXL_CDXLWindowFrame_H
-
-// EOF

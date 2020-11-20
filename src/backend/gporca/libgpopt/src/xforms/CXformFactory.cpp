@@ -410,6 +410,3 @@ CXformFactory::Shutdown()
 	// release allocated memory pool
 	CMemoryPoolManager::GetMemoryPoolMgr()->Destroy(mp);
 }
-
-
-// EOF

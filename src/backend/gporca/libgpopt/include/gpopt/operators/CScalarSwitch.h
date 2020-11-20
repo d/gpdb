@@ -125,5 +125,3 @@ public:
 
 
 #endif	// !GPOPT_CScalarSwitch_H
-
-// EOF

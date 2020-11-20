@@ -59,5 +59,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOS_CSerializableMDAccessor_H
-
-// EOF

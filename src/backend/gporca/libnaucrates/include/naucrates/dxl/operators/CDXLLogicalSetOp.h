@@ -151,5 +151,3 @@ public:
 };
 }  // namespace gpdxl
 #endif	// !GPDXL_CDXLLogicalSetOp_H
-
-// EOF

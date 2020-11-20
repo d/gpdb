@@ -75,5 +75,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CXformImplementDynamicBitmapTableGet_H
-
-// EOF

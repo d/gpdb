@@ -89,5 +89,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CMDCache_H
-
-// EOF

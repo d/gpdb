@@ -141,5 +141,3 @@ CStringTest::EresUnittest_Equals()
 
 	return GPOS_OK;
 }
-
-// EOF

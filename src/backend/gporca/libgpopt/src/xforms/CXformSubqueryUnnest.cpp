@@ -185,5 +185,3 @@ CXformSubqueryUnnest::Transform(CXformContext *pxfctxt, CXformResult *pxfres,
 	Transform(pxfctxt, pxfres, pexpr, false /*fEnforceCorrelatedApply*/);
 	Transform(pxfctxt, pxfres, pexpr, true /*fEnforceCorrelatedApply*/);
 }
-
-// EOF

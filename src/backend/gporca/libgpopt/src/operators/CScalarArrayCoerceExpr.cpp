@@ -171,6 +171,3 @@ CScalarArrayCoerceExpr::PopConvert(COperator *pop)
 
 	return dynamic_cast<CScalarArrayCoerceExpr *>(pop);
 }
-
-
-// EOF

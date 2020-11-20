@@ -152,5 +152,3 @@ public:
 
 
 #endif	// !GPOPT_CLogicalIndexApply_H
-
-// EOF

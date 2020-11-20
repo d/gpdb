@@ -96,5 +96,3 @@ public:
 };
 }  // namespace gpdxl
 #endif	// !GPDXL_CDXLPhysicalRedistributeMotion_H
-
-// EOF

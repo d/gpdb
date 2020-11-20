@@ -41,5 +41,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CTVFTest_H
-
-// EOF

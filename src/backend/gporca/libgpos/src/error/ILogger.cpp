@@ -181,5 +181,3 @@ ILogger::LogTask(const WCHAR *msg, ULONG severity, BOOL is_err,
 
 	log->Log(msg, severity, filename, line);
 }
-
-// EOF

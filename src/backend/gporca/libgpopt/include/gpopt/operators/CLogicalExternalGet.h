@@ -108,5 +108,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CLogicalExternalGet_H
-
-// EOF

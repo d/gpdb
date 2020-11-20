@@ -131,5 +131,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_COptimizerConfig_H
-
-// EOF

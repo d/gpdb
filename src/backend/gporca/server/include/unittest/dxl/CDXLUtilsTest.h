@@ -41,5 +41,3 @@ public:
 }  // namespace gpdxl
 
 #endif	// !GPOPT_CDXLUtilsTest_H
-
-// EOF

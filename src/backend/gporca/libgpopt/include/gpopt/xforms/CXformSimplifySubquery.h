@@ -93,5 +93,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CXformSimplifySubquery_H
-
-// EOF

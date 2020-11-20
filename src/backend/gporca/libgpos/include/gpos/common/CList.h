@@ -339,5 +339,3 @@ public:
 }  // namespace gpos
 
 #endif	// !GPOS_CList_H
-
-// EOF

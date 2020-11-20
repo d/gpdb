@@ -76,5 +76,3 @@ public:
 }  // namespace gpos
 
 #endif	// !GPOS_IErrorContext_H
-
-// EOF

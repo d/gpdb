@@ -463,5 +463,3 @@ public:
 };
 }  // namespace gpdxl
 #endif	// GPDXL_CTranslatorQueryToDXL_H
-
-//EOF

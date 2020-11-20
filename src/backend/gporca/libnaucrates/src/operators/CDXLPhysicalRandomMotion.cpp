@@ -130,5 +130,3 @@ CDXLPhysicalRandomMotion::AssertValid(const CDXLNode *dxlnode,
 	}
 }
 #endif	// GPOS_DEBUG
-
-// EOF

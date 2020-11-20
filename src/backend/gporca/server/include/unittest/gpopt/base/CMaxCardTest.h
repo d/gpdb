@@ -37,6 +37,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOS_CMaxCardTest_H
-
-
-// EOF

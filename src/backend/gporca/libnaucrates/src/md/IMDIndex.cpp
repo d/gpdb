@@ -43,5 +43,3 @@ IMDIndex::GetDXLStr(EmdindexType index_type)
 			return NULL;
 	}
 }
-
-// EOF

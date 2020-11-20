@@ -28,5 +28,3 @@ CStatsPredArrayCmp::CStatsPredArrayCmp(ULONG colid,
 {
 	GPOS_ASSERT(CStatsPred::EstatscmptEq == m_stats_cmp_type);
 }
-
-// EOF

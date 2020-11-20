@@ -127,5 +127,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CPhysicalBitmapTableScan_H
-
-// EOF

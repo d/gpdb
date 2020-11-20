@@ -73,5 +73,3 @@ operator<<(IOstream &os, CXformResult &xfres)
 
 
 #endif	// !GPOPT_CXformResult_H
-
-// EOF

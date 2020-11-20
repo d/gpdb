@@ -150,5 +150,3 @@ CXformSplitLimit::PexprLimit(CMemoryPool *mp, CExpression *pexprRelational,
 
 	return pexprLimit;
 }
-
-// EOF

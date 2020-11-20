@@ -234,5 +234,3 @@ public:
 };
 }  // namespace gpdxl
 #endif	// GPDXL_CWalkerUtils_H
-
-//EOF

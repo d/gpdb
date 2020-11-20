@@ -57,6 +57,3 @@ CScalarNAryJoinPredList::FInputOrderSensitive() const
 {
 	return true;
 }
-
-
-// EOF

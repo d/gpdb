@@ -76,5 +76,3 @@ gpopt_terminate()
 	CXformFactory::Pxff()->Shutdown();
 #endif	// GPOS_DEBUG
 }
-
-// EOF

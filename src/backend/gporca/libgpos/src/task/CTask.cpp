@@ -279,5 +279,3 @@ CTask::CheckStatus(BOOL completed)
 }
 
 #endif	// GPOS_DEBUG
-
-// EOF

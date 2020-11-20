@@ -68,5 +68,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CXformImplementUnionAll_H
-
-// EOF

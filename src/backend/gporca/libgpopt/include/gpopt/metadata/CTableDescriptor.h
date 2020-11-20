@@ -239,5 +239,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CTableDescriptor_H
-
-// EOF

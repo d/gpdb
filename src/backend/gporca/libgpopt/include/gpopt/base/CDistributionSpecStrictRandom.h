@@ -48,5 +48,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CDistributionSpecStrictRandom_H
-
-// EOF

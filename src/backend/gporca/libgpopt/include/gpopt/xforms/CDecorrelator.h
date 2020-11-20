@@ -148,5 +148,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CDecorrelator_H
-
-// EOF

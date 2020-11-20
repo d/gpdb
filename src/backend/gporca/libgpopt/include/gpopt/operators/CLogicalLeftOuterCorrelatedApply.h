@@ -92,5 +92,3 @@ public:
 
 
 #endif	// !GPOPT_CLogicalLeftOuterCorrelatedApply_H
-
-// EOF

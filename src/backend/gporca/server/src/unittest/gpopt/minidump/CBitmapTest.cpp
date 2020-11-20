@@ -98,5 +98,3 @@ CBitmapTest::EresUnittest_RunTests()
 		rgszBitmapFileNames, &m_ulBitmapTestCounter,
 		GPOS_ARRAY_SIZE(rgszBitmapFileNames));
 }
-
-// EOF

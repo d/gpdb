@@ -215,5 +215,3 @@ public:
 }  // namespace gpdxl
 
 #endif	// !GPDXL_CParseHandlerDXL_H
-
-// EOF

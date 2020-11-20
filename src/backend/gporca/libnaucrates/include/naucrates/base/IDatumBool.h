@@ -128,5 +128,3 @@ public:
 
 
 #endif	// !GPNAUCRATES_IDatumBool_H
-
-// EOF

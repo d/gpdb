@@ -136,5 +136,3 @@ public:
 }  // namespace gpos
 
 #endif	// ! CMemoryPoolStatistics
-
-// EOF

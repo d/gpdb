@@ -87,5 +87,3 @@ public:
 }  // namespace gpdxl
 
 #endif	// !GPDXL_CParseHandlerPhysicalCTAS_H
-
-// EOF

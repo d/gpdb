@@ -143,4 +143,3 @@ CJoinOrderTest::EresUnittest_RunTests()
 		rgszJoinOrderFileNames, &m_ulTestCounter,
 		GPOS_ARRAY_SIZE(rgszJoinOrderFileNames));
 }
-// EOF

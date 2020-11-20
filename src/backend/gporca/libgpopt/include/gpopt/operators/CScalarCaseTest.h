@@ -98,5 +98,3 @@ public:
 
 
 #endif	// !GPOPT_CScalarCaseTest_H
-
-// EOF

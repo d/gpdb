@@ -806,5 +806,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CTranslatorExprToDXL_H
-
-// EOF

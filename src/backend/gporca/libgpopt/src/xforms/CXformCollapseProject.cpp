@@ -88,5 +88,3 @@ CXformCollapseProject::Transform(CXformContext *pxfctxt, CXformResult *pxfres,
 		pxfres->Add(pexprCollapsed);
 	}
 }
-
-// EOF

@@ -37,5 +37,3 @@ CXformSequenceProject2Apply::CXformSequenceProject2Apply(CMemoryPool *mp)
 		  ))
 {
 }
-
-// EOF

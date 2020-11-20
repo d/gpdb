@@ -131,5 +131,3 @@ public:
 }  // namespace gpmd
 
 #endif	// !GPMD_CMDIdScCmpFunc_H
-
-// EOF

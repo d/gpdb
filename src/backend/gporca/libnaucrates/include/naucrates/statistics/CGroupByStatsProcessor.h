@@ -31,5 +31,3 @@ public:
 }  // namespace gpnaucrates
 
 #endif	// !GPNAUCRATES_CGroupByStatsProcessor_H
-
-// EOF

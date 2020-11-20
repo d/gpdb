@@ -66,5 +66,3 @@ public:
 
 
 #endif	// !GPOPT_CXformLeftAntiSemiJoin2HashJoin_H
-
-// EOF

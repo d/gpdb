@@ -44,5 +44,3 @@ typedef Dl_info DL_INFO;
 }  // namespace gpos
 
 #endif	// !GPOS_clibtypes_H
-
-// EOF

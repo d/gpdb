@@ -154,6 +154,3 @@ CScalarProjectList::FHasMultipleDistinctAggs(CExpressionHandle &exprhdl)
 
 	return (1 < ulDifferentDQAs);
 }
-
-
-// EOF

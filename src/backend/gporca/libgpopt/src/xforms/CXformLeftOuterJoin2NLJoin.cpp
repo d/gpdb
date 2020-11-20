@@ -78,6 +78,3 @@ CXformLeftOuterJoin2NLJoin::Transform(CXformContext *pxfctxt,
 	CXformUtils::ImplementNLJoin<CPhysicalLeftOuterNLJoin>(pxfctxt, pxfres,
 														   pexpr);
 }
-
-
-// EOF

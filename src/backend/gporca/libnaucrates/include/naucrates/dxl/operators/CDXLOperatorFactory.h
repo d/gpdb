@@ -670,5 +670,3 @@ CDXLOperatorFactory::ExtractIntsToArray(CDXLMemoryManager *dxl_memory_manager,
 }  // namespace gpdxl
 
 #endif	// !GPDXL_CDXLOperatorFactory_H
-
-// EOF

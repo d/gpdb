@@ -63,5 +63,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOS_CSerializableQuery_H
-
-// EOF

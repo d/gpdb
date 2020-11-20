@@ -156,5 +156,3 @@ public:
 
 
 #endif	// !GPDXL_CDXLNode_H
-
-// EOF

@@ -159,5 +159,3 @@ CParseHandlerScalarAssertConstraintList::EndElement(
 				   str->GetBuffer());
 	}
 }
-
-// EOF

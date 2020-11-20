@@ -38,5 +38,3 @@ public:
 
 
 #endif	// !GPOPT_CXformFactoryTest_H
-
-// EOF

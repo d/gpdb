@@ -1289,6 +1289,3 @@ CMDAccessor::SerializeSysid(COstream &oos)
 		ul++;
 	}
 }
-
-
-// EOF

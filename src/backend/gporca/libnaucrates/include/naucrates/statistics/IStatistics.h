@@ -222,5 +222,3 @@ typedef CDynamicPtrArray<IStatistics, CleanupStats> IStatisticsArray;
 }  // namespace gpnaucrates
 
 #endif	// !GPNAUCRATES_IStatistics_H
-
-// EOF

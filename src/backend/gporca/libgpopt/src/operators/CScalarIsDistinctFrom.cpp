@@ -79,5 +79,3 @@ CScalarIsDistinctFrom::PopCommutedOp(CMemoryPool *mp, COperator *pop)
 	}
 	return NULL;
 }
-
-// EOF

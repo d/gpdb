@@ -178,5 +178,3 @@ public:
 }  // namespace gpopt
 
 #endif	// !GPOPT_CLogicalInsert_H
-
-// EOF

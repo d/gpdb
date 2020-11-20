@@ -67,5 +67,3 @@ CMDProviderRelcache::GetMDObjDXLStr(CMemoryPool *mp, CMDAccessor *md_accessor,
 
 	return str;
 }
-
-// EOF

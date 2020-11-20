@@ -218,5 +218,3 @@ public:
 
 
 #endif	// !GPOS_CPhysicalSort_H
-
-// EOF
