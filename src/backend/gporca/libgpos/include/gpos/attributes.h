@@ -23,4 +23,19 @@
 #define GPOS_ASSERTS_ONLY
 #endif
 
+#ifdef GPOS_DEBUG
+#define GPOS_UNREACHABLE(msg) GPOS_ASSERT(!msg)
+#else
+/*
+ * Technically the __builtin_unreachable intrinsic was first introduced in GCC
+ * 4.5.0, but given that C++14 support wasn't complete until 5.1, we're good
+ * with just detecting GCC here.
+ */
+#ifdef __GNUC__
+#define GPOS_UNREACHABLE(msg) __builtin_unreachable()
+#else
+#define GPOS_UNREACHABLE(msg) std::terminate()
+#endif
+#endif
+
 #endif	// !GPOS_attributes_H
