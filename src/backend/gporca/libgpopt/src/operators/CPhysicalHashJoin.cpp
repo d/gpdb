@@ -694,10 +694,6 @@ CPhysicalHashJoin::PdsRequiredRedistribute(CMemoryPool *mp,
 
 
 //---------------------------------------------------------------------------
-//	@function:
-//		CPhysicalHashJoin::PdsRequired
-//
-//	@doc:
 //		Compute required distribution of the n-th child;
 //		this function creates three optimization requests to join children:
 //		Req(1 to N) (redistribute, redistribute), where we request the first hash join child
@@ -715,21 +711,6 @@ CPhysicalHashJoin::PdsRequiredRedistribute(CMemoryPool *mp,
 //
 //
 //---------------------------------------------------------------------------
-CDistributionSpec *
-CPhysicalHashJoin::PdsRequired(
-	CMemoryPool *mp GPOS_UNUSED, CExpressionHandle &exprhdl GPOS_UNUSED,
-	CDistributionSpec *pdsInput GPOS_UNUSED, ULONG child_index GPOS_UNUSED,
-	CDrvdPropArray *pdrgpdpCtxt GPOS_UNUSED,
-	ULONG ulOptReq
-		GPOS_UNUSED	 // identifies which optimization request should be created
-) const
-{
-	GPOS_RAISE(
-		CException::ExmaInvalid, CException::ExmiInvalid,
-		GPOS_WSZ_LIT("PdsRequired should not be called for CPhysicalHashJoin"));
-	return nullptr;
-}
-
 CEnfdDistribution *
 CPhysicalHashJoin::Ped(CMemoryPool *mp, CExpressionHandle &exprhdl,
 					   CReqdPropPlan *prppInput, ULONG child_index,

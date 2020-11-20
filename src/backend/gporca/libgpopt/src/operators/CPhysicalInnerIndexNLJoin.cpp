@@ -84,30 +84,6 @@ CPhysicalInnerIndexNLJoin::Matches(COperator *pop) const
 }
 
 
-//---------------------------------------------------------------------------
-//	@function:
-//		CPhysicalInnerIndexNLJoin::PdsRequired
-//
-//	@doc:
-//		Compute required distribution of the n-th child;
-//
-//---------------------------------------------------------------------------
-CDistributionSpec *
-CPhysicalInnerIndexNLJoin::PdsRequired(CMemoryPool *mp GPOS_UNUSED,
-									   CExpressionHandle &exprhdl GPOS_UNUSED,
-									   CDistributionSpec *,	 //pdsRequired,
-									   ULONG child_index GPOS_UNUSED,
-									   CDrvdPropArray *pdrgpdpCtxt GPOS_UNUSED,
-									   ULONG  // ulOptReq
-) const
-{
-	GPOS_RAISE(
-		CException::ExmaInvalid, CException::ExmiInvalid,
-		GPOS_WSZ_LIT(
-			"PdsRequired should not be called for CPhysicalInnerIndexNLJoin"));
-	return nullptr;
-}
-
 CEnfdDistribution *
 CPhysicalInnerIndexNLJoin::Ped(CMemoryPool *mp, CExpressionHandle &exprhdl,
 							   CReqdPropPlan *prppInput, ULONG child_index,

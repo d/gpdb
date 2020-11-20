@@ -136,13 +136,6 @@ public:
 							CDrvdPropArray *pdrgpdpCtxt,
 							ULONG ulOptReq) const override;
 
-	// compute required distribution of the n-th child
-	CDistributionSpec *PdsRequired(CMemoryPool *mp, CExpressionHandle &exprhdl,
-								   CDistributionSpec *pdsRequired,
-								   ULONG child_index,
-								   CDrvdPropArray *pdrgpdpCtxt,
-								   ULONG ulOptReq) const override;
-
 	// compute required rewindability of the n-th child
 	CRewindabilitySpec *PrsRequired(CMemoryPool *mp, CExpressionHandle &exprhdl,
 									CRewindabilitySpec *prsRequired,

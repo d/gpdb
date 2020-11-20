@@ -243,10 +243,6 @@ CPhysicalJoin::FOuterProvidesReqdCols(CExpressionHandle &exprhdl,
 
 
 //---------------------------------------------------------------------------
-//	@function:
-//		CPhysicalJoin::PdsRequired
-//
-//	@doc:
 //		Compute required distribution of the n-th child;
 //		this function creates a request for ANY distribution on the outer
 //		child, then matches the delivered distribution on the inner child,
@@ -254,21 +250,6 @@ CPhysicalJoin::FOuterProvidesReqdCols(CExpressionHandle &exprhdl,
 //		requests to the inner child
 //
 //---------------------------------------------------------------------------
-CDistributionSpec *
-CPhysicalJoin::PdsRequired(CMemoryPool *mp GPOS_UNUSED,
-						   CExpressionHandle &exprhdl GPOS_UNUSED,
-						   CDistributionSpec *,	 //pdsRequired,
-						   ULONG child_index GPOS_UNUSED,
-						   CDrvdPropArray *pdrgpdpCtxt GPOS_UNUSED,
-						   ULONG  // ulOptReq
-) const
-{
-	GPOS_RAISE(
-		CException::ExmaInvalid, CException::ExmiInvalid,
-		GPOS_WSZ_LIT("PdsRequired should not be called for CPhysicalJoin"));
-	return nullptr;
-}
-
 CEnfdDistribution *
 CPhysicalJoin::Ped(CMemoryPool *mp, CExpressionHandle &exprhdl,
 				   CReqdPropPlan *prppInput, ULONG child_index,

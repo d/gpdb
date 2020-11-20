@@ -146,19 +146,6 @@ CPhysicalLimit::PosRequired(CMemoryPool *,		  // mp
 	return m_pos;
 }
 
-CDistributionSpec *
-CPhysicalLimit::PdsRequired(CMemoryPool *, CExpressionHandle &,
-							CDistributionSpec *, ULONG, CDrvdPropArray *,
-							ULONG) const
-{
-	// FIXME: this method will (and should) _never_ be called
-	// sweep through all 38 overrides of PdsRequired and switch to Ped()
-	GPOS_RAISE(
-		CException::ExmaInvalid, CException::ExmiInvalid,
-		GPOS_WSZ_LIT("PdsRequired should not be called for CPhysicalLimit"));
-	return nullptr;
-}
-
 CEnfdDistribution *
 CPhysicalLimit::Ped(CMemoryPool *mp, CExpressionHandle &exprhdl,
 					CReqdPropPlan *prppInput, ULONG child_index,

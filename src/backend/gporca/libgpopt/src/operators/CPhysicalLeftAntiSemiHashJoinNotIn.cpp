@@ -32,30 +32,6 @@ CPhysicalLeftAntiSemiHashJoinNotIn::CPhysicalLeftAntiSemiHashJoinNotIn(
 {
 }
 
-//---------------------------------------------------------------------------
-//	@function:
-//		CPhysicalLeftAntiSemiHashJoinNotIn::PdsRequired
-//
-//	@doc:
-//		Compute required distribution of the n-th child
-//
-//---------------------------------------------------------------------------
-CDistributionSpec *
-CPhysicalLeftAntiSemiHashJoinNotIn::PdsRequired(
-	CMemoryPool *mp GPOS_UNUSED, CExpressionHandle &exprhdl GPOS_UNUSED,
-	CDistributionSpec *pdsInput GPOS_UNUSED, ULONG child_index GPOS_UNUSED,
-	CDrvdPropArray *pdrgpdpCtxt GPOS_UNUSED,
-	ULONG ulOptReq
-		GPOS_UNUSED	 // identifies which optimization request should be created
-) const
-{
-	GPOS_RAISE(
-		CException::ExmaInvalid, CException::ExmiInvalid,
-		GPOS_WSZ_LIT(
-			"PdsRequired should not be called for CPhysicalLeftAntiSemiHashJoinNotIn"));
-	return nullptr;
-}
-
 CEnfdDistribution *
 CPhysicalLeftAntiSemiHashJoinNotIn::Ped(
 	CMemoryPool *mp, CExpressionHandle &exprhdl, CReqdPropPlan *prppInput,
