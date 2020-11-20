@@ -85,12 +85,10 @@ public:
 							CDrvdPropArray *pdrgpdpCtxt,
 							ULONG ulOptReq) const override;
 
-	// compute required distribution of the n-th child
-	CDistributionSpec *PdsRequired(CMemoryPool *mp, CExpressionHandle &exprhdl,
-								   CDistributionSpec *pdsRequired,
-								   ULONG child_index,
-								   CDrvdPropArray *pdrgpdpCtxt,
-								   ULONG ulOptReq) const override;
+	CEnfdDistribution *Ped(CMemoryPool *mp, CExpressionHandle &exprhdl,
+						   CReqdPropPlan *prppInput, ULONG child_index,
+						   CDrvdPropArray *pdrgpdpCtxt,
+						   ULONG ulDistrReq) const override;
 
 	// compute required rewindability of the n-th child
 	CRewindabilitySpec *PrsRequired(CMemoryPool *mp, CExpressionHandle &exprhdl,
@@ -110,18 +108,6 @@ public:
 		CPartitionPropagationSpec *pppsRequired, ULONG child_index,
 		CDrvdPropArray *pdrgpdpCtxt, ULONG ulOptReq) override;
 
-	// distribution matching type
-	CEnfdDistribution::EDistributionMatching
-	Edm(CReqdPropPlan *prppInput,
-		ULONG,			   // child_index
-		CDrvdPropArray *,  //pdrgpdpCtxt
-		ULONG			   // ulOptReq
-	) const override
-	{
-		// Spool does not require Motions to be enforced on top,
-		// we need to pass down incoming matching type
-		return prppInput->Ped()->Edm();
-	}
 
 	//-------------------------------------------------------------------------------------
 	// Derived Plan Properties

@@ -130,24 +130,16 @@ CPhysicalSort::PosRequired(CMemoryPool *mp,
 }
 
 
-//---------------------------------------------------------------------------
-//	@function:
-//		CPhysicalSort::PdsRequired
-//
-//	@doc:
-//		Compute required distribution of the n-th child
-//
-//---------------------------------------------------------------------------
-CDistributionSpec *
-CPhysicalSort::PdsRequired(CMemoryPool *mp, CExpressionHandle &exprhdl,
-						   CDistributionSpec *pdsRequired, ULONG child_index,
-						   CDrvdPropArray *,  // pdrgpdpCtxt
-						   ULONG			  // ulOptReq
-) const
+CEnfdDistribution *
+CPhysicalSort::Ped(CMemoryPool *mp GPOS_UNUSED,
+				   CExpressionHandle &exprhdl GPOS_UNUSED,
+				   CReqdPropPlan *prppInput, ULONG child_index GPOS_UNUSED,
+				   CDrvdPropArray *pdrgpdpCtxt GPOS_UNUSED,
+				   ULONG ulDistrReq GPOS_UNUSED) const
 {
-	GPOS_ASSERT(0 == child_index);
-
-	return PdsPassThru(mp, exprhdl, pdsRequired, child_index);
+	CEnfdDistribution *pedInput = prppInput->Ped();
+	pedInput->AddRef();
+	return pedInput;
 }
 
 
