@@ -314,7 +314,7 @@ protected:
 	// distribution matching type
 	virtual CEnfdDistribution::EDistributionMatching Edm(
 		CReqdPropPlan *prppInput, ULONG child_index,
-		CDrvdPropArray *pdrgpdpCtxt, ULONG ulOptReq);
+		CDrvdPropArray *pdrgpdpCtxt, ULONG ulOptReq) const;
 
 public:
 	CPhysical(const CPhysical &) = delete;
@@ -551,7 +551,7 @@ public:
 	virtual CEnfdDistribution *Ped(CMemoryPool *mp, CExpressionHandle &exprhdl,
 								   CReqdPropPlan *prppInput, ULONG child_index,
 								   CDrvdPropArray *pdrgpdpCtxt,
-								   ULONG ulDistrReq);
+								   ULONG ulDistrReq) const;
 
 };	// class CPhysical
 

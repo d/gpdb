@@ -149,7 +149,7 @@ protected:
 	// helper to compute required distribution of correlated join's children
 	CEnfdDistribution *PedCorrelatedJoin(
 		CMemoryPool *mp, CExpressionHandle &exprhdl, CReqdPropPlan *prppInput,
-		ULONG child_index, CDrvdPropArray *pdrgpdpCtxt, ULONG ulOptReq);
+		ULONG child_index, CDrvdPropArray *pdrgpdpCtxt, ULONG ulOptReq) const;
 
 	// helper to compute required rewindability of correlated join's children
 	CRewindabilitySpec *PrsRequiredCorrelatedJoin(
@@ -250,7 +250,7 @@ public:
 	CEnfdDistribution *Ped(CMemoryPool *mp, CExpressionHandle &exprhdl,
 						   CReqdPropPlan *prppInput, ULONG child_index,
 						   CDrvdPropArray *pdrgpdpCtxt,
-						   ULONG ulDistrReq) override;
+						   ULONG ulDistrReq) const override;
 
 	// compute required partition propagation of the n-th child
 	CPartitionPropagationSpec *PppsRequired(
@@ -266,7 +266,7 @@ public:
 	CEnfdDistribution::EDistributionMatching Edm(CReqdPropPlan *prppInput,
 												 ULONG child_index,
 												 CDrvdPropArray *pdrgpdpCtxt,
-												 ULONG ulOptReq) override;
+												 ULONG ulOptReq) const override;
 
 	//-------------------------------------------------------------------------------------
 	// Derived Plan Properties

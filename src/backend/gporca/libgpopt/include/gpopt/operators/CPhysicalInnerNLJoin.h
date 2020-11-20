@@ -60,7 +60,7 @@ public:
 	CEnfdDistribution *Ped(CMemoryPool *mp, CExpressionHandle &exprhdl,
 						   CReqdPropPlan *prppInput, ULONG child_index,
 						   CDrvdPropArray *pdrgpdpCtxt,
-						   ULONG ulDistrReq) override;
+						   ULONG ulDistrReq) const override;
 
 	// conversion function
 	static CPhysicalInnerNLJoin *

@@ -59,7 +59,7 @@ CPhysicalLeftAntiSemiHashJoinNotIn::PdsRequired(
 CEnfdDistribution *
 CPhysicalLeftAntiSemiHashJoinNotIn::Ped(
 	CMemoryPool *mp, CExpressionHandle &exprhdl, CReqdPropPlan *prppInput,
-	ULONG child_index, CDrvdPropArray *pdrgpdpCtxt, ULONG ulOptReq)
+	ULONG child_index, CDrvdPropArray *pdrgpdpCtxt, ULONG ulOptReq) const
 {
 	GPOS_ASSERT(2 > child_index);
 	GPOS_ASSERT(ulOptReq < UlDistrRequests());

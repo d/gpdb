@@ -116,7 +116,7 @@ public:
 		ULONG,			   // child_index
 		CDrvdPropArray *,  //pdrgpdpCtxt
 		ULONG			   // ulOptReq
-		) override
+	) const override
 	{
 		// Spool does not require Motions to be enforced on top,
 		// we need to pass down incoming matching type

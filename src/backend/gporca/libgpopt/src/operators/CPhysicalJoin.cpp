@@ -272,7 +272,7 @@ CPhysicalJoin::PdsRequired(CMemoryPool *mp GPOS_UNUSED,
 CEnfdDistribution *
 CPhysicalJoin::Ped(CMemoryPool *mp, CExpressionHandle &exprhdl,
 				   CReqdPropPlan *prppInput, ULONG child_index,
-				   CDrvdPropArray *pdrgpdpCtxt, ULONG ulDistrReq)
+				   CDrvdPropArray *pdrgpdpCtxt, ULONG ulDistrReq) const
 {
 	GPOS_ASSERT(2 > child_index);
 
@@ -939,7 +939,8 @@ CPhysicalJoin::PrsRequiredCorrelatedJoin(CMemoryPool *mp,
 CEnfdDistribution *
 CPhysicalJoin::PedCorrelatedJoin(CMemoryPool *mp, CExpressionHandle &exprhdl,
 								 CReqdPropPlan *prppInput, ULONG child_index,
-								 CDrvdPropArray *pdrgpdpCtxt, ULONG ulOptReq)
+								 CDrvdPropArray *pdrgpdpCtxt,
+								 ULONG ulOptReq) const
 {
 	GPOS_ASSERT(3 == exprhdl.Arity());
 	GPOS_ASSERT(2 > child_index);
@@ -998,7 +999,7 @@ CEnfdDistribution::EDistributionMatching
 CPhysicalJoin::Edm(CReqdPropPlan *,	 // prppInput
 				   ULONG child_index, CDrvdPropArray *pdrgpdpCtxt,
 				   ULONG  // ulOptReq
-)
+) const
 {
 	if (FFirstChildToOptimize(child_index))
 	{

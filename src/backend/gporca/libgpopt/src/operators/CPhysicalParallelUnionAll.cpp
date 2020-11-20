@@ -73,7 +73,7 @@ CPhysicalParallelUnionAll::Edm(CReqdPropPlan *,	  // prppInput
 							   ULONG,			  // child_index
 							   CDrvdPropArray *,  //pdrgpdpCtxt
 							   ULONG			  // ulOptReq
-)
+) const
 {
 	return CEnfdDistribution::EdmExact;
 }

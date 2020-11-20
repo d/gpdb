@@ -164,7 +164,7 @@ CPhysicalLimit::Ped(CMemoryPool *mp, CExpressionHandle &exprhdl,
 					CReqdPropPlan *prppInput, ULONG child_index,
 					CDrvdPropArray *,  // pdrgpdpCtxt
 					ULONG			   // ulDistrReq
-)
+) const
 {
 	GPOS_ASSERT(0 == child_index);
 

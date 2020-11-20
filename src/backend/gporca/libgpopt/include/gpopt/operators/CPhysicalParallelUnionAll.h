@@ -37,7 +37,7 @@ public:
 		ULONG,			   // child_index
 		CDrvdPropArray *,  //pdrgpdpCtxt
 		ULONG			   // ulOptReq
-		) override;
+	) const override;
 
 	~CPhysicalParallelUnionAll() override;
 };

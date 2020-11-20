@@ -52,7 +52,7 @@ public:
 	Edm(CReqdPropPlan *prppInput,
 		ULONG,			   // child_index
 		CDrvdPropArray *,  //pdrgpdpCtxt
-		ULONG ulOptReq) override
+		ULONG ulOptReq) const override
 	{
 		if (0 == ulOptReq && CDistributionSpec::EdtHashed ==
 								 prppInput->Ped()->PdsRequired()->Edt())

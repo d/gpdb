@@ -92,7 +92,7 @@ CPhysicalInnerNLJoin::PdsRequired(CMemoryPool *mp GPOS_UNUSED,
 CEnfdDistribution *
 CPhysicalInnerNLJoin::Ped(CMemoryPool *mp, CExpressionHandle &exprhdl,
 						  CReqdPropPlan *prppInput, ULONG child_index,
-						  CDrvdPropArray *pdrgpdpCtxt, ULONG ulOptReq)
+						  CDrvdPropArray *pdrgpdpCtxt, ULONG ulOptReq) const
 {
 	GPOS_ASSERT(2 > child_index);
 	GPOS_ASSERT(ulOptReq < UlDistrRequests());

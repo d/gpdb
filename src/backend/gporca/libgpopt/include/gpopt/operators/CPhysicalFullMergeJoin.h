@@ -60,7 +60,7 @@ public:
 	CEnfdDistribution *Ped(CMemoryPool *mp, CExpressionHandle &exprhdl,
 						   CReqdPropPlan *prppInput, ULONG child_index,
 						   CDrvdPropArray *pdrgpdpCtxt,
-						   ULONG ulDistrReq) override;
+						   ULONG ulDistrReq) const override;
 
 	COrderSpec *PosRequired(CMemoryPool *mp, CExpressionHandle &exprhdl,
 							COrderSpec *posInput, ULONG child_index,
@@ -83,7 +83,7 @@ public:
 		ULONG,			   //child_index,
 		CDrvdPropArray *,  // pdrgpdpCtxt,
 		ULONG			   // ulOptReq
-		) override;
+	) const override;
 
 	CDistributionSpec *PdsDerive(CMemoryPool *mp,
 								 CExpressionHandle &exprhdl) const override;

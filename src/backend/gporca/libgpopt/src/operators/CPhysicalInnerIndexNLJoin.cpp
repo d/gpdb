@@ -111,7 +111,8 @@ CPhysicalInnerIndexNLJoin::PdsRequired(CMemoryPool *mp GPOS_UNUSED,
 CEnfdDistribution *
 CPhysicalInnerIndexNLJoin::Ped(CMemoryPool *mp, CExpressionHandle &exprhdl,
 							   CReqdPropPlan *prppInput, ULONG child_index,
-							   CDrvdPropArray *pdrgpdpCtxt, ULONG ulDistrReq)
+							   CDrvdPropArray *pdrgpdpCtxt,
+							   ULONG ulDistrReq) const
 {
 	GPOS_ASSERT(2 > child_index);
 

@@ -248,7 +248,7 @@ public:
 		ULONG,			   // child_index
 		CDrvdPropArray *,  //pdrgpdpCtxt
 		ULONG			   // ulOptReq
-		) override
+	) const override
 	{
 		if (CDistributionSpec::EdtSingleton == m_pds->Edt())
 		{

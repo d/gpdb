@@ -1209,7 +1209,7 @@ CPhysical::FUnaryUsesDefinedColumns(CColRefSet *pcrs,
 }
 
 CEnfdDistribution::EDistributionMatching
-CPhysical::Edm(CReqdPropPlan *, ULONG, CDrvdPropArray *, ULONG)
+CPhysical::Edm(CReqdPropPlan *, ULONG, CDrvdPropArray *, ULONG) const
 {
 	// by default, request distribution satisfaction
 	return CEnfdDistribution::EdmSatisfy;
@@ -1232,7 +1232,7 @@ CPhysical::Erm(CReqdPropPlan *, ULONG, CDrvdPropArray *, ULONG)
 CEnfdDistribution *
 CPhysical::Ped(CMemoryPool *mp, CExpressionHandle &exprhdl,
 			   CReqdPropPlan *prppInput, ULONG child_index,
-			   CDrvdPropArray *pdrgpdpCtxt, ULONG ulDistrReq)
+			   CDrvdPropArray *pdrgpdpCtxt, ULONG ulDistrReq) const
 {
 	return GPOS_NEW(mp) CEnfdDistribution(
 		PdsRequired(mp, exprhdl, prppInput->Ped()->PdsRequired(), child_index,

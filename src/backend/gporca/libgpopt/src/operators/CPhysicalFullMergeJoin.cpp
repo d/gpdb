@@ -73,7 +73,7 @@ CEnfdDistribution *
 CPhysicalFullMergeJoin::Ped(CMemoryPool *mp, CExpressionHandle &exprhdl,
 							CReqdPropPlan *prppInput, ULONG child_index,
 							CDrvdPropArray *pdrgpdpCtxt GPOS_UNUSED,
-							ULONG ulOptReq)
+							ULONG ulOptReq) const
 {
 	GPOS_ASSERT(2 > child_index);
 
@@ -231,7 +231,7 @@ CPhysicalFullMergeJoin::Edm(CReqdPropPlan *,   // prppInput
 							ULONG,			   // child_index,
 							CDrvdPropArray *,  // pdrgpdpCtxt,
 							ULONG			   // ulOptReq
-)
+) const
 {
 	return CEnfdDistribution::EdmExact;
 }

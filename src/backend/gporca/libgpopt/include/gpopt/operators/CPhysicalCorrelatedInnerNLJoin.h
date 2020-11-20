@@ -90,14 +90,15 @@ public:
 		ULONG,			   // child_index
 		CDrvdPropArray *,  //pdrgpdpCtxt
 		ULONG			   // ulOptReq
-		) override
+	) const override
 	{
 		return CEnfdDistribution::EdmSatisfy;
 	}
 
 	CEnfdDistribution *
 	Ped(CMemoryPool *mp, CExpressionHandle &exprhdl, CReqdPropPlan *prppInput,
-		ULONG child_index, CDrvdPropArray *pdrgpdpCtxt, ULONG ulOptReq) override
+		ULONG child_index, CDrvdPropArray *pdrgpdpCtxt,
+		ULONG ulOptReq) const override
 	{
 		return PedCorrelatedJoin(mp, exprhdl, prppInput, child_index,
 								 pdrgpdpCtxt, ulOptReq);
