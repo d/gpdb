@@ -1134,45 +1134,6 @@ CPhysical::PdsRequireSingleton(CMemoryPool *mp, CExpressionHandle &exprhdl,
 
 //---------------------------------------------------------------------------
 //	@function:
-//		CPhysical::GetSkew
-//
-//	@doc:
-//		Helper to compute skew estimate based on given stats and
-//		distribution spec
-//
-//---------------------------------------------------------------------------
-CDouble
-CPhysical::GetSkew(IStatistics *stats, CDistributionSpec *pds)
-{
-	CDouble dSkew = 1.0;
-	if (CDistributionSpec::EdtHashed == pds->Edt())
-	{
-		CDistributionSpecHashed *pdshashed =
-			CDistributionSpecHashed::PdsConvert(pds);
-		const CExpressionArray *pdrgpexpr = pdshashed->Pdrgpexpr();
-		const ULONG size = pdrgpexpr->Size();
-		for (ULONG ul = 0; ul < size; ul++)
-		{
-			CExpression *pexpr = (*pdrgpexpr)[ul];
-			if (COperator::EopScalarIdent == pexpr->Pop()->Eopid())
-			{
-				// consider only hashed distribution direct columns for now
-				CScalarIdent *popScId = CScalarIdent::PopConvert(pexpr->Pop());
-				ULONG colid = popScId->Pcr()->Id();
-				CDouble dSkewCol = stats->GetSkew(colid);
-				if (dSkewCol > dSkew)
-				{
-					dSkew = dSkewCol;
-				}
-			}
-		}
-	}
-
-	return CDouble(dSkew);
-}
-
-//---------------------------------------------------------------------------
-//	@function:
 //		CPhysical::FChildrenHaveCompatibleDistributions
 //
 //	@doc:
