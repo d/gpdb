@@ -38,75 +38,6 @@ matrix:
         - arch: arm64
     fast_finish: true
     include:
-        # OS and Compiler variations
-        # ----------------------------------------------------------------
-        #
-        # Ubuntu Bionic, gcc 8
-        - os: linux
-          dist: bionic
-          compiler: gcc
-          env:
-              - T=debug C=""
-              - OVERRIDE_CC="CC=gcc-8" OVERRIDE_CXX="CXX=g++-8"
-          addons:
-              apt:
-                  sources:
-                      - *common_sources
-                  packages:
-                      - *common_packages
-        # Ubuntu Xenial, clang 7
-        - os: linux
-          dist: xenial
-          compiler: clang
-          env:
-              - T=debug C=""
-              - OVERRIDE_CC="CC=clang-7" OVERRIDE_CXX="CXX=clang++-7"
-          addons:
-              apt:
-                  sources:
-                      - *common_sources
-                      - llvm-toolchain-xenial-7
-                  packages:
-                      - *common_packages
-                      - clang-7
-        # macOS, XCode11
-        - os: osx
-          compiler: clang
-          osx_image: xcode11
-          env: T=macos
-          addons:
-            homebrew:
-              packages:
-                - ccache
-                - xerces-c
-        #
-        # Configuration variations
-        # ----------------------------------------------------------------
-        #
-        # Debug build without any compression algorithms supplied
-        - os: linux
-          dist: bionic
-          compiler: gcc
-          env:
-              - T=debug C="--without-zlib --without-libbz2 --without-zstd --without-quicklz"
-              - OVERRIDE_CC="CC=gcc-8" OVERRIDE_CXX="CXX=g++-8"
-          addons:
-              apt:
-                  sources: *common_sources
-                  packages: *common_packages
-        # ARM64, Ubuntu Bionic, gcc 8, unit tests
-        # For arm64, disable orca to avoid job timeouts
-        - os: linux
-          arch: arm64
-          dist: bionic
-          compiler: gcc
-          env:
-              - tests=unit T=debug C="--disable-orca"
-              - OVERRIDE_CC="CC=gcc-8" OVERRIDE_CXX="CXX=g++-8"
-          addons:
-              apt:
-                  sources: *common_sources
-                  packages: *common_packages
         # ARM64, Ubuntu Bionic, gcc 8, installcheck
         - os: linux
           arch: arm64
@@ -120,51 +51,7 @@ matrix:
                   sources: *common_sources
                   packages: *common_packages
 
-        - name: check-format
-          stage: lint
-          os: linux
-          dist: focal
-          addons:
-            apt:
-              packages:
-                - clang-format-10
-                - parallel
-          before_install: ~
-          install: ~
-          before_script: ~
-          after_script: ~
-          script:
-            - env CLANG_FORMAT=clang-format-10 src/tools/fmt gen
-            - git diff --exit-code
-            - env CLANG_FORMAT=clang-format-10 src/tools/fmt chk
-
-        - name: clang-tidy
-          stage: lint
-          os: linux
-          dist: focal
-          addons:
-            apt:
-              sources:
-                - sourceline: 'deb http://apt.llvm.org/focal/ llvm-toolchain-focal-11 main'
-                  key_url: 'https://apt.llvm.org/llvm-snapshot.gpg.key'
-              packages:
-                - ninja-build
-                - clang-10
-                - clang-tidy-11
-                - parallel
-                - libxerces-c-dev
-          before_install: ~
-          install: ~
-          before_script: ~
-          after_script: ~
-          script:
-            - CXX=clang++-10 cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -GNinja -DCMAKE_BUILD_TYPE=Debug -Hsrc/backend/gporca -Bbuild.debug
-            - CLANG_TIDY=clang-tidy-11 src/tools/tidy chk build.debug
-            - CXX=clang++-10 cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -GNinja -DCMAKE_BUILD_TYPE=RelWithDebInfo -Hsrc/backend/gporca -Bbuild.relwithdebinfo
-            - CLANG_TIDY=clang-tidy-11 src/tools/tidy chk build.relwithdebinfo
-
 stages:
-  - lint
   - test
 
 ## ----------------------------------------------------------------------
@@ -255,6 +142,10 @@ script:
         if [ -z "$tests" ] || [ "$tests" = "installcheck" ]; then
             make -C gpAux/gpdemo cluster
             source gpAux/gpdemo/gpdemo-env.sh
+            (
+            cd src/test/regress
+            ./pg_regress --init-file init_file --schedule greenplum_schedule || cat regression.diffs
+            )
             make -C src/test/regress installcheck-small
         fi
       fi
