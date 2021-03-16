@@ -12,16 +12,12 @@ addons:
     apt:
         config:
             retries: true
-        sources: &common_sources
-            - ubuntu-toolchain-r-test
         packages: &common_packages
-            - gcc-8
             - libxml2
             - libxml2-dev
             - libevent-dev
             - libperl-dev
             - libuv1-dev
-            - g++-8
             - python-dev
             - python-yaml
             - libapr1-dev
@@ -33,34 +29,18 @@ matrix:
         # OS and Compiler variations
         # ----------------------------------------------------------------
         #
-        # Ubuntu Bionic, gcc 8
+        # Ubuntu Bionic, gcc 7
         - os: linux
           dist: bionic
           compiler: gcc
           env:
               - T=debug C=""
-              - OVERRIDE_CC="CC=gcc-8" OVERRIDE_CXX="CXX=g++-8"
-          addons:
-              apt:
-                  sources:
-                      - *common_sources
-                  packages:
-                      - *common_packages
-        # Ubuntu Xenial, clang 7
+        # Ubuntu Bionic, clang 7
         - os: linux
-          dist: xenial
+          dist: bionic
           compiler: clang
           env:
               - T=debug C=""
-              - OVERRIDE_CC="CC=clang-7" OVERRIDE_CXX="CXX=clang++-7"
-          addons:
-              apt:
-                  sources:
-                      - *common_sources
-                      - llvm-toolchain-xenial-7
-                  packages:
-                      - *common_packages
-                      - clang-7
         # macOS, XCode11
         - os: osx
           compiler: clang
@@ -76,10 +56,6 @@ matrix:
           dist: bionic
           addons:
             apt:
-              sources:
-                - *common_sources
-                - sourceline: 'deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-10 main'
-                  key_url: 'https://apt.llvm.org/llvm-snapshot.gpg.key'
               packages:
                 - clang-format-10
                 - parallel
