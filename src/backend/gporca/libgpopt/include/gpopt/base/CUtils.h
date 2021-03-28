@@ -12,6 +12,8 @@
 #define GPOPT_CUtils_H
 
 #include "gpos/common/CHashSet.h"
+#include "gpos/common/Ref.h"
+#include "gpos/common/ranges.h"
 
 #include "gpopt/base/CColRef.h"
 #include "gpopt/base/COrderSpec.h"
@@ -522,6 +524,10 @@ public:
 							 CDynamicPtrArray<T, CleanupFn> *pdrgptInput,
 							 ULONG ulStart = 0);
 
+	template <class T>
+	static void AddRefAppend(Vector<Ref<T>> *output,
+							 const Vector<Ref<T>> *input, ULONG start = 0);
+
 	// check for existence of subqueries
 	static BOOL FHasSubquery(CExpression *pexpr);
 
@@ -973,7 +979,7 @@ public:
 
 // hash set from expressions
 typedef CHashSet<CExpression, CExpression::UlHashDedup, CUtils::Equals,
-				 CleanupRelease<CExpression> >
+				 CleanupRelease<CExpression>>
 	ExprHashSet;
 
 
@@ -1172,6 +1178,18 @@ CUtils::AddRefAppend(CDynamicPtrArray<T, CleanupFn> *pdrgptOutput,
 		pdrgptOutput->Append(pt);
 	}
 }
+
+template <class T>
+void
+CUtils::AddRefAppend(Vector<Ref<T>> *output, const Vector<Ref<T>> *input,
+					 ULONG start)
+{
+	for (const auto &t : gpos::subrange(*input).next(start))
+	{
+		output->Append(t);
+	}
+}
+
 
 //---------------------------------------------------------------------------
 //	@function:
