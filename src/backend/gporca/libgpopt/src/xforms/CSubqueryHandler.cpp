@@ -2047,7 +2047,7 @@ BOOL
 CSubqueryHandler::FRecursiveHandler(CExpression *pexprOuter,
 									CExpression *pexprScalar,
 									ESubqueryCtxt esqctxt,
-									CExpression **ppexprNewOuter,
+									gpos::owner<CExpression *> *ppexprNewOuter,
 									CExpression **ppexprResidualScalar)
 {
 	// protect against stack overflow during recursion
