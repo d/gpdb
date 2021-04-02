@@ -1684,8 +1684,8 @@ CJoinOrderDPv2::GetNextOfTopK()
 //---------------------------------------------------------------------------
 BOOL
 CJoinOrderDPv2::IsRightChildOfNIJ(SGroupInfo *groupInfo,
-								  CExpression **onPredToUse,
-								  CBitSet **requiredBitsOnLeft)
+								  gpos::owner<CExpression *> *onPredToUse,
+								  gpos::pointer<CBitSet *> *requiredBitsOnLeft)
 {
 	GPOS_ASSERT(nullptr == onPredToUse || nullptr == *onPredToUse);
 	GPOS_ASSERT(nullptr == requiredBitsOnLeft ||
