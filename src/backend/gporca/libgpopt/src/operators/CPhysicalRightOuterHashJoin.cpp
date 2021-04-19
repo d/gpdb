@@ -12,6 +12,7 @@
 #include "gpopt/operators/CPhysicalRightOuterHashJoin.h"
 
 #include "gpos/base.h"
+#include "gpos/common/owner.h"
 
 #include "gpopt/base/CDistributionSpecNonSingleton.h"
 #include "gpopt/base/CDistributionSpecReplicated.h"
@@ -31,7 +32,8 @@ using namespace gpopt;
 //---------------------------------------------------------------------------
 CPhysicalRightOuterHashJoin::CPhysicalRightOuterHashJoin(
 	CMemoryPool *mp, CExpressionArray *pdrgpexprOuterKeys,
-	CExpressionArray *pdrgpexprInnerKeys, IMdIdArray *hash_opfamilies)
+	CExpressionArray *pdrgpexprInnerKeys,
+	gpos::owner<IMdIdArray *> hash_opfamilies)
 	: CPhysicalHashJoin(mp, pdrgpexprOuterKeys, pdrgpexprInnerKeys,
 						hash_opfamilies)
 {
