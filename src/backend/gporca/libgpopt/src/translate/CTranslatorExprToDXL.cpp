@@ -20,6 +20,7 @@
 
 #include "gpos/common/CAutoTimer.h"
 #include "gpos/common/CHashMap.h"
+#include "gpos/common/owner.h"
 
 #include "gpopt/base/CCastUtils.h"
 #include "gpopt/base/CColRefSetIter.h"
@@ -3376,7 +3377,7 @@ CTranslatorExprToDXL::PdxlnRestrictResult(CDXLNode *dxlnode, CColRef *colref)
 //		Helper to build subplans for quantified (ANY/ALL) subqueries
 //
 //---------------------------------------------------------------------------
-CDXLNode *
+gpos::pointer<CDXLNode *>
 CTranslatorExprToDXL::PdxlnQuantifiedSubplan(
 	CColRefArray *pdrgpcrInner, CExpression *pexprCorrelatedNLJoin,
 	CDXLColRefArray *dxl_colref_array,
@@ -3597,7 +3598,7 @@ CTranslatorExprToDXL::Edxlsubplantype(CExpression *pexprCorrelatedNLJoin)
 //		Helper to build subplans for existential subqueries
 //
 //---------------------------------------------------------------------------
-CDXLNode *
+gpos::pointer<CDXLNode *>
 CTranslatorExprToDXL::PdxlnExistentialSubplan(
 	CColRefArray *pdrgpcrInner, CExpression *pexprCorrelatedNLJoin,
 	CDXLColRefArray *dxl_colref_array,
@@ -4028,7 +4029,7 @@ UlIndexFilter(Edxlopid edxlopid)
 //		subqueries.
 //
 //---------------------------------------------------------------------------
-CDXLNode *
+gpos::owner<CDXLNode *>
 CTranslatorExprToDXL::PdxlnResultFromNLJoinOuter(
 	CExpression *pexprOuterChildRelational, CDXLNode *pdxlnJoinCond,
 	CColRefArray *colref_array, CDistributionSpecArray *pdrgpdsBaseTables,
@@ -4096,8 +4097,8 @@ CTranslatorExprToDXL::PdxlnResultFromNLJoinOuter(
 			CColRefSet *pcrsOutput =
 				pexprOuterChildRelational->Prpp()->PcrsRequired();
 			pdxlnRelationalNew = PdxlnAddScalarFilterOnRelationalChild(
-				pdxlnRelationalNew, pdxlnJoinCond, dxl_properties, pcrsOutput,
-				colref_array);
+				std::move(pdxlnRelationalNew), pdxlnJoinCond, dxl_properties,
+				pcrsOutput, colref_array);
 		}
 		break;
 		default:
