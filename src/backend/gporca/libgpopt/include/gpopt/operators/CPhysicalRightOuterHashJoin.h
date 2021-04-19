@@ -12,6 +12,7 @@
 #define GPOPT_CPhysicalRightOuterHashJoin_H
 
 #include "gpos/base.h"
+#include "gpos/common/owner.h"
 
 #include "gpopt/operators/CPhysicalHashJoin.h"
 
@@ -39,7 +40,7 @@ public:
 	CPhysicalRightOuterHashJoin(CMemoryPool *mp,
 								CExpressionArray *pdrgpexprOuterKeys,
 								CExpressionArray *pdrgpexprInnerKeys,
-								IMdIdArray *hash_opfamilies);
+								gpos::owner<IMdIdArray *> hash_opfamilies);
 
 	// dtor
 	~CPhysicalRightOuterHashJoin() override;

@@ -5,6 +5,7 @@
 #define GPOPT_CPhysicalFullMergeJoin_H
 
 #include "gpos/base.h"
+#include "gpos/common/owner.h"
 
 #include "gpopt/operators/CPhysicalJoin.h"
 
@@ -24,7 +25,7 @@ public:
 	explicit CPhysicalFullMergeJoin(CMemoryPool *mp,
 									CExpressionArray *outer_merge_clauses,
 									CExpressionArray *inner_merge_clauses,
-									IMdIdArray *hash_opfamilies);
+									gpos::leaked<IMdIdArray *> hash_opfamilies);
 
 	// dtor
 	~CPhysicalFullMergeJoin() override;
