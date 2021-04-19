@@ -17,6 +17,8 @@
 
 #include "gpopt/operators/CExpressionFactorizer.h"
 
+#include "gpos/common/owner.h"
+
 #include "gpopt/base/CColRefSetIter.h"
 #include "gpopt/base/CColRefTable.h"
 #include "gpopt/base/CConstraintInterval.h"
@@ -439,7 +441,7 @@ CExpressionFactorizer::FOpSourceIdOrComputedColumn(CExpression *pexpr,
 //		or construct a new array and add it to the map.
 //
 //---------------------------------------------------------------------------
-CExpressionArrays *
+gpos::pointer<CExpressionArrays *>
 CExpressionFactorizer::PdrgPdrgpexprDisjunctArrayForSourceId(
 	CMemoryPool *mp, SourceToArrayPosMap *psrc2array, BOOL fAllowNewSources,
 	ULONG ulOpSourceId)
@@ -479,7 +481,7 @@ CExpressionFactorizer::PdrgPdrgpexprDisjunctArrayForSourceId(
 // 		or construct a new array and add it to the map.
 //
 //---------------------------------------------------------------------------
-CExpressionArrays *
+gpos::pointer<CExpressionArrays *>
 CExpressionFactorizer::PdrgPdrgpexprDisjunctArrayForColumn(
 	CMemoryPool *mp, ColumnToArrayPosMap *pcol2array, BOOL fAllowNewSources,
 	CColRef *colref)
