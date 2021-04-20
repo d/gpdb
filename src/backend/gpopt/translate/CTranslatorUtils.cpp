@@ -546,11 +546,10 @@ CTranslatorUtils::GetColumnDescriptorsFromRecord(CMemoryPool *mp,
 //
 //---------------------------------------------------------------------------
 CDXLColDescrArray *
-CTranslatorUtils::GetColumnDescriptorsFromBase(CMemoryPool *mp,
-											   CIdGenerator *id_generator,
-											   IMDId *mdid_return_type,
-											   INT type_modifier,
-											   CMDName *pmdName)
+CTranslatorUtils::GetColumnDescriptorsFromBase(
+	CMemoryPool *mp, CIdGenerator *id_generator,
+	gpos::pointer<IMDId *> mdid_return_type, INT type_modifier,
+	CMDName *pmdName)
 {
 	CDXLColDescrArray *column_descrs = GPOS_NEW(mp) CDXLColDescrArray(mp);
 
@@ -2085,8 +2084,8 @@ CTranslatorUtils::CreateDXLProjElemConstNULL(CMemoryPool *mp,
 CDXLNode *
 CTranslatorUtils::CreateDXLProjElemConstNULL(CMemoryPool *mp,
 											 CMDAccessor *md_accessor,
-											 IMDId *mdid, ULONG colid,
-											 CHAR *alias_name)
+											 gpos::pointer<IMDId *> mdid,
+											 ULONG colid, CHAR *alias_name)
 {
 	// get the id and alias for the proj elem
 	CMDName *alias_mdname = nullptr;
