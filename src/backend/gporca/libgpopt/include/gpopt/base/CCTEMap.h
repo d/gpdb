@@ -93,7 +93,7 @@ private:
 			: m_id(id), m_ect(ect), m_pdpplan(pdpplan)
 		{
 			GPOS_ASSERT(EctSentinel > ect);
-			GPOS_ASSERT_IMP(EctProducer == ect, nullptr != pdpplan);
+			GPOS_ASSERT_IMP(EctProducer == ect, nullptr != m_pdpplan);
 		}
 
 		// dtor
