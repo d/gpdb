@@ -56,18 +56,18 @@ CPhysicalDML::CPhysicalDML(CMemoryPool *mp, CLogicalDML::EDMLOperator edmlop,
 	  m_input_sort_req(false)
 {
 	GPOS_ASSERT(CLogicalDML::EdmlSentinel != edmlop);
-	GPOS_ASSERT(nullptr != ptabdesc);
-	GPOS_ASSERT(nullptr != pdrgpcrSource);
-	GPOS_ASSERT(nullptr != pbsModified);
+	GPOS_ASSERT(nullptr != m_ptabdesc);
+	GPOS_ASSERT(nullptr != m_pdrgpcrSource);
+	GPOS_ASSERT(nullptr != m_pbsModified);
 	GPOS_ASSERT(nullptr != pcrAction);
 	GPOS_ASSERT_IMP(
 		CLogicalDML::EdmlDelete == edmlop || CLogicalDML::EdmlUpdate == edmlop,
 		nullptr != pcrCtid && nullptr != pcrSegmentId);
 
-	m_pds = CPhysical::PdsCompute(m_mp, m_ptabdesc, pdrgpcrSource);
+	m_pds = CPhysical::PdsCompute(m_mp, m_ptabdesc, m_pdrgpcrSource);
 
 	if (CDistributionSpec::EdtHashed == m_pds->Edt() &&
-		ptabdesc->ConvertHashToRandom())
+		m_ptabdesc->ConvertHashToRandom())
 	{
 		// The "convert hash to random" flag indicates that we have a table that was hash-partitioned
 		// originally but then we either entered phase 1 of a gpexpand or we altered some of the partitions
@@ -92,11 +92,11 @@ CPhysicalDML::CPhysicalDML(CMemoryPool *mp, CLogicalDML::EDMLOperator edmlop,
 			CColRefSet *distributionCols = hashDistSpec->PcrsUsed(mp);
 
 			// compute a ColRefSet of the updated columns
-			for (ULONG c = 0; c < pdrgpcrSource->Size(); c++)
+			for (ULONG c = 0; c < m_pdrgpcrSource->Size(); c++)
 			{
-				if (pbsModified->Get(c))
+				if (m_pbsModified->Get(c))
 				{
-					updatedCols->Include((*pdrgpcrSource)[c]);
+					updatedCols->Include((*m_pdrgpcrSource)[c]);
 				}
 			}
 
@@ -114,7 +114,7 @@ CPhysicalDML::CPhysicalDML(CMemoryPool *mp, CLogicalDML::EDMLOperator edmlop,
 			m_pds = GPOS_NEW(mp) CDistributionSpecRandom();
 		}
 	}
-	m_pos = PosComputeRequired(mp, ptabdesc);
+	m_pos = PosComputeRequired(mp, m_ptabdesc);
 	ComputeRequiredLocalColumns(mp);
 }
 
