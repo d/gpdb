@@ -23,6 +23,7 @@
 #include "gpopt/base/CPrintPrefix.h"
 #include "gpopt/base/CReqdProp.h"
 #include "gpopt/cost/CCost.h"
+#include "gpopt/operators/CExpression_Fwd.h"
 #include "gpopt/operators/COperator.h"
 #include "naucrates/statistics/IStatistics.h"
 
@@ -331,6 +332,8 @@ typedef CHashMapIter<ULONG, CExpression, gpos::HashValue<ULONG>,
 					 gpos::Equals<ULONG>, CleanupDelete<ULONG>,
 					 CleanupRelease<CExpression> >
 	UlongToExprMapIter;
+
+REF_PTR_ADDREF_RELEASE_INLINE_DEF(CExpression);
 
 }  // namespace gpopt
 
