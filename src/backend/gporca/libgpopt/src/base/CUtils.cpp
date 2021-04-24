@@ -172,7 +172,7 @@ CUtils::OsPrintDrgPcoldesc(IOstream &os, CColumnDescriptorArray *pdrgpcoldesc,
 
 
 // generate a ScalarIdent expression
-CExpression *
+gpos::owner<CExpression *>
 CUtils::PexprScalarIdent(CMemoryPool *mp, const CColRef *colref)
 {
 	GPOS_ASSERT(nullptr != colref);
@@ -181,7 +181,7 @@ CUtils::PexprScalarIdent(CMemoryPool *mp, const CColRef *colref)
 }
 
 // generate a ScalarProjectElement expression
-CExpression *
+gpos::owner<CExpression *>
 CUtils::PexprScalarProjectElement(CMemoryPool *mp, CColRef *colref,
 								  CExpression *pexpr)
 {
@@ -193,10 +193,10 @@ CUtils::PexprScalarProjectElement(CMemoryPool *mp, CColRef *colref,
 }
 
 // generate a comparison expression over two columns
-CExpression *
+gpos::owner<CExpression *>
 CUtils::PexprScalarCmp(CMemoryPool *mp, const CColRef *pcrLeft,
 					   const CColRef *pcrRight, CWStringConst strOp,
-					   IMDId *mdid_op)
+					   gpos::owner<IMDId *> mdid_op)
 {
 	GPOS_ASSERT(nullptr != pcrLeft);
 	GPOS_ASSERT(nullptr != pcrRight);
@@ -227,10 +227,10 @@ CUtils::PexprScalarCmp(CMemoryPool *mp, const CColRef *pcrLeft,
 }
 
 // Generate a comparison expression between a column and an expression
-CExpression *
+gpos::owner<CExpression *>
 CUtils::PexprScalarCmp(CMemoryPool *mp, const CColRef *pcrLeft,
 					   CExpression *pexprRight, CWStringConst strOp,
-					   IMDId *mdid_op)
+					   gpos::owner<IMDId *> mdid_op)
 {
 	GPOS_ASSERT(nullptr != pcrLeft);
 	GPOS_ASSERT(nullptr != pexprRight);
@@ -304,10 +304,10 @@ CUtils::PexprScalarCmp(CMemoryPool *mp, CExpression *pexprLeft,
 }
 
 // Generate a comparison expression over an expression and a column
-CExpression *
+gpos::owner<CExpression *>
 CUtils::PexprScalarCmp(CMemoryPool *mp, CExpression *pexprLeft,
 					   const CColRef *pcrRight, CWStringConst strOp,
-					   IMDId *mdid_op)
+					   gpos::owner<IMDId *> mdid_op)
 {
 	GPOS_ASSERT(nullptr != pexprLeft);
 	GPOS_ASSERT(nullptr != pcrRight);
@@ -338,10 +338,10 @@ CUtils::PexprScalarCmp(CMemoryPool *mp, CExpression *pexprLeft,
 }
 
 // Generate a comparison expression over two expressions
-CExpression *
+gpos::owner<CExpression *>
 CUtils::PexprScalarCmp(CMemoryPool *mp, CExpression *pexprLeft,
 					   CExpression *pexprRight, CWStringConst strOp,
-					   IMDId *mdid_op)
+					   gpos::owner<IMDId *> mdid_op)
 {
 	GPOS_ASSERT(nullptr != pexprLeft);
 	GPOS_ASSERT(nullptr != pexprRight);
@@ -392,11 +392,12 @@ CUtils::PexprScalarCmp(CMemoryPool *mp, CExpression *pexprLeft,
 										 pexprNewRight, mdid_scop);
 
 	mdid_scop->AddRef();
-	const IMDScalarOp *op = md_accessor->RetrieveScOp(mdid_scop);
+	gpos::pointer<const IMDScalarOp *> op =
+		md_accessor->RetrieveScOp(mdid_scop);
 	const CMDName mdname = op->Mdname();
 	CWStringConst strCmpOpName(mdname.GetMDName()->GetBuffer());
 
-	CExpression *pexprResult = GPOS_NEW(mp) CExpression(
+	gpos::owner<CExpression *> pexprResult = GPOS_NEW(mp) CExpression(
 		mp,
 		GPOS_NEW(mp)
 			CScalarCmp(mp, mdid_scop,
@@ -430,11 +431,11 @@ CUtils::PexprScalarCmp(CMemoryPool *mp, CExpression *pexprLeft,
 	GPOS_ASSERT(pexprNewRight != nullptr);
 
 	op_mdid->AddRef();
-	const IMDScalarOp *op = md_accessor->RetrieveScOp(op_mdid);
+	gpos::pointer<const IMDScalarOp *> op = md_accessor->RetrieveScOp(op_mdid);
 	const CMDName mdname = op->Mdname();
 	CWStringConst strCmpOpName(mdname.GetMDName()->GetBuffer());
 
-	CExpression *pexprResult = GPOS_NEW(mp) CExpression(
+	gpos::owner<CExpression *> pexprResult = GPOS_NEW(mp) CExpression(
 		mp,
 		GPOS_NEW(mp) CScalarCmp(
 			mp, op_mdid,
@@ -527,7 +528,7 @@ CUtils::PScalarArrayConstChildAt(CExpression *pexprArray, ULONG ul)
 }
 
 // returns constant expression of a scalar array expression
-CExpression *
+gpos::owner<CExpression *>
 CUtils::PScalarArrayExprChildAt(CMemoryPool *mp, CExpression *pexprArray,
 								ULONG ul)
 {
@@ -537,13 +538,13 @@ CUtils::PScalarArrayExprChildAt(CMemoryPool *mp, CExpression *pexprArray,
 		CScalarArray *popScalarArray =
 			CScalarArray::PopConvert(pexprArray->Pop());
 		CScalarConstArray *pdrgPconst = popScalarArray->PdrgPconst();
-		CScalarConst *pScalarConst = (*pdrgPconst)[ul];
+		gpos::owner<CScalarConst *> pScalarConst = (*pdrgPconst)[ul];
 		pScalarConst->AddRef();
 		return GPOS_NEW(mp) CExpression(mp, pScalarConst);
 	}
 	else
 	{
-		CExpression *pexprConst = (*pexprArray)[ul];
+		gpos::owner<CExpression *> pexprConst = (*pexprArray)[ul];
 		pexprConst->AddRef();
 		return pexprConst;
 	}
@@ -563,7 +564,7 @@ CUtils::PexprScalarArrayChild(CExpression *pexprScalarArrayCmp)
 
 // returns if the scalar array has all constant elements or ScalarIdents
 BOOL
-CUtils::FScalarConstAndScalarIdentArray(CExpression *pexprArray)
+CUtils::FScalarConstAndScalarIdentArray(gpos::pointer<CExpression *> pexprArray)
 {
 	for (ULONG i = 0; i < pexprArray->Arity(); ++i)
 	{
@@ -582,7 +583,7 @@ CUtils::FScalarConstAndScalarIdentArray(CExpression *pexprArray)
 
 // returns if the scalar array has all constant elements or children
 BOOL
-CUtils::FScalarConstArray(CExpression *pexprArray)
+CUtils::FScalarConstArray(gpos::pointer<CExpression *> pexprArray)
 {
 	const ULONG arity = pexprArray->Arity();
 
@@ -597,7 +598,7 @@ CUtils::FScalarConstArray(CExpression *pexprArray)
 
 // returns if the scalar constant array has already been collapased
 BOOL
-CUtils::FScalarArrayCollapsed(CExpression *pexprArray)
+CUtils::FScalarArrayCollapsed(gpos::pointer<CExpression *> pexprArray)
 {
 	const ULONG ulExprArity = pexprArray->Arity();
 	const ULONG ulConstArity = UlScalarArrayArity(pexprArray);
@@ -607,7 +608,7 @@ CUtils::FScalarArrayCollapsed(CExpression *pexprArray)
 
 // If it's a scalar array of all CScalarConst, collapse it into a single
 // expression but keep the constants in the operator.
-CExpression *
+gpos::owner<CExpression *>
 CUtils::PexprCollapseConstArray(CMemoryPool *mp, CExpression *pexprArray)
 {
 	GPOS_ASSERT(nullptr != pexprArray);
@@ -618,10 +619,11 @@ CUtils::PexprCollapseConstArray(CMemoryPool *mp, CExpression *pexprArray)
 	// collapsed constants.
 	if (FScalarConstArray(pexprArray) && !FScalarArrayCollapsed(pexprArray))
 	{
-		CScalarConstArray *pdrgPconst = GPOS_NEW(mp) CScalarConstArray(mp);
+		gpos::owner<CScalarConstArray *> pdrgPconst =
+			GPOS_NEW(mp) CScalarConstArray(mp);
 		for (ULONG ul = 0; ul < arity; ul++)
 		{
-			CScalarConst *popConst =
+			gpos::owner<CScalarConst *> popConst =
 				CScalarConst::PopConvert((*pexprArray)[ul]->Pop());
 			popConst->AddRef();
 			pdrgPconst->Append(popConst);
@@ -633,14 +635,15 @@ CUtils::PexprCollapseConstArray(CMemoryPool *mp, CExpression *pexprArray)
 		elem_type_mdid->AddRef();
 		array_type_mdid->AddRef();
 
-		CScalarArray *pConstArray =
+		gpos::owner<CScalarArray *> pConstArray =
 			GPOS_NEW(mp) CScalarArray(mp, elem_type_mdid, array_type_mdid,
 									  psArray->FMultiDimensional(), pdrgPconst);
 		return GPOS_NEW(mp) CExpression(mp, pConstArray);
 	}
 
 	// process children
-	CExpressionArray *pdrgpexpr = GPOS_NEW(mp) CExpressionArray(mp);
+	gpos::owner<CExpressionArray *> pdrgpexpr =
+		GPOS_NEW(mp) CExpressionArray(mp);
 
 	for (ULONG ul = 0; ul < arity; ul++)
 	{
@@ -649,13 +652,13 @@ CUtils::PexprCollapseConstArray(CMemoryPool *mp, CExpression *pexprArray)
 		pdrgpexpr->Append(pexprChild);
 	}
 
-	COperator *pop = pexprArray->Pop();
+	gpos::owner<COperator *> pop = pexprArray->Pop();
 	pop->AddRef();
 	return GPOS_NEW(mp) CExpression(mp, pop, pdrgpexpr);
 }
 
 // generate an ArrayCmp expression given an array of CScalarConst's
-CExpression *
+gpos::owner<CExpression *>
 CUtils::PexprScalarArrayCmp(CMemoryPool *mp,
 							CScalarArrayCmp::EArrCmpType earrcmptype,
 							IMDType::ECmpType ecmptype,
@@ -686,7 +689,7 @@ CUtils::PexprScalarArrayCmp(CMemoryPool *mp,
 	const CMDName mdname = md_accessor->RetrieveScOp(pmdidCmpOp)->Mdname();
 	CWStringConst strOp(mdname.GetMDName()->GetBuffer());
 
-	CExpression *pexprArray = GPOS_NEW(mp)
+	gpos::owner<CExpression *> pexprArray = GPOS_NEW(mp)
 		CExpression(mp,
 					GPOS_NEW(mp) CScalarArray(mp, pmdidColType, pmdidArrType,
 											  false /*is_multidimenstional*/),
@@ -701,18 +704,19 @@ CUtils::PexprScalarArrayCmp(CMemoryPool *mp,
 }
 
 // generate a comparison against Zero
-CExpression *
+gpos::owner<CExpression *>
 CUtils::PexprCmpWithZero(CMemoryPool *mp, CExpression *pexprLeft,
 						 IMDId *mdid_type_left, IMDType::ECmpType ecmptype)
 {
 	GPOS_ASSERT(pexprLeft->Pop()->FScalar());
 
 	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
-	const IMDType *pmdtype = md_accessor->RetrieveType(mdid_type_left);
+	gpos::pointer<const IMDType *> pmdtype =
+		md_accessor->RetrieveType(mdid_type_left);
 	GPOS_ASSERT(pmdtype->GetDatumType() == IMDType::EtiInt8 &&
 				"left expression must be of type int8");
 
-	IMDId *mdid_op = pmdtype->GetMdidForCmpType(ecmptype);
+	gpos::owner<IMDId *> mdid_op = pmdtype->GetMdidForCmpType(ecmptype);
 	mdid_op->AddRef();
 	const CMDName mdname = md_accessor->RetrieveScOp(mdid_op)->Mdname();
 	CWStringConst strOpName(mdname.GetMDName()->GetBuffer());
@@ -726,7 +730,7 @@ CUtils::PexprCmpWithZero(CMemoryPool *mp, CExpression *pexprLeft,
 }
 
 // generate an Is Distinct From expression
-CExpression *
+gpos::owner<CExpression *>
 CUtils::PexprIDF(CMemoryPool *mp, CExpression *pexprLeft,
 				 CExpression *pexprRight)
 {
@@ -755,7 +759,7 @@ CUtils::PexprIDF(CMemoryPool *mp, CExpression *pexprLeft,
 }
 
 // generate an Is Distinct From expression
-CExpression *
+gpos::owner<CExpression *>
 CUtils::PexprIDF(CMemoryPool *mp, CExpression *pexprLeft,
 				 CExpression *pexprRight, IMDId *mdid_scop)
 {
@@ -816,7 +820,7 @@ CUtils::PexprINDF(CMemoryPool *mp, CExpression *pexprLeft,
 }
 
 // Generate an Is Null expression
-CExpression *
+gpos::owner<CExpression *>
 CUtils::PexprIsNull(CMemoryPool *mp, CExpression *pexpr)
 {
 	GPOS_ASSERT(nullptr != pexpr);
@@ -846,14 +850,15 @@ CUtils::PexprIsNotFalse(CMemoryPool *mp, CExpression *pexpr)
 // Find if a scalar expression uses a nullable column from the
 // output of a logical expression
 BOOL
-CUtils::FUsesNullableCol(CMemoryPool *mp, CExpression *pexprScalar,
-						 CExpression *pexprLogical)
+CUtils::FUsesNullableCol(CMemoryPool *mp,
+						 gpos::pointer<CExpression *> pexprScalar,
+						 gpos::pointer<CExpression *> pexprLogical)
 {
 	GPOS_ASSERT(pexprScalar->Pop()->FScalar());
 	GPOS_ASSERT(pexprLogical->Pop()->FLogical());
 
 	CColRefSet *pcrsNotNull = pexprLogical->DeriveNotNullColumns();
-	CColRefSet *pcrsUsed = GPOS_NEW(mp) CColRefSet(mp);
+	gpos::owner<CColRefSet *> pcrsUsed = GPOS_NEW(mp) CColRefSet(mp);
 	pcrsUsed->Include(pexprScalar->DeriveUsedColumns());
 	pcrsUsed->Intersection(pexprLogical->DeriveOutputColumns());
 
@@ -879,7 +884,7 @@ CUtils::PcrExtractPartKey(CColRef2dArray *pdrgpdrgpcr, ULONG ulLevel)
 
 // check for existence of subqueries
 BOOL
-CUtils::FHasSubquery(CExpression *pexpr)
+CUtils::FHasSubquery(gpos::pointer<CExpression *> pexpr)
 {
 	GPOS_ASSERT(nullptr != pexpr);
 	GPOS_ASSERT(pexpr->Pop()->FScalar());
@@ -889,7 +894,7 @@ CUtils::FHasSubquery(CExpression *pexpr)
 
 // check for existence of CTE anchor
 BOOL
-CUtils::FHasCTEAnchor(CExpression *pexpr)
+CUtils::FHasCTEAnchor(gpos::pointer<CExpression *> pexpr)
 {
 	GPOS_CHECK_STACK_SIZE;
 	GPOS_ASSERT(nullptr != pexpr);
@@ -920,7 +925,7 @@ CUtils::FHasCTEAnchor(CExpression *pexpr)
 //
 //---------------------------------------------------------------------------
 BOOL
-CUtils::FHasSubqueryOrApply(CExpression *pexpr, BOOL fCheckRoot)
+CUtils::FHasSubqueryOrApply(gpos::pointer<CExpression *> pexpr, BOOL fCheckRoot)
 {
 	GPOS_CHECK_STACK_SIZE;
 	GPOS_ASSERT(nullptr != pexpr);
@@ -958,7 +963,7 @@ CUtils::FHasSubqueryOrApply(CExpression *pexpr, BOOL fCheckRoot)
 //
 //---------------------------------------------------------------------------
 BOOL
-CUtils::FHasCorrelatedApply(CExpression *pexpr, BOOL fCheckRoot)
+CUtils::FHasCorrelatedApply(gpos::pointer<CExpression *> pexpr, BOOL fCheckRoot)
 {
 	GPOS_CHECK_STACK_SIZE;
 	GPOS_ASSERT(nullptr != pexpr);
@@ -982,7 +987,7 @@ CUtils::FHasCorrelatedApply(CExpression *pexpr, BOOL fCheckRoot)
 
 // check for existence of outer references
 BOOL
-CUtils::HasOuterRefs(CExpression *pexpr)
+CUtils::HasOuterRefs(gpos::pointer<CExpression *> pexpr)
 {
 	GPOS_ASSERT(nullptr != pexpr);
 	GPOS_ASSERT(pexpr->Pop()->FLogical());
@@ -992,7 +997,7 @@ CUtils::HasOuterRefs(CExpression *pexpr)
 
 // check if a given operator is a logical join
 BOOL
-CUtils::FLogicalJoin(COperator *pop)
+CUtils::FLogicalJoin(gpos::pointer<COperator *> pop)
 {
 	GPOS_ASSERT(nullptr != pop);
 
@@ -1009,7 +1014,7 @@ CUtils::FLogicalJoin(COperator *pop)
 
 // check if a given operator is a logical set operation
 BOOL
-CUtils::FLogicalSetOp(COperator *pop)
+CUtils::FLogicalSetOp(gpos::pointer<COperator *> pop)
 {
 	GPOS_ASSERT(nullptr != pop);
 
@@ -1026,7 +1031,7 @@ CUtils::FLogicalSetOp(COperator *pop)
 
 // check if a given operator is a logical unary operator
 BOOL
-CUtils::FLogicalUnary(COperator *pop)
+CUtils::FLogicalUnary(gpos::pointer<COperator *> pop)
 {
 	GPOS_ASSERT(nullptr != pop);
 
@@ -1043,7 +1048,7 @@ CUtils::FLogicalUnary(COperator *pop)
 
 // check if a given operator is a hash join
 BOOL
-CUtils::FHashJoin(COperator *pop)
+CUtils::FHashJoin(gpos::pointer<COperator *> pop)
 {
 	GPOS_ASSERT(nullptr != pop);
 
@@ -1058,7 +1063,7 @@ CUtils::FHashJoin(COperator *pop)
 
 // check if a given operator is a correlated nested loops join
 BOOL
-CUtils::FCorrelatedNLJoin(COperator *pop)
+CUtils::FCorrelatedNLJoin(gpos::pointer<COperator *> pop)
 {
 	GPOS_ASSERT(nullptr != pop);
 
@@ -1073,7 +1078,7 @@ CUtils::FCorrelatedNLJoin(COperator *pop)
 
 // check if a given operator is a nested loops join
 BOOL
-CUtils::FNLJoin(COperator *pop)
+CUtils::FNLJoin(gpos::pointer<COperator *> pop)
 {
 	GPOS_ASSERT(nullptr != pop);
 
@@ -1088,7 +1093,7 @@ CUtils::FNLJoin(COperator *pop)
 
 // check if a given operator is a logical join
 BOOL
-CUtils::FPhysicalJoin(COperator *pop)
+CUtils::FPhysicalJoin(gpos::pointer<COperator *> pop)
 {
 	GPOS_ASSERT(nullptr != pop);
 
@@ -1097,7 +1102,7 @@ CUtils::FPhysicalJoin(COperator *pop)
 
 // check if a given operator is a physical left outer join
 BOOL
-CUtils::FPhysicalLeftOuterJoin(COperator *pop)
+CUtils::FPhysicalLeftOuterJoin(gpos::pointer<COperator *> pop)
 {
 	GPOS_ASSERT(nullptr != pop);
 
@@ -1109,7 +1114,7 @@ CUtils::FPhysicalLeftOuterJoin(COperator *pop)
 
 // check if a given operator is a physical agg
 BOOL
-CUtils::FPhysicalScan(COperator *pop)
+CUtils::FPhysicalScan(gpos::pointer<COperator *> pop)
 {
 	GPOS_ASSERT(nullptr != pop);
 
@@ -1126,7 +1131,7 @@ CUtils::FPhysicalScan(COperator *pop)
 
 // check if a given operator is a physical agg
 BOOL
-CUtils::FPhysicalAgg(COperator *pop)
+CUtils::FPhysicalAgg(gpos::pointer<COperator *> pop)
 {
 	GPOS_ASSERT(nullptr != pop);
 
@@ -1143,7 +1148,7 @@ CUtils::FPhysicalAgg(COperator *pop)
 
 // check if a given operator is a physical motion
 BOOL
-CUtils::FPhysicalMotion(COperator *pop)
+CUtils::FPhysicalMotion(gpos::pointer<COperator *> pop)
 {
 	GPOS_ASSERT(nullptr != pop);
 
@@ -1160,7 +1165,7 @@ CUtils::FPhysicalMotion(COperator *pop)
 
 // check if a given operator is an FEnforcer
 BOOL
-CUtils::FEnforcer(COperator *pop)
+CUtils::FEnforcer(gpos::pointer<COperator *> pop)
 {
 	GPOS_ASSERT(nullptr != pop);
 
@@ -1173,7 +1178,7 @@ CUtils::FEnforcer(COperator *pop)
 
 // check if a given operator is an Apply
 BOOL
-CUtils::FApply(COperator *pop)
+CUtils::FApply(gpos::pointer<COperator *> pop)
 {
 	GPOS_ASSERT(nullptr != pop);
 
@@ -1190,7 +1195,7 @@ CUtils::FApply(COperator *pop)
 
 // check if a given operator is a correlated Apply
 BOOL
-CUtils::FCorrelatedApply(COperator *pop)
+CUtils::FCorrelatedApply(gpos::pointer<COperator *> pop)
 {
 	GPOS_ASSERT(nullptr != pop);
 
@@ -1205,7 +1210,7 @@ CUtils::FCorrelatedApply(COperator *pop)
 
 // check if a given operator is left semi apply
 BOOL
-CUtils::FLeftSemiApply(COperator *pop)
+CUtils::FLeftSemiApply(gpos::pointer<COperator *> pop)
 {
 	GPOS_ASSERT(nullptr != pop);
 
@@ -1220,7 +1225,7 @@ CUtils::FLeftSemiApply(COperator *pop)
 
 // check if a given operator is left anti semi apply
 BOOL
-CUtils::FLeftAntiSemiApply(COperator *pop)
+CUtils::FLeftAntiSemiApply(gpos::pointer<COperator *> pop)
 {
 	GPOS_ASSERT(nullptr != pop);
 
@@ -1236,7 +1241,7 @@ CUtils::FLeftAntiSemiApply(COperator *pop)
 
 // check if a given operator is a subquery
 BOOL
-CUtils::FSubquery(COperator *pop)
+CUtils::FSubquery(gpos::pointer<COperator *> pop)
 {
 	GPOS_ASSERT(nullptr != pop);
 
@@ -1250,7 +1255,7 @@ CUtils::FSubquery(COperator *pop)
 
 // check if a given operator is existential subquery
 BOOL
-CUtils::FExistentialSubquery(COperator *pop)
+CUtils::FExistentialSubquery(gpos::pointer<COperator *> pop)
 {
 	GPOS_ASSERT(nullptr != pop);
 
@@ -1261,7 +1266,7 @@ CUtils::FExistentialSubquery(COperator *pop)
 
 // check if a given operator is quantified subquery
 BOOL
-CUtils::FQuantifiedSubquery(COperator *pop)
+CUtils::FQuantifiedSubquery(gpos::pointer<COperator *> pop)
 {
 	GPOS_ASSERT(nullptr != pop);
 
@@ -1273,7 +1278,7 @@ CUtils::FQuantifiedSubquery(COperator *pop)
 // check if given expression is a Project on ConstTable with one
 // scalar subquery in Project List
 BOOL
-CUtils::FProjectConstTableWithOneScalarSubq(CExpression *pexpr)
+CUtils::FProjectConstTableWithOneScalarSubq(gpos::pointer<CExpression *> pexpr)
 {
 	GPOS_ASSERT(nullptr != pexpr);
 
@@ -1296,7 +1301,7 @@ CUtils::FProjectConstTableWithOneScalarSubq(CExpression *pexpr)
 
 // check if given expression is a Project Element with scalar subquery
 BOOL
-CUtils::FProjElemWithScalarSubq(CExpression *pexpr)
+CUtils::FProjElemWithScalarSubq(gpos::pointer<CExpression *> pexpr)
 {
 	GPOS_ASSERT(nullptr != pexpr);
 
@@ -1306,7 +1311,7 @@ CUtils::FProjElemWithScalarSubq(CExpression *pexpr)
 
 // check if given expression is a scalar subquery with a ConstTableGet as the only child
 BOOL
-CUtils::FScalarSubqWithConstTblGet(CExpression *pexpr)
+CUtils::FScalarSubqWithConstTblGet(gpos::pointer<CExpression *> pexpr)
 {
 	GPOS_ASSERT(nullptr != pexpr);
 
@@ -1322,7 +1327,7 @@ CUtils::FScalarSubqWithConstTblGet(CExpression *pexpr)
 
 // check if a limit expression has 0 offset
 BOOL
-CUtils::FHasZeroOffset(CExpression *pexpr)
+CUtils::FHasZeroOffset(gpos::pointer<CExpression *> pexpr)
 {
 	GPOS_ASSERT(COperator::EopLogicalLimit == pexpr->Pop()->Eopid() ||
 				COperator::EopPhysicalLimit == pexpr->Pop()->Eopid());
@@ -1332,7 +1337,7 @@ CUtils::FHasZeroOffset(CExpression *pexpr)
 
 // check if an expression is a 0 integer
 BOOL
-CUtils::FScalarConstIntZero(CExpression *pexprOffset)
+CUtils::FScalarConstIntZero(gpos::pointer<CExpression *> pexprOffset)
 {
 	if (COperator::EopScalarConst != pexprOffset->Pop()->Eopid())
 	{
@@ -1360,12 +1365,13 @@ CExpressionArray *
 CUtils::PdrgpexprDedup(CMemoryPool *mp, CExpressionArray *pdrgpexpr)
 {
 	const ULONG size = pdrgpexpr->Size();
-	CExpressionArray *pdrgpexprDedup = GPOS_NEW(mp) CExpressionArray(mp);
-	ExprHashSet *phsexpr = GPOS_NEW(mp) ExprHashSet(mp);
+	gpos::owner<CExpressionArray *> pdrgpexprDedup =
+		GPOS_NEW(mp) CExpressionArray(mp);
+	gpos::owner<ExprHashSet *> phsexpr = GPOS_NEW(mp) ExprHashSet(mp);
 
 	for (ULONG ul = 0; ul < size; ul++)
 	{
-		CExpression *pexpr = (*pdrgpexpr)[ul];
+		gpos::owner<CExpression *> pexpr = (*pdrgpexpr)[ul];
 		pexpr->AddRef();
 		if (phsexpr->Insert(pexpr))
 		{
@@ -1384,8 +1390,8 @@ CUtils::PdrgpexprDedup(CMemoryPool *mp, CExpressionArray *pdrgpexpr)
 
 // deep equality of expression arrays
 BOOL
-CUtils::Equals(const CExpressionArray *pdrgpexprLeft,
-			   const CExpressionArray *pdrgpexprRight)
+CUtils::Equals(gpos::pointer<const CExpressionArray *> pdrgpexprLeft,
+			   gpos::pointer<const CExpressionArray *> pdrgpexprRight)
 {
 	GPOS_CHECK_STACK_SIZE;
 
@@ -1406,8 +1412,8 @@ CUtils::Equals(const CExpressionArray *pdrgpexprLeft,
 
 	for (ULONG ul = 0; ul < length && fEqual; ul++)
 	{
-		const CExpression *pexprLeft = (*pdrgpexprLeft)[ul];
-		const CExpression *pexprRight = (*pdrgpexprRight)[ul];
+		gpos::pointer<const CExpression *> pexprLeft = (*pdrgpexprLeft)[ul];
+		gpos::pointer<const CExpression *> pexprRight = (*pdrgpexprRight)[ul];
 		fEqual = Equals(pexprLeft, pexprRight);
 	}
 
@@ -1416,7 +1422,8 @@ CUtils::Equals(const CExpressionArray *pdrgpexprLeft,
 
 // deep equality of expression trees
 BOOL
-CUtils::Equals(const CExpression *pexprLeft, const CExpression *pexprRight)
+CUtils::Equals(gpos::pointer<const CExpression *> pexprLeft,
+			   gpos::pointer<const CExpression *> pexprRight)
 {
 	GPOS_CHECK_STACK_SIZE;
 
@@ -1449,8 +1456,8 @@ CUtils::Equals(const CExpression *pexprLeft, const CExpression *pexprRight)
 
 // check if two expressions have the same children in any order
 BOOL
-CUtils::FMatchChildrenUnordered(const CExpression *pexprLeft,
-								const CExpression *pexprRight)
+CUtils::FMatchChildrenUnordered(gpos::pointer<const CExpression *> pexprLeft,
+								gpos::pointer<const CExpression *> pexprRight)
 {
 	BOOL fEqual = true;
 	const ULONG arity = pexprLeft->Arity();
@@ -1468,8 +1475,8 @@ CUtils::FMatchChildrenUnordered(const CExpression *pexprLeft,
 
 // check if two expressions have the same children in the same order
 BOOL
-CUtils::FMatchChildrenOrdered(const CExpression *pexprLeft,
-							  const CExpression *pexprRight)
+CUtils::FMatchChildrenOrdered(gpos::pointer<const CExpression *> pexprLeft,
+							  gpos::pointer<const CExpression *> pexprRight)
 {
 	BOOL fEqual = true;
 	const ULONG arity = pexprLeft->Arity();
@@ -1486,7 +1493,8 @@ CUtils::FMatchChildrenOrdered(const CExpression *pexprLeft,
 
 // return the number of occurrences of the given expression in the given array of expressions
 ULONG
-CUtils::UlOccurrences(const CExpression *pexpr, CExpressionArray *pdrgpexpr)
+CUtils::UlOccurrences(gpos::pointer<const CExpression *> pexpr,
+					  CExpressionArray *pdrgpexpr)
 {
 	GPOS_ASSERT(nullptr != pexpr);
 	ULONG count = 0;
@@ -1505,7 +1513,8 @@ CUtils::UlOccurrences(const CExpression *pexpr, CExpressionArray *pdrgpexpr)
 
 // compare expression against an array of expressions
 BOOL
-CUtils::FEqualAny(const CExpression *pexpr, const CExpressionArray *pdrgpexpr)
+CUtils::FEqualAny(gpos::pointer<const CExpression *> pexpr,
+				  gpos::pointer<const CExpressionArray *> pdrgpexpr)
 {
 	GPOS_ASSERT(nullptr != pexpr);
 
@@ -1521,8 +1530,8 @@ CUtils::FEqualAny(const CExpression *pexpr, const CExpressionArray *pdrgpexpr)
 
 // check if first expression array contains all expressions in second array
 BOOL
-CUtils::Contains(const CExpressionArray *pdrgpexprFst,
-				 const CExpressionArray *pdrgpexprSnd)
+CUtils::Contains(gpos::pointer<const CExpressionArray *> pdrgpexprFst,
+				 gpos::pointer<const CExpressionArray *> pdrgpexprSnd)
 {
 	GPOS_ASSERT(nullptr != pdrgpexprFst);
 	GPOS_ASSERT(nullptr != pdrgpexprSnd);
@@ -1551,14 +1560,15 @@ CUtils::Contains(const CExpressionArray *pdrgpexprFst,
 CExpression *
 CUtils::PexprNegate(CMemoryPool *mp, CExpression *pexpr)
 {
-	CExpressionArray *pdrgpexpr = GPOS_NEW(mp) CExpressionArray(mp);
+	gpos::owner<CExpressionArray *> pdrgpexpr =
+		GPOS_NEW(mp) CExpressionArray(mp);
 	pdrgpexpr->Append(pexpr);
 
 	return PexprScalarBoolOp(mp, CScalarBoolOp::EboolopNot, pdrgpexpr);
 }
 
 // generate a ScalarOp expression over a column and an expression
-CExpression *
+gpos::owner<CExpression *>
 CUtils::PexprScalarOp(CMemoryPool *mp, const CColRef *pcrLeft,
 					  CExpression *pexprRight, const CWStringConst strOp,
 					  IMDId *mdid_op, IMDId *return_type_mdid)
@@ -1575,7 +1585,7 @@ CUtils::PexprScalarOp(CMemoryPool *mp, const CColRef *pcrLeft,
 }
 
 // generate a ScalarBoolOp expression
-CExpression *
+gpos::owner<CExpression *>
 CUtils::PexprScalarBoolOp(CMemoryPool *mp, CScalarBoolOp::EBoolOperator eboolop,
 						  CExpressionArray *pdrgpexpr)
 {
@@ -1593,10 +1603,11 @@ CUtils::PexprScalarConstBool(CMemoryPool *mp, BOOL fval, BOOL is_null)
 	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
 
 	// create a BOOL datum
-	const IMDTypeBool *pmdtypebool = md_accessor->PtMDType<IMDTypeBool>();
+	gpos::pointer<const IMDTypeBool *> pmdtypebool =
+		md_accessor->PtMDType<IMDTypeBool>();
 	IDatumBool *datum = pmdtypebool->CreateBoolDatum(mp, fval, is_null);
 
-	CExpression *pexpr = GPOS_NEW(mp)
+	gpos::owner<CExpression *> pexpr = GPOS_NEW(mp)
 		CExpression(mp, GPOS_NEW(mp) CScalarConst(mp, (IDatum *) datum));
 
 	return pexpr;
@@ -1609,10 +1620,11 @@ CUtils::PexprScalarConstInt4(CMemoryPool *mp, INT val)
 	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
 
 	// create a int4 datum
-	const IMDTypeInt4 *pmdtypeint4 = md_accessor->PtMDType<IMDTypeInt4>();
+	gpos::pointer<const IMDTypeInt4 *> pmdtypeint4 =
+		md_accessor->PtMDType<IMDTypeInt4>();
 	IDatumInt4 *datum = pmdtypeint4->CreateInt4Datum(mp, val, false);
 
-	CExpression *pexpr = GPOS_NEW(mp)
+	gpos::owner<CExpression *> pexpr = GPOS_NEW(mp)
 		CExpression(mp, GPOS_NEW(mp) CScalarConst(mp, (IDatum *) datum));
 
 	return pexpr;
@@ -1625,10 +1637,11 @@ CUtils::PexprScalarConstInt8(CMemoryPool *mp, LINT val, BOOL is_null)
 	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
 
 	// create a int8 datum
-	const IMDTypeInt8 *pmdtypeint8 = md_accessor->PtMDType<IMDTypeInt8>();
+	gpos::pointer<const IMDTypeInt8 *> pmdtypeint8 =
+		md_accessor->PtMDType<IMDTypeInt8>();
 	IDatumInt8 *datum = pmdtypeint8->CreateInt8Datum(mp, val, is_null);
 
-	CExpression *pexpr = GPOS_NEW(mp)
+	gpos::owner<CExpression *> pexpr = GPOS_NEW(mp)
 		CExpression(mp, GPOS_NEW(mp) CScalarConst(mp, (IDatum *) datum));
 
 	return pexpr;
@@ -1641,29 +1654,31 @@ CUtils::PexprScalarConstOid(CMemoryPool *mp, OID oid_val)
 	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
 
 	// create a oid datum
-	const IMDTypeOid *pmdtype = md_accessor->PtMDType<IMDTypeOid>();
+	gpos::pointer<const IMDTypeOid *> pmdtype =
+		md_accessor->PtMDType<IMDTypeOid>();
 	IDatumOid *datum = pmdtype->CreateOidDatum(mp, oid_val, false /*is_null*/);
 
-	CExpression *pexpr = GPOS_NEW(mp)
+	gpos::owner<CExpression *> pexpr = GPOS_NEW(mp)
 		CExpression(mp, GPOS_NEW(mp) CScalarConst(mp, (IDatum *) datum));
 
 	return pexpr;
 }
 
 // generate a NULL constant of a given type
-CExpression *
-CUtils::PexprScalarConstNull(CMemoryPool *mp, const IMDType *typ,
+gpos::owner<CExpression *>
+CUtils::PexprScalarConstNull(CMemoryPool *mp,
+							 gpos::pointer<const IMDType *> typ,
 							 INT type_modifier)
 {
 	IDatum *datum = nullptr;
-	IMDId *mdid = typ->MDId();
+	gpos::owner<IMDId *> mdid = typ->MDId();
 	mdid->AddRef();
 
 	switch (typ->GetDatumType())
 	{
 		case IMDType::EtiInt2:
 		{
-			const IMDTypeInt2 *pmdtypeint2 =
+			gpos::pointer<const IMDTypeInt2 *> pmdtypeint2 =
 				static_cast<const IMDTypeInt2 *>(typ);
 			datum = pmdtypeint2->CreateInt2Datum(mp, 0, true);
 		}
@@ -1671,7 +1686,7 @@ CUtils::PexprScalarConstNull(CMemoryPool *mp, const IMDType *typ,
 
 		case IMDType::EtiInt4:
 		{
-			const IMDTypeInt4 *pmdtypeint4 =
+			gpos::pointer<const IMDTypeInt4 *> pmdtypeint4 =
 				static_cast<const IMDTypeInt4 *>(typ);
 			datum = pmdtypeint4->CreateInt4Datum(mp, 0, true);
 		}
@@ -1679,7 +1694,7 @@ CUtils::PexprScalarConstNull(CMemoryPool *mp, const IMDType *typ,
 
 		case IMDType::EtiInt8:
 		{
-			const IMDTypeInt8 *pmdtypeint8 =
+			gpos::pointer<const IMDTypeInt8 *> pmdtypeint8 =
 				static_cast<const IMDTypeInt8 *>(typ);
 			datum = pmdtypeint8->CreateInt8Datum(mp, 0, true);
 		}
@@ -1687,7 +1702,7 @@ CUtils::PexprScalarConstNull(CMemoryPool *mp, const IMDType *typ,
 
 		case IMDType::EtiBool:
 		{
-			const IMDTypeBool *pmdtypebool =
+			gpos::pointer<const IMDTypeBool *> pmdtypebool =
 				static_cast<const IMDTypeBool *>(typ);
 			datum = pmdtypebool->CreateBoolDatum(mp, false, true);
 		}
@@ -1695,14 +1710,15 @@ CUtils::PexprScalarConstNull(CMemoryPool *mp, const IMDType *typ,
 
 		case IMDType::EtiOid:
 		{
-			const IMDTypeOid *pmdtypeoid = static_cast<const IMDTypeOid *>(typ);
+			gpos::pointer<const IMDTypeOid *> pmdtypeoid =
+				static_cast<const IMDTypeOid *>(typ);
 			datum = pmdtypeoid->CreateOidDatum(mp, 0, true);
 		}
 		break;
 
 		case IMDType::EtiGeneric:
 		{
-			const IMDTypeGeneric *pmdtypegeneric =
+			gpos::pointer<const IMDTypeGeneric *> pmdtypegeneric =
 				static_cast<const IMDTypeGeneric *>(typ);
 			datum = pmdtypegeneric->CreateGenericNullDatum(mp, type_modifier);
 		}
@@ -1724,7 +1740,7 @@ CUtils::PcrFromProjElem(CExpression *pexprPrEl)
 }
 
 // generate an aggregate function operator
-CScalarAggFunc *
+gpos::owner<CScalarAggFunc *>
 CUtils::PopAggFunc(
 	CMemoryPool *mp, IMDId *pmdidAggFunc, const CWStringConst *pstrAggFunc,
 	BOOL is_distinct, EAggfuncStage eaggfuncstage, BOOL fSplit,
@@ -1743,7 +1759,7 @@ CUtils::PopAggFunc(
 }
 
 // generate an aggregate function
-CExpression *
+gpos::owner<CExpression *>
 CUtils::PexprAggFunc(CMemoryPool *mp, IMDId *pmdidAggFunc,
 					 const CWStringConst *pstrAggFunc, const CColRef *colref,
 					 BOOL is_distinct, EAggfuncStage eaggfuncstage, BOOL fSplit)
@@ -1757,7 +1773,8 @@ CUtils::PexprAggFunc(CMemoryPool *mp, IMDId *pmdidAggFunc,
 
 	// generate function arguments
 	CExpression *pexprScalarIdent = PexprScalarIdent(mp, colref);
-	CExpressionArray *pdrgpexpr = GPOS_NEW(mp) CExpressionArray(mp);
+	gpos::owner<CExpressionArray *> pdrgpexpr =
+		GPOS_NEW(mp) CExpressionArray(mp);
 	pdrgpexpr->Append(pexprScalarIdent);
 
 	return GPOS_NEW(mp) CExpression(mp, popScAggFunc, pdrgpexpr);
@@ -1771,15 +1788,16 @@ CUtils::PexprCountStar(CMemoryPool *mp)
 	// TODO,  04/26/2012, create count(*) expressions in a system-independent
 	// way using MDAccessor
 
-	CExpressionArray *pdrgpexpr = GPOS_NEW(mp) CExpressionArray(mp);
-	CMDIdGPDB *mdid = GPOS_NEW(mp) CMDIdGPDB(GPDB_COUNT_STAR);
+	gpos::owner<CExpressionArray *> pdrgpexpr =
+		GPOS_NEW(mp) CExpressionArray(mp);
+	gpos::owner<CMDIdGPDB *> mdid = GPOS_NEW(mp) CMDIdGPDB(GPDB_COUNT_STAR);
 	CWStringConst *str = GPOS_NEW(mp) CWStringConst(GPOS_WSZ_LIT("count"));
 
 	CScalarAggFunc *popScAggFunc =
 		PopAggFunc(mp, mdid, str, false /*is_distinct*/,
 				   EaggfuncstageGlobal /*eaggfuncstage*/, false /*fSplit*/);
 
-	CExpression *pexprCountStar =
+	gpos::owner<CExpression *> pexprCountStar =
 		GPOS_NEW(mp) CExpression(mp, popScAggFunc, pdrgpexpr);
 
 	return pexprCountStar;
@@ -1800,15 +1818,16 @@ CUtils::PexprCountStar(CMemoryPool *mp, CExpression *pexprLogical)
 		CScalarAggFunc::PopConvert(pexprCountStar->Pop());
 	IMDId *mdid_type = popScalarAggFunc->MdidType();
 	INT type_modifier = popScalarAggFunc->TypeModifier();
-	const IMDType *pmdtype = md_accessor->RetrieveType(mdid_type);
+	gpos::pointer<const IMDType *> pmdtype =
+		md_accessor->RetrieveType(mdid_type);
 	CColRef *pcrComputed = col_factory->PcrCreate(pmdtype, type_modifier);
 	CExpression *pexprPrjElem =
 		PexprScalarProjectElement(mp, pcrComputed, pexprCountStar);
-	CExpression *pexprPrjList = GPOS_NEW(mp)
+	gpos::owner<CExpression *> pexprPrjList = GPOS_NEW(mp)
 		CExpression(mp, GPOS_NEW(mp) CScalarProjectList(mp), pexprPrjElem);
 
 	// generate a Gb expression
-	CColRefArray *colref_array = GPOS_NEW(mp) CColRefArray(mp);
+	gpos::owner<CColRefArray *> colref_array = GPOS_NEW(mp) CColRefArray(mp);
 	return PexprLogicalGbAggGlobal(mp, colref_array, pexprLogical,
 								   pexprPrjList);
 }
@@ -1831,7 +1850,8 @@ CUtils::PexprCountStarAndSum(CMemoryPool *mp, const CColRef *colref,
 		CScalarAggFunc::PopConvert(pexprCountStar->Pop());
 	IMDId *mdid_type = popScalarAggFunc->MdidType();
 	INT type_modifier = popScalarAggFunc->TypeModifier();
-	const IMDType *pmdtype = md_accessor->RetrieveType(mdid_type);
+	gpos::pointer<const IMDType *> pmdtype =
+		md_accessor->RetrieveType(mdid_type);
 	CColRef *pcrComputed = col_factory->PcrCreate(pmdtype, type_modifier);
 	CExpression *pexprPrjElemCount =
 		PexprScalarProjectElement(mp, pcrComputed, pexprCountStar);
@@ -1840,18 +1860,18 @@ CUtils::PexprCountStarAndSum(CMemoryPool *mp, const CColRef *colref,
 	CExpression *pexprSum = PexprSum(mp, colref);
 	CScalarAggFunc *popScalarSumFunc =
 		CScalarAggFunc::PopConvert(pexprSum->Pop());
-	const IMDType *pmdtypeSum =
+	gpos::pointer<const IMDType *> pmdtypeSum =
 		md_accessor->RetrieveType(popScalarSumFunc->MdidType());
 	CColRef *pcrSum =
 		col_factory->PcrCreate(pmdtypeSum, popScalarSumFunc->TypeModifier());
 	CExpression *pexprPrjElemSum =
 		PexprScalarProjectElement(mp, pcrSum, pexprSum);
-	CExpression *pexprPrjList =
+	gpos::owner<CExpression *> pexprPrjList =
 		GPOS_NEW(mp) CExpression(mp, GPOS_NEW(mp) CScalarProjectList(mp),
 								 pexprPrjElemCount, pexprPrjElemSum);
 
 	// generate a Gb expression
-	CColRefArray *colref_array = GPOS_NEW(mp) CColRefArray(mp);
+	gpos::owner<CColRefArray *> colref_array = GPOS_NEW(mp) CColRefArray(mp);
 	return PexprLogicalGbAggGlobal(mp, colref_array, pexprLogical,
 								   pexprPrjList);
 }
@@ -1859,7 +1879,7 @@ CUtils::PexprCountStarAndSum(CMemoryPool *mp, const CColRef *colref,
 // return True if passed expression is a Project Element defined on count(*)/count(Any) agg
 BOOL
 CUtils::FCountAggProjElem(
-	CExpression *pexprPrjElem,
+	gpos::pointer<CExpression *> pexprPrjElem,
 	CColRef **ppcrCount	 // output: count(*)/count(Any) column
 )
 {
@@ -1888,7 +1908,7 @@ CUtils::FCountAggProjElem(
 
 // check if the given expression has a count(*)/count(Any) agg, return the top-most found count column
 BOOL
-CUtils::FHasCountAgg(CExpression *pexpr,
+CUtils::FHasCountAgg(gpos::pointer<CExpression *> pexpr,
 					 CColRef **ppcrCount  // output: count(*)/count(Any) column
 )
 {
@@ -1923,7 +1943,7 @@ FCountAggMatchingColumn(CExpression *pexprPrjElem, const CColRef *colref)
 
 
 BOOL
-CUtils::FHasCountAggMatchingColumn(const CExpression *pexpr,
+CUtils::FHasCountAggMatchingColumn(gpos::pointer<const CExpression *> pexpr,
 								   const CColRef *colref,
 								   const CLogicalGbAgg **ppgbAgg)
 {
@@ -1931,7 +1951,7 @@ CUtils::FHasCountAggMatchingColumn(const CExpression *pexpr,
 	// base case, we have a logical agg operator
 	if (COperator::EopLogicalGbAgg == pop->Eopid())
 	{
-		const CExpression *const pexprProjectList = (*pexpr)[1];
+		gpos::pointer<const CExpression *> const pexprProjectList = (*pexpr)[1];
 		GPOS_ASSERT(COperator::EopScalarProjectList ==
 					pexprProjectList->Pop()->Eopid());
 		const ULONG arity = pexprProjectList->Arity();
@@ -1940,7 +1960,8 @@ CUtils::FHasCountAggMatchingColumn(const CExpression *pexpr,
 			CExpression *const pexprPrjElem = (*pexprProjectList)[ul];
 			if (FCountAggMatchingColumn(pexprPrjElem, colref))
 			{
-				const CLogicalGbAgg *pgbAgg = CLogicalGbAgg::PopConvert(pop);
+				gpos::pointer<const CLogicalGbAgg *> pgbAgg =
+					CLogicalGbAgg::PopConvert(pop);
 				*ppgbAgg = pgbAgg;
 				return true;
 			}
@@ -1952,7 +1973,7 @@ CUtils::FHasCountAggMatchingColumn(const CExpression *pexpr,
 		const ULONG arity = pexpr->Arity();
 		for (ULONG ul = 0; ul < arity; ul++)
 		{
-			const CExpression *pexprChild = (*pexpr)[ul];
+			gpos::pointer<const CExpression *> pexprChild = (*pexpr)[ul];
 			if (FHasCountAggMatchingColumn(pexprChild, colref, ppgbAgg))
 			{
 				return true;
@@ -1980,7 +2001,8 @@ CUtils::PexprGbAggSum(CMemoryPool *mp, CExpression *pexprLogical,
 	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
 	CColumnFactory *col_factory = COptCtxt::PoctxtFromTLS()->Pcf();
 
-	CExpressionArray *pdrgpexpr = GPOS_NEW(mp) CExpressionArray(mp);
+	gpos::owner<CExpressionArray *> pdrgpexpr =
+		GPOS_NEW(mp) CExpressionArray(mp);
 	const ULONG size = pdrgpcrSum->Size();
 	for (ULONG ul = 0; ul < size; ul++)
 	{
@@ -1988,7 +2010,7 @@ CUtils::PexprGbAggSum(CMemoryPool *mp, CExpression *pexprLogical,
 		CExpression *pexprSum = PexprSum(mp, colref);
 		CScalarAggFunc *popScalarAggFunc =
 			CScalarAggFunc::PopConvert(pexprSum->Pop());
-		const IMDType *pmdtypeSum =
+		gpos::pointer<const IMDType *> pmdtypeSum =
 			md_accessor->RetrieveType(popScalarAggFunc->MdidType());
 		CColRef *pcrSum = col_factory->PcrCreate(
 			pmdtypeSum, popScalarAggFunc->TypeModifier());
@@ -1997,11 +2019,11 @@ CUtils::PexprGbAggSum(CMemoryPool *mp, CExpression *pexprLogical,
 		pdrgpexpr->Append(pexprPrjElemSum);
 	}
 
-	CExpression *pexprPrjList = GPOS_NEW(mp)
+	gpos::owner<CExpression *> pexprPrjList = GPOS_NEW(mp)
 		CExpression(mp, GPOS_NEW(mp) CScalarProjectList(mp), pdrgpexpr);
 
 	// generate a Gb expression
-	CColRefArray *colref_array = GPOS_NEW(mp) CColRefArray(mp);
+	gpos::owner<CColRefArray *> colref_array = GPOS_NEW(mp) CColRefArray(mp);
 	return PexprLogicalGbAggGlobal(mp, colref_array, pexprLogical,
 								   pexprPrjList);
 }
@@ -2033,10 +2055,10 @@ CUtils::PexprAgg(CMemoryPool *mp, CMDAccessor *md_accessor,
 	GPOS_ASSERT(IMDType::EaggGeneric > agg_type);
 	GPOS_ASSERT(colref->RetrieveType()->GetMdidForAggType(agg_type)->IsValid());
 
-	const IMDAggregate *pmdagg = md_accessor->RetrieveAgg(
+	gpos::pointer<const IMDAggregate *> pmdagg = md_accessor->RetrieveAgg(
 		colref->RetrieveType()->GetMdidForAggType(agg_type));
 
-	IMDId *agg_mdid = pmdagg->MDId();
+	gpos::owner<IMDId *> agg_mdid = pmdagg->MDId();
 	agg_mdid->AddRef();
 	CWStringConst *str = GPOS_NEW(mp)
 		CWStringConst(mp, pmdagg->Mdname().GetMDName()->GetBuffer());
@@ -2046,7 +2068,7 @@ CUtils::PexprAgg(CMemoryPool *mp, CMDAccessor *md_accessor,
 }
 
 // generate a select expression
-CExpression *
+gpos::owner<CExpression *>
 CUtils::PexprLogicalSelect(CMemoryPool *mp, CExpression *pexpr,
 						   CExpression *pexprPredicate)
 {
@@ -2070,7 +2092,7 @@ CUtils::PexprLogicalSelect(CMemoryPool *mp, CExpression *pexpr,
 // if predicate is True return logical expression, otherwise return a new select node
 CExpression *
 CUtils::PexprSafeSelect(CMemoryPool *mp, CExpression *pexprLogical,
-						CExpression *pexprPred)
+						gpos::owner<CExpression *> pexprPred)
 {
 	GPOS_ASSERT(nullptr != pexprLogical);
 	GPOS_ASSERT(nullptr != pexprPred);
@@ -2087,7 +2109,7 @@ CUtils::PexprSafeSelect(CMemoryPool *mp, CExpression *pexprLogical,
 
 // generate a select expression, if child is another Select expression
 // collapse both Selects into one expression
-CExpression *
+gpos::owner<CExpression *>
 CUtils::PexprCollapseSelect(CMemoryPool *mp, CExpression *pexpr,
 							CExpression *pexprPredicate)
 {
@@ -2118,7 +2140,7 @@ CUtils::PexprCollapseSelect(CMemoryPool *mp, CExpression *pexpr,
 }
 
 // generate a project expression
-CExpression *
+gpos::owner<CExpression *>
 CUtils::PexprLogicalProject(CMemoryPool *mp, CExpression *pexpr,
 							CExpression *pexprPrjList, BOOL fNewComputedCol)
 {
@@ -2142,7 +2164,7 @@ CUtils::PexprLogicalProject(CMemoryPool *mp, CExpression *pexpr,
 }
 
 // generate a sequence project expression
-CExpression *
+gpos::owner<CExpression *>
 CUtils::PexprLogicalSequenceProject(CMemoryPool *mp, CDistributionSpec *pds,
 									COrderSpecArray *pdrgpos,
 									CWindowFrameArray *pdrgpwf,
@@ -2170,7 +2192,7 @@ CUtils::PexprLogicalProjectNulls(CMemoryPool *mp, CColRefArray *colref_array,
 								 CExpression *pexpr,
 								 UlongToColRefMap *colref_mapping)
 {
-	IDatumArray *pdrgpdatum =
+	gpos::owner<IDatumArray *> pdrgpdatum =
 		CTranslatorExprToDXLUtils::PdrgpdatumNulls(mp, colref_array);
 	CExpression *pexprProjList =
 		PexprScalarProjListConst(mp, colref_array, pdrgpdatum, colref_mapping);
@@ -2182,7 +2204,7 @@ CUtils::PexprLogicalProjectNulls(CMemoryPool *mp, CColRefArray *colref_array,
 
 // construct a project list using the column names and types of the given
 // array of column references, and the given datums
-CExpression *
+gpos::owner<CExpression *>
 CUtils::PexprScalarProjListConst(CMemoryPool *mp, CColRefArray *colref_array,
 								 IDatumArray *pdrgpdatum,
 								 UlongToColRefMap *colref_mapping)
@@ -2190,7 +2212,8 @@ CUtils::PexprScalarProjListConst(CMemoryPool *mp, CColRefArray *colref_array,
 	GPOS_ASSERT(colref_array->Size() == pdrgpdatum->Size());
 
 	CColumnFactory *col_factory = COptCtxt::PoctxtFromTLS()->Pcf();
-	CScalarProjectList *pscprl = GPOS_NEW(mp) CScalarProjectList(mp);
+	gpos::owner<CScalarProjectList *> pscprl =
+		GPOS_NEW(mp) CScalarProjectList(mp);
 
 	const ULONG arity = colref_array->Size();
 	if (0 == arity)
@@ -2198,15 +2221,18 @@ CUtils::PexprScalarProjListConst(CMemoryPool *mp, CColRefArray *colref_array,
 		return GPOS_NEW(mp) CExpression(mp, pscprl);
 	}
 
-	CExpressionArray *pdrgpexprProjElems = GPOS_NEW(mp) CExpressionArray(mp);
+	gpos::owner<CExpressionArray *> pdrgpexprProjElems =
+		GPOS_NEW(mp) CExpressionArray(mp);
 	for (ULONG ul = 0; ul < arity; ul++)
 	{
 		CColRef *colref = (*colref_array)[ul];
 
-		IDatum *datum = (*pdrgpdatum)[ul];
+		gpos::owner<IDatum *> datum = (*pdrgpdatum)[ul];
 		datum->AddRef();
-		CScalarConst *popScConst = GPOS_NEW(mp) CScalarConst(mp, datum);
-		CExpression *pexprScConst = GPOS_NEW(mp) CExpression(mp, popScConst);
+		gpos::owner<CScalarConst *> popScConst =
+			GPOS_NEW(mp) CScalarConst(mp, datum);
+		gpos::owner<CExpression *> pexprScConst =
+			GPOS_NEW(mp) CExpression(mp, popScConst);
 
 		CColRef *new_colref = col_factory->PcrCreate(
 			colref->RetrieveType(), colref->TypeModifier(), colref->Name());
@@ -2217,9 +2243,9 @@ CUtils::PexprScalarProjListConst(CMemoryPool *mp, CColRefArray *colref_array,
 			GPOS_ASSERT(fInserted);
 		}
 
-		CScalarProjectElement *popScPrEl =
+		gpos::owner<CScalarProjectElement *> popScPrEl =
 			GPOS_NEW(mp) CScalarProjectElement(mp, new_colref);
-		CExpression *pexprScPrEl =
+		gpos::owner<CExpression *> pexprScPrEl =
 			GPOS_NEW(mp) CExpression(mp, popScPrEl, pexprScConst);
 
 		pdrgpexprProjElems->Append(pexprScPrEl);
@@ -2236,7 +2262,8 @@ CUtils::PexprAddProjection(CMemoryPool *mp, CExpression *pexpr,
 	GPOS_ASSERT(pexpr->Pop()->FLogical());
 	GPOS_ASSERT(pexprProjected->Pop()->FScalar());
 
-	CExpressionArray *pdrgpexprProjected = GPOS_NEW(mp) CExpressionArray(mp);
+	gpos::owner<CExpressionArray *> pdrgpexprProjected =
+		GPOS_NEW(mp) CExpressionArray(mp);
 	pdrgpexprProjected->Append(pexprProjected);
 
 	CExpression *pexprProjection =
@@ -2263,7 +2290,8 @@ CUtils::PexprAddProjection(CMemoryPool *mp, CExpression *pexpr,
 	CColumnFactory *col_factory = COptCtxt::PoctxtFromTLS()->Pcf();
 	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
 
-	CExpressionArray *pdrgpexprPrjElem = GPOS_NEW(mp) CExpressionArray(mp);
+	gpos::owner<CExpressionArray *> pdrgpexprPrjElem =
+		GPOS_NEW(mp) CExpressionArray(mp);
 
 	const ULONG ulProjected = pdrgpexprProjected->Size();
 	for (ULONG ul = 0; ul < ulProjected; ul++)
@@ -2273,7 +2301,7 @@ CUtils::PexprAddProjection(CMemoryPool *mp, CExpression *pexpr,
 
 		// generate a computed column with scalar expression type
 		CScalar *popScalar = CScalar::PopConvert(pexprProjected->Pop());
-		const IMDType *pmdtype =
+		gpos::pointer<const IMDType *> pmdtype =
 			md_accessor->RetrieveType(popScalar->MdidType());
 		CColRef *colref =
 			col_factory->PcrCreate(pmdtype, popScalar->TypeModifier());
@@ -2283,14 +2311,14 @@ CUtils::PexprAddProjection(CMemoryPool *mp, CExpression *pexpr,
 			PexprScalarProjectElement(mp, colref, pexprProjected));
 	}
 
-	CExpression *pexprPrjList = GPOS_NEW(mp)
+	gpos::owner<CExpression *> pexprPrjList = GPOS_NEW(mp)
 		CExpression(mp, GPOS_NEW(mp) CScalarProjectList(mp), pdrgpexprPrjElem);
 
 	return PexprLogicalProject(mp, pexpr, pexprPrjList, fNewComputedCol);
 }
 
 // generate an aggregate expression
-CExpression *
+gpos::owner<CExpression *>
 CUtils::PexprLogicalGbAgg(CMemoryPool *mp, CColRefArray *colref_array,
 						  CExpression *pexprRelational, CExpression *pexprPrL,
 						  COperator::EGbAggType egbaggtype)
@@ -2300,7 +2328,7 @@ CUtils::PexprLogicalGbAgg(CMemoryPool *mp, CColRefArray *colref_array,
 	GPOS_ASSERT(nullptr != pexprPrL);
 
 	// create a new logical group by operator
-	CLogicalGbAgg *pop =
+	gpos::owner<CLogicalGbAgg *> pop =
 		GPOS_NEW(mp) CLogicalGbAgg(mp, colref_array, egbaggtype);
 
 	return GPOS_NEW(mp) CExpression(mp, pop, pexprRelational, pexprPrL);
@@ -2318,7 +2346,7 @@ CUtils::PexprLogicalGbAggGlobal(CMemoryPool *mp, CColRefArray *colref_array,
 
 // check if given project list has a global aggregate function
 BOOL
-CUtils::FHasGlobalAggFunc(const CExpression *pexprAggProjList)
+CUtils::FHasGlobalAggFunc(gpos::pointer<const CExpression *> pexprAggProjList)
 {
 	GPOS_ASSERT(COperator::EopScalarProjectList ==
 				pexprAggProjList->Pop()->Eopid());
@@ -2346,7 +2374,8 @@ IMDType::ECmpType
 CUtils::ParseCmpType(IMDId *mdid)
 {
 	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
-	const IMDScalarOp *md_scalar_op = md_accessor->RetrieveScOp(mdid);
+	gpos::pointer<const IMDScalarOp *> md_scalar_op =
+		md_accessor->RetrieveScOp(mdid);
 	return md_scalar_op->ParseCmpType();
 }
 
@@ -2354,13 +2383,14 @@ CUtils::ParseCmpType(IMDId *mdid)
 IMDType::ECmpType
 CUtils::ParseCmpType(CMDAccessor *md_accessor, IMDId *mdid)
 {
-	const IMDScalarOp *md_scalar_op = md_accessor->RetrieveScOp(mdid);
+	gpos::pointer<const IMDScalarOp *> md_scalar_op =
+		md_accessor->RetrieveScOp(mdid);
 	return md_scalar_op->ParseCmpType();
 }
 
 // check if the expression is a scalar boolean const
 BOOL
-CUtils::FScalarConstBool(CExpression *pexpr, BOOL value)
+CUtils::FScalarConstBool(gpos::pointer<CExpression *> pexpr, BOOL value)
 {
 	GPOS_ASSERT(nullptr != pexpr);
 
@@ -2380,7 +2410,7 @@ CUtils::FScalarConstBool(CExpression *pexpr, BOOL value)
 }
 
 BOOL
-CUtils::FScalarConstBoolNull(CExpression *pexpr)
+CUtils::FScalarConstBoolNull(gpos::pointer<CExpression *> pexpr)
 {
 	GPOS_ASSERT(nullptr != pexpr);
 
@@ -2399,14 +2429,14 @@ CUtils::FScalarConstBoolNull(CExpression *pexpr)
 
 // checks to see if the expression is a scalar const TRUE
 BOOL
-CUtils::FScalarConstTrue(CExpression *pexpr)
+CUtils::FScalarConstTrue(gpos::pointer<CExpression *> pexpr)
 {
 	return FScalarConstBool(pexpr, true /*value*/);
 }
 
 // checks to see if the expression is a scalar const FALSE
 BOOL
-CUtils::FScalarConstFalse(CExpression *pexpr)
+CUtils::FScalarConstFalse(gpos::pointer<CExpression *> pexpr)
 {
 	return FScalarConstBool(pexpr, false /*value*/);
 }
@@ -2426,7 +2456,7 @@ CUtils::PdrgpcrGroupingKey(
 	GPOS_ASSERT(nullptr != pkc);
 
 	CColRefSet *pcrsOutput = pexpr->DeriveOutputColumns();
-	CColRefSet *pcrsUsedOuter = GPOS_NEW(mp) CColRefSet(mp);
+	gpos::owner<CColRefSet *> pcrsUsedOuter = GPOS_NEW(mp) CColRefSet(mp);
 
 	// remove any columns that are not referenced in the query from pcrsOuterOutput
 	// filter out system columns since they may introduce columns with undefined sort/hash operators
@@ -2450,7 +2480,7 @@ CUtils::PdrgpcrGroupingKey(
 	}
 	GPOS_ASSERT(nullptr != pdrgpcrKey);
 
-	CColRefSet *pcrsKey = GPOS_NEW(mp) CColRefSet(mp, pdrgpcrKey);
+	gpos::owner<CColRefSet *> pcrsKey = GPOS_NEW(mp) CColRefSet(mp, pdrgpcrKey);
 	pcrsUsedOuter->Union(pcrsKey);
 
 	pcrsKey->Release();
@@ -2467,11 +2497,13 @@ CUtils::PdrgpcrGroupingKey(
 // columns from separate equiv classes, then these are merged. Returns a new
 // array of equivalence classes
 CColRefSetArray *
-CUtils::AddEquivClassToArray(CMemoryPool *mp, const CColRefSet *pcrsNew,
-							 const CColRefSetArray *pdrgpcrs)
+CUtils::AddEquivClassToArray(CMemoryPool *mp,
+							 gpos::pointer<const CColRefSet *> pcrsNew,
+							 gpos::pointer<const CColRefSetArray *> pdrgpcrs)
 {
-	CColRefSetArray *pdrgpcrsNew = GPOS_NEW(mp) CColRefSetArray(mp);
-	CColRefSet *pcrsCopy = GPOS_NEW(mp) CColRefSet(mp, *pcrsNew);
+	gpos::owner<CColRefSetArray *> pdrgpcrsNew =
+		GPOS_NEW(mp) CColRefSetArray(mp);
+	gpos::owner<CColRefSet *> pcrsCopy = GPOS_NEW(mp) CColRefSet(mp, *pcrsNew);
 
 	const ULONG length = pdrgpcrs->Size();
 	for (ULONG ul = 0; ul < length; ul++)
@@ -2499,7 +2531,7 @@ CUtils::PdrgpcrsMergeEquivClasses(CMemoryPool *mp, CColRefSetArray *pdrgpcrsFst,
 								  CColRefSetArray *pdrgpcrsSnd)
 {
 	pdrgpcrsFst->AddRef();
-	CColRefSetArray *pdrgpcrsMerged = pdrgpcrsFst;
+	gpos::owner<CColRefSetArray *> pdrgpcrsMerged = pdrgpcrsFst;
 
 	const ULONG length = pdrgpcrsSnd->Size();
 	for (ULONG ul = 0; ul < length; ul++)
@@ -2525,7 +2557,7 @@ CUtils::PdrgpcrsIntersectEquivClasses(CMemoryPool *mp,
 	GPOS_ASSERT(CUtils::FEquivalanceClassesDisjoint(mp, pdrgpcrsFst));
 	GPOS_ASSERT(CUtils::FEquivalanceClassesDisjoint(mp, pdrgpcrsSnd));
 
-	CColRefSetArray *pdrgpcrs = GPOS_NEW(mp) CColRefSetArray(mp);
+	gpos::owner<CColRefSetArray *> pdrgpcrs = GPOS_NEW(mp) CColRefSetArray(mp);
 
 	const ULONG ulLenFst = pdrgpcrsFst->Size();
 	const ULONG ulLenSnd = pdrgpcrsSnd->Size();
@@ -2536,8 +2568,10 @@ CUtils::PdrgpcrsIntersectEquivClasses(CMemoryPool *mp,
 		return pdrgpcrs;
 	}
 
-	ColRefToColRefSetMap *phmcscrs = GPOS_NEW(mp) ColRefToColRefSetMap(mp);
-	ColRefToColRefMap *phmcscrDone = GPOS_NEW(mp) ColRefToColRefMap(mp);
+	gpos::owner<ColRefToColRefSetMap *> phmcscrs =
+		GPOS_NEW(mp) ColRefToColRefSetMap(mp);
+	gpos::owner<ColRefToColRefMap *> phmcscrDone =
+		GPOS_NEW(mp) ColRefToColRefMap(mp);
 
 	// populate a hashmap in this loop
 	for (ULONG ulFst = 0; ulFst < ulLenFst; ulFst++)
@@ -2574,7 +2608,7 @@ CUtils::PdrgpcrsIntersectEquivClasses(CMemoryPool *mp,
 			// column referance sets
 			if (nullptr != pcrs && pcrDone == nullptr)
 			{
-				CColRefSet *pcrsNew = GPOS_NEW(mp) CColRefSet(mp);
+				gpos::owner<CColRefSet *> pcrsNew = GPOS_NEW(mp) CColRefSet(mp);
 				pcrsNew->Include(pcrsSnd);
 				pcrsNew->Intersection(pcrs);
 				pdrgpcrs->Append(pcrsNew);
@@ -2602,7 +2636,7 @@ gpos::owner<CColRefSetArray *>
 CUtils::PdrgpcrsCopyChildEquivClasses(CMemoryPool *mp,
 									  CExpressionHandle &exprhdl)
 {
-	CColRefSetArray *pdrgpcrs = GPOS_NEW(mp) CColRefSetArray(mp);
+	gpos::owner<CColRefSetArray *> pdrgpcrs = GPOS_NEW(mp) CColRefSetArray(mp);
 	const ULONG arity = exprhdl.Arity();
 	for (ULONG ul = 0; ul < arity; ul++)
 	{
@@ -2611,12 +2645,12 @@ CUtils::PdrgpcrsCopyChildEquivClasses(CMemoryPool *mp,
 			CColRefSetArray *pdrgpcrsChild =
 				exprhdl.DerivePropertyConstraint(ul)->PdrgpcrsEquivClasses();
 
-			CColRefSetArray *pdrgpcrsChildCopy =
+			gpos::owner<CColRefSetArray *> pdrgpcrsChildCopy =
 				GPOS_NEW(mp) CColRefSetArray(mp);
 			const ULONG size = pdrgpcrsChild->Size();
 			for (ULONG ulInner = 0; ulInner < size; ulInner++)
 			{
-				CColRefSet *pcrs =
+				gpos::owner<CColRefSet *> pcrs =
 					GPOS_NEW(mp) CColRefSet(mp, *(*pdrgpcrsChild)[ulInner]);
 				pdrgpcrsChildCopy->Append(pcrs);
 			}
@@ -2640,7 +2674,7 @@ CUtils::PdrgpcrExcludeColumns(CMemoryPool *mp, CColRefArray *pdrgpcrOriginal,
 	GPOS_ASSERT(nullptr != pdrgpcrOriginal);
 	GPOS_ASSERT(nullptr != pcrsExcluded);
 
-	CColRefArray *colref_array = GPOS_NEW(mp) CColRefArray(mp);
+	gpos::owner<CColRefArray *> colref_array = GPOS_NEW(mp) CColRefArray(mp);
 	const ULONG num_cols = pdrgpcrOriginal->Size();
 	for (ULONG ul = 0; ul < num_cols; ul++)
 	{
@@ -2656,7 +2690,8 @@ CUtils::PdrgpcrExcludeColumns(CMemoryPool *mp, CColRefArray *pdrgpcrOriginal,
 
 // helper function to print a colref array
 IOstream &
-CUtils::OsPrintDrgPcr(IOstream &os, const CColRefArray *colref_array,
+CUtils::OsPrintDrgPcr(IOstream &os,
+					  gpos::pointer<const CColRefArray *> colref_array,
 					  ULONG ulLenMax)
 {
 	ULONG length = colref_array->Size();
@@ -2679,21 +2714,21 @@ CUtils::OsPrintDrgPcr(IOstream &os, const CColRefArray *colref_array,
 
 // check if given expression is a scalar comparison
 BOOL
-CUtils::FScalarCmp(CExpression *pexpr)
+CUtils::FScalarCmp(gpos::pointer<CExpression *> pexpr)
 {
 	return (COperator::EopScalarCmp == pexpr->Pop()->Eopid());
 }
 
 // check if given expression is a scalar array comparison
 BOOL
-CUtils::FScalarArrayCmp(CExpression *pexpr)
+CUtils::FScalarArrayCmp(gpos::pointer<CExpression *> pexpr)
 {
 	return (COperator::EopScalarArrayCmp == pexpr->Pop()->Eopid());
 }
 
 // check if given expression has any one stage agg nodes
 BOOL
-CUtils::FHasOneStagePhysicalAgg(const CExpression *pexpr)
+CUtils::FHasOneStagePhysicalAgg(gpos::pointer<const CExpression *> pexpr)
 {
 	GPOS_CHECK_STACK_SIZE;
 	GPOS_ASSERT(nullptr != pexpr);
@@ -2719,8 +2754,8 @@ CUtils::FHasOneStagePhysicalAgg(const CExpression *pexpr)
 
 // check if given operator exists in the given list
 BOOL
-CUtils::FOpExists(const COperator *pop, const COperator::EOperatorId *peopid,
-				  ULONG ulOps)
+CUtils::FOpExists(gpos::pointer<const COperator *> pop,
+				  const COperator::EOperatorId *peopid, ULONG ulOps)
 {
 	GPOS_ASSERT(nullptr != pop);
 	GPOS_ASSERT(nullptr != peopid);
@@ -2739,8 +2774,8 @@ CUtils::FOpExists(const COperator *pop, const COperator::EOperatorId *peopid,
 
 // check if given expression has any operator in the given list
 BOOL
-CUtils::FHasOp(const CExpression *pexpr, const COperator::EOperatorId *peopid,
-			   ULONG ulOps)
+CUtils::FHasOp(gpos::pointer<const CExpression *> pexpr,
+			   const COperator::EOperatorId *peopid, ULONG ulOps)
 {
 	GPOS_CHECK_STACK_SIZE;
 	GPOS_ASSERT(nullptr != pexpr);
@@ -2871,14 +2906,15 @@ CUtils::UlSubqueries(CExpression *pexpr)
 
 // check if given expression is a scalar boolean operator
 BOOL
-CUtils::FScalarBoolOp(CExpression *pexpr)
+CUtils::FScalarBoolOp(gpos::pointer<CExpression *> pexpr)
 {
 	return (COperator::EopScalarBoolOp == pexpr->Pop()->Eopid());
 }
 
 // is the given expression a scalar bool op of the passed type?
 BOOL
-CUtils::FScalarBoolOp(CExpression *pexpr, CScalarBoolOp::EBoolOperator eboolop)
+CUtils::FScalarBoolOp(gpos::pointer<CExpression *> pexpr,
+					  CScalarBoolOp::EBoolOperator eboolop)
 {
 	GPOS_ASSERT(nullptr != pexpr);
 
@@ -2889,14 +2925,14 @@ CUtils::FScalarBoolOp(CExpression *pexpr, CScalarBoolOp::EBoolOperator eboolop)
 
 // check if given expression is a scalar null test
 BOOL
-CUtils::FScalarNullTest(CExpression *pexpr)
+CUtils::FScalarNullTest(gpos::pointer<CExpression *> pexpr)
 {
 	return (COperator::EopScalarNullTest == pexpr->Pop()->Eopid());
 }
 
 // check if given expression is a NOT NULL predicate
 BOOL
-CUtils::FScalarNotNull(CExpression *pexpr)
+CUtils::FScalarNotNull(gpos::pointer<CExpression *> pexpr)
 {
 	return FScalarBoolOp(pexpr, CScalarBoolOp::EboolopNot) &&
 		   FScalarNullTest((*pexpr)[0]);
@@ -2904,13 +2940,13 @@ CUtils::FScalarNotNull(CExpression *pexpr)
 
 // check if given expression is a scalar identifier
 BOOL
-CUtils::FScalarIdent(CExpression *pexpr)
+CUtils::FScalarIdent(gpos::pointer<CExpression *> pexpr)
 {
 	return (COperator::EopScalarIdent == pexpr->Pop()->Eopid());
 }
 
 BOOL
-CUtils::FScalarIdentIgnoreCast(CExpression *pexpr)
+CUtils::FScalarIdentIgnoreCast(gpos::pointer<CExpression *> pexpr)
 {
 	return (COperator::EopScalarIdent == pexpr->Pop()->Eopid() ||
 			CScalarIdent::FCastedScId(pexpr));
@@ -2918,7 +2954,7 @@ CUtils::FScalarIdentIgnoreCast(CExpression *pexpr)
 
 // check if given expression is a scalar boolean identifier
 BOOL
-CUtils::FScalarIdentBoolType(CExpression *pexpr)
+CUtils::FScalarIdentBoolType(gpos::pointer<CExpression *> pexpr)
 {
 	return FScalarIdent(pexpr) &&
 		   IMDType::EtiBool == CScalarIdent::PopConvert(pexpr->Pop())
@@ -2929,21 +2965,21 @@ CUtils::FScalarIdentBoolType(CExpression *pexpr)
 
 // check if given expression is a scalar array
 BOOL
-CUtils::FScalarArray(CExpression *pexpr)
+CUtils::FScalarArray(gpos::pointer<CExpression *> pexpr)
 {
 	return (COperator::EopScalarArray == pexpr->Pop()->Eopid());
 }
 
 // check if given expression is a scalar array coerce
 BOOL
-CUtils::FScalarArrayCoerce(CExpression *pexpr)
+CUtils::FScalarArrayCoerce(gpos::pointer<CExpression *> pexpr)
 {
 	return (COperator::EopScalarArrayCoerceExpr == pexpr->Pop()->Eopid());
 }
 
 // is the given expression a scalar identifier with the given column reference
 BOOL
-CUtils::FScalarIdent(CExpression *pexpr, CColRef *colref)
+CUtils::FScalarIdent(gpos::pointer<CExpression *> pexpr, CColRef *colref)
 {
 	GPOS_ASSERT(nullptr != pexpr);
 	GPOS_ASSERT(nullptr != colref);
@@ -2954,14 +2990,14 @@ CUtils::FScalarIdent(CExpression *pexpr, CColRef *colref)
 
 // check if the expression is a scalar const
 BOOL
-CUtils::FScalarConst(CExpression *pexpr)
+CUtils::FScalarConst(gpos::pointer<CExpression *> pexpr)
 {
 	return (COperator::EopScalarConst == pexpr->Pop()->Eopid());
 }
 
 // check if the expression is variable-free
 BOOL
-CUtils::FVarFreeExpr(CExpression *pexpr)
+CUtils::FVarFreeExpr(gpos::pointer<CExpression *> pexpr)
 {
 	GPOS_ASSERT(pexpr->Pop()->FScalar());
 
@@ -2984,7 +3020,7 @@ CUtils::FVarFreeExpr(CExpression *pexpr)
 
 // check if the expression is a scalar predicate, i.e. bool op, comparison, or null test
 BOOL
-CUtils::FPredicate(CExpression *pexpr)
+CUtils::FPredicate(gpos::pointer<CExpression *> pexpr)
 {
 	COperator *pop = pexpr->Pop();
 	return pop->FScalar() &&
@@ -2996,7 +3032,7 @@ CUtils::FPredicate(CExpression *pexpr)
 
 // checks that the given type has all the comparisons: Eq, NEq, L, LEq, G, GEq.
 BOOL
-CUtils::FHasAllDefaultComparisons(const IMDType *pmdtype)
+CUtils::FHasAllDefaultComparisons(gpos::pointer<const IMDType *> pmdtype)
 {
 	GPOS_ASSERT(nullptr != pmdtype);
 
@@ -3011,7 +3047,7 @@ CUtils::FHasAllDefaultComparisons(const IMDType *pmdtype)
 // determine whether a type is supported for use in contradiction detection.
 // The assumption is that we only compare data of the same type.
 BOOL
-CUtils::FConstrainableType(IMDId *mdid_type)
+CUtils::FConstrainableType(gpos::pointer<IMDId *> mdid_type)
 {
 	if (FIntType(mdid_type))
 	{
@@ -3020,7 +3056,8 @@ CUtils::FConstrainableType(IMDId *mdid_type)
 	if (GPOS_FTRACE(EopttraceEnableConstantExpressionEvaluation))
 	{
 		CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
-		const IMDType *pmdtype = md_accessor->RetrieveType(mdid_type);
+		gpos::pointer<const IMDType *> pmdtype =
+			md_accessor->RetrieveType(mdid_type);
 
 		return FHasAllDefaultComparisons(pmdtype);
 	}
@@ -3040,7 +3077,7 @@ CUtils::FConstrainableType(IMDId *mdid_type)
 
 // determine whether a type is an integer type
 BOOL
-CUtils::FIntType(IMDId *mdid_type)
+CUtils::FIntType(gpos::pointer<IMDId *> mdid_type)
 {
 	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
 	IMDType::ETypeInfo type_info =
@@ -3059,7 +3096,7 @@ CUtils::FUsesChildColsOnly(CExpressionHandle &exprhdl)
 	CAutoMemoryPool amp;
 	CMemoryPool *mp = amp.Pmp();
 	CColRefSet *pcrsUsed = exprhdl.DeriveUsedColumns(2);
-	CColRefSet *pcrs = GPOS_NEW(mp) CColRefSet(mp);
+	gpos::owner<CColRefSet *> pcrs = GPOS_NEW(mp) CColRefSet(mp);
 	pcrs->Include(exprhdl.DeriveOutputColumns(0 /*child_index*/));
 	pcrs->Include(exprhdl.DeriveOutputColumns(1 /*child_index*/));
 	BOOL fUsesChildCols = pcrs->ContainsAll(pcrsUsed);
@@ -3095,7 +3132,7 @@ CUtils::FInnerUsesExternalColsOnly(CExpressionHandle &exprhdl)
 
 // check if given columns have available comparison operators
 BOOL
-CUtils::FComparisonPossible(CColRefArray *colref_array,
+CUtils::FComparisonPossible(gpos::pointer<CColRefArray *> colref_array,
 							IMDType::ECmpType cmp_type)
 {
 	GPOS_ASSERT(nullptr != colref_array);
@@ -3105,7 +3142,7 @@ CUtils::FComparisonPossible(CColRefArray *colref_array,
 	for (ULONG ul = 0; ul < size; ul++)
 	{
 		CColRef *colref = (*colref_array)[ul];
-		const IMDType *pmdtype = colref->RetrieveType();
+		gpos::pointer<const IMDType *> pmdtype = colref->RetrieveType();
 		if (!IMDId::IsValid(pmdtype->GetMdidForCmpType(cmp_type)))
 		{
 			return false;
@@ -3117,7 +3154,8 @@ CUtils::FComparisonPossible(CColRefArray *colref_array,
 
 // counts the number of times a certain operator appears
 ULONG
-CUtils::UlCountOperator(const CExpression *pexpr, COperator::EOperatorId op_id)
+CUtils::UlCountOperator(gpos::pointer<const CExpression *> pexpr,
+						COperator::EOperatorId op_id)
 {
 	ULONG ulOpCnt = 0;
 	if (op_id == pexpr->Pop()->Eopid())
@@ -3141,12 +3179,12 @@ CUtils::PdrgpcrRedistributableSubset(CMemoryPool *mp,
 	GPOS_ASSERT(nullptr != colref_array);
 	GPOS_ASSERT(0 < colref_array->Size());
 
-	CColRefArray *pdrgpcrRedist = GPOS_NEW(mp) CColRefArray(mp);
+	gpos::owner<CColRefArray *> pdrgpcrRedist = GPOS_NEW(mp) CColRefArray(mp);
 	const ULONG size = colref_array->Size();
 	for (ULONG ul = 0; ul < size; ul++)
 	{
 		CColRef *colref = (*colref_array)[ul];
-		const IMDType *pmdtype = colref->RetrieveType();
+		gpos::pointer<const IMDType *> pmdtype = colref->RetrieveType();
 		if (pmdtype->IsRedistributable())
 		{
 			pdrgpcrRedist->Append(colref);
@@ -3158,7 +3196,7 @@ CUtils::PdrgpcrRedistributableSubset(CMemoryPool *mp,
 
 // check if hashing is possible for the given columns
 BOOL
-CUtils::IsHashable(CColRefArray *colref_array)
+CUtils::IsHashable(gpos::pointer<CColRefArray *> colref_array)
 {
 	GPOS_ASSERT(nullptr != colref_array);
 	GPOS_ASSERT(0 < colref_array->Size());
@@ -3167,7 +3205,7 @@ CUtils::IsHashable(CColRefArray *colref_array)
 	for (ULONG ul = 0; ul < size; ul++)
 	{
 		CColRef *colref = (*colref_array)[ul];
-		const IMDType *pmdtype = colref->RetrieveType();
+		gpos::pointer<const IMDType *> pmdtype = colref->RetrieveType();
 		if (!pmdtype->IsHashable())
 		{
 			return false;
@@ -3179,7 +3217,7 @@ CUtils::IsHashable(CColRefArray *colref_array)
 
 // check if given operator is a logical DML operator
 BOOL
-CUtils::FLogicalDML(COperator *pop)
+CUtils::FLogicalDML(gpos::pointer<COperator *> pop)
 {
 	GPOS_ASSERT(nullptr != pop);
 
@@ -3204,9 +3242,10 @@ CUtils::CreateMultiByteCharStringFromWCString(CMemoryPool *mp, WCHAR *wsz)
 
 // construct an array of colids from the given array of column references
 ULongPtrArray *
-CUtils::Pdrgpul(CMemoryPool *mp, const CColRefArray *colref_array)
+CUtils::Pdrgpul(CMemoryPool *mp,
+				gpos::pointer<const CColRefArray *> colref_array)
 {
-	ULongPtrArray *pdrgpul = GPOS_NEW(mp) ULongPtrArray(mp);
+	gpos::owner<ULongPtrArray *> pdrgpul = GPOS_NEW(mp) ULongPtrArray(mp);
 
 	const ULONG length = colref_array->Size();
 	for (ULONG ul = 0; ul < length; ul++)
@@ -3292,7 +3331,7 @@ CUtils::PcrsRemap(CMemoryPool *mp, CColRefSet *pcrs,
 	GPOS_ASSERT(nullptr != pcrs);
 	GPOS_ASSERT(nullptr != colref_mapping);
 
-	CColRefSet *pcrsMapped = GPOS_NEW(mp) CColRefSet(mp);
+	gpos::owner<CColRefSet *> pcrsMapped = GPOS_NEW(mp) CColRefSet(mp);
 
 	CColRefSetIter crsi(*pcrs);
 	while (crsi.Advance())
@@ -3314,7 +3353,7 @@ CUtils::PdrgpcrRemap(CMemoryPool *mp, CColRefArray *colref_array,
 	GPOS_ASSERT(nullptr != colref_array);
 	GPOS_ASSERT(nullptr != colref_mapping);
 
-	CColRefArray *pdrgpcrNew = GPOS_NEW(mp) CColRefArray(mp);
+	gpos::owner<CColRefArray *> pdrgpcrNew = GPOS_NEW(mp) CColRefArray(mp);
 
 	const ULONG length = colref_array->Size();
 	for (ULONG ul = 0; ul < length; ul++)
@@ -3339,7 +3378,7 @@ CUtils::PdrgpcrRemapAndCreate(CMemoryPool *mp, CColRefArray *colref_array,
 	// get column factory from optimizer context object
 	CColumnFactory *col_factory = COptCtxt::PoctxtFromTLS()->Pcf();
 
-	CColRefArray *pdrgpcrNew = GPOS_NEW(mp) CColRefArray(mp);
+	gpos::owner<CColRefArray *> pdrgpcrNew = GPOS_NEW(mp) CColRefArray(mp);
 
 	const ULONG length = colref_array->Size();
 	for (ULONG ul = 0; ul < length; ul++)
@@ -3372,7 +3411,8 @@ CUtils::PdrgpdrgpcrRemap(CMemoryPool *mp, CColRef2dArray *pdrgpdrgpcr,
 	GPOS_ASSERT(nullptr != pdrgpdrgpcr);
 	GPOS_ASSERT(nullptr != colref_mapping);
 
-	CColRef2dArray *pdrgpdrgpcrNew = GPOS_NEW(mp) CColRef2dArray(mp);
+	gpos::owner<CColRef2dArray *> pdrgpdrgpcrNew =
+		GPOS_NEW(mp) CColRef2dArray(mp);
 
 	const ULONG arity = pdrgpdrgpcr->Size();
 	for (ULONG ul = 0; ul < arity; ul++)
@@ -3393,7 +3433,8 @@ CUtils::PdrgpexprRemap(CMemoryPool *mp, CExpressionArray *pdrgpexpr,
 	GPOS_ASSERT(nullptr != pdrgpexpr);
 	GPOS_ASSERT(nullptr != colref_mapping);
 
-	CExpressionArray *pdrgpexprNew = GPOS_NEW(mp) CExpressionArray(mp);
+	gpos::owner<CExpressionArray *> pdrgpexprNew =
+		GPOS_NEW(mp) CExpressionArray(mp);
 
 	const ULONG arity = pdrgpexpr->Size();
 	for (ULONG ul = 0; ul < arity; ul++)
@@ -3414,7 +3455,8 @@ CUtils::PhmulcrMapping(CMemoryPool *mp, CColRefArray *pdrgpcrFrom,
 	GPOS_ASSERT(nullptr != pdrgpcrFrom);
 	GPOS_ASSERT(nullptr != pdrgpcrTo);
 
-	UlongToColRefMap *colref_mapping = GPOS_NEW(mp) UlongToColRefMap(mp);
+	gpos::owner<UlongToColRefMap *> colref_mapping =
+		GPOS_NEW(mp) UlongToColRefMap(mp);
 	AddColumnMapping(mp, colref_mapping, pdrgpcrFrom, pdrgpcrTo);
 
 	return colref_mapping;
@@ -3466,7 +3508,7 @@ CUtils::AddColumnMapping(CMemoryPool *mp, UlongToColRefMap *colref_mapping,
 CColRefArray *
 CUtils::PdrgpcrExactCopy(CMemoryPool *mp, CColRefArray *colref_array)
 {
-	CColRefArray *pdrgpcrNew = GPOS_NEW(mp) CColRefArray(mp);
+	gpos::owner<CColRefArray *> pdrgpcrNew = GPOS_NEW(mp) CColRefArray(mp);
 
 	const ULONG num_cols = colref_array->Size();
 	for (ULONG ul = 0; ul < num_cols; ul++)
@@ -3488,7 +3530,7 @@ CUtils::PdrgpcrCopy(CMemoryPool *mp, CColRefArray *colref_array,
 	// get column factory from optimizer context object
 	CColumnFactory *col_factory = COptCtxt::PoctxtFromTLS()->Pcf();
 
-	CColRefArray *pdrgpcrNew = GPOS_NEW(mp) CColRefArray(mp);
+	gpos::owner<CColRefArray *> pdrgpcrNew = GPOS_NEW(mp) CColRefArray(mp);
 
 	const ULONG num_cols = colref_array->Size();
 	for (ULONG ul = 0; ul < num_cols; ul++)
@@ -3518,7 +3560,8 @@ CUtils::PdrgpcrCopy(CMemoryPool *mp, CColRefArray *colref_array,
 
 // equality check between two arrays of column refs. Inputs can be NULL
 BOOL
-CUtils::Equals(CColRefArray *pdrgpcrFst, CColRefArray *pdrgpcrSnd)
+CUtils::Equals(gpos::pointer<CColRefArray *> pdrgpcrFst,
+			   gpos::pointer<CColRefArray *> pdrgpcrSnd)
 {
 	if (nullptr == pdrgpcrFst || nullptr == pdrgpcrSnd)
 	{
@@ -3530,7 +3573,8 @@ CUtils::Equals(CColRefArray *pdrgpcrFst, CColRefArray *pdrgpcrSnd)
 
 // compute hash value for an array of column references
 ULONG
-CUtils::UlHashColArray(const CColRefArray *colref_array, const ULONG ulMaxCols)
+CUtils::UlHashColArray(gpos::pointer<const CColRefArray *> colref_array,
+					   const ULONG ulMaxCols)
 {
 	ULONG ulHash = 0;
 
@@ -3557,13 +3601,13 @@ CUtils::PcrsCTEProducerColumns(CMemoryPool *mp, CColRefSet *pcrsInput,
 	CLogicalCTEProducer *popProducer =
 		CLogicalCTEProducer::PopConvert(pexprProducer->Pop());
 
-	CColRefArray *pdrgpcrInput = pcrsInput->Pdrgpcr(mp);
-	UlongToColRefMap *colref_mapping =
+	gpos::owner<CColRefArray *> pdrgpcrInput = pcrsInput->Pdrgpcr(mp);
+	gpos::owner<UlongToColRefMap *> colref_mapping =
 		PhmulcrMapping(mp, popCTEConsumer->Pdrgpcr(), popProducer->Pdrgpcr());
-	CColRefArray *pdrgpcrOutput =
+	gpos::owner<CColRefArray *> pdrgpcrOutput =
 		PdrgpcrRemap(mp, pdrgpcrInput, colref_mapping, true /*must_exist*/);
 
-	CColRefSet *pcrsCTEProducer = GPOS_NEW(mp) CColRefSet(mp);
+	gpos::owner<CColRefSet *> pcrsCTEProducer = GPOS_NEW(mp) CColRefSet(mp);
 	pcrsCTEProducer->Include(pdrgpcrOutput);
 
 	colref_mapping->Release();
@@ -3587,7 +3631,7 @@ CUtils::PexprConjINDFCond(CMemoryPool *mp, CColRef2dArray *pdrgpdrgpcrInput)
 	GPOS_ASSERT(0 != length);
 	GPOS_ASSERT(length == (*pdrgpdrgpcrInput)[1]->Size());
 
-	CExpressionArray *pdrgpexprInput =
+	gpos::owner<CExpressionArray *> pdrgpexprInput =
 		GPOS_NEW(mp) CExpressionArray(mp, length);
 	for (ULONG ul = 0; ul < length; ul++)
 	{
@@ -3635,11 +3679,12 @@ CUtils::PexprCast(CMemoryPool *mp, CMDAccessor *md_accessor, CExpression *pexpr,
 	GPOS_ASSERT(
 		CMDAccessorUtils::FCastExists(md_accessor, mdid_src, mdid_dest));
 
-	const IMDCast *pmdcast = md_accessor->Pmdcast(mdid_src, mdid_dest);
+	gpos::pointer<const IMDCast *> pmdcast =
+		md_accessor->Pmdcast(mdid_src, mdid_dest);
 
 	mdid_dest->AddRef();
 	pmdcast->GetCastFuncMdId()->AddRef();
-	CExpression *pexprCast;
+	gpos::owner<CExpression *> pexprCast;
 
 	if (pmdcast->GetMDPathType() == IMDCast::EmdtArrayCoerce)
 	{
@@ -3657,7 +3702,7 @@ CUtils::PexprCast(CMemoryPool *mp, CMDAccessor *md_accessor, CExpression *pexpr,
 	}
 	else
 	{
-		CScalarCast *popCast =
+		gpos::owner<CScalarCast *> popCast =
 			GPOS_NEW(mp) CScalarCast(mp, mdid_dest, pmdcast->GetCastFuncMdId(),
 									 pmdcast->IsBinaryCoercible());
 		pexprCast = GPOS_NEW(mp) CExpression(mp, popCast, pexpr);
@@ -3668,11 +3713,11 @@ CUtils::PexprCast(CMemoryPool *mp, CMDAccessor *md_accessor, CExpression *pexpr,
 
 // check whether a colref array contains repeated items
 BOOL
-CUtils::FHasDuplicates(const CColRefArray *colref_array)
+CUtils::FHasDuplicates(gpos::pointer<const CColRefArray *> colref_array)
 {
 	CAutoMemoryPool amp;
 	CMemoryPool *mp = amp.Pmp();
-	CColRefSet *pcrs = GPOS_NEW(mp) CColRefSet(mp);
+	gpos::owner<CColRefSet *> pcrs = GPOS_NEW(mp) CColRefSet(mp);
 
 	const ULONG length = colref_array->Size();
 	for (ULONG ul = 0; ul < length; ul++)
@@ -3692,11 +3737,11 @@ CUtils::FHasDuplicates(const CColRefArray *colref_array)
 }
 
 // construct a logical join expression operator of the given type, with the given children
-CExpression *
+gpos::owner<CExpression *>
 CUtils::PexprLogicalJoin(CMemoryPool *mp, EdxlJoinType edxljointype,
 						 CExpressionArray *pdrgpexpr)
 {
-	COperator *pop = nullptr;
+	gpos::owner<COperator *> pop = nullptr;
 	switch (edxljointype)
 	{
 		case EdxljtInner:
@@ -3732,7 +3777,8 @@ CUtils::PdrgpexprScalarIdents(CMemoryPool *mp, CColRefArray *colref_array)
 {
 	GPOS_ASSERT(nullptr != colref_array);
 
-	CExpressionArray *pdrgpexpr = GPOS_NEW(mp) CExpressionArray(mp);
+	gpos::owner<CExpressionArray *> pdrgpexpr =
+		GPOS_NEW(mp) CExpressionArray(mp);
 	const ULONG length = colref_array->Size();
 
 	for (ULONG ul = 0; ul < length; ul++)
@@ -3747,10 +3793,11 @@ CUtils::PdrgpexprScalarIdents(CMemoryPool *mp, CColRefArray *colref_array)
 
 // return used columns by expressions in the given array
 CColRefSet *
-CUtils::PcrsExtractColumns(CMemoryPool *mp, const CExpressionArray *pdrgpexpr)
+CUtils::PcrsExtractColumns(CMemoryPool *mp,
+						   gpos::pointer<const CExpressionArray *> pdrgpexpr)
 {
 	GPOS_ASSERT(nullptr != pdrgpexpr);
-	CColRefSet *pcrs = GPOS_NEW(mp) CColRefSet(mp);
+	gpos::owner<CColRefSet *> pcrs = GPOS_NEW(mp) CColRefSet(mp);
 
 	const ULONG length = pdrgpexpr->Size();
 	for (ULONG ul = 0; ul < length; ul++)
@@ -3766,7 +3813,7 @@ CUtils::PcrsExtractColumns(CMemoryPool *mp, const CExpressionArray *pdrgpexpr)
 CBitSet *
 CUtils::PbsAllSet(CMemoryPool *mp, ULONG size)
 {
-	CBitSet *pbs = GPOS_NEW(mp) CBitSet(mp, size);
+	gpos::owner<CBitSet *> pbs = GPOS_NEW(mp) CBitSet(mp, size);
 	for (ULONG ul = 0; ul < size; ul++)
 	{
 		pbs->ExchangeSet(ul);
@@ -3780,7 +3827,7 @@ CBitSet *
 CUtils::Pbs(CMemoryPool *mp, ULongPtrArray *pdrgpul)
 {
 	GPOS_ASSERT(nullptr != pdrgpul);
-	CBitSet *pbs = GPOS_NEW(mp) CBitSet(mp);
+	gpos::owner<CBitSet *> pbs = GPOS_NEW(mp) CBitSet(mp);
 
 	const ULONG length = pdrgpul->Size();
 	for (ULONG ul = 0; ul < length; ul++)
@@ -3794,25 +3841,27 @@ CUtils::Pbs(CMemoryPool *mp, ULongPtrArray *pdrgpul)
 
 // Helper to create a dummy constant table expression;
 // the table has one boolean column with value True and one row
-CExpression *
+gpos::owner<CExpression *>
 CUtils::PexprLogicalCTGDummy(CMemoryPool *mp)
 {
 	CColumnFactory *col_factory = COptCtxt::PoctxtFromTLS()->Pcf();
 	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
 
 	// generate a bool column
-	const IMDTypeBool *pmdtypebool = md_accessor->PtMDType<IMDTypeBool>();
+	gpos::pointer<const IMDTypeBool *> pmdtypebool =
+		md_accessor->PtMDType<IMDTypeBool>();
 	CColRef *colref =
 		col_factory->PcrCreate(pmdtypebool, default_type_modifier);
-	CColRefArray *pdrgpcrCTG = GPOS_NEW(mp) CColRefArray(mp);
+	gpos::owner<CColRefArray *> pdrgpcrCTG = GPOS_NEW(mp) CColRefArray(mp);
 	pdrgpcrCTG->Append(colref);
 
 	// generate a bool datum
-	IDatumArray *pdrgpdatum = GPOS_NEW(mp) IDatumArray(mp);
+	gpos::owner<IDatumArray *> pdrgpdatum = GPOS_NEW(mp) IDatumArray(mp);
 	IDatumBool *datum =
 		pmdtypebool->CreateBoolDatum(mp, false /*value*/, false /*is_null*/);
 	pdrgpdatum->Append(datum);
-	IDatum2dArray *pdrgpdrgpdatum = GPOS_NEW(mp) IDatum2dArray(mp);
+	gpos::owner<IDatum2dArray *> pdrgpdrgpdatum =
+		GPOS_NEW(mp) IDatum2dArray(mp);
 	pdrgpdrgpdatum->Append(pdrgpdatum);
 
 	return GPOS_NEW(mp) CExpression(
@@ -3843,7 +3892,7 @@ CUtils::PcrMap(CColRef *pcrSource, CColRefArray *pdrgpcrSource,
 // duplicates occur if Motion's input has replicated/universal distribution,
 // which means that we have exactly the same copy of input on each host,
 BOOL
-CUtils::FDuplicateHazardMotion(CExpression *pexprMotion)
+CUtils::FDuplicateHazardMotion(gpos::pointer<CExpression *> pexprMotion)
 {
 	GPOS_ASSERT(nullptr != pexprMotion);
 	GPOS_ASSERT(CUtils::FPhysicalMotion(pexprMotion->Pop()));
@@ -3879,7 +3928,7 @@ CUtils::FDuplicateHazardMotion(CExpression *pexprMotion)
 //				 |--CScalarIdent "b" (1)
 //				 +--CScalarConst ()
 // clang-format on
-CExpression *
+gpos::owner<CExpression *>
 CUtils::PexprCollapseProjects(CMemoryPool *mp, CExpression *pexpr)
 {
 	GPOS_ASSERT(nullptr != pexpr);
@@ -3902,14 +3951,15 @@ CUtils::PexprCollapseProjects(CMemoryPool *mp, CExpression *pexpr)
 	CExpression *pexprChildRel = (*pexprRel)[0];
 	CExpression *pexprChildScalar = (*pexprRel)[1];
 
-	CColRefSet *pcrsDefinedChild =
+	gpos::owner<CColRefSet *> pcrsDefinedChild =
 		GPOS_NEW(mp) CColRefSet(mp, *pexprChildScalar->DeriveDefinedColumns());
 
 	// array of project elements for the new child project node
-	CExpressionArray *pdrgpexprPrElChild = GPOS_NEW(mp) CExpressionArray(mp);
+	gpos::owner<CExpressionArray *> pdrgpexprPrElChild =
+		GPOS_NEW(mp) CExpressionArray(mp);
 
 	// array of project elements that have set returning scalar functions that can be collapsed
-	CExpressionArray *pdrgpexprSetReturnFunc =
+	gpos::owner<CExpressionArray *> pdrgpexprSetReturnFunc =
 		GPOS_NEW(mp) CExpressionArray(mp);
 	ULONG ulCollapsableSetReturnFunc = 0;
 
@@ -3917,13 +3967,14 @@ CUtils::PexprCollapseProjects(CMemoryPool *mp, CExpression *pexpr)
 		pexprChildScalar->DeriveHasNonScalarFunction();
 
 	// iterate over the parent project elements and see if we can add it to the child's project node
-	CExpressionArray *pdrgpexprPrEl = GPOS_NEW(mp) CExpressionArray(mp);
+	gpos::owner<CExpressionArray *> pdrgpexprPrEl =
+		GPOS_NEW(mp) CExpressionArray(mp);
 	ULONG ulLenPr = pexprScalar->Arity();
 	for (ULONG ul1 = 0; ul1 < ulLenPr; ul1++)
 	{
 		CExpression *pexprPrE = (*pexprScalar)[ul1];
 
-		CColRefSet *pcrsUsed =
+		gpos::owner<CColRefSet *> pcrsUsed =
 			GPOS_NEW(mp) CColRefSet(mp, *pexprPrE->DeriveUsedColumns());
 
 		pexprPrE->AddRef();
@@ -3985,7 +4036,7 @@ CUtils::PexprCollapseProjects(CMemoryPool *mp, CExpression *pexpr)
 	ULONG ulLenChild = pexprChildScalar->Arity();
 	for (ULONG ul = 0; ul < ulLenChild; ul++)
 	{
-		CExpression *pexprPrE = (*pexprChildScalar)[ul];
+		gpos::owner<CExpression *> pexprPrE = (*pexprChildScalar)[ul];
 		pexprPrE->AddRef();
 		pdrgpexprPrElChild->Append(pexprPrE);
 	}
@@ -4000,7 +4051,7 @@ CUtils::PexprCollapseProjects(CMemoryPool *mp, CExpression *pexpr)
 	}
 
 	pexprChildRel->AddRef();
-	CExpression *pexprProject = GPOS_NEW(mp) CExpression(
+	gpos::owner<CExpression *> pexprProject = GPOS_NEW(mp) CExpression(
 		mp, GPOS_NEW(mp) CLogicalProject(mp), pexprChildRel,
 		GPOS_NEW(mp) CExpression(mp, GPOS_NEW(mp) CScalarProjectList(mp),
 								 pdrgpexprPrElChild));
@@ -4030,7 +4081,7 @@ CUtils::AppendArrayExpr(CExpressionArray *pdrgpexprSrc,
 	ULONG length = pdrgpexprSrc->Size();
 	for (ULONG ul = 0; ul < length; ul++)
 	{
-		CExpression *pexprPrE = (*pdrgpexprSrc)[ul];
+		gpos::owner<CExpression *> pexprPrE = (*pdrgpexprSrc)[ul];
 		pexprPrE->AddRef();
 		pdrgpexprDest->Append(pexprPrE);
 	}
@@ -4040,8 +4091,8 @@ CUtils::AppendArrayExpr(CExpressionArray *pdrgpexprSrc,
 INT
 CUtils::IDatumCmp(const void *val1, const void *val2)
 {
-	const IDatum *dat1 = *(IDatum **) (val1);
-	const IDatum *dat2 = *(IDatum **) (val2);
+	gpos::pointer<const IDatum *> dat1 = *(IDatum **) (val1);
+	gpos::pointer<const IDatum *> dat2 = *(IDatum **) (val2);
 
 	const IComparator *pcomp = COptCtxt::PoctxtFromTLS()->Pcomp();
 
@@ -4061,8 +4112,8 @@ CUtils::IDatumCmp(const void *val1, const void *val2)
 INT
 CUtils::CPointCmp(const void *val1, const void *val2)
 {
-	const CPoint *p1 = *(CPoint **) (val1);
-	const CPoint *p2 = *(CPoint **) (val2);
+	gpos::pointer<const CPoint *> p1 = *(CPoint **) (val1);
+	gpos::pointer<const CPoint *> p2 = *(CPoint **) (val2);
 
 	if (p1->Equals(p2))
 	{
@@ -4079,8 +4130,8 @@ CUtils::CPointCmp(const void *val1, const void *val2)
 
 // check if the equivalance classes are disjoint
 BOOL
-CUtils::FEquivalanceClassesDisjoint(CMemoryPool *mp,
-									const CColRefSetArray *pdrgpcrs)
+CUtils::FEquivalanceClassesDisjoint(
+	CMemoryPool *mp, gpos::pointer<const CColRefSetArray *> pdrgpcrs)
 {
 	const ULONG length = pdrgpcrs->Size();
 
@@ -4090,12 +4141,13 @@ CUtils::FEquivalanceClassesDisjoint(CMemoryPool *mp,
 		return true;
 	}
 
-	ColRefToColRefSetMap *phmcscrs = GPOS_NEW(mp) ColRefToColRefSetMap(mp);
+	gpos::owner<ColRefToColRefSetMap *> phmcscrs =
+		GPOS_NEW(mp) ColRefToColRefSetMap(mp);
 
 	// populate a hashmap in this loop
 	for (ULONG ulFst = 0; ulFst < length; ulFst++)
 	{
-		CColRefSet *pcrsFst = (*pdrgpcrs)[ulFst];
+		gpos::owner<CColRefSet *> pcrsFst = (*pdrgpcrs)[ulFst];
 
 		CColRefSetIter crsi(*pcrsFst);
 		while (crsi.Advance())
@@ -4120,8 +4172,9 @@ CUtils::FEquivalanceClassesDisjoint(CMemoryPool *mp,
 
 // check if the equivalance classes are same
 BOOL
-CUtils::FEquivalanceClassesEqual(CMemoryPool *mp, CColRefSetArray *pdrgpcrsFst,
-								 CColRefSetArray *pdrgpcrsSnd)
+CUtils::FEquivalanceClassesEqual(CMemoryPool *mp,
+								 gpos::pointer<CColRefSetArray *> pdrgpcrsFst,
+								 gpos::pointer<CColRefSetArray *> pdrgpcrsSnd)
 {
 	const ULONG ulLenFrst = pdrgpcrsFst->Size();
 	const ULONG ulLenSecond = pdrgpcrsSnd->Size();
@@ -4129,7 +4182,8 @@ CUtils::FEquivalanceClassesEqual(CMemoryPool *mp, CColRefSetArray *pdrgpcrsFst,
 	if (ulLenFrst != ulLenSecond)
 		return false;
 
-	ColRefToColRefSetMap *phmcscrs = GPOS_NEW(mp) ColRefToColRefSetMap(mp);
+	gpos::owner<ColRefToColRefSetMap *> phmcscrs =
+		GPOS_NEW(mp) ColRefToColRefSetMap(mp);
 	for (ULONG ulFst = 0; ulFst < ulLenFrst; ulFst++)
 	{
 		CColRefSet *pcrsFst = (*pdrgpcrsFst)[ulFst];
@@ -4181,7 +4235,7 @@ CUtils::FEquivalanceClassesEqual(CMemoryPool *mp, CColRefSetArray *pdrgpcrsFst,
 void
 CUtils::ValidateCTEProducerConsumerLocality(
 	CMemoryPool *mp, CExpression *pexpr, EExecLocalityType eelt,
-	UlongToUlongMap *
+	gpos::owner<UlongToUlongMap *>
 		phmulul	 // Hash Map containing the CTE Producer id and its execution locality
 )
 {
@@ -4265,14 +4319,14 @@ CUtils::ExecLocalityType(CDistributionSpec *pds)
 }
 
 // generate a limit expression on top of the given relational child with the given offset and limit count
-CExpression *
+gpos::owner<CExpression *>
 CUtils::PexprLimit(CMemoryPool *mp, CExpression *pexpr, ULONG ulOffSet,
 				   ULONG count)
 {
 	GPOS_ASSERT(pexpr);
 
-	COrderSpec *pos = GPOS_NEW(mp) COrderSpec(mp);
-	CLogicalLimit *popLimit = GPOS_NEW(mp)
+	gpos::owner<COrderSpec *> pos = GPOS_NEW(mp) COrderSpec(mp);
+	gpos::owner<CLogicalLimit *> popLimit = GPOS_NEW(mp)
 		CLogicalLimit(mp, pos, true /* fGlobal */, true /* fHasCount */,
 					  false /*fTopLimitUnderDML*/);
 	CExpression *pexprLimitOffset = CUtils::PexprScalarConstInt8(mp, ulOffSet);
@@ -4284,10 +4338,10 @@ CUtils::PexprLimit(CMemoryPool *mp, CExpression *pexpr, ULONG ulOffSet,
 
 // generate part oid
 BOOL
-CUtils::FGeneratePartOid(IMDId *mdid)
+CUtils::FGeneratePartOid(gpos::pointer<IMDId *> mdid)
 {
 	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
-	const IMDRelation *pmdrel = md_accessor->RetrieveRel(mdid);
+	gpos::pointer<const IMDRelation *> pmdrel = md_accessor->RetrieveRel(mdid);
 
 	COptimizerConfig *optimizer_config =
 		COptCtxt::PoctxtFromTLS()->GetOptimizerConfig();
@@ -4302,7 +4356,7 @@ CUtils::FGeneratePartOid(IMDId *mdid)
 
 // check if a given operator is a ANY subquery
 BOOL
-CUtils::FAnySubquery(COperator *pop)
+CUtils::FAnySubquery(gpos::pointer<COperator *> pop)
 {
 	GPOS_ASSERT(nullptr != pop);
 
@@ -4331,7 +4385,7 @@ CUtils::PNthProjectElementExpr(CExpression *pexpr, ULONG ul)
 
 // check if the Project list has an inner reference assuming project list has one projecet element
 BOOL
-CUtils::FInnerRefInProjectList(CExpression *pexpr)
+CUtils::FInnerRefInProjectList(gpos::pointer<CExpression *> pexpr)
 {
 	GPOS_ASSERT(nullptr != pexpr);
 	GPOS_ASSERT(COperator::EopLogicalProject == pexpr->Pop()->Eopid());
@@ -4350,7 +4404,8 @@ CUtils::FInnerRefInProjectList(CExpression *pexpr)
 
 // Check if expression tree has a col being referenced in the CColRefSet passed as input
 BOOL
-CUtils::FExprHasAnyCrFromCrs(CExpression *pexpr, CColRefSet *pcrs)
+CUtils::FExprHasAnyCrFromCrs(gpos::pointer<CExpression *> pexpr,
+							 gpos::pointer<CColRefSet *> pcrs)
 {
 	GPOS_ASSERT(nullptr != pexpr);
 	GPOS_ASSERT(nullptr != pcrs);
@@ -4395,7 +4450,7 @@ CUtils::FExprHasAnyCrFromCrs(CExpression *pexpr, CColRefSet *pcrs)
 
 // returns true if expression contains aggregate window function
 BOOL
-CUtils::FHasAggWindowFunc(CExpression *pexpr)
+CUtils::FHasAggWindowFunc(gpos::pointer<CExpression *> pexpr)
 {
 	GPOS_ASSERT(nullptr != pexpr);
 
@@ -4417,7 +4472,7 @@ CUtils::FHasAggWindowFunc(CExpression *pexpr)
 }
 
 BOOL
-CUtils::FCrossJoin(CExpression *pexpr)
+CUtils::FCrossJoin(gpos::pointer<CExpression *> pexpr)
 {
 	GPOS_ASSERT(nullptr != pexpr);
 
@@ -4435,7 +4490,7 @@ CUtils::FCrossJoin(CExpression *pexpr)
 // Determine whether a scalar expression consists only of a scalar id and NDV-preserving
 // functions plus casts. If so, return the corresponding CColRef.
 BOOL
-CUtils::IsExprNDVPreserving(CExpression *pexpr,
+CUtils::IsExprNDVPreserving(gpos::pointer<CExpression *> pexpr,
 							const CColRef **underlying_colref)
 {
 	CExpression *curr_expr = pexpr;
@@ -4488,7 +4543,7 @@ CUtils::IsExprNDVPreserving(CExpression *pexpr,
 				// check whether the function is NDV-preserving
 				CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
 				CScalarFunc *sf = CScalarFunc::PopConvert(pop);
-				const IMDFunction *pmdfunc =
+				gpos::pointer<const IMDFunction *> pmdfunc =
 					md_accessor->RetrieveFunc(sf->FuncMdId());
 
 				if (!pmdfunc->IsNDVPreserving() || 1 != curr_expr->Arity())
@@ -4502,7 +4557,7 @@ CUtils::IsExprNDVPreserving(CExpression *pexpr,
 			{
 				CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
 				CScalarOp *so = CScalarOp::PopConvert(pop);
-				const IMDScalarOp *pmdscop =
+				gpos::pointer<const IMDScalarOp *> pmdscop =
 					md_accessor->RetrieveScOp(so->MdIdOp());
 
 				if (!pmdscop->IsNDVPreserving() || 2 != curr_expr->Arity())
@@ -4611,7 +4666,7 @@ CUtils::PexprMatchEqualityOrINDF(
 
 // from the input join expression, remove the inferred predicates
 // and return the new join expression without inferred predicate
-CExpression *
+gpos::owner<CExpression *>
 CUtils::MakeJoinWithoutInferredPreds(CMemoryPool *mp, CExpression *join_expr)
 {
 	GPOS_ASSERT(COperator::EopLogicalInnerJoin == join_expr->Pop()->Eopid());
@@ -4629,7 +4684,7 @@ CUtils::MakeJoinWithoutInferredPreds(CMemoryPool *mp, CExpression *join_expr)
 	CExpression *right_child_expr = (*join_expr)[1];
 	left_child_expr->AddRef();
 	right_child_expr->AddRef();
-	COperator *join_op = join_expr->Pop();
+	gpos::owner<COperator *> join_op = join_expr->Pop();
 	join_op->AddRef();
 	return GPOS_NEW(mp)
 		CExpression(mp, join_op, left_child_expr, right_child_expr,
@@ -4638,7 +4693,8 @@ CUtils::MakeJoinWithoutInferredPreds(CMemoryPool *mp, CExpression *join_expr)
 
 // check if the input expr array contains the expr
 BOOL
-CUtils::Contains(const CExpressionArray *exprs, CExpression *expr_to_match)
+CUtils::Contains(gpos::pointer<const CExpressionArray *> exprs,
+				 gpos::pointer<CExpression *> expr_to_match)
 {
 	if (nullptr == exprs)
 	{
@@ -4655,8 +4711,8 @@ CUtils::Contains(const CExpressionArray *exprs, CExpression *expr_to_match)
 }
 
 BOOL
-CUtils::Equals(const CExpressionArrays *exprs_arr,
-			   const CExpressionArrays *other_exprs_arr)
+CUtils::Equals(gpos::pointer<const CExpressionArrays *> exprs_arr,
+			   gpos::pointer<const CExpressionArrays *> other_exprs_arr)
 {
 	GPOS_CHECK_STACK_SIZE;
 
@@ -4688,7 +4744,8 @@ CUtils::Equals(const CExpressionArrays *exprs_arr,
 }
 
 BOOL
-CUtils::Equals(const IMdIdArray *mdids, const IMdIdArray *other_mdids)
+CUtils::Equals(gpos::pointer<const IMdIdArray *> mdids,
+			   gpos::pointer<const IMdIdArray *> other_mdids)
 {
 	GPOS_CHECK_STACK_SIZE;
 
@@ -4722,7 +4779,8 @@ CUtils::Equals(const IMdIdArray *mdids, const IMdIdArray *other_mdids)
 }
 
 BOOL
-CUtils::Equals(const IMDId *mdid, const IMDId *other_mdid)
+CUtils::Equals(gpos::pointer<const IMDId *> mdid,
+			   gpos::pointer<const IMDId *> other_mdid)
 {
 	if ((mdid == nullptr) ^ (other_mdid == nullptr))
 	{
@@ -4745,7 +4803,8 @@ CUtils::GetCombinedExpressionArrays(CMemoryPool *mp,
 									CExpressionArrays *exprs_array,
 									CExpressionArrays *exprs_array_other)
 {
-	CExpressionArrays *result_exprs = GPOS_NEW(mp) CExpressionArrays(mp);
+	gpos::owner<CExpressionArrays *> result_exprs =
+		GPOS_NEW(mp) CExpressionArrays(mp);
 	AddExprs(result_exprs, exprs_array);
 	AddExprs(result_exprs, exprs_array_other);
 
@@ -4760,7 +4819,7 @@ CUtils::AddExprs(CExpressionArrays *results_exprs,
 	GPOS_ASSERT(nullptr != input_exprs);
 	for (ULONG ul = 0; ul < input_exprs->Size(); ul++)
 	{
-		CExpressionArray *exprs = (*input_exprs)[ul];
+		gpos::owner<CExpressionArray *> exprs = (*input_exprs)[ul];
 		exprs->AddRef();
 		results_exprs->Append(exprs);
 	}

@@ -13,6 +13,7 @@
 #define GPDXL_CDXLScalarValuesList_H
 
 #include "gpos/base.h"
+#include "gpos/common/owner.h"
 
 #include "naucrates/dxl/operators/CDXLScalar.h"
 #include "naucrates/md/IMDId.h"
@@ -44,10 +45,10 @@ public:
 
 	// serialize operator in DXL format
 	void SerializeToDXL(CXMLSerializer *xml_serializer,
-						const CDXLNode *dxlnode) const override;
+						gpos::pointer<const CDXLNode *> dxlnode) const override;
 
 	// conversion function
-	static CDXLScalarValuesList *Cast(CDXLOperator *dxl_op);
+	static gpos::cast_func<CDXLScalarValuesList *> Cast(CDXLOperator *dxl_op);
 
 	// does the operator return a boolean result
 	BOOL HasBoolResult(CMDAccessor * /*md_accessor*/) const override;

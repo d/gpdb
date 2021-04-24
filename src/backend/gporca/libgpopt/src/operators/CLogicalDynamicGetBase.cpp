@@ -12,6 +12,7 @@
 #include "gpopt/operators/CLogicalDynamicGetBase.h"
 
 #include "gpos/base.h"
+#include "gpos/common/owner.h"
 
 #include "gpopt/base/CColRefSet.h"
 #include "gpopt/base/CColRefSetIter.h"
@@ -155,7 +156,7 @@ CLogicalDynamicGetBase::DeriveOutputColumns(CMemoryPool *mp,
 											CExpressionHandle &	 // exprhdl
 )
 {
-	CColRefSet *pcrs = GPOS_NEW(mp) CColRefSet(mp);
+	gpos::owner<CColRefSet *> pcrs = GPOS_NEW(mp) CColRefSet(mp);
 	pcrs->Include(m_pdrgpcrOutput);
 
 	return pcrs;
@@ -209,11 +210,11 @@ CLogicalDynamicGetBase::DerivePartitionInfo(CMemoryPool *mp,
 											CExpressionHandle &	 // exprhdl
 ) const
 {
-	IMDId *mdid = m_ptabdesc->MDId();
+	gpos::owner<IMDId *> mdid = m_ptabdesc->MDId();
 	mdid->AddRef();
 	m_pdrgpdrgpcrPart->AddRef();
 
-	CPartInfo *ppartinfo = GPOS_NEW(mp) CPartInfo(mp);
+	gpos::owner<CPartInfo *> ppartinfo = GPOS_NEW(mp) CPartInfo(mp);
 	ppartinfo->AddPartConsumer(mp, m_scan_id, mdid, m_pdrgpdrgpcrPart);
 
 	return ppartinfo;
@@ -233,7 +234,7 @@ CLogicalDynamicGetBase::PstatsDeriveFilter(CMemoryPool *mp,
 										   CExpressionHandle &exprhdl,
 										   CExpression *pexprFilter) const
 {
-	CExpression *pexprFilterNew = nullptr;
+	gpos::owner<CExpression *> pexprFilterNew = nullptr;
 
 	if (nullptr != pexprFilter)
 	{
@@ -241,7 +242,7 @@ CLogicalDynamicGetBase::PstatsDeriveFilter(CMemoryPool *mp,
 		pexprFilterNew->AddRef();
 	}
 
-	CColRefSet *pcrsStat = GPOS_NEW(mp) CColRefSet(mp);
+	gpos::owner<CColRefSet *> pcrsStat = GPOS_NEW(mp) CColRefSet(mp);
 
 	if (nullptr != pexprFilterNew)
 	{
@@ -255,7 +256,7 @@ CLogicalDynamicGetBase::PstatsDeriveFilter(CMemoryPool *mp,
 	}
 
 
-	CStatistics *pstatsFullTable = dynamic_cast<CStatistics *>(
+	gpos::owner<CStatistics *> pstatsFullTable = dynamic_cast<CStatistics *>(
 		PstatsBaseTable(mp, exprhdl, m_ptabdesc, pcrsStat));
 
 	pcrsStat->Release();
@@ -265,7 +266,7 @@ CLogicalDynamicGetBase::PstatsDeriveFilter(CMemoryPool *mp,
 		return pstatsFullTable;
 	}
 
-	CStatsPred *pred_stats = CStatsPredUtils::ExtractPredStats(
+	gpos::owner<CStatsPred *> pred_stats = CStatsPredUtils::ExtractPredStats(
 		mp, pexprFilterNew, nullptr /*outer_refs*/
 	);
 	pexprFilterNew->Release();
@@ -286,15 +287,18 @@ CLogicalDynamicGetBase::ConstructRootColMappingPerPart(
 {
 	CMDAccessor *mda = COptCtxt::PoctxtFromTLS()->Pmda();
 
-	ColRefToUlongMapArray *part_maps = GPOS_NEW(mp) ColRefToUlongMapArray(mp);
+	gpos::owner<ColRefToUlongMapArray *> part_maps =
+		GPOS_NEW(mp) ColRefToUlongMapArray(mp);
 	for (ULONG ul = 0; ul < partition_mdids->Size(); ++ul)
 	{
 		IMDId *part_mdid = (*partition_mdids)[ul];
-		const IMDRelation *partrel = mda->RetrieveRel(part_mdid);
+		gpos::pointer<const IMDRelation *> partrel =
+			mda->RetrieveRel(part_mdid);
 
 		GPOS_ASSERT(nullptr != partrel);
 
-		ColRefToUlongMap *mapping = GPOS_NEW(mp) ColRefToUlongMap(mp);
+		gpos::owner<ColRefToUlongMap *> mapping =
+			GPOS_NEW(mp) ColRefToUlongMap(mp);
 
 		for (ULONG i = 0; i < root_cols->Size(); ++i)
 		{
@@ -303,7 +307,7 @@ CLogicalDynamicGetBase::ConstructRootColMappingPerPart(
 			BOOL found_mapping = false;
 			for (ULONG j = 0, idx = 0; j < partrel->ColumnCount(); ++j, ++idx)
 			{
-				const IMDColumn *coldesc = partrel->GetMdCol(j);
+				gpos::pointer<const IMDColumn *> coldesc = partrel->GetMdCol(j);
 				const CWStringConst *colname = coldesc->Mdname().GetMDName();
 
 				if (coldesc->IsDropped())

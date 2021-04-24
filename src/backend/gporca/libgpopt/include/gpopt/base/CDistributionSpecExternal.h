@@ -16,6 +16,7 @@
 #define GPOPT_CDistributionSpecExternal_H
 
 #include "gpos/base.h"
+#include "gpos/common/owner.h"
 
 #include "gpopt/base/CDistributionSpec.h"
 
@@ -55,18 +56,19 @@ public:
 	}
 
 	// does this distribution match the given one
-	BOOL Matches(const CDistributionSpec *pds) const override;
+	BOOL Matches(gpos::pointer<const CDistributionSpec *> pds) const override;
 
 	// does current distribution satisfy the given one
-	BOOL FSatisfies(const CDistributionSpec *pds) const override;
+	BOOL FSatisfies(
+		gpos::pointer<const CDistributionSpec *> pds) const override;
 
 
 	// append enforcers to dynamic array for the given plan properties
-	void AppendEnforcers(CMemoryPool *,		   //mp,
-						 CExpressionHandle &,  // exprhdl
-						 CReqdPropPlan *,	   //prpp,
-						 CExpressionArray *,   // pdrgpexpr,
-						 CExpression *		   // pexpr
+	void AppendEnforcers(CMemoryPool *,						 //mp,
+						 CExpressionHandle &,				 // exprhdl
+						 CReqdPropPlan *,					 //prpp,
+						 gpos::pointer<CExpressionArray *>,	 // pdrgpexpr,
+						 gpos::pointer<CExpression *>		 // pexpr
 						 ) override;
 
 	// return distribution partitioning type
@@ -76,7 +78,7 @@ public:
 	IOstream &OsPrint(IOstream &os) const override;
 
 	// conversion function
-	static CDistributionSpecExternal *
+	static gpos::cast_func<CDistributionSpecExternal *>
 	PdsConvert(CDistributionSpec *pds)
 	{
 		GPOS_ASSERT(nullptr != pds);
@@ -86,8 +88,8 @@ public:
 	}
 
 	// conversion function: const argument
-	static const CDistributionSpecExternal *
-	PdsConvert(const CDistributionSpec *pds)
+	static gpos::pointer<const CDistributionSpecExternal *>
+	PdsConvert(gpos::pointer<const CDistributionSpec *> pds)
 	{
 		GPOS_ASSERT(nullptr != pds);
 		GPOS_ASSERT(EdtExternal == pds->Edt());

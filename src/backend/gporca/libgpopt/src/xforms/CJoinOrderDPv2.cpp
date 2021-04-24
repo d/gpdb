@@ -218,8 +218,8 @@ CJoinOrderDPv2::PexprBuildInnerJoinPred(CBitSet *pbsFst, CBitSet *pbsSnd)
 {
 	GPOS_ASSERT(pbsFst->IsDisjoint(pbsSnd));
 	// collect edges connecting the given sets
-	CBitSet *pbsEdges = GPOS_NEW(m_mp) CBitSet(m_mp);
-	CBitSet *pbs = GPOS_NEW(m_mp) CBitSet(m_mp, *pbsFst);
+	gpos::owner<CBitSet *> pbsEdges = GPOS_NEW(m_mp) CBitSet(m_mp);
+	gpos::owner<CBitSet *> pbs = GPOS_NEW(m_mp) CBitSet(m_mp, *pbsFst);
 	pbs->Union(pbsSnd);
 
 	for (ULONG ul = 0; ul < m_ulEdges; ul++)
@@ -243,7 +243,8 @@ CJoinOrderDPv2::PexprBuildInnerJoinPred(CBitSet *pbsFst, CBitSet *pbsSnd)
 	CExpression *pexprPred = nullptr;
 	if (0 < pbsEdges->Size())
 	{
-		CExpressionArray *pdrgpexpr = GPOS_NEW(m_mp) CExpressionArray(m_mp);
+		gpos::owner<CExpressionArray *> pdrgpexpr =
+			GPOS_NEW(m_mp) CExpressionArray(m_mp);
 		CBitSetIter bsi(*pbsEdges);
 		while (bsi.Advance())
 		{
@@ -317,7 +318,7 @@ CJoinOrderDPv2::GetJoinExprForProperties(
 //		Build a CExpression joining the two given sets from given expressions
 //
 //---------------------------------------------------------------------------
-CJoinOrderDPv2::SExpressionInfo *
+gpos::owner<CJoinOrderDPv2::SExpressionInfo *>
 CJoinOrderDPv2::GetJoinExpr(const SGroupAndExpression &left_child_expr,
 							const SGroupAndExpression &right_child_expr,
 							SExpressionProperties &result_properties)
@@ -503,8 +504,8 @@ CJoinOrderDPv2::AddNewPropertyToExpr(SExpressionInfo *expr_info,
 //
 //---------------------------------------------------------------------------
 void
-CJoinOrderDPv2::AddExprToGroupIfNecessary(SGroupInfo *group_info,
-										  SExpressionInfo *new_expr_info)
+CJoinOrderDPv2::AddExprToGroupIfNecessary(
+	SGroupInfo *group_info, gpos::owner<SExpressionInfo *> new_expr_info)
 {
 	// compute the cost for the new expression
 	ComputeCost(new_expr_info, group_info->m_cardinality);
@@ -685,7 +686,8 @@ CJoinOrderDPv2::PopulateExpressionToEdgeMapIfNeeded()
 		// check for WHERE predicates involving LOJ right children
 
 		// make a bitset b with all the LOJ right children
-		CBitSet *loj_right_children = GPOS_NEW(m_mp) CBitSet(m_mp);
+		gpos::owner<CBitSet *> loj_right_children =
+			GPOS_NEW(m_mp) CBitSet(m_mp);
 
 		for (ULONG c = 0; c < m_child_pred_indexes->Size(); c++)
 		{
@@ -721,7 +723,7 @@ CJoinOrderDPv2::PopulateExpressionToEdgeMapIfNeeded()
 
 		for (ULONG en2 = 0; en2 < m_ulEdges; en2++)
 		{
-			SEdge *pedge = m_rgpedge[en2];
+			gpos::owner<SEdge *> pedge = m_rgpedge[en2];
 
 			pedge->AddRef();
 			pedge->m_pexpr->AddRef();
@@ -740,7 +742,7 @@ CJoinOrderDPv2::PopulateExpressionToEdgeMapIfNeeded()
 //		not been incorporated in the join tree
 //
 //---------------------------------------------------------------------------
-CExpression *
+gpos::owner<CExpression *>
 CJoinOrderDPv2::AddSelectNodeForRemainingEdges(CExpression *join_expr)
 {
 	if (nullptr == m_expression_to_edge_map)
@@ -748,7 +750,8 @@ CJoinOrderDPv2::AddSelectNodeForRemainingEdges(CExpression *join_expr)
 		return join_expr;
 	}
 
-	CExpressionArray *exprArray = GPOS_NEW(m_mp) CExpressionArray(m_mp);
+	gpos::owner<CExpressionArray *> exprArray =
+		GPOS_NEW(m_mp) CExpressionArray(m_mp);
 	RecursivelyMarkEdgesAsUsed(join_expr);
 
 	// find any unused edges and add them to a select
@@ -808,7 +811,8 @@ CJoinOrderDPv2::RecursivelyMarkEdgesAsUsed(CExpression *expr)
 	else
 	{
 		GPOS_ASSERT(expr->Pop()->FScalar());
-		const SEdge *edge = m_expression_to_edge_map->Find(expr);
+		gpos::pointer<const SEdge *> edge =
+			m_expression_to_edge_map->Find(expr);
 		if (nullptr != edge)
 		{
 			// we found the edge belonging to this expression, terminate the recursion
@@ -980,14 +984,15 @@ CJoinOrderDPv2::SearchJoinOrders(ULONG left_level, ULONG right_level)
 			}
 
 			SExpressionProperties reqd_properties(EJoinOrderDP);
-			SExpressionInfo *join_expr_info = GetJoinExprForProperties(
-				left_group_info, right_group_info, reqd_properties);
+			gpos::owner<SExpressionInfo *> join_expr_info =
+				GetJoinExprForProperties(left_group_info, right_group_info,
+										 reqd_properties);
 
 			if (nullptr != join_expr_info)
 			{
 				// we have a valid join
 
-				CBitSet *join_bitset =
+				gpos::owner<CBitSet *> join_bitset =
 					GPOS_NEW(m_mp) CBitSet(m_mp, *left_bitset);
 
 				join_bitset->Union(right_bitset);
@@ -1075,7 +1080,7 @@ CJoinOrderDPv2::GreedySearchJoinOrders(ULONG left_level, JoinOrderPropType algo)
 
 	// the solution on level left_level+1 that we want to build
 	SGroupInfo *best_group_info_in_level = nullptr;
-	SExpressionInfo *best_expr_info_in_level = nullptr;
+	gpos::owner<SExpressionInfo *> best_expr_info_in_level = nullptr;
 	CDouble best_cost_in_level(-1.0);
 
 	// find the solution for the left side
@@ -1126,12 +1131,13 @@ CJoinOrderDPv2::GreedySearchJoinOrders(ULONG left_level, JoinOrderPropType algo)
 			continue;
 		}
 
-		SExpressionInfo *join_expr_info = GetJoinExpr(
+		gpos::owner<SExpressionInfo *> join_expr_info = GetJoinExpr(
 			left_child_expr_info, right_child_expr_info, result_properties);
 		if (nullptr != join_expr_info)
 		{
 			// we have a valid join
-			CBitSet *join_bitset = GPOS_NEW(m_mp) CBitSet(m_mp, *left_bitset);
+			gpos::owner<CBitSet *> join_bitset =
+				GPOS_NEW(m_mp) CBitSet(m_mp, *left_bitset);
 
 			join_bitset->Union(right_bitset);
 
@@ -1192,10 +1198,11 @@ CJoinOrderDPv2::GreedySearchJoinOrders(ULONG left_level, JoinOrderPropType algo)
 //---------------------------------------------------------------------------
 gpos::pointer<CJoinOrderDPv2::SGroupInfo *>
 CJoinOrderDPv2::LookupOrCreateGroupInfo(
-	SLevelInfo *levelInfo, CBitSet *atoms,
+	SLevelInfo *levelInfo, gpos::owner<CBitSet *> atoms,
 	gpos::pointer<SExpressionInfo *> stats_expr_info)
 {
-	SGroupInfo *group_info = m_bitset_to_group_info_map->Find(atoms);
+	gpos::owner<SGroupInfo *> group_info =
+		m_bitset_to_group_info_map->Find(atoms);
 	SExpressionInfo *real_expr_info_for_stats = stats_expr_info;
 
 	if (nullptr == group_info)
@@ -1281,7 +1288,7 @@ CJoinOrderDPv2::FinalizeDPLevel(ULONG level)
 			level_info->m_groups->Append(winner);
 		}
 
-		SGroupInfo *loser;
+		gpos::owner<SGroupInfo *> loser;
 
 		// also remove the groups that didn't make it from the bitset to group info map
 		while (nullptr !=
@@ -1352,11 +1359,11 @@ CJoinOrderDPv2::PexprExpand()
 	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
 	for (ULONG atom_id = 0; atom_id < m_ulComps; atom_id++)
 	{
-		CBitSet *atom_bitset = GPOS_NEW(m_mp) CBitSet(m_mp);
+		gpos::owner<CBitSet *> atom_bitset = GPOS_NEW(m_mp) CBitSet(m_mp);
 		atom_bitset->ExchangeSet(atom_id);
-		CExpression *pexpr_atom = m_rgpcomp[atom_id]->m_pexpr;
+		gpos::owner<CExpression *> pexpr_atom = m_rgpcomp[atom_id]->m_pexpr;
 		pexpr_atom->AddRef();
-		SExpressionInfo *atom_expr_info =
+		gpos::owner<SExpressionInfo *> atom_expr_info =
 			GPOS_NEW(m_mp) SExpressionInfo(m_mp, pexpr_atom, atom_props);
 		if (0 == atom_id)
 		{
@@ -1383,11 +1390,11 @@ CJoinOrderDPv2::PexprExpand()
 
 		if (table_desc != nullptr)
 		{
-			IMDId *rel_mdid = table_desc->MDId();
+			gpos::owner<IMDId *> rel_mdid = table_desc->MDId();
 			rel_mdid->AddRef();
-			CMDIdRelStats *rel_stats_mdid =
+			gpos::owner<CMDIdRelStats *> rel_stats_mdid =
 				GPOS_NEW(m_mp) CMDIdRelStats(CMDIdGPDB::CastMdid(rel_mdid));
-			const IMDRelStats *pmdRelStats =
+			gpos::pointer<const IMDRelStats *> pmdRelStats =
 				md_accessor->Pmdrelstats(rel_stats_mdid);
 			rel_stats_mdid->Release();
 
@@ -1437,7 +1444,7 @@ CJoinOrderDPv2::EnumerateDP()
 
 	COptimizerConfig *optimizer_config =
 		COptCtxt::PoctxtFromTLS()->GetOptimizerConfig();
-	const CHint *phint = optimizer_config->GetHint();
+	gpos::pointer<const CHint *> phint = optimizer_config->GetHint();
 	ULONG join_order_exhaustive_limit = phint->UlJoinOrderDPLimit();
 
 	// for larger joins, compute the limit for the number of groups at each level, this
@@ -1650,7 +1657,7 @@ CJoinOrderDPv2::EnumerateGreedyAvoidXProd()
 CExpression *
 CJoinOrderDPv2::GetNextOfTopK()
 {
-	SExpressionInfo *join_result_info =
+	gpos::owner<SExpressionInfo *> join_result_info =
 		m_top_k_expressions->RemoveBestElement();
 	if (nullptr == join_result_info)
 	{
@@ -1662,7 +1669,7 @@ CJoinOrderDPv2::GetNextOfTopK()
 		return nullptr;
 	}
 
-	CExpression *join_result = join_result_info->m_expr;
+	gpos::owner<CExpression *> join_result = join_result_info->m_expr;
 
 	join_result->AddRef();
 	join_result_info->Release();

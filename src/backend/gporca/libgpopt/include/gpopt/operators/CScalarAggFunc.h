@@ -115,10 +115,11 @@ public:
 
 	// return a copy of the operator with remapped columns
 	COperator *
-	PopCopyWithRemappedColumns(CMemoryPool *,		//mp,
-							   UlongToColRefMap *,	//colref_mapping,
-							   BOOL					//must_exist
-							   ) override
+	PopCopyWithRemappedColumns(
+		CMemoryPool *,						//mp,
+		gpos::pointer<UlongToColRefMap *>,	//colref_mapping,
+		BOOL								//must_exist
+		) override
 	{
 		return PopCopyDefault();
 	}
@@ -138,7 +139,7 @@ public:
 	const CWStringConst *PstrAggFunc() const;
 
 	// aggregate func id
-	IMDId *MDId() const;
+	gpos::pointer<IMDId *> MDId() const;
 
 	// ident accessors
 	BOOL

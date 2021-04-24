@@ -12,6 +12,7 @@
 #include "gpopt/operators/CLogicalDynamicGet.h"
 
 #include "gpos/base.h"
+#include "gpos/common/owner.h"
 
 #include "gpopt/base/CColRefSet.h"
 #include "gpopt/base/CColRefSetIter.h"
@@ -131,7 +132,7 @@ CLogicalDynamicGet::Matches(COperator *pop) const
 //		Return a copy of the operator with remapped columns
 //
 //---------------------------------------------------------------------------
-COperator *
+gpos::owner<COperator *>
 CLogicalDynamicGet::PopCopyWithRemappedColumns(CMemoryPool *mp,
 											   UlongToColRefMap *colref_mapping,
 											   BOOL must_exist)
@@ -196,7 +197,7 @@ CLogicalDynamicGet::DeriveMaxCard(CMemoryPool *mp,
 CXformSet *
 CLogicalDynamicGet::PxfsCandidates(CMemoryPool *mp) const
 {
-	CXformSet *xform_set = GPOS_NEW(mp) CXformSet(mp);
+	gpos::owner<CXformSet *> xform_set = GPOS_NEW(mp) CXformSet(mp);
 	(void) xform_set->ExchangeSet(CXform::ExfDynamicGet2DynamicTableScan);
 	return xform_set;
 }
@@ -254,7 +255,8 @@ CLogicalDynamicGet::PstatsDerive(CMemoryPool *mp, CExpressionHandle &exprhdl,
 	IStatistics *stats =
 		PstatsDeriveFilter(mp, exprhdl, prprel->PexprPartPred());
 
-	CColRefSet *pcrs = GPOS_NEW(mp) CColRefSet(mp, m_pdrgpcrOutput);
+	gpos::owner<CColRefSet *> pcrs =
+		GPOS_NEW(mp) CColRefSet(mp, m_pdrgpcrOutput);
 	CUpperBoundNDVs *upper_bound_NDVs =
 		GPOS_NEW(mp) CUpperBoundNDVs(pcrs, stats->Rows());
 	CStatistics::CastStats(stats)->AddCardUpperBound(upper_bound_NDVs);

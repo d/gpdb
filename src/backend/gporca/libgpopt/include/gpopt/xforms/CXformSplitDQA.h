@@ -12,6 +12,7 @@
 #define GPOPT_CXformSplitDQA_H
 
 #include "gpos/base.h"
+#include "gpos/common/owner.h"
 
 #include "gpopt/base/CUtils.h"
 #include "gpopt/operators/CLogicalGbAgg.h"
@@ -39,7 +40,7 @@ private:
 		ExprToColRefMap;
 
 	// generate an expression with multi-level aggregation
-	static CExpression *PexprMultiLevelAggregation(
+	static gpos::owner<CExpression *> PexprMultiLevelAggregation(
 		CMemoryPool *mp, CExpression *pexprRelational,
 		CExpressionArray *pdrgpexprPrElFirstStage,
 		CExpressionArray *pdrgpexprPrElSecondStage,

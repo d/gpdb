@@ -12,6 +12,8 @@
 
 #include "naucrates/dxl/parser/CParseHandlerHint.h"
 
+#include "gpos/common/owner.h"
+
 #include "gpopt/engine/CHint.h"
 #include "naucrates/dxl/operators/CDXLOperatorFactory.h"
 #include "naucrates/dxl/parser/CParseHandlerFactory.h"
@@ -169,7 +171,7 @@ CParseHandlerHint::GetParseHandlerType() const
 //		Returns the hint configuration
 //
 //---------------------------------------------------------------------------
-CHint *
+gpos::pointer<CHint *>
 CParseHandlerHint::GetHint() const
 {
 	return m_hint;

@@ -12,6 +12,7 @@
 #define GPOS_CLogicalRightOuterJoin_H
 
 #include "gpos/base.h"
+#include "gpos/common/owner.h"
 
 #include "gpopt/operators/CLogicalJoin.h"
 
@@ -63,7 +64,7 @@ public:
 	//-------------------------------------------------------------------------------------
 
 	// derive not nullable output columns
-	CColRefSet *
+	gpos::owner<CColRefSet *>
 	DeriveNotNullColumns(CMemoryPool *,	 // mp
 						 CExpressionHandle &exprhdl) const override
 	{
@@ -71,7 +72,7 @@ public:
 		// may have additional children that are ignored, e.g., scalar children
 		GPOS_ASSERT(1 <= exprhdl.Arity());
 
-		CColRefSet *pcrs = exprhdl.DeriveNotNullColumns(1);
+		gpos::owner<CColRefSet *> pcrs = exprhdl.DeriveNotNullColumns(1);
 		pcrs->AddRef();
 
 		return pcrs;
@@ -112,7 +113,7 @@ public:
 	//-------------------------------------------------------------------------------------
 
 	// conversion function
-	static CLogicalRightOuterJoin *
+	static gpos::cast_func<CLogicalRightOuterJoin *>
 	PopConvert(COperator *pop)
 	{
 		GPOS_ASSERT(nullptr != pop);

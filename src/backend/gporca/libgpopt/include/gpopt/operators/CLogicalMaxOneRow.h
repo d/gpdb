@@ -13,6 +13,7 @@
 #define GPOPT_CLogicalMaxOneRow_H
 
 #include "gpos/base.h"
+#include "gpos/common/owner.h"
 
 #include "gpopt/operators/CExpressionHandle.h"
 
@@ -155,7 +156,7 @@ public:
 	//-------------------------------------------------------------------------------------
 
 	// conversion function
-	static CLogicalMaxOneRow *
+	static gpos::cast_func<CLogicalMaxOneRow *>
 	PopConvert(COperator *pop)
 	{
 		GPOS_ASSERT(nullptr != pop);

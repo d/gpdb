@@ -12,6 +12,7 @@
 #include "naucrates/dxl/operators/CDXLScalarSubPlan.h"
 
 #include "gpos/base.h"
+#include "gpos/common/owner.h"
 #include "gpos/string/CWStringDynamic.h"
 
 #include "gpopt/base/COptCtxt.h"
@@ -83,7 +84,7 @@ CDXLScalarSubPlan::GetOpNameStr() const
 //		Return type id
 //
 //---------------------------------------------------------------------------
-IMDId *
+gpos::pointer<IMDId *>
 CDXLScalarSubPlan::GetFirstColTypeMdId() const
 {
 	return m_first_col_type_mdid;
@@ -151,7 +152,7 @@ CDXLScalarSubPlan::GetSubplanTypeStr() const
 //---------------------------------------------------------------------------
 void
 CDXLScalarSubPlan::SerializeToDXL(CXMLSerializer *xml_serializer,
-								  const CDXLNode *dxlnode) const
+								  gpos::pointer<const CDXLNode *> dxlnode) const
 {
 	const CWStringConst *element_name = GetOpNameStr();
 	xml_serializer->OpenElement(
@@ -191,7 +192,8 @@ CDXLScalarSubPlan::SerializeToDXL(CXMLSerializer *xml_serializer,
 									 ulid);
 
 		const CMDName *mdname = (*m_dxl_colref_array)[ul]->MdName();
-		const IMDId *mdid_type = (*m_dxl_colref_array)[ul]->MdidType();
+		gpos::pointer<const IMDId *> mdid_type =
+			(*m_dxl_colref_array)[ul]->MdidType();
 		xml_serializer->AddAttribute(
 			CDXLTokens::GetDXLTokenStr(EdxltokenColName), mdname->GetMDName());
 		mdid_type->Serialize(xml_serializer,

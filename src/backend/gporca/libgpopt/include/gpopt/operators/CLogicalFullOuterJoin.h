@@ -12,6 +12,7 @@
 #define GPOS_CLogicalFullOuterJoin_H
 
 #include "gpos/base.h"
+#include "gpos/common/owner.h"
 
 #include "gpopt/operators/CLogicalJoin.h"
 
@@ -63,7 +64,7 @@ public:
 	//-------------------------------------------------------------------------------------
 
 	// derive not nullable output columns
-	CColRefSet *
+	gpos::owner<CColRefSet *>
 	DeriveNotNullColumns(CMemoryPool *mp,
 						 CExpressionHandle &  //exprhdl
 	) const override
@@ -77,7 +78,7 @@ public:
 						   CExpressionHandle &exprhdl) const override;
 
 	// derive constraint property
-	CPropConstraint *
+	gpos::owner<CPropConstraint *>
 	DerivePropertyConstraint(CMemoryPool *mp,
 							 CExpressionHandle &  //exprhdl
 	) const override
@@ -111,7 +112,7 @@ public:
 	//-------------------------------------------------------------------------------------
 
 	// conversion function
-	static CLogicalFullOuterJoin *
+	static gpos::cast_func<CLogicalFullOuterJoin *>
 	PopConvert(COperator *pop)
 	{
 		GPOS_ASSERT(nullptr != pop);

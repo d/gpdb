@@ -11,6 +11,8 @@
 
 #include "gpopt/base/CDistributionSpecExternal.h"
 
+#include "gpos/common/owner.h"
+
 #include "gpopt/base/CUtils.h"
 
 using namespace gpopt;
@@ -35,7 +37,8 @@ CDistributionSpecExternal::CDistributionSpecExternal() = default;
 //
 //---------------------------------------------------------------------------
 BOOL
-CDistributionSpecExternal::Matches(const CDistributionSpec *pds) const
+CDistributionSpecExternal::Matches(
+	gpos::pointer<const CDistributionSpec *> pds) const
 {
 	return (Edt() == pds->Edt());
 }
@@ -49,7 +52,8 @@ CDistributionSpecExternal::Matches(const CDistributionSpec *pds) const
 //
 //---------------------------------------------------------------------------
 BOOL
-CDistributionSpecExternal::FSatisfies(const CDistributionSpec *pds) const
+CDistributionSpecExternal::FSatisfies(
+	gpos::pointer<const CDistributionSpec *> pds) const
 {
 	if (Matches(pds))
 	{
@@ -61,8 +65,9 @@ CDistributionSpecExternal::FSatisfies(const CDistributionSpec *pds) const
 
 void
 CDistributionSpecExternal::AppendEnforcers(CMemoryPool *, CExpressionHandle &,
-										   CReqdPropPlan *, CExpressionArray *,
-										   CExpression *)
+										   CReqdPropPlan *,
+										   gpos::pointer<CExpressionArray *>,
+										   gpos::pointer<CExpression *>)
 {
 	GPOS_ASSERT(!"EXTERNAL distribution cannot be enforced, it's derive only.");
 }
