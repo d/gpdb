@@ -13,6 +13,7 @@
 #define GPMD_IMDRelationExternal_H
 
 #include "gpos/base.h"
+#include "gpos/common/owner.h"
 
 #include "naucrates/md/IMDRelation.h"
 
@@ -77,7 +78,7 @@ public:
 	}
 
 	// retrieve the partition column at the given position
-	const IMDColumn *PartColAt(ULONG /*pos*/) const override
+	gpos::pointer<const IMDColumn *> PartColAt(ULONG /*pos*/) const override
 	{
 		GPOS_ASSERT(!"External tables have no partition columns");
 		return nullptr;

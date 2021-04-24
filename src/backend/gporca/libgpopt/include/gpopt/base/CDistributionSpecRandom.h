@@ -13,6 +13,7 @@
 #define GPOPT_CDistributionSpecRandom_H
 
 #include "gpos/base.h"
+#include "gpos/common/owner.h"
 
 #include "gpopt/base/CDistributionSpec.h"
 
@@ -94,10 +95,11 @@ public:
 	}
 
 	// does this distribution match the given one
-	BOOL Matches(const CDistributionSpec *pds) const override;
+	BOOL Matches(gpos::pointer<const CDistributionSpec *> pds) const override;
 
 	// does current distribution satisfy the given one
-	BOOL FSatisfies(const CDistributionSpec *pds) const override;
+	BOOL FSatisfies(
+		gpos::pointer<const CDistributionSpec *> pds) const override;
 
 	// append enforcers to dynamic array for the given plan properties
 	void AppendEnforcers(CMemoryPool *mp, CExpressionHandle &exprhdl,
@@ -115,7 +117,7 @@ public:
 	IOstream &OsPrint(IOstream &os) const override;
 
 	// conversion function
-	static CDistributionSpecRandom *
+	static gpos::cast_func<CDistributionSpecRandom *>
 	PdsConvert(CDistributionSpec *pds)
 	{
 		GPOS_ASSERT(nullptr != pds);
@@ -125,8 +127,8 @@ public:
 	}
 
 	// conversion function: const argument
-	static const CDistributionSpecRandom *
-	PdsConvert(const CDistributionSpec *pds)
+	static gpos::pointer<const CDistributionSpecRandom *>
+	PdsConvert(gpos::pointer<const CDistributionSpec *> pds)
 	{
 		GPOS_ASSERT(nullptr != pds);
 		GPOS_ASSERT(EdtRandom == pds->Edt());

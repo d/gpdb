@@ -13,6 +13,7 @@
 
 #include "gpos/base.h"
 #include "gpos/common/CDynamicPtrArray.h"
+#include "gpos/common/owner.h"
 
 #include "naucrates/dxl/operators/CDXLPhysical.h"
 
@@ -58,7 +59,7 @@ public:
 		return m_id;
 	}
 
-	ULongPtrArray *
+	gpos::pointer<ULongPtrArray *>
 	GetOutputColIdsArray() const
 	{
 		return m_output_colids_array;
@@ -66,7 +67,7 @@ public:
 
 	// serialize operator in DXL format
 	void SerializeToDXL(CXMLSerializer *xml_serializer,
-						const CDXLNode *dxlnode) const override;
+						gpos::pointer<const CDXLNode *> dxlnode) const override;
 
 
 #ifdef GPOS_DEBUG
@@ -77,7 +78,7 @@ public:
 #endif	// GPOS_DEBUG
 
 	// conversion function
-	static CDXLPhysicalCTEConsumer *
+	static gpos::cast_func<CDXLPhysicalCTEConsumer *>
 	Cast(CDXLOperator *dxl_op)
 	{
 		GPOS_ASSERT(nullptr != dxl_op);

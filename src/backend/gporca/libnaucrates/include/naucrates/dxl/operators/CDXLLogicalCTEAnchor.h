@@ -12,6 +12,7 @@
 #define GPDXL_CDXLLogicalCTEAnchor_H
 
 #include "gpos/base.h"
+#include "gpos/common/owner.h"
 
 #include "naucrates/dxl/operators/CDXLLogical.h"
 
@@ -52,7 +53,7 @@ public:
 
 	// serialize operator in DXL format
 	void SerializeToDXL(CXMLSerializer *xml_serializer,
-						const CDXLNode *dxlnode) const override;
+						gpos::pointer<const CDXLNode *> dxlnode) const override;
 
 
 #ifdef GPOS_DEBUG
@@ -62,7 +63,7 @@ public:
 #endif	// GPOS_DEBUG
 
 	// conversion function
-	static CDXLLogicalCTEAnchor *
+	static gpos::cast_func<CDXLLogicalCTEAnchor *>
 	Cast(CDXLOperator *dxl_op)
 	{
 		GPOS_ASSERT(nullptr != dxl_op);

@@ -13,6 +13,7 @@
 #define GPDXL_CDXLScalarArrayRefIndexList_H
 
 #include "gpos/base.h"
+#include "gpos/common/owner.h"
 
 #include "naucrates/dxl/operators/CDXLScalar.h"
 #include "naucrates/md/IMDId.h"
@@ -69,7 +70,7 @@ public:
 
 	// serialize operator in DXL format
 	void SerializeToDXL(CXMLSerializer *xml_serializer,
-						const CDXLNode *dxlnode) const override;
+						gpos::pointer<const CDXLNode *> dxlnode) const override;
 
 	// does the operator return a boolean result
 	BOOL
@@ -87,7 +88,7 @@ public:
 #endif	// GPOS_DEBUG
 
 	// conversion function
-	static CDXLScalarArrayRefIndexList *
+	static gpos::cast_func<CDXLScalarArrayRefIndexList *>
 	Cast(CDXLOperator *dxl_op)
 	{
 		GPOS_ASSERT(nullptr != dxl_op);

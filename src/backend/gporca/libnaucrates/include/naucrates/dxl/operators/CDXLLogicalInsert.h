@@ -13,6 +13,7 @@
 #define GPDXL_CDXLLogicalInsert_H
 
 #include "gpos/base.h"
+#include "gpos/common/owner.h"
 
 #include "naucrates/dxl/operators/CDXLLogical.h"
 #include "naucrates/dxl/operators/CDXLTableDescr.h"
@@ -54,14 +55,14 @@ public:
 	const CWStringConst *GetOpNameStr() const override;
 
 	// target table descriptor
-	CDXLTableDescr *
+	gpos::pointer<CDXLTableDescr *>
 	GetDXLTableDescr() const
 	{
 		return m_dxl_table_descr;
 	}
 
 	// source column ids
-	ULongPtrArray *
+	gpos::pointer<ULongPtrArray *>
 	GetSrcColIdsArray() const
 	{
 		return m_src_colids_array;
@@ -76,10 +77,10 @@ public:
 
 	// serialize operator in DXL format
 	void SerializeToDXL(CXMLSerializer *xml_serializer,
-						const CDXLNode *node) const override;
+						gpos::pointer<const CDXLNode *> node) const override;
 
 	// conversion function
-	static CDXLLogicalInsert *
+	static gpos::cast_func<CDXLLogicalInsert *>
 	Cast(CDXLOperator *dxl_op)
 	{
 		GPOS_ASSERT(nullptr != dxl_op);

@@ -12,6 +12,7 @@
 #define GPOPT_CScalarAggFunc_H
 
 #include "gpos/base.h"
+#include "gpos/common/owner.h"
 
 #include "gpopt/base/CDrvdProp.h"
 #include "gpopt/operators/CScalar.h"
@@ -43,16 +44,16 @@ class CScalarAggFunc : public CScalar
 {
 private:
 	// aggregate func id
-	IMDId *m_pmdidAggFunc;
+	gpos::owner<IMDId *> m_pmdidAggFunc;
 
 	// resolved return type refers to a non-ambiguous type that was resolved during query
 	// parsing if the actual return type of Agg is ambiguous (e.g., AnyElement in GPDB)
 	// if resolved return type is NULL, then we can get Agg return type by looking up MD cache
 	// using Agg MDId
-	IMDId *m_pmdidResolvedRetType;
+	gpos::owner<IMDId *> m_pmdidResolvedRetType;
 
 	// return type obtained by looking up MD cache
-	IMDId *m_return_type_mdid;
+	gpos::owner<IMDId *> m_return_type_mdid;
 
 	// aggregate function name
 	const CWStringConst *m_pstrAggFunc;
@@ -123,7 +124,7 @@ public:
 	}
 
 	// conversion function
-	static CScalarAggFunc *
+	static gpos::cast_func<CScalarAggFunc *>
 	PopConvert(COperator *pop)
 	{
 		GPOS_ASSERT(nullptr != pop);
@@ -174,7 +175,7 @@ public:
 	}
 
 	// type of expression's result
-	IMDId *
+	gpos::pointer<IMDId *>
 	MdidType() const override
 	{
 		if (nullptr == m_pmdidResolvedRetType)
@@ -199,7 +200,7 @@ public:
 	BOOL FCountAny() const;
 
 	// is function either min() or max()?
-	BOOL IsMinMax(const IMDType *mdtype) const;
+	BOOL IsMinMax(gpos::pointer<const IMDType *> mdtype) const;
 
 	// print
 	IOstream &OsPrint(IOstream &os) const override;

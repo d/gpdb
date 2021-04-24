@@ -13,6 +13,7 @@
 #define GPOPT_COptCtxt_H
 
 #include "gpos/base.h"
+#include "gpos/common/owner.h"
 #include "gpos/task/CTaskLocalStorageObject.h"
 
 #include "gpopt/base/CCTEInfo.h"
@@ -78,7 +79,7 @@ private:
 	CCTEInfo *m_pcteinfo;
 
 	// system columns required in query output
-	CColRefArray *m_pdrgpcrSystemCols;
+	gpos::owner<CColRefArray *> m_pdrgpcrSystemCols;
 
 	// optimizer configurations
 	COptimizerConfig *m_optimizer_config;
@@ -140,7 +141,7 @@ public:
 	}
 
 	// optimizer configurations
-	COptimizerConfig *
+	gpos::pointer<COptimizerConfig *>
 	GetOptimizerConfig() const
 	{
 		return m_optimizer_config;
@@ -203,7 +204,7 @@ public:
 		return m_has_replicated_tables;
 	}
 
-	CExpressionArray *
+	gpos::pointer<CExpressionArray *>
 	GetDirectDispatchableFilters() const
 	{
 		return m_direct_dispatchable_filters;
@@ -239,14 +240,14 @@ public:
 	}
 
 	// cost model accessor
-	ICostModel *
+	gpos::pointer<ICostModel *>
 	GetCostModel() const
 	{
 		return m_cost_model;
 	}
 
 	// constant expression evaluator
-	IConstExprEvaluator *
+	gpos::pointer<IConstExprEvaluator *>
 	Pceeval()
 	{
 		return m_pceeval;
@@ -260,7 +261,7 @@ public:
 	}
 
 	// cte info
-	CCTEInfo *
+	gpos::pointer<CCTEInfo *>
 	Pcteinfo()
 	{
 		return m_pcteinfo;
@@ -280,7 +281,7 @@ public:
 	}
 
 	// required system columns
-	CColRefArray *
+	gpos::pointer<CColRefArray *>
 	PdrgpcrSystemCols() const
 	{
 		return m_pdrgpcrSystemCols;
@@ -288,7 +289,7 @@ public:
 
 	void AddPartForScanId(ULONG scanid, ULONG index);
 
-	CBitSet *
+	gpos::pointer<CBitSet *>
 	GetPartitionsForScanId(ULONG scanid)
 	{
 		return m_scanid_to_part_map->Find(&scanid);

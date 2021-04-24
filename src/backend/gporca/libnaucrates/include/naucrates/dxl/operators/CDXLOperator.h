@@ -15,6 +15,7 @@
 
 #include "gpos/base.h"
 #include "gpos/common/CRefCount.h"
+#include "gpos/common/owner.h"
 
 #include "naucrates/md/CDXLStatsDerivedRelation.h"
 
@@ -238,7 +239,8 @@ public:
 
 	// serialize operator in DXL format given a serializer object and the
 	// host DXL node, providing access to the operator's children
-	virtual void SerializeToDXL(CXMLSerializer *, const CDXLNode *) const = 0;
+	virtual void SerializeToDXL(CXMLSerializer *,
+								gpos::pointer<const CDXLNode *>) const = 0;
 
 	// check if given column is defined by operator
 	virtual BOOL IsColDefined(ULONG	 // colid

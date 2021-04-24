@@ -13,6 +13,7 @@
 #define GPDXL_CDXLScalarBitmapBoolOp_H
 
 #include "gpos/base.h"
+#include "gpos/common/owner.h"
 
 #include "naucrates/dxl/operators/CDXLScalar.h"
 
@@ -74,7 +75,7 @@ public:
 
 	// serialize operator in DXL format
 	void SerializeToDXL(CXMLSerializer *xml_serializer,
-						const CDXLNode *dxlnode) const override;
+						gpos::pointer<const CDXLNode *> dxlnode) const override;
 
 
 #ifdef GPOS_DEBUG
@@ -85,7 +86,7 @@ public:
 #endif	// GPOS_DEBUG
 
 	// conversion function
-	static CDXLScalarBitmapBoolOp *
+	static gpos::cast_func<CDXLScalarBitmapBoolOp *>
 	Cast(CDXLOperator *dxl_op)
 	{
 		GPOS_ASSERT(nullptr != dxl_op);

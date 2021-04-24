@@ -14,6 +14,7 @@
 
 #include "gpos/base.h"
 #include "gpos/common/CDynamicPtrArray.h"
+#include "gpos/common/owner.h"
 
 #include "naucrates/dxl/operators/CDXLPhysical.h"
 
@@ -70,14 +71,14 @@ public:
 	const CWStringConst *GetOpNameStr() const override;
 
 	// deletion column ids
-	ULongPtrArray *
+	gpos::pointer<ULongPtrArray *>
 	GetDeletionColIdArray() const
 	{
 		return m_deletion_colid_array;
 	}
 
 	// insertion column ids
-	ULongPtrArray *
+	gpos::pointer<ULongPtrArray *>
 	GetInsertionColIdArray() const
 	{
 		return m_insert_colid_array;
@@ -127,10 +128,10 @@ public:
 
 	// serialize operator in DXL format
 	void SerializeToDXL(CXMLSerializer *xml_serializer,
-						const CDXLNode *dxlnode) const override;
+						gpos::pointer<const CDXLNode *> dxlnode) const override;
 
 	// conversion function
-	static CDXLPhysicalSplit *
+	static gpos::cast_func<CDXLPhysicalSplit *>
 	Cast(CDXLOperator *dxl_op)
 	{
 		GPOS_ASSERT(nullptr != dxl_op);
