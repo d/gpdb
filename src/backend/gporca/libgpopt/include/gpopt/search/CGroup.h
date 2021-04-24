@@ -280,7 +280,7 @@ private:
 	void InitProperties(CDrvdProp *pdp);
 
 	// initialize group's stats
-	void InitStats(IStatistics *stats);
+	void InitStats(gpos::owner<IStatistics *> stats);
 
 	// retrieve first group expression
 	CGroupExpression *PgexprFirst();
@@ -297,7 +297,8 @@ private:
 	// derive stats recursively on child groups
 	static CLogical::EStatPromise EspDerive(
 		CMemoryPool *pmpLocal, CMemoryPool *pmpGlobal,
-		gpos::pointer<CGroupExpression *> pgexpr, CReqdPropRelational *prprel,
+		gpos::pointer<CGroupExpression *> pgexpr,
+		gpos::pointer<CReqdPropRelational *> prprel,
 		IStatisticsArray *stats_ctxt, BOOL fDeriveChildStats);
 
 	// reset computed stats
@@ -324,10 +325,10 @@ private:
 	IStatistics *PstatsInitEmpty(CMemoryPool *pmpGlobal);
 
 	// find the group expression having the best stats promise
-	CGroupExpression *PgexprBestPromise(CMemoryPool *pmpLocal,
-										CMemoryPool *pmpGlobal,
-										CReqdPropRelational *prprelInput,
-										IStatisticsArray *stats_ctxt);
+	CGroupExpression *PgexprBestPromise(
+		CMemoryPool *pmpLocal, CMemoryPool *pmpGlobal,
+		gpos::pointer<CReqdPropRelational *> prprelInput,
+		IStatisticsArray *stats_ctxt);
 
 public:
 	CGroup(const CGroup &) = delete;
@@ -356,7 +357,7 @@ public:
 	gpos::pointer<IStatistics *> Pstats() const;
 
 	// attempt initializing stats with the given stat object
-	BOOL FInitStats(IStatistics *stats);
+	BOOL FInitStats(gpos::owner<IStatistics *> stats);
 
 	// append given stats object to group stats
 	void AppendStats(CMemoryPool *mp, gpos::pointer<IStatistics *> stats);

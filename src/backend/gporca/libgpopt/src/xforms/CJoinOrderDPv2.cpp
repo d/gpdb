@@ -263,7 +263,7 @@ CJoinOrderDPv2::PexprBuildInnerJoinPred(gpos::pointer<CBitSet *> pbsFst,
 }
 
 void
-CJoinOrderDPv2::DeriveStats(CExpression *pexpr)
+CJoinOrderDPv2::DeriveStats(gpos::pointer<CExpression *> pexpr)
 {
 	try
 	{

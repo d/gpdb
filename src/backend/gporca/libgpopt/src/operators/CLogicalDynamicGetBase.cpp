@@ -273,8 +273,9 @@ CLogicalDynamicGetBase::PstatsDeriveFilter(CMemoryPool *mp,
 	);
 	pexprFilterNew->Release();
 
-	IStatistics *result_stats = CFilterStatsProcessor::MakeStatsFilter(
-		mp, pstatsFullTable, pred_stats, true /* do_cap_NDVs */);
+	gpos::owner<IStatistics *> result_stats =
+		CFilterStatsProcessor::MakeStatsFilter(mp, pstatsFullTable, pred_stats,
+											   true /* do_cap_NDVs */);
 	pred_stats->Release();
 	pstatsFullTable->Release();
 

@@ -55,7 +55,7 @@ CPhysicalFullMergeJoin::~CPhysicalFullMergeJoin()
 	m_inner_merge_clauses->Release();
 }
 
-CDistributionSpec *
+gpos::owner<CDistributionSpec *>
 CPhysicalFullMergeJoin::PdsRequired(
 	CMemoryPool *mp GPOS_UNUSED, CExpressionHandle &exprhdl GPOS_UNUSED,
 	gpos::pointer<CDistributionSpec *> pdsRequired GPOS_UNUSED,

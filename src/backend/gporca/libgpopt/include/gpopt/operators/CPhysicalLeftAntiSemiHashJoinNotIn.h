@@ -35,8 +35,8 @@ public:
 
 	// ctor
 	CPhysicalLeftAntiSemiHashJoinNotIn(
-		CMemoryPool *mp, CExpressionArray *pdrgpexprOuterKeys,
-		CExpressionArray *pdrgpexprInnerKeys,
+		CMemoryPool *mp, gpos::owner<CExpressionArray *> pdrgpexprOuterKeys,
+		gpos::owner<CExpressionArray *> pdrgpexprInnerKeys,
 		gpos::owner<IMdIdArray *> hash_opfamilies);
 
 	// ident accessors
@@ -58,7 +58,7 @@ public:
 	//-------------------------------------------------------------------------------------
 
 	// compute required distribution of the n-th child
-	CDistributionSpec *PdsRequired(
+	gpos::owner<CDistributionSpec *> PdsRequired(
 		CMemoryPool *mp, CExpressionHandle &exprhdl,
 		gpos::pointer<CDistributionSpec *> pdsRequired, ULONG child_index,
 		gpos::pointer<CDrvdPropArray *> pdrgpdpCtxt,
