@@ -53,18 +53,20 @@ protected:
 		CMemoryPool *mp, CExpressionHandle &exprhdl, BOOL fIntersect) const;
 
 	// equivalence classes from one input child, mapped to output columns
-	CColRefSetArray *PdrgpcrsInputMapped(CMemoryPool *mp,
-										 CExpressionHandle &exprhdl,
-										 ULONG ulChild) const;
+	gpos::owner<CColRefSetArray *> PdrgpcrsInputMapped(
+		CMemoryPool *mp, CExpressionHandle &exprhdl, ULONG ulChild) const;
 
 	// constraints for a given output column from all children
-	CConstraintArray *PdrgpcnstrColumn(CMemoryPool *mp,
-									   CExpressionHandle &exprhdl,
-									   ULONG ulColIndex, ULONG ulStart) const;
+	gpos::owner<CConstraintArray *> PdrgpcnstrColumn(CMemoryPool *mp,
+													 CExpressionHandle &exprhdl,
+													 ULONG ulColIndex,
+													 ULONG ulStart) const;
 
 	// get constraint for a given output column from a given children
-	CConstraint *PcnstrColumn(CMemoryPool *mp, CExpressionHandle &exprhdl,
-							  ULONG ulColIndex, ULONG ulChild) const;
+	gpos::owner<CConstraint *> PcnstrColumn(CMemoryPool *mp,
+											CExpressionHandle &exprhdl,
+											ULONG ulColIndex,
+											ULONG ulChild) const;
 
 	// derive constraint property for intersect and union operators
 	gpos::owner<CPropConstraint *> PpcDeriveConstraintIntersectUnion(
@@ -74,11 +76,12 @@ public:
 	// ctor
 	explicit CLogicalSetOp(CMemoryPool *mp);
 
-	CLogicalSetOp(CMemoryPool *mp, CColRefArray *pdrgOutput,
-				  CColRefArray *pdrgpcrLeft, CColRefArray *pdrgpcrRight);
+	CLogicalSetOp(CMemoryPool *mp, gpos::owner<CColRefArray *> pdrgOutput,
+				  gpos::owner<CColRefArray *> pdrgpcrLeft,
+				  gpos::owner<CColRefArray *> pdrgpcrRight);
 
-	CLogicalSetOp(CMemoryPool *mp, CColRefArray *pdrgpcrOutput,
-				  CColRef2dArray *pdrgpdrgpcrInput);
+	CLogicalSetOp(CMemoryPool *mp, gpos::owner<CColRefArray *> pdrgpcrOutput,
+				  gpos::owner<CColRef2dArray *> pdrgpdrgpcrInput);
 
 	// dtor
 	~CLogicalSetOp() override;
@@ -113,7 +116,7 @@ public:
 	}
 
 	// match function
-	BOOL Matches(COperator *pop) const override;
+	BOOL Matches(gpos::pointer<COperator *> pop) const override;
 
 	IOstream &OsPrint(IOstream &os) const override;
 
@@ -130,8 +133,8 @@ public:
 		CMemoryPool *mp, CExpressionHandle &exprhdl) const override;
 
 	// derive partition consumer info
-	CPartInfo *DerivePartitionInfo(CMemoryPool *mp,
-								   CExpressionHandle &exprhdl) const override;
+	gpos::owner<CPartInfo *> DerivePartitionInfo(
+		CMemoryPool *mp, CExpressionHandle &exprhdl) const override;
 
 	//-------------------------------------------------------------------------------------
 	// Required Relational Properties

@@ -65,7 +65,7 @@ CDistributionSpecExternal::FSatisfies(
 
 void
 CDistributionSpecExternal::AppendEnforcers(CMemoryPool *, CExpressionHandle &,
-										   CReqdPropPlan *,
+										   gpos::pointer<CReqdPropPlan *>,
 										   gpos::pointer<CExpressionArray *>,
 										   gpos::pointer<CExpression *>)
 {

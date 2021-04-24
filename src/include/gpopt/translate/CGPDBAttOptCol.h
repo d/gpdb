@@ -47,8 +47,10 @@ public:
 	CGPDBAttOptCol(const CGPDBAttOptCol &) = delete;
 
 	// ctor
-	CGPDBAttOptCol(CGPDBAttInfo *gpdb_att_info, COptColInfo *opt_col_info)
-		: m_gpdb_att_info(gpdb_att_info), m_opt_col_info(opt_col_info)
+	CGPDBAttOptCol(gpos::owner<CGPDBAttInfo *> gpdb_att_info,
+				   gpos::owner<COptColInfo *> opt_col_info)
+		: m_gpdb_att_info(std::move(gpdb_att_info)),
+		  m_opt_col_info(std::move(opt_col_info))
 	{
 		GPOS_ASSERT(nullptr != m_gpdb_att_info);
 		GPOS_ASSERT(nullptr != m_opt_col_info);

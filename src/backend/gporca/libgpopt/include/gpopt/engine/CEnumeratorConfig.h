@@ -34,7 +34,7 @@ using namespace gpos;
 class CExpression;
 
 // type definition of plan checker
-typedef BOOL(FnPlanChecker)(CExpression *);
+typedef BOOL(FnPlanChecker)(gpos::pointer<CExpression *>);
 
 //---------------------------------------------------------------------------
 //	@class:

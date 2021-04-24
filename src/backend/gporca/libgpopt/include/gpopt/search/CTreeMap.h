@@ -54,8 +54,8 @@ class CTreeMap
 	typedef CDynamicPtrArray<R, CleanupRelease<R> > DrgPr;
 
 	// generic rehydrate function
-	typedef gpos::owner<R *> (*PrFn)(CMemoryPool *, T *, gpos::owner<DrgPr *>,
-									 U *);
+	typedef gpos::owner<R *> (*PrFn)(CMemoryPool *, gpos::pointer<T *>,
+									 gpos::owner<DrgPr *>, U *);
 
 private:
 	// fwd declaration
@@ -262,7 +262,7 @@ private:
 		}
 
 		// accessor
-		const T *
+		gpos::pointer<const T *>
 		Value() const
 		{
 			return m_value;

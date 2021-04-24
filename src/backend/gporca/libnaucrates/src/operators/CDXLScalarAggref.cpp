@@ -31,12 +31,13 @@ using namespace gpdxl;
 //		Constructs an AggRef node
 //
 //---------------------------------------------------------------------------
-CDXLScalarAggref::CDXLScalarAggref(CMemoryPool *mp, IMDId *agg_func_mdid,
-								   IMDId *resolved_rettype_mdid,
+CDXLScalarAggref::CDXLScalarAggref(CMemoryPool *mp,
+								   gpos::owner<IMDId *> agg_func_mdid,
+								   gpos::owner<IMDId *> resolved_rettype_mdid,
 								   BOOL is_distinct, EdxlAggrefStage agg_stage)
 	: CDXLScalar(mp),
-	  m_agg_func_mdid(agg_func_mdid),
-	  m_resolved_rettype_mdid(resolved_rettype_mdid),
+	  m_agg_func_mdid(std::move(agg_func_mdid)),
+	  m_resolved_rettype_mdid(std::move(resolved_rettype_mdid)),
 	  m_is_distinct(is_distinct),
 	  m_agg_stage(agg_stage)
 {
@@ -238,7 +239,8 @@ CDXLScalarAggref::AssertValid(gpos::pointer<const CDXLNode *> dxlnode,
 							  BOOL validate_children) const
 {
 	EdxlAggrefStage aggrefstage =
-		((CDXLScalarAggref *) dxlnode->GetOperator())->GetDXLAggStage();
+		(gpos::cast<CDXLScalarAggref>(dxlnode->GetOperator()))
+			->GetDXLAggStage();
 
 	GPOS_ASSERT((EdxlaggstageFinal >= aggrefstage) &&
 				(EdxlaggstageNormal <= aggrefstage));
@@ -246,7 +248,7 @@ CDXLScalarAggref::AssertValid(gpos::pointer<const CDXLNode *> dxlnode,
 	const ULONG arity = dxlnode->Arity();
 	for (ULONG ul = 0; ul < arity; ++ul)
 	{
-		CDXLNode *aggref_child_dxl = (*dxlnode)[ul];
+		gpos::pointer<CDXLNode *> aggref_child_dxl = (*dxlnode)[ul];
 		GPOS_ASSERT(EdxloptypeScalar ==
 					aggref_child_dxl->GetOperator()->GetDXLOperatorType());
 

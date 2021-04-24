@@ -94,7 +94,7 @@ CSubqueryHandlerTest::EresUnittest_Subquery2Apply()
 	pmdp->AddRef();
 	CMDAccessor mda(mp, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
 
-	typedef CExpression *(*Pfpexpr)(CMemoryPool *, BOOL);
+	typedef gpos::owner<CExpression *> (*Pfpexpr)(CMemoryPool *, BOOL);
 	Pfpexpr rgpf[] = {
 		CSubqueryTestUtils::PexprSelectWithAggSubquery,
 		CSubqueryTestUtils::PexprSelectWithAggSubqueryConstComparison,
@@ -148,13 +148,14 @@ CSubqueryHandlerTest::EresUnittest_Subquery2Apply()
 
 		// check for subq xforms
 		gpos::owner<CXformSet *> pxfsCand =
-			CLogical::PopConvert(pexpr->Pop())->PxfsCandidates(mp);
+			gpos::dyn_cast<CLogical>(pexpr->Pop())->PxfsCandidates(mp);
 		pxfsCand->Intersection(xform_set);
 
 		CXformSetIter xsi(*pxfsCand);
 		while (xsi.Advance())
 		{
-			CXform *pxform = CXformFactory::Pxff()->Pxf(xsi.TBit());
+			gpos::pointer<CXform *> pxform =
+				CXformFactory::Pxff()->Pxf(xsi.TBit());
 			GPOS_ASSERT(nullptr != pxform);
 
 			CWStringDynamic str(mp);
@@ -168,7 +169,7 @@ CSubqueryHandlerTest::EresUnittest_Subquery2Apply()
 
 			// calling the xform to perform subquery to Apply transformation
 			pxform->Transform(pxfctxt, pxfres, pexpr);
-			CExpression *pexprResult = pxfres->PexprNext();
+			gpos::pointer<CExpression *> pexprResult = pxfres->PexprNext();
 
 			oss << std::endl << "OUTPUT:" << std::endl;
 			if (nullptr != pexprResult)
@@ -227,7 +228,8 @@ CSubqueryHandlerTest::EresUnittest_SubqueryWithConstSubqueries()
 	CMDAccessor::MDCache *pcache = apcache.Value();
 
 	{
-		CMDAccessor mda(mp, pcache, CTestUtils::m_sysidDefault, pmdp);
+		CMDAccessor mda(mp, pcache, CTestUtils::m_sysidDefault,
+						std::move(pmdp));
 
 		// install opt context in TLS
 		CAutoOptCtxt aoc(mp, &mda, nullptr, /* pceeval */
@@ -236,15 +238,16 @@ CSubqueryHandlerTest::EresUnittest_SubqueryWithConstSubqueries()
 		// create a subquery with const table get expression
 		gpos::owner<CExpression *> pexpr =
 			CSubqueryTestUtils::PexprSubqueryWithDisjunction(mp);
-		CXform *pxform = CXformFactory::Pxff()->Pxf(CXform::ExfSelect2Apply);
+		gpos::pointer<CXform *> pxform =
+			CXformFactory::Pxff()->Pxf(CXform::ExfSelect2Apply);
 
 		CWStringDynamic str(mp);
 		COstreamString oss(&str);
 
 		oss << std::endl << "EXPRESSION:" << std::endl << *pexpr << std::endl;
 
-		CExpression *pexprLogical = (*pexpr)[0];
-		CExpression *pexprScalar = (*pexpr)[1];
+		gpos::pointer<CExpression *> pexprLogical = (*pexpr)[0];
+		gpos::pointer<CExpression *> pexprScalar = (*pexpr)[1];
 		oss << std::endl
 			<< "LOGICAL:" << std::endl
 			<< *pexprLogical << std::endl;
@@ -259,7 +262,7 @@ CSubqueryHandlerTest::EresUnittest_SubqueryWithConstSubqueries()
 		// calling the xform to perform subquery to Apply transformation;
 		// xform must fail since we do not expect constant subqueries
 		pxform->Transform(pxfctxt, pxfres, pexpr);
-		CExpression *pexprResult = pxfres->PexprNext();
+		gpos::pointer<CExpression *> pexprResult = pxfres->PexprNext();
 
 		oss << std::endl
 			<< "NEW LOGICAL:" << std::endl
@@ -302,7 +305,7 @@ CSubqueryHandlerTest::EresUnittest_SubqueryWithDisjunction()
 	gpos::owner<CMDProviderMemory *> pmdp = CTestUtils::m_pmdpf;
 	pmdp->AddRef();
 	CMDAccessor mda(mp, CMDCache::Pcache());
-	mda.RegisterProvider(CTestUtils::m_sysidDefault, pmdp);
+	mda.RegisterProvider(CTestUtils::m_sysidDefault, std::move(pmdp));
 
 	// install opt context in TLS
 	CAutoOptCtxt aoc(mp, &mda, nullptr, /* pceeval */
@@ -319,15 +322,16 @@ CSubqueryHandlerTest::EresUnittest_SubqueryWithDisjunction()
 			mp, pexprOuter, pexprInner, true /*fCorrelated*/,
 			CScalarBoolOp::EboolopOr);
 
-	CXform *pxform = CXformFactory::Pxff()->Pxf(CXform::ExfSelect2Apply);
+	gpos::pointer<CXform *> pxform =
+		CXformFactory::Pxff()->Pxf(CXform::ExfSelect2Apply);
 
 	CWStringDynamic str(mp);
 	COstreamString oss(&str);
 
 	oss << std::endl << "EXPRESSION:" << std::endl << *pexpr << std::endl;
 
-	CExpression *pexprLogical = (*pexpr)[0];
-	CExpression *pexprScalar = (*pexpr)[1];
+	gpos::pointer<CExpression *> pexprLogical = (*pexpr)[0];
+	gpos::pointer<CExpression *> pexprScalar = (*pexpr)[1];
 	oss << std::endl << "LOGICAL:" << std::endl << *pexprLogical << std::endl;
 	oss << std::endl << "SCALAR:" << std::endl << *pexprScalar << std::endl;
 
@@ -339,7 +343,7 @@ CSubqueryHandlerTest::EresUnittest_SubqueryWithDisjunction()
 
 	// calling the xform to perform subquery to Apply transformation
 	pxform->Transform(pxfctxt, pxfres, pexpr);
-	CExpression *pexprResult = pxfres->PexprNext();
+	gpos::pointer<CExpression *> pexprResult = pxfres->PexprNext();
 
 	oss << std::endl
 		<< "NEW LOGICAL:" << std::endl

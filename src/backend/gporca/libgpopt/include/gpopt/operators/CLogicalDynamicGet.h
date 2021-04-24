@@ -38,14 +38,16 @@ public:
 	explicit CLogicalDynamicGet(CMemoryPool *mp);
 
 	CLogicalDynamicGet(CMemoryPool *mp, const CName *pnameAlias,
-					   CTableDescriptor *ptabdesc, ULONG ulPartIndex,
-					   CColRefArray *pdrgpcrOutput,
-					   CColRef2dArray *pdrgpdrgpcrPart,
-					   IMdIdArray *partition_mdids);
+					   gpos::owner<CTableDescriptor *> ptabdesc,
+					   ULONG ulPartIndex,
+					   gpos::owner<CColRefArray *> pdrgpcrOutput,
+					   gpos::owner<CColRef2dArray *> pdrgpdrgpcrPart,
+					   gpos::owner<IMdIdArray *> partition_mdids);
 
 	CLogicalDynamicGet(CMemoryPool *mp, const CName *pnameAlias,
-					   CTableDescriptor *ptabdesc, ULONG ulPartIndex,
-					   IMdIdArray *partition_mdids);
+					   gpos::owner<CTableDescriptor *> ptabdesc,
+					   ULONG ulPartIndex,
+					   gpos::owner<IMdIdArray *> partition_mdids);
 
 	// dtor
 	~CLogicalDynamicGet() override;
@@ -68,14 +70,14 @@ public:
 	ULONG HashValue() const override;
 
 	// match function
-	BOOL Matches(COperator *pop) const override;
+	BOOL Matches(gpos::pointer<COperator *> pop) const override;
 
 	// sensitivity to order of inputs
 	BOOL FInputOrderSensitive() const override;
 
 	// return a copy of the operator with remapped columns
 	gpos::owner<COperator *> PopCopyWithRemappedColumns(
-		CMemoryPool *mp, UlongToColRefMap *colref_mapping,
+		CMemoryPool *mp, gpos::pointer<UlongToColRefMap *> colref_mapping,
 		BOOL must_exist) override;
 
 	//-------------------------------------------------------------------------------------
@@ -111,7 +113,7 @@ public:
 	//-------------------------------------------------------------------------------------
 
 	// compute required stat columns of the n-th child
-	CColRefSet *
+	gpos::owner<CColRefSet *>
 	PcrsStat(CMemoryPool *,				   // mp,
 			 CExpressionHandle &,		   // exprhdl
 			 gpos::pointer<CColRefSet *>,  //pcrsInput
@@ -127,15 +129,16 @@ public:
 	//-------------------------------------------------------------------------------------
 
 	// candidate set of xforms
-	CXformSet *PxfsCandidates(CMemoryPool *mp) const override;
+	gpos::owner<CXformSet *> PxfsCandidates(CMemoryPool *mp) const override;
 
 	//-------------------------------------------------------------------------------------
 	// Statistics
 	//-------------------------------------------------------------------------------------
 
 	// derive statistics
-	IStatistics *PstatsDerive(CMemoryPool *mp, CExpressionHandle &exprhdl,
-							  IStatisticsArray *stats_ctxt) const override;
+	gpos::owner<IStatistics *> PstatsDerive(
+		CMemoryPool *mp, CExpressionHandle &exprhdl,
+		gpos::pointer<IStatisticsArray *> stats_ctxt) const override;
 
 	// stat promise
 	EStatPromise

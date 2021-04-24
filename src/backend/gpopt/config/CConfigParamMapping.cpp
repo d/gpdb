@@ -291,7 +291,7 @@ CConfigParamMapping::SConfigMappingElem CConfigParamMapping::m_elements[] = {
 //		Pack the GPDB config params into a bitset
 //
 //---------------------------------------------------------------------------
-CBitSet *
+gpos::owner<CBitSet *>
 CConfigParamMapping::PackConfigParamInBitset(
 	CMemoryPool *mp,
 	ULONG xform_id	// number of available xforms

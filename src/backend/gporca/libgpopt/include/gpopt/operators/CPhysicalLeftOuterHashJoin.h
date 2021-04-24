@@ -33,10 +33,10 @@ public:
 	CPhysicalLeftOuterHashJoin(const CPhysicalLeftOuterHashJoin &) = delete;
 
 	// ctor
-	CPhysicalLeftOuterHashJoin(CMemoryPool *mp,
-							   CExpressionArray *pdrgpexprOuterKeys,
-							   CExpressionArray *pdrgpexprInnerKeys,
-							   gpos::owner<IMdIdArray *> hash_opfamilies);
+	CPhysicalLeftOuterHashJoin(
+		CMemoryPool *mp, gpos::owner<CExpressionArray *> pdrgpexprOuterKeys,
+		gpos::owner<CExpressionArray *> pdrgpexprInnerKeys,
+		gpos::owner<IMdIdArray *> hash_opfamilies);
 
 	// dtor
 	~CPhysicalLeftOuterHashJoin() override;
