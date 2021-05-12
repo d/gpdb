@@ -617,6 +617,8 @@ ExecReScanSort(SortState *node, ExprContext *exprCtxt)
 			tuplesort_rescan(node->tuplesortstate->sortstore);
 		}
 	}
+
+    SIMPLE_FAULT_INJECTOR(ExecReScanSortEndOfFunc);
 }
 
 
