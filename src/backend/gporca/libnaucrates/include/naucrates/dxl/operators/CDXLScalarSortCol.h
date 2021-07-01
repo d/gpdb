@@ -14,6 +14,7 @@
 
 
 #include "gpos/base.h"
+#include "gpos/common/owner.h"
 
 #include "naucrates/dxl/gpdb_types.h"
 #include "naucrates/dxl/operators/CDXLScalar.h"
@@ -71,10 +72,11 @@ public:
 	BOOL IsSortedNullsFirst() const;
 
 	// serialize operator in DXL format
-	void SerializeToDXL(CXMLSerializer *, const CDXLNode *) const override;
+	void SerializeToDXL(CXMLSerializer *,
+						gpos::pointer<const CDXLNode *>) const override;
 
 	// conversion function
-	static CDXLScalarSortCol *
+	static gpos::cast_func<CDXLScalarSortCol *>
 	Cast(CDXLOperator *dxl_op)
 	{
 		GPOS_ASSERT(nullptr != dxl_op);

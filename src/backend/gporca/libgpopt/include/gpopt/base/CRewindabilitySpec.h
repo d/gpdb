@@ -14,6 +14,7 @@
 
 #include "gpos/base.h"
 #include "gpos/common/CRefCount.h"
+#include "gpos/common/owner.h"
 
 #include "gpopt/base/CPropSpec.h"
 
@@ -124,10 +125,10 @@ public:
 	~CRewindabilitySpec() override;
 
 	// check if rewindability specs match
-	BOOL Matches(const CRewindabilitySpec *prs) const;
+	BOOL Matches(gpos::pointer<const CRewindabilitySpec *> prs) const;
 
 	// check if rewindability spec satisfies a req'd rewindability spec
-	BOOL FSatisfies(const CRewindabilitySpec *prs) const;
+	BOOL FSatisfies(gpos::pointer<const CRewindabilitySpec *> prs) const;
 
 	// append enforcers to dynamic array for the given plan properties
 	void AppendEnforcers(CMemoryPool *mp, CExpressionHandle &exprhdl,
@@ -138,7 +139,7 @@ public:
 	ULONG HashValue() const override;
 
 	// extract columns used by the rewindability spec
-	CColRefSet *
+	gpos::owner<CColRefSet *>
 	PcrsUsed(CMemoryPool *mp) const override
 	{
 		// return an empty set

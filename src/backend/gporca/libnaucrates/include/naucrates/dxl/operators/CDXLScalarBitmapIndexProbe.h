@@ -13,6 +13,7 @@
 #define GPDXL_CDXLScalarBitmapIndexProbe_H
 
 #include "gpos/base.h"
+#include "gpos/common/owner.h"
 
 #include "naucrates/dxl/operators/CDXLScalar.h"
 
@@ -59,7 +60,7 @@ public:
 	const CWStringConst *GetOpNameStr() const override;
 
 	// index descriptor
-	virtual const CDXLIndexDescr *
+	virtual gpos::pointer<const CDXLIndexDescr *>
 	GetDXLIndexDescr() const
 	{
 		return m_dxl_index_descr;
@@ -67,7 +68,7 @@ public:
 
 	// serialize operator in DXL format
 	void SerializeToDXL(CXMLSerializer *xml_serializer,
-						const CDXLNode *dxlnode) const override;
+						gpos::pointer<const CDXLNode *> dxlnode) const override;
 
 	// does the operator return a boolean result
 	BOOL
@@ -85,7 +86,7 @@ public:
 #endif	// GPOS_DEBUG
 
 	// conversion function
-	static CDXLScalarBitmapIndexProbe *
+	static gpos::cast_func<CDXLScalarBitmapIndexProbe *>
 	Cast(CDXLOperator *dxl_op)
 	{
 		GPOS_ASSERT(nullptr != dxl_op);

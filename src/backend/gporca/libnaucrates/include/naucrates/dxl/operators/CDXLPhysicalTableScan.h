@@ -15,6 +15,7 @@
 #define GPDXL_CDXLPhysicalTableScan_H
 
 #include "gpos/base.h"
+#include "gpos/common/owner.h"
 
 #include "naucrates/dxl/operators/CDXLPhysical.h"
 #include "naucrates/dxl/operators/CDXLTableDescr.h"
@@ -64,14 +65,14 @@ public:
 	const CWStringConst *GetOpNameStr() const override;
 
 	// table descriptor
-	const CDXLTableDescr *GetDXLTableDescr();
+	gpos::pointer<const CDXLTableDescr *> GetDXLTableDescr();
 
 	// serialize operator in DXL format
 	void SerializeToDXL(CXMLSerializer *xml_serializer,
-						const CDXLNode *dxlnode) const override;
+						gpos::pointer<const CDXLNode *> dxlnode) const override;
 
 	// conversion function
-	static CDXLPhysicalTableScan *
+	static gpos::cast_func<CDXLPhysicalTableScan *>
 	Cast(CDXLOperator *dxl_op)
 	{
 		GPOS_ASSERT(nullptr != dxl_op);

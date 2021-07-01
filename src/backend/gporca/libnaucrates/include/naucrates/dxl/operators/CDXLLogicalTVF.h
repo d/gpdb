@@ -13,6 +13,7 @@
 #define GPDXL_CDXLLogicalTVF_H
 
 #include "gpos/base.h"
+#include "gpos/common/owner.h"
 
 #include "naucrates/dxl/operators/CDXLColDescr.h"
 #include "naucrates/dxl/operators/CDXLLogical.h"
@@ -68,14 +69,14 @@ public:
 	}
 
 	// get function id
-	IMDId *
+	gpos::pointer<IMDId *>
 	FuncMdId() const
 	{
 		return m_func_mdid;
 	}
 
 	// get return type
-	IMDId *
+	gpos::pointer<IMDId *>
 	ReturnTypeMdId() const
 	{
 		return m_return_type_mdid;
@@ -85,24 +86,24 @@ public:
 	ULONG Arity() const;
 
 	// return the array of column descriptors
-	const CDXLColDescrArray *
+	gpos::pointer<const CDXLColDescrArray *>
 	GetDXLColumnDescrArray() const
 	{
 		return m_dxl_col_descr_array;
 	}
 
 	// get the column descriptor at the given position
-	const CDXLColDescr *GetColumnDescrAt(ULONG ul) const;
+	gpos::pointer<const CDXLColDescr *> GetColumnDescrAt(ULONG ul) const;
 
 	// check if given column is defined by operator
 	BOOL IsColDefined(ULONG colid) const override;
 
 	// serialize operator in DXL format
 	void SerializeToDXL(CXMLSerializer *xml_serializer,
-						const CDXLNode *node) const override;
+						gpos::pointer<const CDXLNode *> node) const override;
 
 	// conversion function
-	static CDXLLogicalTVF *
+	static gpos::cast_func<CDXLLogicalTVF *>
 	Cast(CDXLOperator *dxl_op)
 	{
 		GPOS_ASSERT(nullptr != dxl_op);

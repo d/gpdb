@@ -14,6 +14,7 @@
 #define GPDXL_CDXLPhysicalAbstractBitmapScan_H
 
 #include "gpos/base.h"
+#include "gpos/common/owner.h"
 
 #include "naucrates/dxl/operators/CDXLPhysical.h"
 #include "naucrates/dxl/operators/CDXLTableDescr.h"
@@ -65,7 +66,7 @@ public:
 	~CDXLPhysicalAbstractBitmapScan() override;
 
 	// table descriptor
-	const CDXLTableDescr *
+	gpos::pointer<const CDXLTableDescr *>
 	GetDXLTableDescr()
 	{
 		return m_dxl_table_descr;

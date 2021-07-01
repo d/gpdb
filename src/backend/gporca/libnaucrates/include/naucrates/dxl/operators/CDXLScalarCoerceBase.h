@@ -18,6 +18,7 @@
 #define GPDXL_CDXLScalarCoerceBase_H
 
 #include "gpos/base.h"
+#include "gpos/common/owner.h"
 
 #include "naucrates/dxl/operators/CDXLScalar.h"
 #include "naucrates/md/IMDId.h"
@@ -60,7 +61,7 @@ public:
 	~CDXLScalarCoerceBase() override;
 
 	// return result type
-	IMDId *
+	gpos::pointer<IMDId *>
 	GetResultTypeMdId() const
 	{
 		return m_result_type_mdid;
@@ -99,7 +100,7 @@ public:
 
 	// serialize operator in DXL format
 	void SerializeToDXL(CXMLSerializer *xml_serializer,
-						const CDXLNode *node) const override;
+						gpos::pointer<const CDXLNode *> node) const override;
 };
 }  // namespace gpdxl
 

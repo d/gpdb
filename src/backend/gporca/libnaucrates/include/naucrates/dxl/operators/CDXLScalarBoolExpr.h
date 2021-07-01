@@ -13,6 +13,7 @@
 #define GPDXL_CDXLScalarBoolExpr_H
 
 #include "gpos/base.h"
+#include "gpos/common/owner.h"
 
 #include "naucrates/dxl/operators/CDXLScalar.h"
 
@@ -62,10 +63,11 @@ public:
 	const CWStringConst *GetOpNameStr() const override;
 
 	// serialize operator in DXL format
-	void SerializeToDXL(CXMLSerializer *, const CDXLNode *) const override;
+	void SerializeToDXL(CXMLSerializer *,
+						gpos::pointer<const CDXLNode *>) const override;
 
 	// conversion function
-	static CDXLScalarBoolExpr *
+	static gpos::cast_func<CDXLScalarBoolExpr *>
 	Cast(CDXLOperator *dxl_op)
 	{
 		GPOS_ASSERT(nullptr != dxl_op);

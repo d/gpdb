@@ -16,6 +16,7 @@
 #include "gpos/common/CEnumSet.h"
 #include "gpos/common/CEnumSetIter.h"
 #include "gpos/common/CRefCount.h"
+#include "gpos/common/owner.h"
 
 #include "gpopt/base/CUtils.h"
 #include "gpopt/operators/CExpression.h"
@@ -276,7 +277,7 @@ public:
 						   CExpression *pexpr) const = 0;
 
 	// accessor
-	CExpression *
+	gpos::pointer<CExpression *>
 	PexprPattern() const
 	{
 		return m_pexpr;

@@ -13,6 +13,7 @@
 #define GPDXL_CDXLLogicalProject_H
 
 #include "gpos/base.h"
+#include "gpos/common/owner.h"
 
 #include "naucrates/dxl/operators/CDXLLogical.h"
 
@@ -44,14 +45,15 @@ public:
 	const CMDName *MdName() const;
 
 	// serialize operator in DXL format
-	void SerializeToDXL(CXMLSerializer *xml_serializer,
-						const CDXLNode *dxl_node) const override;
+	void SerializeToDXL(
+		CXMLSerializer *xml_serializer,
+		gpos::pointer<const CDXLNode *> dxl_node) const override;
 
 	// set alias name
 	void SetAliasName(CMDName *);
 
 	// conversion function
-	static CDXLLogicalProject *
+	static gpos::cast_func<CDXLLogicalProject *>
 	Cast(CDXLOperator *dxl_op)
 	{
 		GPOS_ASSERT(nullptr != dxl_op);

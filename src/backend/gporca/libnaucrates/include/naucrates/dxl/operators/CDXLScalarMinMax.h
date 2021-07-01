@@ -13,6 +13,7 @@
 #define GPDXL_CDXLScalarMinMax_H
 
 #include "gpos/base.h"
+#include "gpos/common/owner.h"
 
 #include "naucrates/dxl/operators/CDXLScalar.h"
 #include "naucrates/md/IMDId.h"
@@ -62,7 +63,7 @@ public:
 	const CWStringConst *GetOpNameStr() const override;
 
 	// return type
-	virtual IMDId *
+	virtual gpos::pointer<IMDId *>
 	MdidType() const
 	{
 		return m_mdid_type;
@@ -80,7 +81,7 @@ public:
 
 	// serialize operator in DXL format
 	void SerializeToDXL(CXMLSerializer *xml_serializer,
-						const CDXLNode *node) const override;
+						gpos::pointer<const CDXLNode *> node) const override;
 
 	// does the operator return a boolean result
 	BOOL HasBoolResult(CMDAccessor *md_accessor) const override;
@@ -93,7 +94,7 @@ public:
 #endif	// GPOS_DEBUG
 
 	// conversion function
-	static CDXLScalarMinMax *
+	static gpos::cast_func<CDXLScalarMinMax *>
 	Cast(CDXLOperator *dxl_op)
 	{
 		GPOS_ASSERT(nullptr != dxl_op);
