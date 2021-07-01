@@ -258,7 +258,7 @@ public:
 #ifdef GPOS_DEBUG
 	// checks whether the operator has valid structure, i.e. number and
 	// types of child nodes
-	virtual void AssertValid(const CDXLNode *,
+	virtual void AssertValid(gpos::pointer<const CDXLNode *>,
 							 BOOL validate_children) const = 0;
 #endif	// GPOS_DEBUG
 };

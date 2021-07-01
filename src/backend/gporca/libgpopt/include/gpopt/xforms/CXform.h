@@ -301,8 +301,9 @@ public:
 	BOOL FCheckPattern(CExpression *pexpr) const;
 
 	// verify xform promise on the given expression
-	static BOOL FPromising(CMemoryPool *mp, const CXform *pxform,
-						   CExpression *pexpr);
+	static BOOL FPromising(CMemoryPool *mp,
+						   gpos::pointer<const CXform *> pxform,
+						   gpos::pointer<CExpression *> pexpr);
 
 #endif	// GPOS_DEBUG
 
