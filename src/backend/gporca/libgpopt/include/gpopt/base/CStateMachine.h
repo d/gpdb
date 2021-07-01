@@ -20,6 +20,7 @@
 
 #include "gpos/base.h"
 #include "gpos/common/CEnumSet.h"
+#include "gpos/common/owner.h"
 #include "gpos/types.h"
 
 #ifdef GPOS_DEBUG
@@ -158,7 +159,7 @@ private:
 	Walk(CMemoryPool *mp, PfWalker Pfpv, void *pvContext) const
 	{
 		// retrieve all states
-		EsetStates *pesetStates = GPOS_NEW(mp) EsetStates(mp);
+		gpos::owner<EsetStates *> pesetStates = GPOS_NEW(mp) EsetStates(mp);
 		States(pesetStates);
 
 		// loop through all sink states
@@ -175,7 +176,8 @@ private:
 
 				// for all pairs of states (source, sink)
 				// compute possible transitions
-				EsetEvents *pesetEvents = GPOS_NEW(mp) EsetEvents(mp);
+				gpos::owner<EsetEvents *> pesetEvents =
+					GPOS_NEW(mp) EsetEvents(mp);
 				Transitions(tenumstateSource, tenumstateSink, pesetEvents);
 
 				// loop through all connecting edges
@@ -429,7 +431,7 @@ public:
 		}
 
 		// mark all states unreachable at first
-		EsetStates *peset = GPOS_NEW(mp) EsetStates(mp);
+		gpos::owner<EsetStates *> peset = GPOS_NEW(mp) EsetStates(mp);
 		States(peset);
 
 		Walk(mp, Unreachable, peset);
@@ -454,7 +456,7 @@ public:
 		   << GRAPHVIZ_DOUBLE_CIRCLE(WszState(TesInitial())) << std::endl;
 
 		// get unreachable states
-		EsetStates *peset = GPOS_NEW(mp) EsetStates(mp);
+		gpos::owner<EsetStates *> peset = GPOS_NEW(mp) EsetStates(mp);
 		States(peset);
 
 		Walk(mp, Unreachable, peset);
