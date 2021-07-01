@@ -16,6 +16,7 @@
 #include "gpos/common/CSyncHashtable.h"
 #include "gpos/common/CSyncList.h"
 #include "gpos/common/DbgPrintMixin.h"
+#include "gpos/common/owner.h"
 
 #include "gpopt/search/CGroupExpression.h"
 
@@ -67,7 +68,7 @@ private:
 	ULONG m_aul;
 
 	// root group
-	CGroup *m_pgroupRoot;
+	gpos::pointer<CGroup *> m_pgroupRoot;
 
 	// number of groups
 	ULONG_PTR m_ulpGrps;
@@ -107,7 +108,7 @@ public:
 	~CMemo();
 
 	// return root group
-	CGroup *
+	gpos::pointer<CGroup *>
 	PgroupRoot() const
 	{
 		return m_pgroupRoot;
@@ -140,8 +141,8 @@ public:
 	void SetRoot(CGroup *pgroup);
 
 	// insert group expression into hash table
-	CGroup *PgroupInsert(CGroup *pgroupTarget, CExpression *pexprOrigin,
-						 CGroupExpression *pgexpr);
+	CGroup *PgroupInsert(gpos::owner<CGroup *> pgroupTarget,
+						 CExpression *pexprOrigin, CGroupExpression *pgexpr);
 
 	// extract a plan that delivers the given required properties
 	CExpression *PexprExtractPlan(CMemoryPool *mp, CGroup *pgroupRoot,

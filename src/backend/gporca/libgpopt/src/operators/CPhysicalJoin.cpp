@@ -10,6 +10,7 @@
 //---------------------------------------------------------------------------
 
 #include "gpos/base.h"
+#include "gpos/common/owner.h"
 
 #include "gpopt/base/CCastUtils.h"
 #include "gpopt/base/CDistributionSpecAny.h"
@@ -64,13 +65,13 @@ CPhysicalJoin::Matches(COperator *pop) const
 //		Helper for propagating required sort order to outer child
 //
 //---------------------------------------------------------------------------
-COrderSpec *
+gpos::owner<COrderSpec *>
 CPhysicalJoin::PosPropagateToOuter(CMemoryPool *mp, CExpressionHandle &exprhdl,
 								   COrderSpec *posRequired)
 {
 	// propagate the order requirement to the outer child only if all the columns
 	// specified by the order requirement come from the outer child
-	CColRefSet *pcrs = posRequired->PcrsUsed(mp);
+	gpos::owner<CColRefSet *> pcrs = posRequired->PcrsUsed(mp);
 	BOOL fOuterSortCols = exprhdl.DeriveOutputColumns(0)->ContainsAll(pcrs);
 	pcrs->Release();
 	if (fOuterSortCols)
@@ -93,8 +94,8 @@ CPhysicalJoin::PosPropagateToOuter(CMemoryPool *mp, CExpressionHandle &exprhdl,
 CColRefSet *
 CPhysicalJoin::PcrsRequired(CMemoryPool *mp, CExpressionHandle &exprhdl,
 							CColRefSet *pcrsRequired, ULONG child_index,
-							CDrvdPropArray *,  // pdrgpdpCtxt
-							ULONG			   // ulOptReq
+							gpos::pointer<CDrvdPropArray *>,  // pdrgpdpCtxt
+							ULONG							  // ulOptReq
 )
 {
 	GPOS_ASSERT(
@@ -143,7 +144,7 @@ CPhysicalJoin::FProvidesReqdCols(CExpressionHandle &exprhdl,
 	GPOS_ASSERT(3 == exprhdl.Arity());
 
 	// union columns from relational children
-	CColRefSet *pcrs = GPOS_NEW(m_mp) CColRefSet(m_mp);
+	gpos::owner<CColRefSet *> pcrs = GPOS_NEW(m_mp) CColRefSet(m_mp);
 	ULONG arity = exprhdl.Arity();
 	for (ULONG i = 0; i < arity - 1; i++)
 	{
@@ -169,11 +170,11 @@ CPhysicalJoin::FProvidesReqdCols(CExpressionHandle &exprhdl,
 BOOL
 CPhysicalJoin::FSortColsInOuterChild(CMemoryPool *mp,
 									 CExpressionHandle &exprhdl,
-									 COrderSpec *pos)
+									 gpos::pointer<COrderSpec *> pos)
 {
 	GPOS_ASSERT(nullptr != pos);
 
-	CColRefSet *pcrsSort = pos->PcrsUsed(mp);
+	gpos::owner<CColRefSet *> pcrsSort = pos->PcrsUsed(mp);
 	CColRefSet *pcrsOuterChild = exprhdl.DeriveOutputColumns(0 /*child_index*/);
 	BOOL fSortColsInOuter = pcrsOuterChild->ContainsAll(pcrsSort);
 	pcrsSort->Release();
@@ -193,7 +194,7 @@ CPhysicalJoin::FSortColsInOuterChild(CMemoryPool *mp,
 //---------------------------------------------------------------------------
 BOOL
 CPhysicalJoin::FOuterProvidesReqdCols(CExpressionHandle &exprhdl,
-									  CColRefSet *pcrsRequired)
+									  gpos::pointer<CColRefSet *> pcrsRequired)
 {
 	GPOS_ASSERT(nullptr != pcrsRequired);
 	GPOS_ASSERT(3 == exprhdl.Arity() && "expected binary join");
@@ -217,12 +218,12 @@ CPhysicalJoin::FOuterProvidesReqdCols(CExpressionHandle &exprhdl,
 //
 //---------------------------------------------------------------------------
 CDistributionSpec *
-CPhysicalJoin::PdsRequired(CMemoryPool *mp GPOS_UNUSED,
-						   CExpressionHandle &exprhdl GPOS_UNUSED,
-						   CDistributionSpec *,	 //pdsRequired,
-						   ULONG child_index GPOS_UNUSED,
-						   CDrvdPropArray *pdrgpdpCtxt GPOS_UNUSED,
-						   ULONG  // ulOptReq
+CPhysicalJoin::PdsRequired(
+	CMemoryPool *mp GPOS_UNUSED, CExpressionHandle &exprhdl GPOS_UNUSED,
+	gpos::pointer<CDistributionSpec *>,	 //pdsRequired,
+	ULONG child_index GPOS_UNUSED,
+	gpos::pointer<CDrvdPropArray *> pdrgpdpCtxt GPOS_UNUSED,
+	ULONG  // ulOptReq
 ) const
 {
 	GPOS_RAISE(
@@ -231,7 +232,7 @@ CPhysicalJoin::PdsRequired(CMemoryPool *mp GPOS_UNUSED,
 	return nullptr;
 }
 
-CEnfdDistribution *
+gpos::owner<CEnfdDistribution *>
 CPhysicalJoin::Ped(CMemoryPool *mp, CExpressionHandle &exprhdl,
 				   CReqdPropPlan *prppInput, ULONG child_index,
 				   CDrvdPropArray *pdrgpdpCtxt, ULONG ulDistrReq)
@@ -307,7 +308,7 @@ CPhysicalJoin::Ped(CMemoryPool *mp, CExpressionHandle &exprhdl,
 //		Derive distribution
 //
 //---------------------------------------------------------------------------
-CDistributionSpec *
+gpos::owner<CDistributionSpec *>
 CPhysicalJoin::PdsDerive(CMemoryPool *mp, CExpressionHandle &exprhdl) const
 {
 	CDistributionSpec *pdsOuter = exprhdl.Pdpplan(0 /*child_index*/)->Pds();
@@ -345,7 +346,7 @@ CPhysicalJoin::PdsDerive(CMemoryPool *mp, CExpressionHandle &exprhdl) const
 		// Note that, since this is done at the lowest join, no relevant equivalent specs are lost.
 		if (!pdsHashed->HasCompleteEquivSpec(mp))
 		{
-			CExpressionArray *pdrgpexpr = pdsHashed->Pdrgpexpr();
+			gpos::owner<CExpressionArray *> pdrgpexpr = pdsHashed->Pdrgpexpr();
 			pdrgpexpr->AddRef();
 			return GPOS_NEW(mp) CDistributionSpecHashed(
 				pdrgpexpr, pdsHashed->FNullsColocated());
@@ -365,7 +366,7 @@ CPhysicalJoin::PdsDerive(CMemoryPool *mp, CExpressionHandle &exprhdl) const
 //		Derive rewindability
 //
 //---------------------------------------------------------------------------
-CRewindabilitySpec *
+gpos::owner<CRewindabilitySpec *>
 CPhysicalJoin::PrsDerive(CMemoryPool *mp, CExpressionHandle &exprhdl) const
 {
 	CRewindabilitySpec *prsOuter = exprhdl.Pdpplan(0 /*child_index*/)->Prs();
@@ -417,8 +418,9 @@ CPhysicalJoin::PrsDerive(CMemoryPool *mp, CExpressionHandle &exprhdl) const
 //
 //---------------------------------------------------------------------------
 CEnfdProp::EPropEnforcingType
-CPhysicalJoin::EpetRewindability(CExpressionHandle &exprhdl,
-								 const CEnfdRewindability *per) const
+CPhysicalJoin::EpetRewindability(
+	CExpressionHandle &exprhdl,
+	gpos::pointer<const CEnfdRewindability *> per) const
 {
 	// get rewindability delivered by the join node
 	CRewindabilitySpec *prs = CDrvdPropPlan::Pdpplan(exprhdl.Pdp())->Prs();
@@ -440,10 +442,10 @@ CPhysicalJoin::EpetRewindability(CExpressionHandle &exprhdl,
 //   - pexprPredInner uses columns from pexprOuter and pexprPredOuter uses
 //     columns from pexprInner
 BOOL
-CPhysicalJoin::FPredKeysSeparated(CExpression *pexprInner,
-								  CExpression *pexprOuter,
-								  CExpression *pexprPredInner,
-								  CExpression *pexprPredOuter)
+CPhysicalJoin::FPredKeysSeparated(gpos::pointer<CExpression *> pexprInner,
+								  gpos::pointer<CExpression *> pexprOuter,
+								  gpos::pointer<CExpression *> pexprPredInner,
+								  gpos::pointer<CExpression *> pexprPredOuter)
 {
 	GPOS_ASSERT(nullptr != pexprOuter);
 	GPOS_ASSERT(nullptr != pexprInner);
@@ -488,9 +490,9 @@ CPhysicalJoin::FPredKeysSeparated(CExpression *pexprInner,
 //---------------------------------------------------------------------------
 BOOL
 CPhysicalJoin::FHashJoinCompatible(
-	CExpression *pexprPred,	  // predicate in question
-	CExpression *pexprOuter,  // outer child of the join
-	CExpression *pexprInner	  // inner child of the join
+	gpos::pointer<CExpression *> pexprPred,	  // predicate in question
+	gpos::pointer<CExpression *> pexprOuter,  // outer child of the join
+	gpos::pointer<CExpression *> pexprInner	  // inner child of the join
 )
 {
 	GPOS_ASSERT(nullptr != pexprPred);
@@ -526,7 +528,8 @@ CPhysicalJoin::FHashJoinCompatible(
 
 	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
 
-	const IMDScalarOp *scop = md_accessor->RetrieveScOp(mdid_scop);
+	gpos::pointer<const IMDScalarOp *> scop =
+		md_accessor->RetrieveScOp(mdid_scop);
 	if (GPOS_FTRACE(EopttraceConsiderOpfamiliesForDistribution) &&
 		nullptr == scop->HashOpfamilyMdid())
 	{
@@ -545,9 +548,9 @@ CPhysicalJoin::FHashJoinCompatible(
 
 BOOL
 CPhysicalJoin::FMergeJoinCompatible(
-	CExpression *pexprPred,	  // predicate in question
-	CExpression *pexprOuter,  // outer child of the join
-	CExpression *pexprInner	  // inner child of the join
+	gpos::pointer<CExpression *> pexprPred,	  // predicate in question
+	gpos::pointer<CExpression *> pexprOuter,  // outer child of the join
+	gpos::pointer<CExpression *> pexprInner	  // inner child of the join
 )
 {
 	GPOS_ASSERT(nullptr != pexprPred);
@@ -582,9 +585,11 @@ CPhysicalJoin::FMergeJoinCompatible(
 
 	if (GPOS_FTRACE(EopttraceConsiderOpfamiliesForDistribution))
 	{
-		const IMDScalarOp *op = mda->RetrieveScOp(mdid_scop);
-		const IMDType *left_type = mda->RetrieveType(pmdidTypeOuter);
-		const IMDType *right_type = mda->RetrieveType(pmdidTypeInner);
+		gpos::pointer<const IMDScalarOp *> op = mda->RetrieveScOp(mdid_scop);
+		gpos::pointer<const IMDType *> left_type =
+			mda->RetrieveType(pmdidTypeOuter);
+		gpos::pointer<const IMDType *> right_type =
+			mda->RetrieveType(pmdidTypeInner);
 
 		// MJ sends Sort requests whose btree opclass must match that of the join
 		// clause. ORCA currently doesn't have support to retrive the information
@@ -624,7 +629,7 @@ CPhysicalJoin::AlignJoinKeyOuterInner(CExpression *pexprPred,
 #ifdef GPOS_DEBUG
 									  CExpression *pexprInner,
 #else
-									  CExpression *,
+									  gpos::pointer<CExpression *>,
 #endif	// GPOS_DEBUG
 									  CExpression **ppexprKeyOuter,
 									  CExpression **ppexprKeyInner,
@@ -757,7 +762,7 @@ CPhysicalJoin::UlDistrRequestsForCorrelatedJoin()
 //		Helper to compute required rewindability of correlated join's children
 //
 //---------------------------------------------------------------------------
-CRewindabilitySpec *
+gpos::owner<CRewindabilitySpec *>
 CPhysicalJoin::PrsRequiredCorrelatedJoin(CMemoryPool *mp,
 										 CExpressionHandle &exprhdl,
 										 CRewindabilitySpec *prsRequired,
@@ -792,7 +797,7 @@ CPhysicalJoin::PrsRequiredCorrelatedJoin(CMemoryPool *mp,
 	return PrsPassThru(mp, exprhdl, prsRequired, 0 /*child_index*/);
 }
 
-CEnfdDistribution *
+gpos::owner<CEnfdDistribution *>
 CPhysicalJoin::PedCorrelatedJoin(CMemoryPool *mp, CExpressionHandle &exprhdl,
 								 CReqdPropPlan *prppInput, ULONG child_index,
 								 CDrvdPropArray *pdrgpdpCtxt, ULONG ulOptReq)
@@ -851,7 +856,7 @@ CPhysicalJoin::PedCorrelatedJoin(CMemoryPool *mp, CExpressionHandle &exprhdl,
 //
 //---------------------------------------------------------------------------
 CEnfdDistribution::EDistributionMatching
-CPhysicalJoin::Edm(CReqdPropPlan *,	 // prppInput
+CPhysicalJoin::Edm(gpos::pointer<CReqdPropPlan *>,	// prppInput
 				   ULONG child_index, CDrvdPropArray *pdrgpdpCtxt,
 				   ULONG  // ulOptReq
 )

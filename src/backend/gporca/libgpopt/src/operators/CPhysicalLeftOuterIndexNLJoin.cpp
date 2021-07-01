@@ -8,6 +8,7 @@
 #include "gpopt/operators/CPhysicalLeftOuterIndexNLJoin.h"
 
 #include "gpos/base.h"
+#include "gpos/common/owner.h"
 
 #include "gpopt/base/CDistributionSpecAny.h"
 #include "gpopt/base/CDistributionSpecHashed.h"
@@ -56,8 +57,9 @@ CPhysicalLeftOuterIndexNLJoin::Matches(COperator *pop) const
 CDistributionSpec *
 CPhysicalLeftOuterIndexNLJoin::PdsRequired(
 	CMemoryPool *mp GPOS_UNUSED, CExpressionHandle &exprhdl GPOS_UNUSED,
-	CDistributionSpec *,  //pdsRequired,
-	ULONG child_index GPOS_UNUSED, CDrvdPropArray *pdrgpdpCtxt GPOS_UNUSED,
+	gpos::pointer<CDistributionSpec *>,	 //pdsRequired,
+	ULONG child_index GPOS_UNUSED,
+	gpos::pointer<CDrvdPropArray *> pdrgpdpCtxt GPOS_UNUSED,
 	ULONG  // ulOptReq
 ) const
 {
@@ -68,7 +70,7 @@ CPhysicalLeftOuterIndexNLJoin::PdsRequired(
 	return nullptr;
 }
 
-CEnfdDistribution *
+gpos::owner<CEnfdDistribution *>
 CPhysicalLeftOuterIndexNLJoin::Ped(CMemoryPool *mp, CExpressionHandle &exprhdl,
 								   CReqdPropPlan *prppInput, ULONG child_index,
 								   CDrvdPropArray *pdrgpdpCtxt, ULONG ulOptReq)
@@ -127,9 +129,10 @@ CPhysicalLeftOuterIndexNLJoin::Ped(CMemoryPool *mp, CExpressionHandle &exprhdl,
 		{
 			// request hashed distribution from outer
 			pdshashedEquiv->Pdrgpexpr()->AddRef();
-			CDistributionSpecHashed *pdsHashedRequired = GPOS_NEW(mp)
-				CDistributionSpecHashed(pdshashedEquiv->Pdrgpexpr(),
-										pdshashedEquiv->FNullsColocated());
+			gpos::owner<CDistributionSpecHashed *> pdsHashedRequired =
+				GPOS_NEW(mp)
+					CDistributionSpecHashed(pdshashedEquiv->Pdrgpexpr(),
+											pdshashedEquiv->FNullsColocated());
 			pdsHashedRequired->ComputeEquivHashExprs(mp, exprhdl);
 
 			return GPOS_NEW(mp) CEnfdDistribution(pdsHashedRequired, dmatch);

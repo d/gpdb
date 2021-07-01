@@ -12,6 +12,7 @@
 #include "gpopt/operators/CPhysicalInnerNLJoin.h"
 
 #include "gpos/base.h"
+#include "gpos/common/owner.h"
 
 #include "gpopt/base/CCastUtils.h"
 #include "gpopt/base/CDistributionSpecHashed.h"
@@ -73,12 +74,12 @@ CPhysicalInnerNLJoin::~CPhysicalInnerNLJoin() = default;
 //
 //---------------------------------------------------------------------------
 CDistributionSpec *
-CPhysicalInnerNLJoin::PdsRequired(CMemoryPool *mp GPOS_UNUSED,
-								  CExpressionHandle &exprhdl GPOS_UNUSED,
-								  CDistributionSpec *,	//pdsRequired,
-								  ULONG child_index GPOS_UNUSED,
-								  CDrvdPropArray *pdrgpdpCtxt GPOS_UNUSED,
-								  ULONG	 // ulOptReq
+CPhysicalInnerNLJoin::PdsRequired(
+	CMemoryPool *mp GPOS_UNUSED, CExpressionHandle &exprhdl GPOS_UNUSED,
+	gpos::pointer<CDistributionSpec *>,	 //pdsRequired,
+	ULONG child_index GPOS_UNUSED,
+	gpos::pointer<CDrvdPropArray *> pdrgpdpCtxt GPOS_UNUSED,
+	ULONG  // ulOptReq
 ) const
 {
 	GPOS_RAISE(
@@ -88,7 +89,7 @@ CPhysicalInnerNLJoin::PdsRequired(CMemoryPool *mp GPOS_UNUSED,
 	return nullptr;
 }
 
-CEnfdDistribution *
+gpos::owner<CEnfdDistribution *>
 CPhysicalInnerNLJoin::Ped(CMemoryPool *mp, CExpressionHandle &exprhdl,
 						  CReqdPropPlan *prppInput, ULONG child_index,
 						  CDrvdPropArray *pdrgpdpCtxt, ULONG ulOptReq)
@@ -134,10 +135,10 @@ CPhysicalInnerNLJoin::Ped(CMemoryPool *mp, CExpressionHandle &exprhdl,
 				// require inner child to have matching hashed distribution
 				CExpression *pexprScPredicate = exprhdl.PexprScalarExactChild(
 					2, true /*error_on_null_return*/);
-				CExpressionArray *pdrgpexpr =
+				gpos::owner<CExpressionArray *> pdrgpexpr =
 					CPredicateUtils::PdrgpexprConjuncts(mp, pexprScPredicate);
 
-				CExpressionArray *pdrgpexprMatching =
+				gpos::owner<CExpressionArray *> pdrgpexprMatching =
 					GPOS_NEW(mp) CExpressionArray(mp);
 				CDistributionSpecHashed *pdshashed =
 					CDistributionSpecHashed::PdsConvert(pdsOuter);
@@ -168,7 +169,7 @@ CPhysicalInnerNLJoin::Ped(CMemoryPool *mp, CExpressionHandle &exprhdl,
 
 					// create a matching hashed distribution request
 					BOOL fNullsColocated = pdshashed->FNullsColocated();
-					CDistributionSpecHashed *pdshashedEquiv =
+					gpos::owner<CDistributionSpecHashed *> pdshashedEquiv =
 						GPOS_NEW(mp) CDistributionSpecHashed(pdrgpexprMatching,
 															 fNullsColocated);
 					pdshashedEquiv->ComputeEquivHashExprs(mp, exprhdl);

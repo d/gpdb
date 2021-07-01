@@ -11,6 +11,8 @@
 
 #include "gpopt/base/CDistributionSpecRandom.h"
 
+#include "gpos/common/owner.h"
+
 #include "gpopt/base/CColRefSet.h"
 #include "gpopt/base/CColRefSetIter.h"
 #include "gpopt/base/CDistributionSpecStrictRandom.h"
@@ -50,14 +52,15 @@ CDistributionSpecRandom::CDistributionSpecRandom()
 //
 //---------------------------------------------------------------------------
 BOOL
-CDistributionSpecRandom::Matches(const CDistributionSpec *pds) const
+CDistributionSpecRandom::Matches(
+	gpos::pointer<const CDistributionSpec *> pds) const
 {
 	if (Edt() != pds->Edt())
 	{
 		return false;
 	}
 
-	const CDistributionSpecRandom *pdsRandom =
+	gpos::pointer<const CDistributionSpecRandom *> pdsRandom =
 		dynamic_cast<const CDistributionSpecRandom *>(pds);
 
 	return pdsRandom->IsDuplicateSensitive() == m_is_duplicate_sensitive;
@@ -72,7 +75,8 @@ CDistributionSpecRandom::Matches(const CDistributionSpec *pds) const
 //
 //---------------------------------------------------------------------------
 BOOL
-CDistributionSpecRandom::FSatisfies(const CDistributionSpec *pds) const
+CDistributionSpecRandom::FSatisfies(
+	gpos::pointer<const CDistributionSpec *> pds) const
 {
 	if (Matches(pds))
 	{
@@ -100,7 +104,7 @@ CDistributionSpecRandom::FSatisfies(const CDistributionSpec *pds) const
 void
 CDistributionSpecRandom::AppendEnforcers(CMemoryPool *mp,
 										 CExpressionHandle &exprhdl,
-										 CReqdPropPlan *
+										 gpos::pointer<CReqdPropPlan *>
 #ifdef GPOS_DEBUG
 											 prpp
 #endif	// GPOS_DEBUG
@@ -152,7 +156,7 @@ CDistributionSpecRandom::AppendEnforcers(CMemoryPool *mp,
 
 	CDistributionSpec *expr_dist_spec =
 		CDrvdPropPlan::Pdpplan(exprhdl.Pdp())->Pds();
-	CDistributionSpecRandom *random_dist_spec = nullptr;
+	gpos::owner<CDistributionSpecRandom *> random_dist_spec = nullptr;
 
 	if (expr_dist_spec->Edt() == CDistributionSpec::EdtUniversal)
 	{
@@ -171,7 +175,7 @@ CDistributionSpecRandom::AppendEnforcers(CMemoryPool *mp,
 
 	// add a distribution enforcer
 	pexpr->AddRef();
-	CExpression *pexprMotion = GPOS_NEW(mp) CExpression(
+	gpos::owner<CExpression *> pexprMotion = GPOS_NEW(mp) CExpression(
 		mp, GPOS_NEW(mp) CPhysicalMotionRandom(mp, random_dist_spec), pexpr);
 	pdrgpexpr->Append(pexprMotion);
 }

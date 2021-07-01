@@ -12,6 +12,7 @@
 #include "gpopt/operators/CScalarConst.h"
 
 #include "gpos/base.h"
+#include "gpos/common/owner.h"
 
 #include "gpopt/base/CColRefSet.h"
 #include "gpopt/base/CDrvdPropScalar.h"
@@ -130,7 +131,7 @@ CScalarConst::OsPrint(IOstream &os) const
 //
 //---------------------------------------------------------------------------
 BOOL
-CScalarConst::FCastedConst(CExpression *pexpr)
+CScalarConst::FCastedConst(gpos::pointer<CExpression *> pexpr)
 {
 	GPOS_ASSERT(nullptr != pexpr);
 
@@ -188,8 +189,8 @@ CScalarConst::PopExtractFromConstOrCastConst(CExpression *pexpr)
 //		Perform boolean expression evaluation
 //
 //---------------------------------------------------------------------------
-CScalar::EBoolEvalResult
-CScalarConst::Eber(ULongPtrArray *	//pdrgpulChildren
+CScalar::EBoolEvalResult CScalarConst::Eber(
+	gpos::pointer<ULongPtrArray *>	//pdrgpulChildren
 ) const
 {
 	if (m_pdatum->IsNull())

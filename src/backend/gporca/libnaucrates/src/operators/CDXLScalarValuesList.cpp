@@ -12,6 +12,8 @@
 
 #include "naucrates/dxl/operators/CDXLScalarValuesList.h"
 
+#include "gpos/common/owner.h"
+
 #include "naucrates/dxl/CDXLUtils.h"
 #include "naucrates/dxl/operators/CDXLNode.h"
 #include "naucrates/dxl/xml/CXMLSerializer.h"
@@ -44,8 +46,9 @@ CDXLScalarValuesList::GetOpNameStr() const
 
 // serialize operator in DXL format
 void
-CDXLScalarValuesList::SerializeToDXL(CXMLSerializer *xml_serializer,
-									 const CDXLNode *dxlnode) const
+CDXLScalarValuesList::SerializeToDXL(
+	CXMLSerializer *xml_serializer,
+	gpos::pointer<const CDXLNode *> dxlnode) const
 {
 	GPOS_CHECK_ABORT;
 
@@ -61,7 +64,7 @@ CDXLScalarValuesList::SerializeToDXL(CXMLSerializer *xml_serializer,
 }
 
 // conversion function
-CDXLScalarValuesList *
+gpos::cast_func<CDXLScalarValuesList *>
 CDXLScalarValuesList::Cast(CDXLOperator *dxl_op)
 {
 	GPOS_ASSERT(nullptr != dxl_op);

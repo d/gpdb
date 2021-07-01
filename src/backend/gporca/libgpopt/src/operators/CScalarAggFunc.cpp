@@ -12,6 +12,7 @@
 #include "gpopt/operators/CScalarAggFunc.h"
 
 #include "gpos/base.h"
+#include "gpos/common/owner.h"
 
 #include "gpopt/base/CColRefSet.h"
 #include "gpopt/base/CDrvdPropScalar.h"
@@ -54,7 +55,7 @@ CScalarAggFunc::CScalarAggFunc(CMemoryPool *mp, IMDId *pmdidAggFunc,
 	GPOS_ASSERT(EaggfuncstageSentinel > eaggfuncstage);
 
 	// store id of type obtained by looking up MD cache
-	IMDId *mdid = PmdidLookupReturnType(
+	gpos::owner<IMDId *> mdid = PmdidLookupReturnType(
 		m_pmdidAggFunc, (EaggfuncstageGlobal == m_eaggfuncstage));
 	mdid->AddRef();
 	m_return_type_mdid = mdid;
@@ -82,7 +83,7 @@ CScalarAggFunc::PstrAggFunc() const
 //		Aggregate function id
 //
 //---------------------------------------------------------------------------
-IMDId *
+gpos::pointer<IMDId *>
 CScalarAggFunc::MDId() const
 {
 	return m_pmdidAggFunc;
@@ -124,7 +125,7 @@ CScalarAggFunc::FCountAny() const
 
 // Is function either min() or max()?
 BOOL
-CScalarAggFunc::IsMinMax(const IMDType *mdtype) const
+CScalarAggFunc::IsMinMax(gpos::pointer<const IMDType *> mdtype) const
 {
 	return m_pmdidAggFunc->Equals(
 			   mdtype->GetMdidForAggType(IMDType::EaggMin)) ||
@@ -199,7 +200,8 @@ CScalarAggFunc::PmdidLookupReturnType(IMDId *pmdidAggFunc, BOOL fGlobal,
 	GPOS_ASSERT(nullptr != md_accessor);
 
 	// get aggregate function return type from the MD cache
-	const IMDAggregate *pmdagg = md_accessor->RetrieveAgg(pmdidAggFunc);
+	gpos::pointer<const IMDAggregate *> pmdagg =
+		md_accessor->RetrieveAgg(pmdidAggFunc);
 	if (fGlobal)
 	{
 		return pmdagg->GetResultTypeMdid();

@@ -40,14 +40,14 @@ private:
 		CDistributionSpec *pdsInner) const;
 
 	// helper for deriving hash join distribution from replicated outer child
-	CDistributionSpec *PdsDeriveFromReplicatedOuter(
-		CMemoryPool *mp, CDistributionSpec *pdsOuter,
-		CDistributionSpec *pdsInner) const;
+	gpos::owner<CDistributionSpec *> PdsDeriveFromReplicatedOuter(
+		CMemoryPool *mp, gpos::pointer<CDistributionSpec *> pdsOuter,
+		gpos::pointer<CDistributionSpec *> pdsInner) const;
 
 	// helper for deriving hash join distribution from hashed outer child
 	CDistributionSpec *PdsDeriveFromHashedOuter(
 		CMemoryPool *mp, CDistributionSpec *pdsOuter,
-		CDistributionSpec *pdsInner) const;
+		gpos::pointer<CDistributionSpec *> pdsInner) const;
 
 public:
 	CPhysicalInnerHashJoin(const CPhysicalInnerHashJoin &) = delete;
@@ -77,7 +77,7 @@ public:
 	}
 
 	// conversion function
-	static CPhysicalInnerHashJoin *
+	static gpos::cast_func<CPhysicalInnerHashJoin *>
 	PopConvert(COperator *pop)
 	{
 		GPOS_ASSERT(EopPhysicalInnerHashJoin == pop->Eopid());
@@ -86,8 +86,8 @@ public:
 	}
 
 	// derive distribution
-	CDistributionSpec *PdsDerive(CMemoryPool *mp,
-								 CExpressionHandle &exprhdl) const override;
+	gpos::owner<CDistributionSpec *> PdsDerive(
+		CMemoryPool *mp, CExpressionHandle &exprhdl) const override;
 
 	CPartitionPropagationSpec *PppsRequired(
 		CMemoryPool *mp, CExpressionHandle &exprhdl,
