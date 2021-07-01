@@ -29,11 +29,12 @@ using namespace gpopt;
 //
 //---------------------------------------------------------------------------
 CPhysicalLeftOuterHashJoin::CPhysicalLeftOuterHashJoin(
-	CMemoryPool *mp, CExpressionArray *pdrgpexprOuterKeys,
-	CExpressionArray *pdrgpexprInnerKeys,
+	CMemoryPool *mp, gpos::owner<CExpressionArray *> pdrgpexprOuterKeys,
+	gpos::owner<CExpressionArray *> pdrgpexprInnerKeys,
 	gpos::owner<IMdIdArray *> hash_opfamilies)
-	: CPhysicalHashJoin(mp, pdrgpexprOuterKeys, pdrgpexprInnerKeys,
-						hash_opfamilies)
+	: CPhysicalHashJoin(mp, std::move(pdrgpexprOuterKeys),
+						std::move(pdrgpexprInnerKeys),
+						std::move(hash_opfamilies))
 {
 }
 

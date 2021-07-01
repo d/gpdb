@@ -68,7 +68,7 @@ CContradictionTest::EresUnittest_Constraint()
 	CMDAccessor mda(mp, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
 
 
-	typedef CExpression *(*Pfpexpr)(CMemoryPool *);
+	typedef gpos::owner<CExpression *> (*Pfpexpr)(CMemoryPool *);
 
 	Pfpexpr rgpf[] = {
 		CTestUtils::PexprLogicalApplyWithOuterRef<CLogicalInnerApply>,

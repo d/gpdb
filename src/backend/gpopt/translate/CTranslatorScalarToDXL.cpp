@@ -91,11 +91,10 @@ using namespace gpopt;
 //	@doc:
 //		Ctor
 //---------------------------------------------------------------------------
-CTranslatorScalarToDXL::CTranslatorScalarToDXL(CContextQueryToDXL *context,
-											   CMDAccessor *md_accessor,
-											   ULONG query_level,
-											   HMUlCTEListEntry *cte_entries,
-											   CDXLNodeArray *cte_dxlnode_array)
+CTranslatorScalarToDXL::CTranslatorScalarToDXL(
+	CContextQueryToDXL *context, CMDAccessor *md_accessor, ULONG query_level,
+	gpos::pointer<HMUlCTEListEntry *> cte_entries,
+	gpos::pointer<CDXLNodeArray *> cte_dxlnode_array)
 	: m_context(context),
 	  m_mp(context->m_mp),
 	  m_md_accessor(md_accessor),
@@ -152,7 +151,7 @@ CTranslatorScalarToDXL::CreateSubqueryTranslator(
 							  m_cte_entries);
 }
 
-CDXLNode *
+gpos::owner<CDXLNode *>
 CTranslatorScalarToDXL::TranslateStandaloneExprToDXL(
 	CMemoryPool *mp, CMDAccessor *mda,
 	const CMappingVarColId *var_colid_mapping, const Expr *expr)
@@ -207,7 +206,7 @@ CTranslatorScalarToDXL::EdxlbooltypeFromGPDBBoolType(BoolExprType boolexprtype)
 //		The function allocates memory in the translator memory pool, and the caller
 //		is responsible for freeing it
 //---------------------------------------------------------------------------
-CDXLNode *
+gpos::owner<CDXLNode *>
 CTranslatorScalarToDXL::TranslateVarToDXL(
 	const Expr *expr, const CMappingVarColId *var_colid_mapping)
 {
@@ -249,11 +248,11 @@ CTranslatorScalarToDXL::TranslateVarToDXL(
 
 	// create the scalar ident operator
 	gpos::owner<CDXLScalarIdent *> scalar_ident =
-		GPOS_NEW(m_mp) CDXLScalarIdent(m_mp, dxl_colref);
+		GPOS_NEW(m_mp) CDXLScalarIdent(m_mp, std::move(dxl_colref));
 
 	// create the DXL node holding the scalar ident operator
 	gpos::owner<CDXLNode *> dxlnode =
-		GPOS_NEW(m_mp) CDXLNode(m_mp, scalar_ident);
+		GPOS_NEW(m_mp) CDXLNode(m_mp, std::move(scalar_ident));
 
 	return dxlnode;
 }
@@ -269,7 +268,7 @@ CTranslatorScalarToDXL::TranslateVarToDXL(
 //		The function allocates memory in the translator memory pool, and the caller
 //		is responsible for freeing it
 //---------------------------------------------------------------------------
-CDXLNode *
+gpos::owner<CDXLNode *>
 CTranslatorScalarToDXL::TranslateScalarToDXL(
 	const Expr *expr, const CMappingVarColId *var_colid_mapping)
 {
@@ -424,7 +423,7 @@ CTranslatorScalarToDXL::TranslateScalarToDXL(
 //		The function allocates memory in the translator memory pool, and the caller
 //		is responsible for freeing it
 //---------------------------------------------------------------------------
-CDXLNode *
+gpos::owner<CDXLNode *>
 CTranslatorScalarToDXL::TranslateDistinctExprToDXL(
 	const Expr *expr, const CMappingVarColId *var_colid_mapping)
 {
@@ -434,10 +433,10 @@ CTranslatorScalarToDXL::TranslateDistinctExprToDXL(
 	// process arguments of op expr
 	GPOS_ASSERT(2 == gpdb::ListLength(distinct_expr->args));
 
-	CDXLNode *left_node = TranslateScalarToDXL(
+	gpos::owner<CDXLNode *> left_node = TranslateScalarToDXL(
 		(Expr *) gpdb::ListNth(distinct_expr->args, 0), var_colid_mapping);
 
-	CDXLNode *right_node = TranslateScalarToDXL(
+	gpos::owner<CDXLNode *> right_node = TranslateScalarToDXL(
 		(Expr *) gpdb::ListNth(distinct_expr->args, 1), var_colid_mapping);
 
 	GPOS_ASSERT(nullptr != left_node);
@@ -448,11 +447,12 @@ CTranslatorScalarToDXL::TranslateDistinctExprToDXL(
 			m_mp, GPOS_NEW(m_mp) CMDIdGPDB(distinct_expr->opno));
 
 	// create the DXL node holding the scalar distinct comparison operator
-	gpos::owner<CDXLNode *> dxlnode = GPOS_NEW(m_mp) CDXLNode(m_mp, dxlop);
+	gpos::owner<CDXLNode *> dxlnode =
+		GPOS_NEW(m_mp) CDXLNode(m_mp, std::move(dxlop));
 
 	// add children in the right order
-	dxlnode->AddChild(left_node);
-	dxlnode->AddChild(right_node);
+	dxlnode->AddChild(std::move(left_node));
+	dxlnode->AddChild(std::move(right_node));
 
 	return dxlnode;
 }
@@ -468,7 +468,7 @@ CTranslatorScalarToDXL::TranslateDistinctExprToDXL(
 //		The function allocates memory in the translator memory pool, and the caller
 //		is responsible for freeing it
 //---------------------------------------------------------------------------
-CDXLNode *
+gpos::owner<CDXLNode *>
 CTranslatorScalarToDXL::CreateScalarCmpFromOpExpr(
 	const Expr *expr, const CMappingVarColId *var_colid_mapping)
 {
@@ -481,8 +481,10 @@ CTranslatorScalarToDXL::CreateScalarCmpFromOpExpr(
 	Expr *left_expr = (Expr *) gpdb::ListNth(op_expr->args, 0);
 	Expr *right_expr = (Expr *) gpdb::ListNth(op_expr->args, 1);
 
-	CDXLNode *left_node = TranslateScalarToDXL(left_expr, var_colid_mapping);
-	CDXLNode *right_node = TranslateScalarToDXL(right_expr, var_colid_mapping);
+	gpos::owner<CDXLNode *> left_node =
+		TranslateScalarToDXL(left_expr, var_colid_mapping);
+	gpos::owner<CDXLNode *> right_node =
+		TranslateScalarToDXL(right_expr, var_colid_mapping);
 
 	GPOS_ASSERT(nullptr != left_node);
 	GPOS_ASSERT(nullptr != right_node);
@@ -496,11 +498,12 @@ CTranslatorScalarToDXL::CreateScalarCmpFromOpExpr(
 		m_mp, mdid, GPOS_NEW(m_mp) CWStringConst(str->GetBuffer()));
 
 	// create the DXL node holding the scalar comparison operator
-	gpos::owner<CDXLNode *> dxlnode = GPOS_NEW(m_mp) CDXLNode(m_mp, dxlop);
+	gpos::owner<CDXLNode *> dxlnode =
+		GPOS_NEW(m_mp) CDXLNode(m_mp, std::move(dxlop));
 
 	// add children in the right order
-	dxlnode->AddChild(left_node);
-	dxlnode->AddChild(right_node);
+	dxlnode->AddChild(std::move(left_node));
+	dxlnode->AddChild(std::move(right_node));
 
 	return dxlnode;
 }
@@ -516,7 +519,7 @@ CTranslatorScalarToDXL::CreateScalarCmpFromOpExpr(
 //		The function allocates memory in the translator memory pool, and the caller
 //		is responsible for freeing it
 //---------------------------------------------------------------------------
-CDXLNode *
+gpos::owner<CDXLNode *>
 CTranslatorScalarToDXL::TranslateOpExprToDXL(
 	const Expr *expr, const CMappingVarColId *var_colid_mapping)
 {
@@ -547,7 +550,8 @@ CTranslatorScalarToDXL::TranslateOpExprToDXL(
 						 GPOS_NEW(m_mp) CWStringConst(str->GetBuffer()));
 
 	// create the DXL node holding the scalar opexpr
-	gpos::owner<CDXLNode *> dxlnode = GPOS_NEW(m_mp) CDXLNode(m_mp, dxlop);
+	gpos::owner<CDXLNode *> dxlnode =
+		GPOS_NEW(m_mp) CDXLNode(m_mp, std::move(dxlop));
 
 	// process arguments
 	TranslateScalarChildren(dxlnode, op_expr->args, var_colid_mapping);
@@ -562,7 +566,7 @@ CTranslatorScalarToDXL::TranslateOpExprToDXL(
 //	@doc:
 //		Create a DXL node for a scalar nullif from a GPDB Expr
 //---------------------------------------------------------------------------
-CDXLNode *
+gpos::owner<CDXLNode *>
 CTranslatorScalarToDXL::TranslateNullIfExprToDXL(
 	const Expr *expr, const CMappingVarColId *var_colid_mapping)
 {
@@ -575,7 +579,8 @@ CTranslatorScalarToDXL::TranslateNullIfExprToDXL(
 		CDXLScalarNullIf(m_mp, GPOS_NEW(m_mp) CMDIdGPDB(null_if_expr->opno),
 						 GPOS_NEW(m_mp) CMDIdGPDB(null_if_expr->opresulttype));
 
-	gpos::owner<CDXLNode *> dxlnode = GPOS_NEW(m_mp) CDXLNode(m_mp, dxlop);
+	gpos::owner<CDXLNode *> dxlnode =
+		GPOS_NEW(m_mp) CDXLNode(m_mp, std::move(dxlop));
 
 	// process arguments
 	TranslateScalarChildren(dxlnode, null_if_expr->args, var_colid_mapping);
@@ -590,7 +595,7 @@ CTranslatorScalarToDXL::TranslateNullIfExprToDXL(
 //	@doc:
 //		Create a DXL node for a scalar array expression from a GPDB OpExpr
 //---------------------------------------------------------------------------
-CDXLNode *
+gpos::owner<CDXLNode *>
 CTranslatorScalarToDXL::TranslateScalarArrayOpExprToDXL(
 	const Expr *expr, const CMappingVarColId *var_colid_mapping)
 {
@@ -604,7 +609,7 @@ CTranslatorScalarToDXL::TranslateScalarArrayOpExprToDXL(
 //	@doc:
 //		Create a DXL node for a scalar array comparison from a GPDB OpExpr
 //---------------------------------------------------------------------------
-CDXLNode *
+gpos::owner<CDXLNode *>
 CTranslatorScalarToDXL::CreateScalarArrayCompFromExpr(
 	const Expr *expr, const CMappingVarColId *var_colid_mapping)
 {
@@ -615,7 +620,8 @@ CTranslatorScalarToDXL::CreateScalarArrayCompFromExpr(
 	GPOS_ASSERT(2 == gpdb::ListLength(scalar_array_op_expr->args));
 
 	Expr *left_expr = (Expr *) gpdb::ListNth(scalar_array_op_expr->args, 0);
-	CDXLNode *left_node = TranslateScalarToDXL(left_expr, var_colid_mapping);
+	gpos::owner<CDXLNode *> left_node =
+		TranslateScalarToDXL(left_expr, var_colid_mapping);
 
 	Expr *right_expr = (Expr *) gpdb::ListNth(scalar_array_op_expr->args, 1);
 
@@ -626,7 +632,8 @@ CTranslatorScalarToDXL::CreateScalarArrayCompFromExpr(
 	if (IsA(right_expr, Const))
 		right_expr = gpdb::TransformArrayConstToArrayExpr((Const *) right_expr);
 
-	CDXLNode *right_node = TranslateScalarToDXL(right_expr, var_colid_mapping);
+	gpos::owner<CDXLNode *> right_node =
+		TranslateScalarToDXL(right_expr, var_colid_mapping);
 
 	GPOS_ASSERT(nullptr != left_node);
 	GPOS_ASSERT(nullptr != right_node);
@@ -654,11 +661,12 @@ CTranslatorScalarToDXL::CreateScalarArrayCompFromExpr(
 			GPOS_NEW(m_mp) CWStringConst(op_name->GetBuffer()), type);
 
 	// create the DXL node holding the scalar opexpr
-	gpos::owner<CDXLNode *> dxlnode = GPOS_NEW(m_mp) CDXLNode(m_mp, dxlop);
+	gpos::owner<CDXLNode *> dxlnode =
+		GPOS_NEW(m_mp) CDXLNode(m_mp, std::move(dxlop));
 
 	// add children in the right order
-	dxlnode->AddChild(left_node);
-	dxlnode->AddChild(right_node);
+	dxlnode->AddChild(std::move(left_node));
+	dxlnode->AddChild(std::move(right_node));
 
 	return dxlnode;
 }
@@ -670,7 +678,7 @@ CTranslatorScalarToDXL::CreateScalarArrayCompFromExpr(
 //	@doc:
 //		Create a DXL node for a scalar const value from a GPDB Const
 //---------------------------------------------------------------------------
-CDXLNode *
+gpos::owner<CDXLNode *>
 CTranslatorScalarToDXL::TranslateConstToDXL(
 	const Expr *expr,
 	const CMappingVarColId *  // var_colid_mapping
@@ -693,7 +701,7 @@ CTranslatorScalarToDXL::TranslateConstToDXL(
 //	@doc:
 //		Create a DXL datum from a GPDB Const
 //---------------------------------------------------------------------------
-CDXLDatum *
+gpos::owner<CDXLDatum *>
 CTranslatorScalarToDXL::TranslateConstToDXL(CMemoryPool *mp, CMDAccessor *mda,
 											const Const *constant)
 {
@@ -702,9 +710,10 @@ CTranslatorScalarToDXL::TranslateConstToDXL(CMemoryPool *mp, CMDAccessor *mda,
 	mdid->Release();
 
 	// translate gpdb datum into a DXL datum
-	CDXLDatum *datum_dxl = CTranslatorScalarToDXL::TranslateDatumToDXL(
-		mp, md_type, constant->consttypmod, constant->constisnull,
-		constant->constlen, constant->constvalue);
+	gpos::owner<CDXLDatum *> datum_dxl =
+		CTranslatorScalarToDXL::TranslateDatumToDXL(
+			mp, md_type, constant->consttypmod, constant->constisnull,
+			constant->constlen, constant->constvalue);
 
 	return datum_dxl;
 }
@@ -717,7 +726,7 @@ CTranslatorScalarToDXL::TranslateConstToDXL(CMemoryPool *mp, CMDAccessor *mda,
 //	@doc:
 //		Create a DXL datum from a GPDB Const
 //---------------------------------------------------------------------------
-CDXLDatum *
+gpos::owner<CDXLDatum *>
 CTranslatorScalarToDXL::TranslateConstToDXL(const Const *constant) const
 {
 	return TranslateConstToDXL(m_mp, m_md_accessor, constant);
@@ -735,7 +744,7 @@ CTranslatorScalarToDXL::TranslateConstToDXL(const Const *constant) const
 //		The function allocates memory in the translator memory pool, and the caller
 //		is responsible for freeing it
 //---------------------------------------------------------------------------
-CDXLNode *
+gpos::owner<CDXLNode *>
 CTranslatorScalarToDXL::TranslateBoolExprToDXL(
 	const Expr *expr, const CMappingVarColId *var_colid_mapping)
 {
@@ -783,7 +792,7 @@ CTranslatorScalarToDXL::TranslateBoolExprToDXL(
 //		The function allocates memory in the translator memory pool, and the caller
 //		is responsible for freeing it
 //---------------------------------------------------------------------------
-CDXLNode *
+gpos::owner<CDXLNode *>
 CTranslatorScalarToDXL::TranslateBooleanTestToDXL(
 	const Expr *expr, const CMappingVarColId *var_colid_mapping)
 {
@@ -819,11 +828,11 @@ CTranslatorScalarToDXL::TranslateBooleanTestToDXL(
 	gpos::owner<CDXLNode *> dxlnode = GPOS_NEW(m_mp)
 		CDXLNode(m_mp, GPOS_NEW(m_mp) CDXLScalarBooleanTest(m_mp, type));
 
-	CDXLNode *dxlnode_arg =
+	gpos::owner<CDXLNode *> dxlnode_arg =
 		TranslateScalarToDXL(boolean_test->arg, var_colid_mapping);
 	GPOS_ASSERT(nullptr != dxlnode_arg);
 
-	dxlnode->AddChild(dxlnode_arg);
+	dxlnode->AddChild(std::move(dxlnode_arg));
 
 	return dxlnode;
 }
@@ -835,7 +844,7 @@ CTranslatorScalarToDXL::TranslateBooleanTestToDXL(
 //	@doc:
 //		Create a DXL node for a scalar nulltest expression from a GPDB OpExpr
 //---------------------------------------------------------------------------
-CDXLNode *
+gpos::owner<CDXLNode *>
 CTranslatorScalarToDXL::TranslateNullTestToDXL(
 	const Expr *expr, const CMappingVarColId *var_colid_mapping)
 {
@@ -843,7 +852,7 @@ CTranslatorScalarToDXL::TranslateNullTestToDXL(
 	const NullTest *null_test = (NullTest *) expr;
 
 	GPOS_ASSERT(nullptr != null_test->arg);
-	CDXLNode *child_node =
+	gpos::owner<CDXLNode *> child_node =
 		TranslateScalarToDXL(null_test->arg, var_colid_mapping);
 
 	GPOS_ASSERT(nullptr != child_node);
@@ -859,7 +868,7 @@ CTranslatorScalarToDXL::TranslateNullTestToDXL(
 	// create the DXL node holding the scalar NullTest operator
 	gpos::owner<CDXLNode *> dxlnode = GPOS_NEW(m_mp)
 		CDXLNode(m_mp, GPOS_NEW(m_mp) CDXLScalarNullTest(m_mp, is_null));
-	dxlnode->AddChild(child_node);
+	dxlnode->AddChild(std::move(child_node));
 
 	return dxlnode;
 }
@@ -871,7 +880,7 @@ CTranslatorScalarToDXL::TranslateNullTestToDXL(
 //	@doc:
 //		Create a DXL node for a coalesce function from a GPDB OpExpr
 //---------------------------------------------------------------------------
-CDXLNode *
+gpos::owner<CDXLNode *>
 CTranslatorScalarToDXL::TranslateCoalesceExprToDXL(
 	const Expr *expr, const CMappingVarColId *var_colid_mapping)
 {
@@ -883,7 +892,8 @@ CTranslatorScalarToDXL::TranslateCoalesceExprToDXL(
 	gpos::owner<CDXLScalarCoalesce *> dxlop = GPOS_NEW(m_mp) CDXLScalarCoalesce(
 		m_mp, GPOS_NEW(m_mp) CMDIdGPDB(coalesce_expr->coalescetype));
 
-	gpos::owner<CDXLNode *> dxlnode = GPOS_NEW(m_mp) CDXLNode(m_mp, dxlop);
+	gpos::owner<CDXLNode *> dxlnode =
+		GPOS_NEW(m_mp) CDXLNode(m_mp, std::move(dxlop));
 
 	TranslateScalarChildren(dxlnode, coalesce_expr->args, var_colid_mapping);
 
@@ -897,7 +907,7 @@ CTranslatorScalarToDXL::TranslateCoalesceExprToDXL(
 //	@doc:
 //		Create a DXL node for a min/max operator from a GPDB OpExpr
 //---------------------------------------------------------------------------
-CDXLNode *
+gpos::owner<CDXLNode *>
 CTranslatorScalarToDXL::TranslateMinMaxExprToDXL(
 	const Expr *expr, const CMappingVarColId *var_colid_mapping)
 {
@@ -921,7 +931,8 @@ CTranslatorScalarToDXL::TranslateMinMaxExprToDXL(
 	gpos::owner<CDXLScalarMinMax *> dxlop = GPOS_NEW(m_mp) CDXLScalarMinMax(
 		m_mp, GPOS_NEW(m_mp) CMDIdGPDB(min_max_expr->minmaxtype), min_max_type);
 
-	gpos::owner<CDXLNode *> dxlnode = GPOS_NEW(m_mp) CDXLNode(m_mp, dxlop);
+	gpos::owner<CDXLNode *> dxlnode =
+		GPOS_NEW(m_mp) CDXLNode(m_mp, std::move(dxlop));
 
 	TranslateScalarChildren(dxlnode, min_max_expr->args, var_colid_mapping);
 
@@ -937,13 +948,14 @@ CTranslatorScalarToDXL::TranslateMinMaxExprToDXL(
 //---------------------------------------------------------------------------
 void
 CTranslatorScalarToDXL::TranslateScalarChildren(
-	CDXLNode *dxlnode, List *list, const CMappingVarColId *var_colid_mapping)
+	gpos::pointer<CDXLNode *> dxlnode, List *list,
+	const CMappingVarColId *var_colid_mapping)
 {
 	ListCell *lc = nullptr;
 	ForEach(lc, list)
 	{
 		Expr *child_expr = (Expr *) lfirst(lc);
-		CDXLNode *child_node =
+		gpos::owner<CDXLNode *> child_node =
 			TranslateScalarToDXL(child_expr, var_colid_mapping);
 		GPOS_ASSERT(nullptr != child_node);
 		dxlnode->AddChild(child_node);
@@ -961,7 +973,7 @@ CTranslatorScalarToDXL::TranslateScalarChildren(
 //		The function allocates memory in the translator memory pool, and the caller
 //		is responsible for freeing it
 //---------------------------------------------------------------------------
-CDXLNode *
+gpos::owner<CDXLNode *>
 CTranslatorScalarToDXL::TranslateCaseExprToDXL(
 	const Expr *expr, const CMappingVarColId *var_colid_mapping)
 {
@@ -992,7 +1004,7 @@ CTranslatorScalarToDXL::TranslateCaseExprToDXL(
 //		Create a DXL Switch node from a GPDB CaseExpr.
 //
 //---------------------------------------------------------------------------
-CDXLNode *
+gpos::owner<CDXLNode *>
 CTranslatorScalarToDXL::CreateScalarSwitchFromCaseExpr(
 	const CaseExpr *case_expr, const CMappingVarColId *var_colid_mapping)
 {
@@ -1003,7 +1015,7 @@ CTranslatorScalarToDXL::CreateScalarSwitchFromCaseExpr(
 	gpos::owner<CDXLNode *> switch_node = GPOS_NEW(m_mp) CDXLNode(m_mp, dxlop);
 
 	// translate the switch expression
-	CDXLNode *dxlnode_arg =
+	gpos::owner<CDXLNode *> dxlnode_arg =
 		TranslateScalarToDXL(case_expr->arg, var_colid_mapping);
 	switch_node->AddChild(dxlnode_arg);
 
@@ -1018,11 +1030,11 @@ CTranslatorScalarToDXL::CreateScalarSwitchFromCaseExpr(
 		gpos::owner<CDXLNode *> switch_case_node =
 			GPOS_NEW(m_mp) CDXLNode(m_mp, swtich_case);
 
-		CDXLNode *cmp_expr_node =
+		gpos::owner<CDXLNode *> cmp_expr_node =
 			TranslateScalarToDXL(expr->expr, var_colid_mapping);
 		GPOS_ASSERT(nullptr != cmp_expr_node);
 
-		CDXLNode *result_node =
+		gpos::owner<CDXLNode *> result_node =
 			TranslateScalarToDXL(expr->result, var_colid_mapping);
 		GPOS_ASSERT(nullptr != result_node);
 
@@ -1036,7 +1048,7 @@ CTranslatorScalarToDXL::CreateScalarSwitchFromCaseExpr(
 	// translate the "else" clause
 	if (nullptr != case_expr->defresult)
 	{
-		CDXLNode *default_result_node =
+		gpos::owner<CDXLNode *> default_result_node =
 			TranslateScalarToDXL(case_expr->defresult, var_colid_mapping);
 		GPOS_ASSERT(nullptr != default_result_node);
 
@@ -1064,7 +1076,7 @@ CTranslatorScalarToDXL::TranslateCaseTestExprToDXL(
 	gpos::owner<CDXLScalarCaseTest *> dxlop = GPOS_NEW(m_mp) CDXLScalarCaseTest(
 		m_mp, GPOS_NEW(m_mp) CMDIdGPDB(case_test_expr->typeId));
 
-	return GPOS_NEW(m_mp) CDXLNode(m_mp, dxlop);
+	return GPOS_NEW(m_mp) CDXLNode(m_mp, std::move(dxlop));
 }
 
 //---------------------------------------------------------------------------
@@ -1096,9 +1108,9 @@ CTranslatorScalarToDXL::CreateScalarIfStmtFromCaseExpr(
 		CaseWhen *expr = (CaseWhen *) gpdb::ListNth(case_expr->args, ul);
 		GPOS_ASSERT(IsA(expr, CaseWhen));
 
-		CDXLNode *cond_node =
+		gpos::owner<CDXLNode *> cond_node =
 			TranslateScalarToDXL(expr->expr, var_colid_mapping);
-		CDXLNode *result_node =
+		gpos::owner<CDXLNode *> result_node =
 			TranslateScalarToDXL(expr->result, var_colid_mapping);
 
 		GPOS_ASSERT(nullptr != cond_node);
@@ -1120,7 +1132,7 @@ CTranslatorScalarToDXL::CreateScalarIfStmtFromCaseExpr(
 
 	if (nullptr != case_expr->defresult)
 	{
-		CDXLNode *default_result_node =
+		gpos::owner<CDXLNode *> default_result_node =
 			TranslateScalarToDXL(case_expr->defresult, var_colid_mapping);
 		GPOS_ASSERT(nullptr != default_result_node);
 		cur_node->AddChild(default_result_node);
@@ -1136,7 +1148,7 @@ CTranslatorScalarToDXL::CreateScalarIfStmtFromCaseExpr(
 //	@doc:
 //		Create a DXL node for a scalar RelabelType expression from a GPDB RelabelType
 //---------------------------------------------------------------------------
-CDXLNode *
+gpos::owner<CDXLNode *>
 CTranslatorScalarToDXL::TranslateRelabelTypeToDXL(
 	const Expr *expr, const CMappingVarColId *var_colid_mapping)
 {
@@ -1146,7 +1158,7 @@ CTranslatorScalarToDXL::TranslateRelabelTypeToDXL(
 
 	GPOS_ASSERT(nullptr != relabel_type->arg);
 
-	CDXLNode *child_node =
+	gpos::owner<CDXLNode *> child_node =
 		TranslateScalarToDXL(relabel_type->arg, var_colid_mapping);
 
 	GPOS_ASSERT(nullptr != child_node);
@@ -1157,7 +1169,7 @@ CTranslatorScalarToDXL::TranslateRelabelTypeToDXL(
 				  m_mp, GPOS_NEW(m_mp) CMDIdGPDB(relabel_type->resulttype),
 				  GPOS_NEW(m_mp) CMDIdGPDB(0)  // casting function oid
 				  ));
-	dxlnode->AddChild(child_node);
+	dxlnode->AddChild(std::move(child_node));
 
 	return dxlnode;
 }
@@ -1170,7 +1182,7 @@ CTranslatorScalarToDXL::TranslateRelabelTypeToDXL(
 //              Create a DXL node for a scalar coerce expression from a
 //             GPDB coerce expression
 //---------------------------------------------------------------------------
-CDXLNode *
+gpos::owner<CDXLNode *>
 CTranslatorScalarToDXL::TranslateCoerceToDomainToDXL(
 	const Expr *expr, const CMappingVarColId *var_colid_mapping)
 {
@@ -1180,7 +1192,8 @@ CTranslatorScalarToDXL::TranslateCoerceToDomainToDXL(
 
 	GPOS_ASSERT(nullptr != coerce->arg);
 
-	CDXLNode *child_node = TranslateScalarToDXL(coerce->arg, var_colid_mapping);
+	gpos::owner<CDXLNode *> child_node =
+		TranslateScalarToDXL(coerce->arg, var_colid_mapping);
 
 	GPOS_ASSERT(nullptr != child_node);
 
@@ -1190,7 +1203,7 @@ CTranslatorScalarToDXL::TranslateCoerceToDomainToDXL(
 				  m_mp, GPOS_NEW(m_mp) CMDIdGPDB(coerce->resulttype),
 				  coerce->resulttypmod,
 				  (EdxlCoercionForm) coerce->coercionformat, coerce->location));
-	dxlnode->AddChild(child_node);
+	dxlnode->AddChild(std::move(child_node));
 
 	return dxlnode;
 }
@@ -1203,7 +1216,7 @@ CTranslatorScalarToDXL::TranslateCoerceToDomainToDXL(
 //              Create a DXL node for a scalar coerce expression from a
 //             GPDB coerce expression
 //---------------------------------------------------------------------------
-CDXLNode *
+gpos::owner<CDXLNode *>
 CTranslatorScalarToDXL::TranslateCoerceViaIOToDXL(
 	const Expr *expr, const CMappingVarColId *var_colid_mapping)
 {
@@ -1213,7 +1226,8 @@ CTranslatorScalarToDXL::TranslateCoerceViaIOToDXL(
 
 	GPOS_ASSERT(nullptr != coerce->arg);
 
-	CDXLNode *child_node = TranslateScalarToDXL(coerce->arg, var_colid_mapping);
+	gpos::owner<CDXLNode *> child_node =
+		TranslateScalarToDXL(coerce->arg, var_colid_mapping);
 
 	GPOS_ASSERT(nullptr != child_node);
 
@@ -1222,7 +1236,7 @@ CTranslatorScalarToDXL::TranslateCoerceViaIOToDXL(
 		m_mp, GPOS_NEW(m_mp) CDXLScalarCoerceViaIO(
 				  m_mp, GPOS_NEW(m_mp) CMDIdGPDB(coerce->resulttype), -1,
 				  (EdxlCoercionForm) coerce->coerceformat, coerce->location));
-	dxlnode->AddChild(child_node);
+	dxlnode->AddChild(std::move(child_node));
 
 	return dxlnode;
 }
@@ -1234,7 +1248,7 @@ CTranslatorScalarToDXL::TranslateCoerceViaIOToDXL(
 //		Create a DXL node for a scalar array coerce expression from a
 // 		GPDB Array Coerce expression
 //---------------------------------------------------------------------------
-CDXLNode *
+gpos::owner<CDXLNode *>
 CTranslatorScalarToDXL::TranslateArrayCoerceExprToDXL(
 	const Expr *expr, const CMappingVarColId *var_colid_mapping)
 {
@@ -1243,7 +1257,7 @@ CTranslatorScalarToDXL::TranslateArrayCoerceExprToDXL(
 
 	GPOS_ASSERT(nullptr != array_coerce_expr->arg);
 
-	CDXLNode *child_node =
+	gpos::owner<CDXLNode *> child_node =
 		TranslateScalarToDXL(array_coerce_expr->arg, var_colid_mapping);
 
 	GPOS_ASSERT(nullptr != child_node);
@@ -1272,7 +1286,7 @@ CTranslatorScalarToDXL::TranslateArrayCoerceExprToDXL(
 				  (EdxlCoercionForm) array_coerce_expr->coerceformat,
 				  array_coerce_expr->location));
 
-	dxlnode->AddChild(child_node);
+	dxlnode->AddChild(std::move(child_node));
 
 	return dxlnode;
 }
@@ -1286,7 +1300,7 @@ CTranslatorScalarToDXL::TranslateArrayCoerceExprToDXL(
 //	@doc:
 //		Create a DXL node for a scalar funcexpr from a GPDB FuncExpr
 //---------------------------------------------------------------------------
-CDXLNode *
+gpos::owner<CDXLNode *>
 CTranslatorScalarToDXL::TranslateFuncExprToDXL(
 	const Expr *expr, const CMappingVarColId *var_colid_mapping)
 {
@@ -1347,7 +1361,7 @@ CTranslatorScalarToDXL::TranslateFuncExprToDXL(
 //	@doc:
 //		Create a DXL node for a scalar aggref from a GPDB FuncExpr
 //---------------------------------------------------------------------------
-CDXLNode *
+gpos::owner<CDXLNode *>
 CTranslatorScalarToDXL::TranslateAggrefToDXL(
 	const Expr *expr, const CMappingVarColId *var_colid_mapping)
 {
@@ -1421,7 +1435,7 @@ CTranslatorScalarToDXL::TranslateAggrefToDXL(
 	ForEach(lc, aggref->args)
 	{
 		TargetEntry *tle = (TargetEntry *) lfirst(lc);
-		CDXLNode *child_node =
+		gpos::owner<CDXLNode *> child_node =
 			TranslateScalarToDXL(tle->expr, var_colid_mapping);
 		GPOS_ASSERT(nullptr != child_node);
 		dxlnode->AddChild(child_node);
@@ -1437,10 +1451,11 @@ CTranslatorScalarToDXL::TranslateAggrefToDXL(
 //	@doc:
 //		Create a DXL window frame from a GPDB WindowFrame
 //---------------------------------------------------------------------------
-CDXLWindowFrame *
+gpos::owner<CDXLWindowFrame *>
 CTranslatorScalarToDXL::TranslateWindowFrameToDXL(
 	int frame_options, const Node *start_offset, const Node *end_offset,
-	const CMappingVarColId *var_colid_mapping, CDXLNode *new_scalar_proj_list)
+	const CMappingVarColId *var_colid_mapping,
+	gpos::pointer<CDXLNode *> new_scalar_proj_list)
 {
 	EdxlFrameSpec frame_spec;
 
@@ -1535,8 +1550,9 @@ CTranslatorScalarToDXL::TranslateWindowFrameToDXL(
 			start_offset, var_colid_mapping, new_scalar_proj_list));
 	}
 
-	gpos::owner<CDXLWindowFrame *> window_frame_dxl = GPOS_NEW(m_mp)
-		CDXLWindowFrame(frame_spec, strategy, lead_edge, trail_edge);
+	gpos::owner<CDXLWindowFrame *> window_frame_dxl =
+		GPOS_NEW(m_mp) CDXLWindowFrame(
+			frame_spec, strategy, std::move(lead_edge), std::move(trail_edge));
 
 	return window_frame_dxl;
 }
@@ -1552,7 +1568,7 @@ CTranslatorScalarToDXL::TranslateWindowFrameToDXL(
 CDXLNode *
 CTranslatorScalarToDXL::TranslateWindowFrameEdgeToDXL(
 	const Node *node, const CMappingVarColId *var_colid_mapping,
-	CDXLNode *new_scalar_proj_list)
+	gpos::pointer<CDXLNode *> new_scalar_proj_list)
 {
 	gpos::owner<CDXLNode *> val_node =
 		TranslateScalarToDXL((Expr *) node, var_colid_mapping);
@@ -1601,7 +1617,7 @@ CTranslatorScalarToDXL::TranslateWindowFrameEdgeToDXL(
 //		Create a DXL node for a scalar window ref from a GPDB WindowFunc
 //
 //---------------------------------------------------------------------------
-CDXLNode *
+gpos::owner<CDXLNode *>
 CTranslatorScalarToDXL::TranslateWindowFuncToDXL(
 	const Expr *expr, const CMappingVarColId *var_colid_mapping)
 {
@@ -1644,7 +1660,7 @@ CTranslatorScalarToDXL::TranslateWindowFuncToDXL(
 
 	// create the DXL node holding the scalar aggref
 	gpos::owner<CDXLNode *> dxlnode =
-		GPOS_NEW(m_mp) CDXLNode(m_mp, winref_dxlop);
+		GPOS_NEW(m_mp) CDXLNode(m_mp, std::move(winref_dxlop));
 
 	TranslateScalarChildren(dxlnode, window_func->args, var_colid_mapping);
 
@@ -1660,7 +1676,7 @@ CTranslatorScalarToDXL::TranslateWindowFuncToDXL(
 //		The function allocates memory in the translator memory pool, and the caller
 //		is responsible for freeing it
 //---------------------------------------------------------------------------
-CDXLNode *
+gpos::owner<CDXLNode *>
 CTranslatorScalarToDXL::CreateScalarCondFromQual(
 	List *quals, const CMappingVarColId *var_colid_mapping)
 {
@@ -1696,7 +1712,7 @@ CTranslatorScalarToDXL::CreateScalarCondFromQual(
 //		The function allocates memory in the translator memory pool, and the caller
 //		is responsible for freeing it
 //---------------------------------------------------------------------------
-CDXLNode *
+gpos::owner<CDXLNode *>
 CTranslatorScalarToDXL::CreateFilterFromQual(
 	List *quals, const CMappingVarColId *var_colid_mapping,
 	Edxlopid filter_type)
@@ -1722,7 +1738,8 @@ CTranslatorScalarToDXL::CreateFilterFromQual(
 	gpos::owner<CDXLNode *> filter_dxlnode =
 		GPOS_NEW(m_mp) CDXLNode(m_mp, dxlop);
 
-	CDXLNode *cond_node = CreateScalarCondFromQual(quals, var_colid_mapping);
+	gpos::owner<CDXLNode *> cond_node =
+		CreateScalarCondFromQual(quals, var_colid_mapping);
 
 	if (nullptr != cond_node)
 	{
@@ -1741,7 +1758,7 @@ CTranslatorScalarToDXL::CreateFilterFromQual(
 //		Create a DXL node from a GPDB sublink node.
 //
 //---------------------------------------------------------------------------
-CDXLNode *
+gpos::owner<CDXLNode *>
 CTranslatorScalarToDXL::TranslateSubLinkToDXL(
 	const Expr *expr, const CMappingVarColId *var_colid_mapping)
 {
@@ -1776,7 +1793,7 @@ CTranslatorScalarToDXL::TranslateSubLinkToDXL(
 //	@doc:
 //		Create ANY / ALL quantified sub query from a GPDB sublink node
 //---------------------------------------------------------------------------
-CDXLNode *
+gpos::owner<CDXLNode *>
 CTranslatorScalarToDXL::CreateQuantifiedSubqueryFromSublink(
 	const SubLink *sublink, const CMappingVarColId *var_colid_mapping)
 {
@@ -1784,12 +1801,13 @@ CTranslatorScalarToDXL::CreateQuantifiedSubqueryFromSublink(
 	query_to_dxl_translator = CreateSubqueryTranslator(
 		(Query *) sublink->subselect, var_colid_mapping);
 
-	CDXLNode *inner_dxlnode =
+	gpos::owner<CDXLNode *> inner_dxlnode =
 		query_to_dxl_translator->TranslateSelectQueryToDXL();
 
-	CDXLNodeArray *query_output_dxlnode_array =
+	gpos::pointer<CDXLNodeArray *> query_output_dxlnode_array =
 		query_to_dxl_translator->GetQueryOutputCols();
-	CDXLNodeArray *cte_dxlnode_array = query_to_dxl_translator->GetCTEs();
+	gpos::pointer<CDXLNodeArray *> cte_dxlnode_array =
+		query_to_dxl_translator->GetCTEs();
 	CUtils::AddRefAppend(m_cte_producers, cte_dxlnode_array);
 
 	if (1 != query_output_dxlnode_array->Size())
@@ -1798,11 +1816,11 @@ CTranslatorScalarToDXL::CreateQuantifiedSubqueryFromSublink(
 				   GPOS_WSZ_LIT("Non-Scalar Subquery"));
 	}
 
-	CDXLNode *dxl_sc_ident = (*query_output_dxlnode_array)[0];
+	gpos::pointer<CDXLNode *> dxl_sc_ident = (*query_output_dxlnode_array)[0];
 	GPOS_ASSERT(nullptr != dxl_sc_ident);
 
 	// get dxl scalar identifier
-	CDXLScalarIdent *scalar_ident =
+	gpos::pointer<CDXLScalarIdent *> scalar_ident =
 		dynamic_cast<CDXLScalarIdent *>(dxl_sc_ident->GetOperator());
 
 	// get the dxl column reference
@@ -1822,7 +1840,8 @@ CTranslatorScalarToDXL::CreateQuantifiedSubqueryFromSublink(
 	GPOS_ASSERT(nullptr != op_expr->args);
 	Expr *LHS_expr = (Expr *) gpdb::ListNth(op_expr->args, 0);
 
-	CDXLNode *outer_dxlnode = TranslateScalarToDXL(LHS_expr, var_colid_mapping);
+	gpos::owner<CDXLNode *> outer_dxlnode =
+		TranslateScalarToDXL(LHS_expr, var_colid_mapping);
 
 	gpos::owner<CDXLNode *> dxlnode = nullptr;
 	gpos::owner<CDXLScalar *> subquery = nullptr;
@@ -1840,10 +1859,10 @@ CTranslatorScalarToDXL::CreateQuantifiedSubqueryFromSublink(
 			m_mp, mdid, GPOS_NEW(m_mp) CMDName(m_mp, str), colid);
 	}
 
-	dxlnode = GPOS_NEW(m_mp) CDXLNode(m_mp, subquery);
+	dxlnode = GPOS_NEW(m_mp) CDXLNode(m_mp, std::move(subquery));
 
-	dxlnode->AddChild(outer_dxlnode);
-	dxlnode->AddChild(inner_dxlnode);
+	dxlnode->AddChild(std::move(outer_dxlnode));
+	dxlnode->AddChild(std::move(inner_dxlnode));
 
 #ifdef GPOS_DEBUG
 	dxlnode->GetOperator()->AssertValid(dxlnode, false /* fValidateChildren */);
@@ -1859,7 +1878,7 @@ CTranslatorScalarToDXL::CreateQuantifiedSubqueryFromSublink(
 //	@doc:
 //		Create a scalar subquery from a GPDB sublink node
 //---------------------------------------------------------------------------
-CDXLNode *
+gpos::owner<CDXLNode *>
 CTranslatorScalarToDXL::CreateScalarSubqueryFromSublink(
 	const SubLink *sublink, const CMappingVarColId *var_colid_mapping)
 {
@@ -1867,23 +1886,24 @@ CTranslatorScalarToDXL::CreateScalarSubqueryFromSublink(
 	CAutoP<CTranslatorQueryToDXL> query_to_dxl_translator;
 	query_to_dxl_translator =
 		CreateSubqueryTranslator(subselect, var_colid_mapping);
-	CDXLNode *subquery_dxlnode =
+	gpos::owner<CDXLNode *> subquery_dxlnode =
 		query_to_dxl_translator->TranslateSelectQueryToDXL();
 
-	CDXLNodeArray *query_output_dxlnode_array =
+	gpos::pointer<CDXLNodeArray *> query_output_dxlnode_array =
 		query_to_dxl_translator->GetQueryOutputCols();
 
 	GPOS_ASSERT(1 == query_output_dxlnode_array->Size());
 
-	CDXLNodeArray *cte_dxlnode_array = query_to_dxl_translator->GetCTEs();
+	gpos::pointer<CDXLNodeArray *> cte_dxlnode_array =
+		query_to_dxl_translator->GetCTEs();
 	CUtils::AddRefAppend(m_cte_producers, cte_dxlnode_array);
 
 	// get dxl scalar identifier
-	CDXLNode *dxl_sc_ident = (*query_output_dxlnode_array)[0];
+	gpos::pointer<CDXLNode *> dxl_sc_ident = (*query_output_dxlnode_array)[0];
 	GPOS_ASSERT(nullptr != dxl_sc_ident);
 
-	CDXLScalarIdent *scalar_ident =
-		CDXLScalarIdent::Cast(dxl_sc_ident->GetOperator());
+	gpos::pointer<CDXLScalarIdent *> scalar_ident =
+		gpos::dyn_cast<CDXLScalarIdent>(dxl_sc_ident->GetOperator());
 
 	// get the dxl column reference
 	gpos::pointer<const CDXLColRef *> dxl_colref = scalar_ident->GetDXLColRef();
@@ -1892,7 +1912,7 @@ CTranslatorScalarToDXL::CreateScalarSubqueryFromSublink(
 	gpos::owner<CDXLNode *> dxlnode = GPOS_NEW(m_mp)
 		CDXLNode(m_mp, GPOS_NEW(m_mp) CDXLScalarSubquery(m_mp, colid));
 
-	dxlnode->AddChild(subquery_dxlnode);
+	dxlnode->AddChild(std::move(subquery_dxlnode));
 
 	return dxlnode;
 }
@@ -1905,7 +1925,7 @@ CTranslatorScalarToDXL::CreateScalarSubqueryFromSublink(
 //		Translate array
 //
 //---------------------------------------------------------------------------
-CDXLNode *
+gpos::owner<CDXLNode *>
 CTranslatorScalarToDXL::TranslateArrayExprToDXL(
 	const Expr *expr, const CMappingVarColId *var_colid_mapping)
 {
@@ -1918,7 +1938,8 @@ CTranslatorScalarToDXL::TranslateArrayExprToDXL(
 		GPOS_NEW(m_mp) CMDIdGPDB(parrayexpr->array_typeid),
 		parrayexpr->multidims);
 
-	gpos::owner<CDXLNode *> dxlnode = GPOS_NEW(m_mp) CDXLNode(m_mp, dxlop);
+	gpos::owner<CDXLNode *> dxlnode =
+		GPOS_NEW(m_mp) CDXLNode(m_mp, std::move(dxlop));
 
 	TranslateScalarChildren(dxlnode, parrayexpr->elements, var_colid_mapping);
 
@@ -1933,7 +1954,7 @@ CTranslatorScalarToDXL::TranslateArrayExprToDXL(
 //		Translate arrayref
 //
 //---------------------------------------------------------------------------
-CDXLNode *
+gpos::owner<CDXLNode *>
 CTranslatorScalarToDXL::TranslateArrayRefToDXL(
 	const Expr *expr, const CMappingVarColId *var_colid_mapping)
 {
@@ -2005,7 +2026,7 @@ CTranslatorScalarToDXL::TranslateArrayRefToDXL(
 //---------------------------------------------------------------------------
 void
 CTranslatorScalarToDXL::AddArrayIndexList(
-	CDXLNode *dxlnode, List *list,
+	gpos::pointer<CDXLNode *> dxlnode, List *list,
 	CDXLScalarArrayRefIndexList::EIndexListBound index_list_bound,
 	const CMappingVarColId *var_colid_mapping)
 {
@@ -2019,7 +2040,7 @@ CTranslatorScalarToDXL::AddArrayIndexList(
 						   CDXLScalarArrayRefIndexList(m_mp, index_list_bound));
 
 	TranslateScalarChildren(index_list_dxlnode, list, var_colid_mapping);
-	dxlnode->AddChild(index_list_dxlnode);
+	dxlnode->AddChild(std::move(index_list_dxlnode));
 }
 
 //---------------------------------------------------------------------------
@@ -2050,7 +2071,7 @@ CTranslatorScalarToDXL::GetDXLArrayCmpType(IMDId *mdid) const
 //		Create a DXL EXISTS subquery node from the respective GPDB
 //		sublink node
 //---------------------------------------------------------------------------
-CDXLNode *
+gpos::owner<CDXLNode *>
 CTranslatorScalarToDXL::CreateExistSubqueryFromSublink(
 	const SubLink *sublink, const CMappingVarColId *var_colid_mapping)
 {
@@ -2058,15 +2079,16 @@ CTranslatorScalarToDXL::CreateExistSubqueryFromSublink(
 	CAutoP<CTranslatorQueryToDXL> query_to_dxl_translator;
 	query_to_dxl_translator = CreateSubqueryTranslator(
 		(Query *) sublink->subselect, var_colid_mapping);
-	CDXLNode *root_dxlnode =
+	gpos::owner<CDXLNode *> root_dxlnode =
 		query_to_dxl_translator->TranslateSelectQueryToDXL();
 
-	CDXLNodeArray *cte_dxlnode_array = query_to_dxl_translator->GetCTEs();
+	gpos::pointer<CDXLNodeArray *> cte_dxlnode_array =
+		query_to_dxl_translator->GetCTEs();
 	CUtils::AddRefAppend(m_cte_producers, cte_dxlnode_array);
 
 	gpos::owner<CDXLNode *> dxlnode = GPOS_NEW(m_mp)
 		CDXLNode(m_mp, GPOS_NEW(m_mp) CDXLScalarSubqueryExists(m_mp));
-	dxlnode->AddChild(root_dxlnode);
+	dxlnode->AddChild(std::move(root_dxlnode));
 
 	return dxlnode;
 }
@@ -2078,7 +2100,7 @@ CTranslatorScalarToDXL::CreateExistSubqueryFromSublink(
 //	@doc:
 //		Create CDXLDatum from GPDB datum
 //---------------------------------------------------------------------------
-CDXLDatum *
+gpos::owner<CDXLDatum *>
 CTranslatorScalarToDXL::TranslateDatumToDXL(
 	CMemoryPool *mp, gpos::pointer<const IMDType *> md_type, INT type_modifier,
 	BOOL is_null, ULONG len, Datum datum)
@@ -2126,12 +2148,13 @@ CTranslatorScalarToDXL::TranslateDatumToDXL(
 //	@doc:
 //		Translate a datum of generic type
 //---------------------------------------------------------------------------
-CDXLDatum *
+gpos::owner<CDXLDatum *>
 CTranslatorScalarToDXL::TranslateGenericDatumToDXL(
 	CMemoryPool *mp, gpos::pointer<const IMDType *> md_type, INT type_modifier,
 	BOOL is_null, ULONG len, Datum datum)
 {
-	CMDIdGPDB *mdid_old = CMDIdGPDB::CastMdid(md_type->MDId());
+	gpos::pointer<CMDIdGPDB *> mdid_old =
+		gpos::dyn_cast<CMDIdGPDB>(md_type->MDId());
 	gpos::owner<CMDIdGPDB *> mdid = GPOS_NEW(mp) CMDIdGPDB(*mdid_old);
 
 	BYTE *bytes = ExtractByteArrayFromDatum(mp, md_type, is_null, len, datum);
@@ -2155,8 +2178,8 @@ CTranslatorScalarToDXL::TranslateGenericDatumToDXL(
 	}
 
 	return CMDTypeGenericGPDB::CreateDXLDatumVal(
-		mp, mdid, md_type, type_modifier, is_null, bytes, length, lint_value,
-		double_value);
+		mp, std::move(mdid), md_type, type_modifier, is_null, bytes, length,
+		lint_value, double_value);
 }
 
 
@@ -2174,11 +2197,12 @@ CTranslatorScalarToDXL::TranslateBoolDatumToDXL(
 	Datum datum)
 {
 	GPOS_ASSERT(md_type->IsPassedByValue());
-	CMDIdGPDB *mdid_old = CMDIdGPDB::CastMdid(md_type->MDId());
+	gpos::pointer<CMDIdGPDB *> mdid_old =
+		gpos::dyn_cast<CMDIdGPDB>(md_type->MDId());
 	gpos::owner<CMDIdGPDB *> mdid = GPOS_NEW(mp) CMDIdGPDB(*mdid_old);
 
 	return GPOS_NEW(mp)
-		CDXLDatumBool(mp, mdid, is_null, gpdb::BoolFromDatum(datum));
+		CDXLDatumBool(mp, std::move(mdid), is_null, gpdb::BoolFromDatum(datum));
 }
 
 
@@ -2196,11 +2220,12 @@ CTranslatorScalarToDXL::TranslateOidDatumToDXL(
 	Datum datum)
 {
 	GPOS_ASSERT(md_type->IsPassedByValue());
-	CMDIdGPDB *mdid_old = CMDIdGPDB::CastMdid(md_type->MDId());
+	gpos::pointer<CMDIdGPDB *> mdid_old =
+		gpos::dyn_cast<CMDIdGPDB>(md_type->MDId());
 	gpos::owner<CMDIdGPDB *> mdid = GPOS_NEW(mp) CMDIdGPDB(*mdid_old);
 
 	return GPOS_NEW(mp)
-		CDXLDatumOid(mp, mdid, is_null, gpdb::OidFromDatum(datum));
+		CDXLDatumOid(mp, std::move(mdid), is_null, gpdb::OidFromDatum(datum));
 }
 
 
@@ -2218,11 +2243,12 @@ CTranslatorScalarToDXL::TranslateInt2DatumToDXL(
 	Datum datum)
 {
 	GPOS_ASSERT(md_type->IsPassedByValue());
-	CMDIdGPDB *mdid_old = CMDIdGPDB::CastMdid(md_type->MDId());
+	gpos::pointer<CMDIdGPDB *> mdid_old =
+		gpos::dyn_cast<CMDIdGPDB>(md_type->MDId());
 	gpos::owner<CMDIdGPDB *> mdid = GPOS_NEW(mp) CMDIdGPDB(*mdid_old);
 
-	return GPOS_NEW(mp)
-		CDXLDatumInt2(mp, mdid, is_null, gpdb::Int16FromDatum(datum));
+	return GPOS_NEW(mp) CDXLDatumInt2(mp, std::move(mdid), is_null,
+									  gpdb::Int16FromDatum(datum));
 }
 
 
@@ -2240,11 +2266,12 @@ CTranslatorScalarToDXL::TranslateInt4DatumToDXL(
 	Datum datum)
 {
 	GPOS_ASSERT(md_type->IsPassedByValue());
-	CMDIdGPDB *mdid_old = CMDIdGPDB::CastMdid(md_type->MDId());
+	gpos::pointer<CMDIdGPDB *> mdid_old =
+		gpos::dyn_cast<CMDIdGPDB>(md_type->MDId());
 	gpos::owner<CMDIdGPDB *> mdid = GPOS_NEW(mp) CMDIdGPDB(*mdid_old);
 
-	return GPOS_NEW(mp)
-		CDXLDatumInt4(mp, mdid, is_null, gpdb::Int32FromDatum(datum));
+	return GPOS_NEW(mp) CDXLDatumInt4(mp, std::move(mdid), is_null,
+									  gpdb::Int32FromDatum(datum));
 }
 
 
@@ -2262,11 +2289,12 @@ CTranslatorScalarToDXL::TranslateInt8DatumToDXL(
 	Datum datum)
 {
 	GPOS_ASSERT(md_type->IsPassedByValue());
-	CMDIdGPDB *mdid_old = CMDIdGPDB::CastMdid(md_type->MDId());
+	gpos::pointer<CMDIdGPDB *> mdid_old =
+		gpos::dyn_cast<CMDIdGPDB>(md_type->MDId());
 	gpos::owner<CMDIdGPDB *> mdid = GPOS_NEW(mp) CMDIdGPDB(*mdid_old);
 
-	return GPOS_NEW(mp)
-		CDXLDatumInt8(mp, mdid, is_null, gpdb::Int64FromDatum(datum));
+	return GPOS_NEW(mp) CDXLDatumInt8(mp, std::move(mdid), is_null,
+									  gpdb::Int64FromDatum(datum));
 }
 
 
@@ -2278,8 +2306,9 @@ CTranslatorScalarToDXL::TranslateInt8DatumToDXL(
 //		Extract the double value of the datum
 //---------------------------------------------------------------------------
 CDouble
-CTranslatorScalarToDXL::ExtractDoubleValueFromDatum(IMDId *mdid, BOOL is_null,
-													BYTE *bytes, Datum datum)
+CTranslatorScalarToDXL::ExtractDoubleValueFromDatum(gpos::pointer<IMDId *> mdid,
+													BOOL is_null, BYTE *bytes,
+													Datum datum)
 {
 	GPOS_ASSERT(CMDTypeGenericGPDB::HasByte2DoubleMapping(mdid));
 
@@ -2326,13 +2355,13 @@ CTranslatorScalarToDXL::ExtractDoubleValueFromDatum(IMDId *mdid, BOOL is_null,
 	}
 	else if (CMDTypeGenericGPDB::IsTimeRelatedType(mdid))
 	{
-		d = gpdb::ConvertTimeValueToScalar(datum,
-										   CMDIdGPDB::CastMdid(mdid)->Oid());
+		d = gpdb::ConvertTimeValueToScalar(
+			datum, gpos::dyn_cast<CMDIdGPDB>(mdid)->Oid());
 	}
 	else if (CMDTypeGenericGPDB::IsNetworkRelatedType(mdid))
 	{
-		d = gpdb::ConvertNetworkToScalar(datum,
-										 CMDIdGPDB::CastMdid(mdid)->Oid());
+		d = gpdb::ConvertNetworkToScalar(
+			datum, gpos::dyn_cast<CMDIdGPDB>(mdid)->Oid());
 	}
 
 	return CDouble(d);
@@ -2390,7 +2419,7 @@ CTranslatorScalarToDXL::ExtractLintValueFromDatum(
 	gpos::pointer<const IMDType *> md_type, BOOL is_null, BYTE *bytes,
 	ULONG length)
 {
-	IMDId *mdid = md_type->MDId();
+	gpos::pointer<IMDId *> mdid = md_type->MDId();
 	GPOS_ASSERT(CMDTypeGenericGPDB::HasByte2IntMapping(md_type));
 
 	LINT lint_value = 0;
@@ -2454,7 +2483,7 @@ CTranslatorScalarToDXL::ExtractLintValueFromDatum(
 //	@doc:
 //		Create IDatum from GPDB datum
 //---------------------------------------------------------------------------
-IDatum *
+gpos::owner<IDatum *>
 CTranslatorScalarToDXL::CreateIDatumFromGpdbDatum(
 	CMemoryPool *mp, gpos::pointer<const IMDType *> md_type, BOOL is_null,
 	Datum gpdb_datum)
@@ -2473,7 +2502,7 @@ CTranslatorScalarToDXL::CreateIDatumFromGpdbDatum(
 		CTranslatorScalarToDXL::TranslateDatumToDXL(
 			mp, md_type, gpmd::default_type_modifier, is_null, length,
 			gpdb_datum);
-	IDatum *datum = md_type->GetDatumForDXLDatum(mp, datum_dxl);
+	gpos::owner<IDatum *> datum = md_type->GetDatumForDXLDatum(mp, datum_dxl);
 	datum_dxl->Release();
 	return datum;
 }

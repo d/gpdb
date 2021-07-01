@@ -11,6 +11,7 @@
 
 #include "naucrates/md/IMDRelation.h"
 
+#include "gpos/common/owner.h"
 #include "gpos/string/CWStringDynamic.h"
 
 #include "naucrates/dxl/xml/CXMLSerializer.h"
@@ -84,7 +85,8 @@ IMDRelation::GetStorageTypeStr(IMDRelation::Erelstoragetype rel_storage_type)
 //
 //---------------------------------------------------------------------------
 CWStringDynamic *
-IMDRelation::ColumnsToStr(CMemoryPool *mp, ULongPtrArray *colid_array)
+IMDRelation::ColumnsToStr(CMemoryPool *mp,
+						  gpos::pointer<ULongPtrArray *> colid_array)
 {
 	CWStringDynamic *str = GPOS_NEW(mp) CWStringDynamic(mp);
 

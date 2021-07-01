@@ -22,10 +22,10 @@ public:
 	CPhysicalFullMergeJoin(const CPhysicalFullMergeJoin &) = delete;
 
 	// ctor
-	explicit CPhysicalFullMergeJoin(CMemoryPool *mp,
-									CExpressionArray *outer_merge_clauses,
-									CExpressionArray *inner_merge_clauses,
-									gpos::leaked<IMdIdArray *> hash_opfamilies);
+	explicit CPhysicalFullMergeJoin(
+		CMemoryPool *mp, gpos::owner<CExpressionArray *> outer_merge_clauses,
+		gpos::owner<CExpressionArray *> inner_merge_clauses,
+		gpos::leaked<IMdIdArray *> hash_opfamilies);
 
 	// dtor
 	~CPhysicalFullMergeJoin() override;
@@ -56,25 +56,26 @@ public:
 	CDistributionSpec *PdsRequired(
 		CMemoryPool *mp, CExpressionHandle &exprhdl,
 		gpos::pointer<CDistributionSpec *> pdsRequired, ULONG child_index,
-		CDrvdPropArray *pdrgpdpCtxt, ULONG ulOptReq) const override;
+		gpos::pointer<CDrvdPropArray *> pdrgpdpCtxt,
+		ULONG ulOptReq) const override;
 
-	gpos::owner<CEnfdDistribution *> Ped(CMemoryPool *mp,
-										 CExpressionHandle &exprhdl,
-										 CReqdPropPlan *prppInput,
-										 ULONG child_index,
-										 CDrvdPropArray *pdrgpdpCtxt,
-										 ULONG ulDistrReq) override;
+	gpos::owner<CEnfdDistribution *> Ped(
+		CMemoryPool *mp, CExpressionHandle &exprhdl,
+		gpos::pointer<CReqdPropPlan *> prppInput, ULONG child_index,
+		gpos::pointer<CDrvdPropArray *> pdrgpdpCtxt, ULONG ulDistrReq) override;
 
-	COrderSpec *PosRequired(CMemoryPool *mp, CExpressionHandle &exprhdl,
-							gpos::pointer<COrderSpec *> posInput,
-							ULONG child_index, CDrvdPropArray *pdrgpdpCtxt,
-							ULONG ulOptReq) const override;
+	gpos::owner<COrderSpec *> PosRequired(
+		CMemoryPool *mp, CExpressionHandle &exprhdl,
+		gpos::pointer<COrderSpec *> posInput, ULONG child_index,
+		gpos::pointer<CDrvdPropArray *> pdrgpdpCtxt,
+		ULONG ulOptReq) const override;
 
 	// compute required rewindability of the n-th child
 	gpos::owner<CRewindabilitySpec *> PrsRequired(
 		CMemoryPool *mp, CExpressionHandle &exprhdl,
-		CRewindabilitySpec *prsRequired, ULONG child_index,
-		CDrvdPropArray *pdrgpdpCtxt, ULONG ulOptReq) const override;
+		gpos::pointer<CRewindabilitySpec *> prsRequired, ULONG child_index,
+		gpos::pointer<CDrvdPropArray *> pdrgpdpCtxt,
+		ULONG ulOptReq) const override;
 
 	// return order property enforcing type for this operator
 	CEnfdProp::EPropEnforcingType EpetOrder(
@@ -82,10 +83,10 @@ public:
 		gpos::pointer<const CEnfdOrder *> peo) const override;
 
 	CEnfdDistribution::EDistributionMatching Edm(
-		gpos::pointer<CReqdPropPlan *>,	 // prppInput
-		ULONG,							 //child_index,
-		CDrvdPropArray *,				 // pdrgpdpCtxt,
-		ULONG							 // ulOptReq
+		gpos::pointer<CReqdPropPlan *>,	  // prppInput
+		ULONG,							  //child_index,
+		gpos::pointer<CDrvdPropArray *>,  // pdrgpdpCtxt,
+		ULONG							  // ulOptReq
 		) override;
 
 	gpos::owner<CDistributionSpec *> PdsDerive(
