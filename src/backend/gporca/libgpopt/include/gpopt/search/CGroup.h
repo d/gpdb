@@ -47,7 +47,7 @@ typedef CDynamicPtrArray<CGroup, CleanupNULL> CGroupArray;
 // map required plan props to cost lower bound of corresponding plan
 typedef CHashMap<CReqdPropPlan, CCost, CReqdPropPlan::UlHashForCostBounding,
 				 CReqdPropPlan::FEqualForCostBounding,
-				 CleanupRelease<CReqdPropPlan>, CleanupDelete<CCost> >
+				 CleanupRelease<CReqdPropPlan>, CleanupDelete<CCost>>
 	ReqdPropPlanToCostMap;
 
 // optimization levels in ascending order,
@@ -126,19 +126,19 @@ private:
 	{
 	private:
 		// cost context in a parent group
-		gpos::owner<CCostContext *> m_pccParent;
+		gpos::Ref<CCostContext> m_pccParent;
 
 		// index used when treating current group as a child of group expression
 		ULONG m_ulChildIndex;
 
 		// optimization context used to locate group expressions in
 		// current group to be linked with parent group expression
-		gpos::owner<COptimizationContext *> m_poc;
+		gpos::Ref<COptimizationContext> m_poc;
 
 	public:
 		// ctor
-		SContextLink(gpos::owner<CCostContext *> pccParent, ULONG child_index,
-					 gpos::owner<COptimizationContext *> poc);
+		SContextLink(gpos::Ref<CCostContext> pccParent, ULONG child_index,
+					 gpos::Ref<COptimizationContext> poc);
 
 		// dtor
 		virtual ~SContextLink();
@@ -155,14 +155,15 @@ private:
 	// map of processed links in TreeMap structure
 	typedef CHashMap<SContextLink, BOOL, SContextLink::HashValue,
 					 SContextLink::Equals, CleanupDelete<SContextLink>,
-					 CleanupDelete<BOOL> >
+					 CleanupDelete<BOOL>>
 		LinkMap;
 
 	// map of computed stats objects during costing
-	typedef CHashMap<
-		COptimizationContext, IStatistics, COptimizationContext::UlHashForStats,
-		COptimizationContext::FEqualForStats,
-		CleanupRelease<COptimizationContext>, CleanupRelease<IStatistics> >
+	typedef gpos::UnorderedMap<
+		gpos::Ref<COptimizationContext>, gpos::Ref<IStatistics>,
+		gpos::RefHash<COptimizationContext,
+					  COptimizationContext::UlHashForStats>,
+		gpos::RefEq<COptimizationContext, COptimizationContext::FEqualForStats>>
 		OptCtxtToIStatisticsMap;
 
 	// memory pool
@@ -175,13 +176,13 @@ private:
 	BOOL m_fScalar;
 
 	// join keys for outer child (only for scalar groups) (used by hash & merge joins)
-	gpos::owner<CExpressionArray *> m_pdrgpexprJoinKeysOuter;
+	gpos::Ref<CExpressionArray> m_pdrgpexprJoinKeysOuter;
 
 	// join keys for inner child (only for scalar groups) (used by hash & merge joins)
-	gpos::owner<CExpressionArray *> m_pdrgpexprJoinKeysInner;
+	gpos::Ref<CExpressionArray> m_pdrgpexprJoinKeysInner;
 
 	// join op families (only for scalar groups) (used by hash & merge joins)
-	gpos::owner<IMdIdArray *> m_join_opfamilies;
+	gpos::Ref<IMdIdArray> m_join_opfamilies;
 
 	// list of group expressions
 	CList<CGroupExpression> m_listGExprs;
@@ -190,29 +191,29 @@ private:
 	CList<CGroupExpression> m_listDupGExprs;
 
 	// group derived properties
-	gpos::owner<CDrvdProp *> m_pdp;
+	gpos::Ref<CDrvdProp> m_pdp;
 
 	// group stats
-	gpos::owner<IStatistics *> m_pstats;
+	gpos::Ref<IStatistics> m_pstats;
 
 	// scalar expression for stat derivation (subqueries substituted with a dummy)
-	gpos::owner<CExpression *> m_pexprScalarRep;
+	gpos::Ref<CExpression> m_pexprScalarRep;
 
 	// scalar expression above is exactly the same as the scalar expr in the group
 	BOOL m_pexprScalarRepIsExact;
 
 	// dummy cost context used in scalar groups for plan enumeration
-	gpos::owner<CCostContext *> m_pccDummy;
+	gpos::Ref<CCostContext> m_pccDummy;
 
 	// pointer to group containing the group expressions
 	// of all duplicate groups
-	gpos::pointer<CGroup *> m_pgroupDuplicate;
+	CGroup *m_pgroupDuplicate;
 
 	// map of processed links
-	gpos::owner<LinkMap *> m_plinkmap;
+	gpos::Ref<LinkMap> m_plinkmap;
 
 	// map of computed stats during costing
-	gpos::owner<OptCtxtToIStatisticsMap *> m_pstatsmap;
+	gpos::Ref<OptCtxtToIStatisticsMap> m_pstatsmap;
 
 	// hashtable of optimization contexts
 	ShtOC m_sht;
@@ -221,7 +222,7 @@ private:
 	ULONG m_ulGExprs;
 
 	// map of cost lower bounds
-	gpos::owner<ReqdPropPlanToCostMap *> m_pcostmap;
+	gpos::Ref<ReqdPropPlanToCostMap> m_pcostmap;
 
 	// number of optimization contexts
 	ULONG_PTR m_ulpOptCtxts;
@@ -266,9 +267,9 @@ private:
 	void SetState(EState estNewState);
 
 	// set hash join keys
-	void SetJoinKeys(gpos::pointer<CExpressionArray *> pdrgpexprOuter,
-					 gpos::pointer<CExpressionArray *> pdrgpexprInner,
-					 gpos::pointer<IMdIdArray *> join_opfamilies);
+	void SetJoinKeys(CExpressionArray *pdrgpexprOuter,
+					 CExpressionArray *pdrgpexprInner,
+					 IMdIdArray *join_opfamilies);
 
 	// insert new group expression
 	void Insert(CGroupExpression *pgexpr);
@@ -280,35 +281,35 @@ private:
 	void InitProperties(CDrvdProp *pdp);
 
 	// initialize group's stats
-	void InitStats(gpos::owner<IStatistics *> stats);
+	void InitStats(gpos::Ref<IStatistics> stats);
 
 	// retrieve first group expression
 	CGroupExpression *PgexprFirst();
 
 	// retrieve next group expression
-	CGroupExpression *PgexprNext(gpos::pointer<CGroupExpression *> pgexpr);
+	CGroupExpression *PgexprNext(CGroupExpression *pgexpr);
 
 	// return true if first promise is better than second promise
 	static BOOL FBetterPromise(CMemoryPool *mp, CLogical::EStatPromise espFst,
-							   gpos::pointer<CGroupExpression *> pgexprFst,
+							   CGroupExpression *pgexprFst,
 							   CLogical::EStatPromise espSnd,
-							   gpos::pointer<CGroupExpression *> pgexprSnd);
+							   CGroupExpression *pgexprSnd);
 
 	// derive stats recursively on child groups
-	static CLogical::EStatPromise EspDerive(
-		CMemoryPool *pmpLocal, CMemoryPool *pmpGlobal,
-		gpos::pointer<CGroupExpression *> pgexpr,
-		gpos::pointer<CReqdPropRelational *> prprel,
-		IStatisticsArray *stats_ctxt, BOOL fDeriveChildStats);
+	static CLogical::EStatPromise EspDerive(CMemoryPool *pmpLocal,
+											CMemoryPool *pmpGlobal,
+											CGroupExpression *pgexpr,
+											CReqdPropRelational *prprel,
+											IStatisticsArray *stats_ctxt,
+											BOOL fDeriveChildStats);
 
 	// reset computed stats
 	void ResetStats();
 
 	// helper function to add links in child groups
 	static void RecursiveBuildTreeMap(
-		CMemoryPool *mp, COptimizationContext *poc,
-		gpos::pointer<CCostContext *> pccParent,
-		gpos::pointer<CGroupExpression *> pgexprCurrent, ULONG child_index,
+		CMemoryPool *mp, COptimizationContext *poc, CCostContext *pccParent,
+		CGroupExpression *pgexprCurrent, ULONG child_index,
 		CTreeMap<CCostContext, CExpression, CDrvdPropCtxtPlan,
 				 CCostContext::HashValue, CCostContext::Equals> *ptmap);
 
@@ -325,10 +326,10 @@ private:
 	IStatistics *PstatsInitEmpty(CMemoryPool *pmpGlobal);
 
 	// find the group expression having the best stats promise
-	CGroupExpression *PgexprBestPromise(
-		CMemoryPool *pmpLocal, CMemoryPool *pmpGlobal,
-		gpos::pointer<CReqdPropRelational *> prprelInput,
-		IStatisticsArray *stats_ctxt);
+	CGroupExpression *PgexprBestPromise(CMemoryPool *pmpLocal,
+										CMemoryPool *pmpGlobal,
+										CReqdPropRelational *prprelInput,
+										IStatisticsArray *stats_ctxt);
 
 public:
 	CGroup(const CGroup &) = delete;
@@ -347,20 +348,20 @@ public:
 	}
 
 	// group properties accessor
-	gpos::pointer<CDrvdProp *>
+	CDrvdProp *
 	Pdp() const
 	{
-		return m_pdp;
+		return m_pdp.get();
 	}
 
 	// group stats accessor
-	gpos::pointer<IStatistics *> Pstats() const;
+	IStatistics *Pstats() const;
 
 	// attempt initializing stats with the given stat object
-	BOOL FInitStats(gpos::owner<IStatistics *> stats);
+	BOOL FInitStats(gpos::Ref<IStatistics> stats);
 
 	// append given stats object to group stats
-	void AppendStats(CMemoryPool *mp, gpos::pointer<IStatistics *> stats);
+	void AppendStats(CMemoryPool *mp, IStatistics *stats);
 
 	// accessor of maximum optimization level of member group expressions
 	EOptimizationLevel
@@ -377,31 +378,31 @@ public:
 	}
 
 	// join keys of outer child
-	gpos::pointer<CExpressionArray *>
+	CExpressionArray *
 	PdrgpexprJoinKeysOuter() const
 	{
-		return m_pdrgpexprJoinKeysOuter;
+		return m_pdrgpexprJoinKeysOuter.get();
 	}
 
 	// join keys of inner child
-	gpos::pointer<CExpressionArray *>
+	CExpressionArray *
 	PdrgpexprJoinKeysInner() const
 	{
-		return m_pdrgpexprJoinKeysInner;
+		return m_pdrgpexprJoinKeysInner.get();
 	}
 
 	// join op families
-	gpos::pointer<IMdIdArray *>
+	IMdIdArray *
 	JoinOpfamilies() const
 	{
-		return m_join_opfamilies;
+		return m_join_opfamilies.get();
 	}
 
 	// return a representative cached scalar expression usable for stat derivation etc.
-	gpos::pointer<CExpression *>
+	CExpression *
 	PexprScalarRep() const
 	{
-		return m_pexprScalarRep;
+		return m_pexprScalarRep.get();
 	}
 
 	// is the value returned by PexprScalarRep() exact?
@@ -412,12 +413,12 @@ public:
 	}
 
 	// return dummy cost context for scalar group
-	gpos::pointer<CCostContext *>
+	CCostContext *
 	PccDummy() const
 	{
 		GPOS_ASSERT(FScalar());
 
-		return m_pccDummy;
+		return m_pccDummy.get();
 	}
 
 	// hash function
@@ -506,7 +507,7 @@ public:
 	}
 
 	// duplicate group accessor
-	gpos::pointer<CGroup *>
+	CGroup *
 	PgroupDuplicate() const
 	{
 		return m_pgroupDuplicate;
@@ -537,11 +538,10 @@ public:
 	COptimizationContext *PocInsert(COptimizationContext *poc);
 
 	// update the best group cost under the given optimization context
-	void UpdateBestCost(gpos::pointer<COptimizationContext *> poc,
-						gpos::pointer<CCostContext *> pcc);
+	void UpdateBestCost(COptimizationContext *poc, CCostContext *pcc);
 
 	// lookup best expression under given optimization context
-	CGroupExpression *PgexprBest(gpos::pointer<COptimizationContext *> poc);
+	CGroupExpression *PgexprBest(COptimizationContext *poc);
 
 	// materialize a scalar expression for stat derivation if this is a scalar group
 	void CreateScalarExpression();
@@ -571,13 +571,14 @@ public:
 	}
 
 	// derive statistics recursively on group
-	gpos::pointer<IStatistics *> PstatsRecursiveDerive(
-		CMemoryPool *pmpLocal, CMemoryPool *pmpGlobal,
-		CReqdPropRelational *prprel, IStatisticsArray *stats_ctxt);
+	IStatistics *PstatsRecursiveDerive(CMemoryPool *pmpLocal,
+									   CMemoryPool *pmpGlobal,
+									   CReqdPropRelational *prprel,
+									   IStatisticsArray *stats_ctxt);
 
 	// find group expression with best stats promise and the same given children
-	CGroupExpression *PgexprBestPromise(
-		CMemoryPool *mp, gpos::pointer<CGroupExpression *> pgexprToMatch);
+	CGroupExpression *PgexprBestPromise(CMemoryPool *mp,
+										CGroupExpression *pgexprToMatch);
 
 	// link parent group expression to group members
 	void BuildTreeMap(
@@ -593,25 +594,23 @@ public:
 	CGroupExpression *PgexprAnyCTEConsumer();
 
 	// compute stats during costing
-	gpos::pointer<IStatistics *> PstatsCompute(
-		COptimizationContext *poc, CExpressionHandle &exprhdl,
-		gpos::pointer<CGroupExpression *> pgexpr);
+	IStatistics *PstatsCompute(COptimizationContext *poc,
+							   CExpressionHandle &exprhdl,
+							   CGroupExpression *pgexpr);
 
 	// compute cost lower bound for the plan satisfying given required properties
 	CCost CostLowerBound(CMemoryPool *mp, CReqdPropPlan *prppInput);
 
 	// matching of pairs of arrays of groups
-	static BOOL FMatchGroups(gpos::pointer<CGroupArray *> pdrgpgroupFst,
-							 gpos::pointer<CGroupArray *> pdrgpgroupSnd);
+	static BOOL FMatchGroups(CGroupArray *pdrgpgroupFst,
+							 CGroupArray *pdrgpgroupSnd);
 
 	// matching of pairs of arrays of groups while skipping scalar groups
-	static BOOL FMatchNonScalarGroups(
-		gpos::pointer<CGroupArray *> pdrgpgroupFst,
-		gpos::pointer<CGroupArray *> pdrgpgroupSnd);
+	static BOOL FMatchNonScalarGroups(CGroupArray *pdrgpgroupFst,
+									  CGroupArray *pdrgpgroupSnd);
 
 	// determine if a pair of groups are duplicates
-	static BOOL FDuplicateGroups(gpos::pointer<CGroup *> pgroupFst,
-								 gpos::pointer<CGroup *> pgroupSnd);
+	static BOOL FDuplicateGroups(CGroup *pgroupFst, CGroup *pgroupSnd);
 
 	// print function
 	IOstream &OsPrint(IOstream &os) const;

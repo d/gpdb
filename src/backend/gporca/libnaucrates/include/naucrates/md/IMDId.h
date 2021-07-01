@@ -95,7 +95,7 @@ public:
 
 
 	// equality check
-	virtual BOOL Equals(gpos::pointer<const IMDId *> mdid) const = 0;
+	virtual BOOL Equals(const IMDId *mdid) const = 0;
 
 	// computes the hash value for the metadata id
 	virtual ULONG HashValue() const = 0;
@@ -133,7 +133,7 @@ public:
 	// static hash functions for use in different indexing structures,
 	// e.g. hashmaps, MD cache, etc.
 	static ULONG
-	MDIdHash(gpos::pointer<const IMDId *> mdid)
+	MDIdHash(const IMDId *mdid)
 	{
 		GPOS_ASSERT(nullptr != mdid);
 		return mdid->HashValue();
@@ -142,8 +142,7 @@ public:
 	// static equality functions for use in different structures,
 	// e.g. hashmaps, MD cache, etc.
 	static BOOL
-	MDIdCompare(gpos::pointer<const IMDId *> left_mdid,
-				gpos::pointer<const IMDId *> right_mdid)
+	MDIdCompare(const IMDId *left_mdid, const IMDId *right_mdid)
 	{
 		GPOS_ASSERT(nullptr != left_mdid && nullptr != right_mdid);
 		return left_mdid->Equals(right_mdid);
@@ -159,7 +158,7 @@ public:
 
 	// safe validity function
 	static BOOL
-	IsValid(gpos::pointer<const IMDId *> mdid)
+	IsValid(const IMDId *mdid)
 	{
 		return nullptr != mdid && mdid->IsValid();
 	}
@@ -167,21 +166,22 @@ public:
 	virtual gpos::IOstream &OsPrint(gpos::IOstream &os) const = 0;
 
 	// make a copy in the given memory pool
-	virtual gpos::owner<IMDId *> Copy(CMemoryPool *mp) const = 0;
+	virtual gpos::Ref<IMDId> Copy(CMemoryPool *mp) const = 0;
 };
 
 // common structures over metadata id elements
-typedef CDynamicPtrArray<IMDId, CleanupRelease> IMdIdArray;
+typedef gpos::Vector<gpos::Ref<IMDId>> IMdIdArray;
 
 // hash set for mdid
-typedef CHashSet<IMDId, IMDId::MDIdHash, IMDId::MDIdCompare,
-				 CleanupRelease<IMDId> >
+typedef gpos::UnorderedSet<gpos::Ref<IMDId>,
+						   gpos::RefHash<IMDId, IMDId::MDIdHash>,
+						   gpos::RefEq<IMDId, IMDId::MDIdCompare>>
 	MdidHashSet;
 
 // iterator over the hash set for column id information for missing statistics
-typedef CHashSetIter<IMDId, IMDId::MDIdHash, IMDId::MDIdCompare,
-					 CleanupRelease<IMDId> >
-	MdidHashSetIter;
+typedef gpos::UnorderedSet<
+	gpos::Ref<IMDId>, gpos::RefHash<IMDId, IMDId::MDIdHash>,
+	gpos::RefEq<IMDId, IMDId::MDIdCompare>>::LegacyIterator MdidHashSetIter;
 
 }  // namespace gpmd
 

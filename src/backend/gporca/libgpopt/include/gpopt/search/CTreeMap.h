@@ -51,11 +51,10 @@ class CTreeMap
 	typedef CDynamicPtrArray<T, CleanupNULL> DrgPt;
 
 	// array of result pointers (results owned by the tree we unrank)
-	typedef CDynamicPtrArray<R, CleanupRelease<R> > DrgPr;
+	typedef gpos::Vector<gpos::Ref<R>> DrgPr;
 
 	// generic rehydrate function
-	typedef gpos::owner<R *> (*PrFn)(CMemoryPool *, gpos::pointer<T *>,
-									 gpos::owner<DrgPr *>, U *);
+	typedef gpos::Ref<R> (*PrFn)(CMemoryPool *, T *, gpos::Ref<DrgPr>, U *);
 
 private:
 	// fwd declaration
@@ -63,7 +62,7 @@ private:
 
 	// arrays of internal nodes
 	typedef CDynamicPtrArray<CTreeNode, CleanupNULL> CTreeNodeArray;
-	typedef CDynamicPtrArray<CTreeNodeArray, CleanupRelease> CTreeNode2dArray;
+	typedef gpos::Vector<gpos::Ref<CTreeNodeArray>> CTreeNode2dArray;
 
 	//---------------------------------------------------------------------------
 	//	@class:
@@ -78,13 +77,13 @@ private:
 	{
 	private:
 		// parent node
-		gpos::pointer<const T *> m_ptParent;
+		const T *m_ptParent;
 
 		// child index
 		ULONG m_ulChildIndex;
 
 		// child node
-		gpos::pointer<const T *> m_ptChild;
+		const T *m_ptChild;
 
 	public:
 		// ctor
@@ -151,10 +150,10 @@ private:
 		ULONG m_ul;
 
 		// element
-		gpos::pointer<const T *> m_value;
+		const T *m_value;
 
 		// array of children arrays
-		gpos::owner<CTreeNode2dArray *> m_pdrgdrgptn;
+		gpos::Ref<CTreeNode2dArray> m_pdrgdrgptn;
 
 		// number of trees rooted in this node
 		ULLONG m_ullCount;
@@ -185,7 +184,7 @@ private:
 		}
 
 		// rehydrate tree
-		gpos::owner<R *>
+		gpos::Ref<R>
 		PrUnrank(CMemoryPool *mp, PrFn prfn, U *pU, ULONG ulChild,
 				 ULLONG ullRank)
 		{
@@ -232,7 +231,7 @@ private:
 		// dtor
 		~CTreeNode()
 		{
-			m_pdrgdrgptn->Release();
+			;
 		}
 
 		// add child alternative
@@ -247,7 +246,7 @@ private:
 			ULONG length = m_pdrgdrgptn->Size();
 			for (ULONG ul = length; ul <= ulPos; ul++)
 			{
-				gpos::owner<CTreeNodeArray *> pdrg =
+				gpos::Ref<CTreeNodeArray> pdrg =
 					GPOS_NEW(m_mp) CTreeNodeArray(m_mp);
 				m_pdrgdrgptn->Append(pdrg);
 			}
@@ -262,7 +261,7 @@ private:
 		}
 
 		// accessor
-		gpos::pointer<const T *>
+		const T *
 		Value() const
 		{
 			return m_value;
@@ -321,12 +320,12 @@ private:
 		}
 
 		// unrank tree of a given rank with a given rehydrate function
-		gpos::owner<R *>
+		gpos::Ref<R>
 		PrUnrank(CMemoryPool *mp, PrFn prfn, U *pU, ULLONG ullRank)
 		{
 			GPOS_CHECK_STACK_SIZE;
 
-			gpos::owner<R *> pr = nullptr;
+			gpos::Ref<R> pr = nullptr;
 
 			if (0 == this->m_ul)
 			{
@@ -335,7 +334,7 @@ private:
 			}
 			else
 			{
-				gpos::owner<DrgPr *> pdrg = GPOS_NEW(mp) DrgPr(mp);
+				gpos::Ref<DrgPr> pdrg = GPOS_NEW(mp) DrgPr(mp);
 
 				ULLONG ullRankRem = ullRank;
 
@@ -407,21 +406,21 @@ private:
 
 	// map of all nodes
 	typedef gpos::CHashMap<T, CTreeNode, HashFn, EqFn, CleanupNULL,
-						   CleanupDelete<CTreeNode> >
+						   CleanupDelete<CTreeNode>>
 		TMap;
 	typedef gpos::CHashMapIter<T, CTreeNode, HashFn, EqFn, CleanupNULL,
-							   CleanupDelete<CTreeNode> >
+							   CleanupDelete<CTreeNode>>
 		TMapIter;
 
 	// map of created links
 	typedef CHashMap<STreeLink, BOOL, STreeLink::HashValue, STreeLink::Equals,
-					 CleanupDelete<STreeLink>, CleanupDelete<BOOL> >
+					 CleanupDelete<STreeLink>, CleanupDelete<BOOL>>
 		LinkMap;
 
-	gpos::owner<TMap *> m_ptmap;
+	gpos::Ref<TMap> m_ptmap;
 
 	// map of nodes to outgoing links
-	gpos::owner<LinkMap *> m_plinkmap;
+	gpos::Ref<LinkMap> m_plinkmap;
 
 	// recursive count starting in given node
 	ULLONG UllCount(CTreeNode *ptn);
@@ -470,8 +469,8 @@ public:
 	// dtor
 	~CTreeMap()
 	{
-		m_ptmap->Release();
-		m_plinkmap->Release();
+		;
+		;
 
 		GPOS_DELETE(m_ptnRoot);
 	}
@@ -518,7 +517,7 @@ public:
 	UllCount()
 	{
 		// first, hookup all logical root nodes to the global root
-		TMapIter mi(m_ptmap);
+		TMapIter mi(m_ptmap.get());
 		ULONG ulNodes = 0;
 		for (ulNodes = 0; mi.Advance(); ulNodes++)
 		{
@@ -541,7 +540,7 @@ public:
 	}
 
 	// unrank a specific tree
-	gpos::owner<R *>
+	gpos::Ref<R>
 	PrUnrank(CMemoryPool *mp, U *pU, ULLONG ullRank) const
 	{
 		return m_ptnRoot->PrUnrank(mp, m_prfn, pU, ullRank);
@@ -577,7 +576,7 @@ public:
 	IOstream &
 	OsPrint(IOstream &os) const
 	{
-		TMapIter mi(m_ptmap);
+		TMapIter mi(m_ptmap.get());
 		ULONG ulNodes = 0;
 		for (ulNodes = 0; mi.Advance(); ulNodes++)
 		{

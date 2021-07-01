@@ -54,7 +54,7 @@ CRewindabilitySpec::~CRewindabilitySpec() = default;
 //
 //---------------------------------------------------------------------------
 BOOL
-CRewindabilitySpec::Matches(gpos::pointer<const CRewindabilitySpec *> prs) const
+CRewindabilitySpec::Matches(const CRewindabilitySpec *prs) const
 {
 	GPOS_ASSERT(nullptr != prs);
 
@@ -93,8 +93,7 @@ CRewindabilitySpec::Matches(gpos::pointer<const CRewindabilitySpec *> prs) const
 //	+-----------+----------+--------+
 
 BOOL
-CRewindabilitySpec::FSatisfies(
-	gpos::pointer<const CRewindabilitySpec *> prs) const
+CRewindabilitySpec::FSatisfies(const CRewindabilitySpec *prs) const
 {
 	// ErtNone requests always satisfied (row 1 in table 1)
 	if (prs->Ert() == ErtNone)
@@ -163,9 +162,9 @@ CRewindabilitySpec::HashValue() const
 //---------------------------------------------------------------------------
 void
 CRewindabilitySpec::AppendEnforcers(CMemoryPool *mp, CExpressionHandle &exprhdl,
-									gpos::pointer<CReqdPropPlan *> prpp,
-									gpos::pointer<CExpressionArray *> pdrgpexpr,
-									gpos::pointer<CExpression *> pexpr)
+									CReqdPropPlan *prpp,
+									CExpressionArray *pdrgpexpr,
+									CExpression *pexpr)
 {
 	GPOS_ASSERT(nullptr != prpp);
 	GPOS_ASSERT(nullptr != mp);
@@ -175,7 +174,7 @@ CRewindabilitySpec::AppendEnforcers(CMemoryPool *mp, CExpressionHandle &exprhdl,
 		this == prpp->Per()->PrsRequired() &&
 		"required plan properties don't match enforced rewindability spec");
 
-	gpos::pointer<CRewindabilitySpec *> prs =
+	CRewindabilitySpec *prs =
 		gpos::dyn_cast<CDrvdPropPlan>(exprhdl.Pdp())->Prs();
 
 	BOOL eager = false;
@@ -189,8 +188,8 @@ CRewindabilitySpec::AppendEnforcers(CMemoryPool *mp, CExpressionHandle &exprhdl,
 		eager = true;
 	}
 
-	pexpr->AddRef();
-	gpos::owner<CExpression *> pexprSpool = GPOS_NEW(mp)
+	;
+	gpos::Ref<CExpression> pexprSpool = GPOS_NEW(mp)
 		CExpression(mp, GPOS_NEW(mp) CPhysicalSpool(mp, eager), pexpr);
 	pdrgpexpr->Append(std::move(pexprSpool));
 }

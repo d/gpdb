@@ -47,7 +47,7 @@ CLogicalJoin::CLogicalJoin(CMemoryPool *mp) : CLogical(mp)
 //
 //---------------------------------------------------------------------------
 BOOL
-CLogicalJoin::Matches(gpos::pointer<COperator *> pop) const
+CLogicalJoin::Matches(COperator *pop) const
 {
 	return (pop->Eopid() == Eopid());
 }
@@ -60,9 +60,9 @@ CLogicalJoin::Matches(gpos::pointer<COperator *> pop) const
 //		Derive statistics
 //
 //---------------------------------------------------------------------------
-gpos::owner<IStatistics *>
+gpos::Ref<IStatistics>
 CLogicalJoin::PstatsDerive(CMemoryPool *mp, CExpressionHandle &exprhdl,
-						   gpos::pointer<IStatisticsArray *> stats_ctxt) const
+						   IStatisticsArray *stats_ctxt) const
 {
 	return CJoinStatsProcessor::DeriveJoinStats(mp, exprhdl, stats_ctxt);
 }

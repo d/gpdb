@@ -41,33 +41,33 @@ class IStatistics;
 
 // hash map from column id to a histogram
 typedef CHashMap<ULONG, CHistogram, gpos::HashValue<ULONG>, gpos::Equals<ULONG>,
-				 CleanupDelete<ULONG>, CleanupDelete<CHistogram> >
+				 CleanupDelete<ULONG>, CleanupDelete<CHistogram>>
 	UlongToHistogramMap;
 
 // iterator
 typedef CHashMapIter<ULONG, CHistogram, gpos::HashValue<ULONG>,
 					 gpos::Equals<ULONG>, CleanupDelete<ULONG>,
-					 CleanupDelete<CHistogram> >
+					 CleanupDelete<CHistogram>>
 	UlongToHistogramMapIter;
 
 // hash map from column ULONG to CDouble
 typedef CHashMap<ULONG, CDouble, gpos::HashValue<ULONG>, gpos::Equals<ULONG>,
-				 CleanupDelete<ULONG>, CleanupDelete<CDouble> >
+				 CleanupDelete<ULONG>, CleanupDelete<CDouble>>
 	UlongToDoubleMap;
 
 // iterator
 typedef CHashMapIter<ULONG, CDouble, gpos::HashValue<ULONG>,
 					 gpos::Equals<ULONG>, CleanupDelete<ULONG>,
-					 CleanupDelete<CDouble> >
+					 CleanupDelete<CDouble>>
 	UlongToDoubleMapIter;
 
 typedef CHashMap<ULONG, ULONG, gpos::HashValue<ULONG>, gpos::Equals<ULONG>,
-				 CleanupDelete<ULONG>, CleanupDelete<ULONG> >
+				 CleanupDelete<ULONG>, CleanupDelete<ULONG>>
 	UlongToUlongMap;
 
 // hash maps mapping INT -> ULONG
 typedef CHashMap<INT, ULONG, gpos::HashValue<INT>, gpos::Equals<INT>,
-				 CleanupDelete<INT>, CleanupDelete<ULONG> >
+				 CleanupDelete<INT>, CleanupDelete<ULONG>>
 	IntToUlongMap;
 
 //---------------------------------------------------------------------------
@@ -124,11 +124,10 @@ public:
 	virtual CDouble Width() const = 0;
 
 	// what is the width in bytes of set of column id's
-	virtual CDouble Width(gpos::pointer<ULongPtrArray *> colids) const = 0;
+	virtual CDouble Width(ULongPtrArray *colids) const = 0;
 
 	// what is the width in bytes of set of column references
-	virtual CDouble Width(CMemoryPool *mp,
-						  gpos::pointer<CColRefSet *> colrefs) const = 0;
+	virtual CDouble Width(CMemoryPool *mp, CColRefSet *colrefs) const = 0;
 
 	// the risk of errors in cardinality estimation
 	virtual ULONG StatsEstimationRisk() const = 0;
@@ -142,57 +141,56 @@ public:
 	virtual ULONG GetNumberOfPredicates() const = 0;
 
 	// inner join with another stats structure
-	virtual gpos::owner<IStatistics *> CalcInnerJoinStats(
-		CMemoryPool *mp, gpos::pointer<const IStatistics *> other_stats,
-		gpos::pointer<CStatsPredJoinArray *> join_preds_stats) const = 0;
+	virtual gpos::Ref<IStatistics> CalcInnerJoinStats(
+		CMemoryPool *mp, const IStatistics *other_stats,
+		CStatsPredJoinArray *join_preds_stats) const = 0;
 
 	// LOJ with another stats structure
-	virtual gpos::owner<IStatistics *> CalcLOJoinStats(
-		CMemoryPool *mp, gpos::pointer<const IStatistics *> other_stats,
-		gpos::pointer<CStatsPredJoinArray *> join_preds_stats) const = 0;
+	virtual gpos::Ref<IStatistics> CalcLOJoinStats(
+		CMemoryPool *mp, const IStatistics *other_stats,
+		CStatsPredJoinArray *join_preds_stats) const = 0;
 
 	// semi join stats computation
-	virtual gpos::owner<IStatistics *> CalcLSJoinStats(
-		CMemoryPool *mp, gpos::pointer<const IStatistics *> inner_side_stats,
-		gpos::pointer<CStatsPredJoinArray *> join_preds_stats) const = 0;
+	virtual gpos::Ref<IStatistics> CalcLSJoinStats(
+		CMemoryPool *mp, const IStatistics *inner_side_stats,
+		CStatsPredJoinArray *join_preds_stats) const = 0;
 
 	// anti semi join
-	virtual gpos::owner<IStatistics *> CalcLASJoinStats(
-		CMemoryPool *mp, gpos::pointer<const IStatistics *> other_stats,
-		gpos::pointer<CStatsPredJoinArray *> join_preds_stats,
+	virtual gpos::Ref<IStatistics> CalcLASJoinStats(
+		CMemoryPool *mp, const IStatistics *other_stats,
+		CStatsPredJoinArray *join_preds_stats,
 		BOOL DoIgnoreLASJHistComputation) const = 0;
 
 	// return required props associated with stats object
-	virtual gpos::owner<CReqdPropRelational *> GetReqdRelationalProps(
+	virtual gpos::Ref<CReqdPropRelational> GetReqdRelationalProps(
 		CMemoryPool *mp) const = 0;
 
 	// append given stats to current object
-	virtual void AppendStats(CMemoryPool *mp,
-							 gpos::pointer<IStatistics *> stats) = 0;
+	virtual void AppendStats(CMemoryPool *mp, IStatistics *stats) = 0;
 
 	// set number of rebinds
 	virtual void SetRebinds(CDouble num_rebinds) = 0;
 
 	// copy stats
-	virtual gpos::owner<IStatistics *> CopyStats(CMemoryPool *mp) const = 0;
+	virtual gpos::Ref<IStatistics> CopyStats(CMemoryPool *mp) const = 0;
 
 	// return a copy of this stats object scaled by a given factor
-	virtual gpos::owner<IStatistics *> ScaleStats(CMemoryPool *mp,
-												  CDouble factor) const = 0;
+	virtual gpos::Ref<IStatistics> ScaleStats(CMemoryPool *mp,
+											  CDouble factor) const = 0;
 
 	// copy stats with remapped column ids
-	virtual gpos::owner<IStatistics *> CopyStatsWithRemap(
-		CMemoryPool *mp, gpos::pointer<UlongToColRefMap *> colref_mapping,
+	virtual gpos::Ref<IStatistics> CopyStatsWithRemap(
+		CMemoryPool *mp, UlongToColRefMap *colref_mapping,
 		BOOL must_exist = true) const = 0;
 
 	// return a set of column references we have stats for
-	virtual gpos::owner<CColRefSet *> GetColRefSet(CMemoryPool *mp) const = 0;
+	virtual gpos::Ref<CColRefSet> GetColRefSet(CMemoryPool *mp) const = 0;
 
 	// print function
 	virtual IOstream &OsPrint(IOstream &os) const = 0;
 
 	// generate the DXL representation of the statistics object
-	virtual gpos::owner<CDXLStatsDerivedRelation *> GetDxlStatsDrvdRelation(
+	virtual gpos::Ref<CDXLStatsDerivedRelation> GetDxlStatsDrvdRelation(
 		CMemoryPool *mp, CMDAccessor *md_accessor) const = 0;
 
 	// is the join type either a left semi join or left anti-semi join
@@ -212,7 +210,7 @@ operator<<(IOstream &os, IStatistics &stats)
 }
 
 // dynamic array for derived stats
-typedef CDynamicPtrArray<IStatistics, CleanupRelease> IStatisticsArray;
+typedef gpos::Vector<gpos::Ref<IStatistics>> IStatisticsArray;
 }  // namespace gpnaucrates
 
 #endif	// !GPNAUCRATES_IStatistics_H

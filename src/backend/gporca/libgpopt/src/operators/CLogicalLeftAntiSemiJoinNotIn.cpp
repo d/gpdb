@@ -43,10 +43,10 @@ CLogicalLeftAntiSemiJoinNotIn::CLogicalLeftAntiSemiJoinNotIn(CMemoryPool *mp)
 //		Get candidate xforms
 //
 //---------------------------------------------------------------------------
-gpos::owner<CXformSet *>
+gpos::Ref<CXformSet>
 CLogicalLeftAntiSemiJoinNotIn::PxfsCandidates(CMemoryPool *mp) const
 {
-	gpos::owner<CXformSet *> xform_set = GPOS_NEW(mp) CXformSet(mp);
+	gpos::Ref<CXformSet> xform_set = GPOS_NEW(mp) CXformSet(mp);
 
 	(void) xform_set->ExchangeSet(
 		CXform::ExfAntiSemiJoinNotInAntiSemiJoinNotInSwap);

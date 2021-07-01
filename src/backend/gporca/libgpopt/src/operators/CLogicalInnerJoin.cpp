@@ -62,10 +62,10 @@ CLogicalInnerJoin::DeriveMaxCard(CMemoryPool *,	 // mp
 //		Get candidate xforms
 //
 //---------------------------------------------------------------------------
-gpos::owner<CXformSet *>
+gpos::Ref<CXformSet>
 CLogicalInnerJoin::PxfsCandidates(CMemoryPool *mp) const
 {
-	gpos::owner<CXformSet *> xform_set = GPOS_NEW(mp) CXformSet(mp);
+	gpos::Ref<CXformSet> xform_set = GPOS_NEW(mp) CXformSet(mp);
 
 	(void) xform_set->ExchangeSet(CXform::ExfInnerJoin2NLJoin);
 	(void) xform_set->ExchangeSet(CXform::ExfInnerJoin2HashJoin);
@@ -94,9 +94,8 @@ CLogicalInnerJoin::PxfsCandidates(CMemoryPool *mp) const
 //
 //---------------------------------------------------------------------------
 BOOL
-CLogicalInnerJoin::FFewerConj(CMemoryPool *mp,
-							  gpos::pointer<CGroupExpression *> pgexprFst,
-							  gpos::pointer<CGroupExpression *> pgexprSnd)
+CLogicalInnerJoin::FFewerConj(CMemoryPool *mp, CGroupExpression *pgexprFst,
+							  CGroupExpression *pgexprSnd)
 {
 	if (nullptr == pgexprFst || nullptr == pgexprSnd)
 	{
@@ -110,23 +109,23 @@ CLogicalInnerJoin::FFewerConj(CMemoryPool *mp,
 	}
 
 	// third child must be the group for join conditions
-	gpos::pointer<CGroup *> pgroupScalarFst = (*pgexprFst)[2];
-	gpos::pointer<CGroup *> pgroupScalarSnd = (*pgexprSnd)[2];
+	CGroup *pgroupScalarFst = (*pgexprFst)[2];
+	CGroup *pgroupScalarSnd = (*pgexprSnd)[2];
 	GPOS_ASSERT(pgroupScalarFst->FScalar());
 	GPOS_ASSERT(pgroupScalarSnd->FScalar());
 
-	gpos::owner<CExpressionArray *> pdrgpexprConjFst =
+	gpos::Ref<CExpressionArray> pdrgpexprConjFst =
 		CPredicateUtils::PdrgpexprConjuncts(mp,
 											pgroupScalarFst->PexprScalarRep());
-	gpos::owner<CExpressionArray *> pdrgpexprConjSnd =
+	gpos::Ref<CExpressionArray> pdrgpexprConjSnd =
 		CPredicateUtils::PdrgpexprConjuncts(mp,
 											pgroupScalarSnd->PexprScalarRep());
 
 	ULONG ulConjFst = pdrgpexprConjFst->Size();
 	ULONG ulConjSnd = pdrgpexprConjSnd->Size();
 
-	pdrgpexprConjFst->Release();
-	pdrgpexprConjSnd->Release();
+	;
+	;
 
 	return ulConjFst < ulConjSnd;
 }

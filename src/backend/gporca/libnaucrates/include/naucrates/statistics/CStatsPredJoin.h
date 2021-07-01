@@ -94,7 +94,7 @@ public:
 };	// class CStatsPredJoin
 
 // array of filters
-typedef CDynamicPtrArray<CStatsPredJoin, CleanupRelease> CStatsPredJoinArray;
+typedef gpos::Vector<gpos::Ref<CStatsPredJoin>> CStatsPredJoinArray;
 }  // namespace gpnaucrates
 
 #endif	// !GPNAUCRATES_CStatsPredJoin_H

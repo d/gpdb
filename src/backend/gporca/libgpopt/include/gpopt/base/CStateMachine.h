@@ -159,7 +159,7 @@ private:
 	Walk(CMemoryPool *mp, PfWalker Pfpv, void *pvContext) const
 	{
 		// retrieve all states
-		gpos::owner<EsetStates *> pesetStates = GPOS_NEW(mp) EsetStates(mp);
+		gpos::Ref<EsetStates> pesetStates = GPOS_NEW(mp) EsetStates(mp);
 		States(pesetStates);
 
 		// loop through all sink states
@@ -176,8 +176,7 @@ private:
 
 				// for all pairs of states (source, sink)
 				// compute possible transitions
-				gpos::owner<EsetEvents *> pesetEvents =
-					GPOS_NEW(mp) EsetEvents(mp);
+				gpos::Ref<EsetEvents> pesetEvents = GPOS_NEW(mp) EsetEvents(mp);
 				Transitions(tenumstateSource, tenumstateSink, pesetEvents);
 
 				// loop through all connecting edges
@@ -189,11 +188,11 @@ private:
 						 esetIterTrans.TBit(), pvContext);
 				}
 
-				pesetEvents->Release();
+				;
 			}
 		}
 
-		pesetStates->Release();
+		;
 	}
 
 	// print function -- used with walker
@@ -431,7 +430,7 @@ public:
 		}
 
 		// mark all states unreachable at first
-		gpos::owner<EsetStates *> peset = GPOS_NEW(mp) EsetStates(mp);
+		gpos::Ref<EsetStates> peset = GPOS_NEW(mp) EsetStates(mp);
 		States(peset);
 
 		Walk(mp, Unreachable, peset);
@@ -444,7 +443,7 @@ public:
 			(*ppestate)[ul++] = esetIter.TBit();
 		}
 		*pulSize = ul;
-		peset->Release();
+		;
 	}
 
 	// dump Moore diagram in graphviz format
@@ -456,7 +455,7 @@ public:
 		   << GRAPHVIZ_DOUBLE_CIRCLE(WszState(TesInitial())) << std::endl;
 
 		// get unreachable states
-		gpos::owner<EsetStates *> peset = GPOS_NEW(mp) EsetStates(mp);
+		gpos::Ref<EsetStates> peset = GPOS_NEW(mp) EsetStates(mp);
 		States(peset);
 
 		Walk(mp, Unreachable, peset);
@@ -466,8 +465,7 @@ public:
 		while (esetIter.Advance())
 		{
 			os << GRAPHVIZ_BOX(WszState(esetIter.TBit())) << std::endl;
-		}
-		peset->Release();
+		};
 
 		// print the remainder of the diagram by writing all edges only;
 		// nodes are implicit;

@@ -58,7 +58,7 @@ public:
 
 	// match function;
 	BOOL
-	Matches(gpos::pointer<COperator *> pop) const override
+	Matches(COperator *pop) const override
 	{
 		return (Eopid() == pop->Eopid());
 	}
@@ -71,12 +71,11 @@ public:
 	}
 
 	// return a copy of the operator with remapped columns
-	gpos::owner<COperator *>
-	PopCopyWithRemappedColumns(
-		CMemoryPool *,						//mp,
-		gpos::pointer<UlongToColRefMap *>,	//colref_mapping,
-		BOOL								//must_exist
-		) override
+	gpos::Ref<COperator>
+	PopCopyWithRemappedColumns(CMemoryPool *,		//mp,
+							   UlongToColRefMap *,	//colref_mapping,
+							   BOOL					//must_exist
+							   ) override
 	{
 		return PopCopyDefault();
 	}
@@ -93,7 +92,7 @@ public:
 	//-------------------------------------------------------------------------------------
 
 	// derive output columns
-	gpos::owner<CColRefSet *>
+	gpos::Ref<CColRefSet>
 	DeriveOutputColumns(CMemoryPool *,	// mp
 						CExpressionHandle &exprhdl) override
 	{
@@ -101,7 +100,7 @@ public:
 	}
 
 	// derive partition consumer info
-	gpos::owner<CPartInfo *>
+	gpos::Ref<CPartInfo>
 	DerivePartitionInfo(CMemoryPool *mp,
 						CExpressionHandle &exprhdl) const override
 	{
@@ -109,7 +108,7 @@ public:
 	}
 
 	// dervive keys
-	gpos::owner<CKeyCollection *>
+	gpos::Ref<CKeyCollection>
 	DeriveKeyCollection(CMemoryPool *,	// mp
 						CExpressionHandle &exprhdl) const override
 	{
@@ -126,7 +125,7 @@ public:
 	}
 
 	// derive constraint property
-	gpos::owner<CPropConstraint *>
+	gpos::Ref<CPropConstraint>
 	DerivePropertyConstraint(CMemoryPool *mp,
 							 CExpressionHandle &exprhdl) const override
 	{
@@ -141,24 +140,23 @@ public:
 	//-------------------------------------------------------------------------------------
 
 	// compute required stat columns of the n-th child
-	gpos::owner<CColRefSet *> PcrsStat(CMemoryPool *mp,
-									   CExpressionHandle &exprhdl,
-									   gpos::pointer<CColRefSet *> pcrsInput,
-									   ULONG child_index) const override;
+	gpos::Ref<CColRefSet> PcrsStat(CMemoryPool *mp, CExpressionHandle &exprhdl,
+								   CColRefSet *pcrsInput,
+								   ULONG child_index) const override;
 
 	//-------------------------------------------------------------------------------------
 	// Transformations
 	//-------------------------------------------------------------------------------------
 
 	// candidate set of xforms
-	gpos::owner<CXformSet *> PxfsCandidates(CMemoryPool *mp) const override;
+	gpos::Ref<CXformSet> PxfsCandidates(CMemoryPool *mp) const override;
 
 	//-------------------------------------------------------------------------------------
 	//-------------------------------------------------------------------------------------
 	//-------------------------------------------------------------------------------------
 
 	// conversion function
-	static gpos::cast_func<CLogicalMaxOneRow *>
+	static CLogicalMaxOneRow *
 	PopConvert(COperator *pop)
 	{
 		GPOS_ASSERT(nullptr != pop);
@@ -168,9 +166,9 @@ public:
 	}
 
 	// derive statistics
-	gpos::owner<IStatistics *> PstatsDerive(
-		CMemoryPool *mp, CExpressionHandle &exprhdl,
-		gpos::pointer<IStatisticsArray *>  // stats_ctxt
+	gpos::Ref<IStatistics> PstatsDerive(CMemoryPool *mp,
+										CExpressionHandle &exprhdl,
+										IStatisticsArray *	// stats_ctxt
 	) const override;
 
 

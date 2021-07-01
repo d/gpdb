@@ -32,8 +32,8 @@ using namespace gpdxl;
 //
 //---------------------------------------------------------------------------
 CDXLScalarAggref::CDXLScalarAggref(CMemoryPool *mp,
-								   gpos::owner<IMDId *> agg_func_mdid,
-								   gpos::owner<IMDId *> resolved_rettype_mdid,
+								   gpos::Ref<IMDId> agg_func_mdid,
+								   gpos::Ref<IMDId> resolved_rettype_mdid,
 								   BOOL is_distinct, EdxlAggrefStage agg_stage)
 	: CDXLScalar(mp),
 	  m_agg_func_mdid(std::move(agg_func_mdid)),
@@ -57,8 +57,8 @@ CDXLScalarAggref::CDXLScalarAggref(CMemoryPool *mp,
 //---------------------------------------------------------------------------
 CDXLScalarAggref::~CDXLScalarAggref()
 {
-	m_agg_func_mdid->Release();
-	CRefCount::SafeRelease(m_resolved_rettype_mdid);
+	;
+	;
 }
 
 
@@ -138,10 +138,10 @@ CDXLScalarAggref::GetOpNameStr() const
 //		Returns function id
 //
 //---------------------------------------------------------------------------
-gpos::pointer<IMDId *>
+IMDId *
 CDXLScalarAggref::GetDXLAggFuncMDid() const
 {
-	return m_agg_func_mdid;
+	return m_agg_func_mdid.get();
 }
 
 
@@ -153,10 +153,10 @@ CDXLScalarAggref::GetDXLAggFuncMDid() const
 //		Returns resolved type id
 //
 //---------------------------------------------------------------------------
-gpos::pointer<IMDId *>
+IMDId *
 CDXLScalarAggref::GetDXLResolvedRetTypeMDid() const
 {
-	return m_resolved_rettype_mdid;
+	return m_resolved_rettype_mdid.get();
 }
 
 
@@ -184,7 +184,7 @@ CDXLScalarAggref::IsDistinct() const
 //---------------------------------------------------------------------------
 void
 CDXLScalarAggref::SerializeToDXL(CXMLSerializer *xml_serializer,
-								 gpos::pointer<const CDXLNode *> dxlnode) const
+								 const CDXLNode *dxlnode) const
 {
 	const CWStringConst *element_name = GetOpNameStr();
 
@@ -218,8 +218,8 @@ CDXLScalarAggref::SerializeToDXL(CXMLSerializer *xml_serializer,
 BOOL
 CDXLScalarAggref::HasBoolResult(CMDAccessor *md_accessor) const
 {
-	gpos::pointer<const IMDAggregate *> pmdagg =
-		md_accessor->RetrieveAgg(m_agg_func_mdid);
+	const IMDAggregate *pmdagg =
+		md_accessor->RetrieveAgg(m_agg_func_mdid.get());
 	return (
 		IMDType::EtiBool ==
 		md_accessor->RetrieveType(pmdagg->GetResultTypeMdid())->GetDatumType());
@@ -235,7 +235,7 @@ CDXLScalarAggref::HasBoolResult(CMDAccessor *md_accessor) const
 //
 //---------------------------------------------------------------------------
 void
-CDXLScalarAggref::AssertValid(gpos::pointer<const CDXLNode *> dxlnode,
+CDXLScalarAggref::AssertValid(const CDXLNode *dxlnode,
 							  BOOL validate_children) const
 {
 	EdxlAggrefStage aggrefstage =
@@ -248,7 +248,7 @@ CDXLScalarAggref::AssertValid(gpos::pointer<const CDXLNode *> dxlnode,
 	const ULONG arity = dxlnode->Arity();
 	for (ULONG ul = 0; ul < arity; ++ul)
 	{
-		gpos::pointer<CDXLNode *> aggref_child_dxl = (*dxlnode)[ul];
+		CDXLNode *aggref_child_dxl = (*dxlnode)[ul];
 		GPOS_ASSERT(EdxloptypeScalar ==
 					aggref_child_dxl->GetOperator()->GetDXLOperatorType());
 

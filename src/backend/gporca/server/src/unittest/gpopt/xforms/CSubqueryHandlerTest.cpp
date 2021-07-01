@@ -90,11 +90,11 @@ CSubqueryHandlerTest::EresUnittest_Subquery2Apply()
 	CMemoryPool *mp = amp.Pmp();
 
 	// setup a file-based provider
-	gpos::owner<CMDProviderMemory *> pmdp = CTestUtils::m_pmdpf;
-	pmdp->AddRef();
+	gpos::Ref<CMDProviderMemory> pmdp = CTestUtils::m_pmdpf;
+	;
 	CMDAccessor mda(mp, CMDCache::Pcache(), CTestUtils::m_sysidDefault, pmdp);
 
-	typedef gpos::owner<CExpression *> (*Pfpexpr)(CMemoryPool *, BOOL);
+	typedef gpos::Ref<CExpression> (*Pfpexpr)(CMemoryPool *, BOOL);
 	Pfpexpr rgpf[] = {
 		CSubqueryTestUtils::PexprSelectWithAggSubquery,
 		CSubqueryTestUtils::PexprSelectWithAggSubqueryConstComparison,
@@ -128,7 +128,7 @@ CSubqueryHandlerTest::EresUnittest_Subquery2Apply()
 	};
 
 	// xforms to test
-	gpos::owner<CXformSet *> xform_set = GPOS_NEW(mp) CXformSet(mp);
+	gpos::Ref<CXformSet> xform_set = GPOS_NEW(mp) CXformSet(mp);
 	(void) xform_set->ExchangeSet(CXform::ExfSubqJoin2Apply);
 	(void) xform_set->ExchangeSet(CXform::ExfSelect2Apply);
 	(void) xform_set->ExchangeSet(CXform::ExfProject2Apply);
@@ -144,18 +144,17 @@ CSubqueryHandlerTest::EresUnittest_Subquery2Apply()
 						 CTestUtils::GetCostModel(mp));
 
 		// generate expression
-		gpos::owner<CExpression *> pexpr = rgpf[ulIndex](mp, fCorrelated);
+		gpos::Ref<CExpression> pexpr = rgpf[ulIndex](mp, fCorrelated);
 
 		// check for subq xforms
-		gpos::owner<CXformSet *> pxfsCand =
+		gpos::Ref<CXformSet> pxfsCand =
 			gpos::dyn_cast<CLogical>(pexpr->Pop())->PxfsCandidates(mp);
-		pxfsCand->Intersection(xform_set);
+		pxfsCand->Intersection(xform_set.get());
 
 		CXformSetIter xsi(*pxfsCand);
 		while (xsi.Advance())
 		{
-			gpos::pointer<CXform *> pxform =
-				CXformFactory::Pxff()->Pxf(xsi.TBit());
+			CXform *pxform = CXformFactory::Pxff()->Pxf(xsi.TBit());
 			GPOS_ASSERT(nullptr != pxform);
 
 			CWStringDynamic str(mp);
@@ -163,13 +162,12 @@ CSubqueryHandlerTest::EresUnittest_Subquery2Apply()
 
 			oss << std::endl << "INPUT:" << std::endl << *pexpr << std::endl;
 
-			gpos::owner<CXformContext *> pxfctxt =
-				GPOS_NEW(mp) CXformContext(mp);
-			gpos::owner<CXformResult *> pxfres = GPOS_NEW(mp) CXformResult(mp);
+			gpos::Ref<CXformContext> pxfctxt = GPOS_NEW(mp) CXformContext(mp);
+			gpos::Ref<CXformResult> pxfres = GPOS_NEW(mp) CXformResult(mp);
 
 			// calling the xform to perform subquery to Apply transformation
-			pxform->Transform(pxfctxt, pxfres, pexpr);
-			gpos::pointer<CExpression *> pexprResult = pxfres->PexprNext();
+			pxform->Transform(pxfctxt.get(), pxfres.get(), pexpr.get());
+			CExpression *pexprResult = pxfres->PexprNext();
 
 			oss << std::endl << "OUTPUT:" << std::endl;
 			if (nullptr != pexprResult)
@@ -184,16 +182,16 @@ CSubqueryHandlerTest::EresUnittest_Subquery2Apply()
 			GPOS_TRACE(str.GetBuffer());
 			str.Reset();
 
-			pxfres->Release();
-			pxfctxt->Release();
+			;
+			;
 		}
 
-		pxfsCand->Release();
-		pexpr->Release();
+		;
+		;
 		fCorrelated = !fCorrelated;
 	}
 
-	xform_set->Release();
+	;
 
 	return GPOS_OK;
 }
@@ -213,17 +211,17 @@ CSubqueryHandlerTest::EresUnittest_SubqueryWithConstSubqueries()
 	CMemoryPool *mp = amp.Pmp();
 
 	// setup a file-based provider
-	gpos::owner<CMDProviderMemory *> pmdp = CTestUtils::m_pmdpf;
-	pmdp->AddRef();
+	gpos::Ref<CMDProviderMemory> pmdp = CTestUtils::m_pmdpf;
+	;
 
 	// we need to use an auto pointer for the cache here to ensure
 	// deleting memory of cached objects when we throw
 	CAutoP<CMDAccessor::MDCache> apcache;
-	apcache =
-		CCacheFactory::CreateCache<gpopt::IMDCacheObject *, gpopt::CMDKey *>(
-			true,  // fUnique
-			0 /* unlimited cache quota */, CMDKey::UlHashMDKey,
-			CMDKey::FEqualMDKey);
+	apcache = CCacheFactory::CreateCache<gpos::Ref<gpopt::IMDCacheObject>,
+										 gpopt::CMDKey *>(
+		true,  // fUnique
+		0 /* unlimited cache quota */, CMDKey::UlHashMDKey,
+		CMDKey::FEqualMDKey);
 
 	CMDAccessor::MDCache *pcache = apcache.Value();
 
@@ -236,18 +234,17 @@ CSubqueryHandlerTest::EresUnittest_SubqueryWithConstSubqueries()
 						 CTestUtils::GetCostModel(mp));
 
 		// create a subquery with const table get expression
-		gpos::owner<CExpression *> pexpr =
+		gpos::Ref<CExpression> pexpr =
 			CSubqueryTestUtils::PexprSubqueryWithDisjunction(mp);
-		gpos::pointer<CXform *> pxform =
-			CXformFactory::Pxff()->Pxf(CXform::ExfSelect2Apply);
+		CXform *pxform = CXformFactory::Pxff()->Pxf(CXform::ExfSelect2Apply);
 
 		CWStringDynamic str(mp);
 		COstreamString oss(&str);
 
 		oss << std::endl << "EXPRESSION:" << std::endl << *pexpr << std::endl;
 
-		gpos::pointer<CExpression *> pexprLogical = (*pexpr)[0];
-		gpos::pointer<CExpression *> pexprScalar = (*pexpr)[1];
+		CExpression *pexprLogical = (*pexpr)[0];
+		CExpression *pexprScalar = (*pexpr)[1];
 		oss << std::endl
 			<< "LOGICAL:" << std::endl
 			<< *pexprLogical << std::endl;
@@ -256,13 +253,13 @@ CSubqueryHandlerTest::EresUnittest_SubqueryWithConstSubqueries()
 		GPOS_TRACE(str.GetBuffer());
 		str.Reset();
 
-		gpos::owner<CXformContext *> pxfctxt = GPOS_NEW(mp) CXformContext(mp);
-		gpos::owner<CXformResult *> pxfres = GPOS_NEW(mp) CXformResult(mp);
+		gpos::Ref<CXformContext> pxfctxt = GPOS_NEW(mp) CXformContext(mp);
+		gpos::Ref<CXformResult> pxfres = GPOS_NEW(mp) CXformResult(mp);
 
 		// calling the xform to perform subquery to Apply transformation;
 		// xform must fail since we do not expect constant subqueries
-		pxform->Transform(pxfctxt, pxfres, pexpr);
-		gpos::pointer<CExpression *> pexprResult = pxfres->PexprNext();
+		pxform->Transform(pxfctxt.get(), pxfres.get(), pexpr.get());
+		CExpression *pexprResult = pxfres->PexprNext();
 
 		oss << std::endl
 			<< "NEW LOGICAL:" << std::endl
@@ -274,9 +271,9 @@ CSubqueryHandlerTest::EresUnittest_SubqueryWithConstSubqueries()
 		GPOS_TRACE(str.GetBuffer());
 		str.Reset();
 
-		pxfres->Release();
-		pxfctxt->Release();
-		pexpr->Release();
+		;
+		;
+		;
 	}
 
 	// This test checks for an assert in CSubqueryHandler::FRemoveAnySubquery that
@@ -302,8 +299,8 @@ CSubqueryHandlerTest::EresUnittest_SubqueryWithDisjunction()
 	CMemoryPool *mp = amp.Pmp();
 
 	// setup a file-based provider
-	gpos::owner<CMDProviderMemory *> pmdp = CTestUtils::m_pmdpf;
-	pmdp->AddRef();
+	gpos::Ref<CMDProviderMemory> pmdp = CTestUtils::m_pmdpf;
+	;
 	CMDAccessor mda(mp, CMDCache::Pcache());
 	mda.RegisterProvider(CTestUtils::m_sysidDefault, std::move(pmdp));
 
@@ -313,37 +310,36 @@ CSubqueryHandlerTest::EresUnittest_SubqueryWithDisjunction()
 
 	// create a subquery with const table get expression
 
-	gpos::owner<CExpression *> pexprOuter = nullptr;
-	gpos::owner<CExpression *> pexprInner = nullptr;
+	gpos::Ref<CExpression> pexprOuter = nullptr;
+	gpos::Ref<CExpression> pexprInner = nullptr;
 	CSubqueryTestUtils::GenerateGetExpressions(mp, &pexprOuter, &pexprInner);
 
-	gpos::owner<CExpression *> pexpr =
+	gpos::Ref<CExpression> pexpr =
 		CSubqueryTestUtils::PexprSelectWithSubqueryBoolOp(
 			mp, std::move(pexprOuter), std::move(pexprInner),
 			true /*fCorrelated*/, CScalarBoolOp::EboolopOr);
 
-	gpos::pointer<CXform *> pxform =
-		CXformFactory::Pxff()->Pxf(CXform::ExfSelect2Apply);
+	CXform *pxform = CXformFactory::Pxff()->Pxf(CXform::ExfSelect2Apply);
 
 	CWStringDynamic str(mp);
 	COstreamString oss(&str);
 
 	oss << std::endl << "EXPRESSION:" << std::endl << *pexpr << std::endl;
 
-	gpos::pointer<CExpression *> pexprLogical = (*pexpr)[0];
-	gpos::pointer<CExpression *> pexprScalar = (*pexpr)[1];
+	CExpression *pexprLogical = (*pexpr)[0];
+	CExpression *pexprScalar = (*pexpr)[1];
 	oss << std::endl << "LOGICAL:" << std::endl << *pexprLogical << std::endl;
 	oss << std::endl << "SCALAR:" << std::endl << *pexprScalar << std::endl;
 
 	GPOS_TRACE(str.GetBuffer());
 	str.Reset();
 
-	gpos::owner<CXformContext *> pxfctxt = GPOS_NEW(mp) CXformContext(mp);
-	gpos::owner<CXformResult *> pxfres = GPOS_NEW(mp) CXformResult(mp);
+	gpos::Ref<CXformContext> pxfctxt = GPOS_NEW(mp) CXformContext(mp);
+	gpos::Ref<CXformResult> pxfres = GPOS_NEW(mp) CXformResult(mp);
 
 	// calling the xform to perform subquery to Apply transformation
-	pxform->Transform(pxfctxt, pxfres, pexpr);
-	gpos::pointer<CExpression *> pexprResult = pxfres->PexprNext();
+	pxform->Transform(pxfctxt.get(), pxfres.get(), pexpr.get());
+	CExpression *pexprResult = pxfres->PexprNext();
 
 	oss << std::endl
 		<< "NEW LOGICAL:" << std::endl
@@ -355,9 +351,9 @@ CSubqueryHandlerTest::EresUnittest_SubqueryWithDisjunction()
 	GPOS_TRACE(str.GetBuffer());
 	str.Reset();
 
-	pxfres->Release();
-	pxfctxt->Release();
-	pexpr->Release();
+	;
+	;
+	;
 
 	return GPOS_OK;
 }

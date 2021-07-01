@@ -35,8 +35,8 @@ using namespace gpopt;
 //
 //---------------------------------------------------------------------------
 CPhysicalScan::CPhysicalScan(CMemoryPool *mp, const CName *pnameAlias,
-							 gpos::owner<CTableDescriptor *> ptabdesc,
-							 gpos::owner<CColRefArray *> pdrgpcrOutput)
+							 gpos::Ref<CTableDescriptor> ptabdesc,
+							 gpos::Ref<CColRefArray> pdrgpcrOutput)
 	: CPhysical(mp),
 	  m_pnameAlias(pnameAlias),
 	  m_ptabdesc(ptabdesc),
@@ -55,7 +55,8 @@ CPhysicalScan::CPhysicalScan(CMemoryPool *mp, const CName *pnameAlias,
 	}
 	else
 	{
-		m_pds = CPhysical::PdsCompute(m_mp, m_ptabdesc, m_pdrgpcrOutput);
+		m_pds = CPhysical::PdsCompute(m_mp, m_ptabdesc.get(),
+									  m_pdrgpcrOutput.get());
 	}
 	ComputeTableStats(m_mp);
 }
@@ -71,10 +72,10 @@ CPhysicalScan::CPhysicalScan(CMemoryPool *mp, const CName *pnameAlias,
 //---------------------------------------------------------------------------
 CPhysicalScan::~CPhysicalScan()
 {
-	m_ptabdesc->Release();
-	m_pdrgpcrOutput->Release();
-	m_pds->Release();
-	m_pstatsBaseTable->Release();
+	;
+	;
+	;
+	;
 	GPOS_DELETE(m_pnameAlias);
 }
 
@@ -105,17 +106,17 @@ CPhysicalScan::FInputOrderSensitive() const
 //---------------------------------------------------------------------------
 BOOL
 CPhysicalScan::FProvidesReqdCols(CExpressionHandle &,  // exprhdl
-								 gpos::pointer<CColRefSet *> pcrsRequired,
+								 CColRefSet *pcrsRequired,
 								 ULONG	// ulOptReq
 ) const
 {
 	GPOS_ASSERT(nullptr != pcrsRequired);
 
-	gpos::owner<CColRefSet *> pcrs = GPOS_NEW(m_mp) CColRefSet(m_mp);
-	pcrs->Include(m_pdrgpcrOutput);
+	gpos::Ref<CColRefSet> pcrs = GPOS_NEW(m_mp) CColRefSet(m_mp);
+	pcrs->Include(m_pdrgpcrOutput.get());
 
 	BOOL result = pcrs->ContainsAll(pcrsRequired);
-	pcrs->Release();
+	;
 
 	return result;
 }
@@ -131,7 +132,7 @@ CPhysicalScan::FProvidesReqdCols(CExpressionHandle &,  // exprhdl
 //---------------------------------------------------------------------------
 CEnfdProp::EPropEnforcingType
 CPhysicalScan::EpetOrder(CExpressionHandle &,  // exprhdl
-						 gpos::pointer<const CEnfdOrder *>
+						 const CEnfdOrder *
 #ifdef GPOS_DEBUG
 							 peo
 #endif	// GPOS_DEBUG
@@ -151,7 +152,7 @@ CPhysicalScan::EpetOrder(CExpressionHandle &,  // exprhdl
 //		Derive distribution
 //
 //---------------------------------------------------------------------------
-gpos::owner<CDistributionSpec *>
+gpos::Ref<CDistributionSpec>
 CPhysicalScan::PdsDerive(CMemoryPool *mp, CExpressionHandle &exprhdl) const
 {
 	BOOL fIndexOrBitmapScan =
@@ -182,26 +183,25 @@ CPhysicalScan::PdsDerive(CMemoryPool *mp, CExpressionHandle &exprhdl) const
 		//
 		// This way the equiv spec stays incomplete only as long as it needs to be.
 
-		gpos::pointer<CExpression *> pexprIndexPred =
-			exprhdl.PexprScalarExactChild(0 /*child_index*/,
-										  true /*error_on_null_return*/);
+		CExpression *pexprIndexPred = exprhdl.PexprScalarExactChild(
+			0 /*child_index*/, true /*error_on_null_return*/);
 
-		gpos::pointer<CDistributionSpecHashed *> pdshashed =
-			gpos::dyn_cast<CDistributionSpecHashed>(m_pds);
-		gpos::owner<CDistributionSpecHashed *> pdshashedEquiv =
+		CDistributionSpecHashed *pdshashed =
+			gpos::dyn_cast<CDistributionSpecHashed>(m_pds.get());
+		gpos::Ref<CDistributionSpecHashed> pdshashedEquiv =
 			CDistributionSpecHashed::TryToCompleteEquivSpec(
 				mp, pdshashed, pexprIndexPred, exprhdl.DeriveOuterReferences());
 
 		if (nullptr != pdshashedEquiv)
 		{
-			gpos::owner<CExpressionArray *> pdrgpexprHashed =
+			gpos::Ref<CExpressionArray> pdrgpexprHashed =
 				pdshashed->Pdrgpexpr();
-			pdrgpexprHashed->AddRef();
+			;
 			if (nullptr != pdshashed->Opfamilies())
 			{
-				pdshashed->Opfamilies()->AddRef();
+				;
 			}
-			gpos::owner<CDistributionSpecHashed *> pdshashedResult =
+			gpos::Ref<CDistributionSpecHashed> pdshashedResult =
 				GPOS_NEW(mp) CDistributionSpecHashed(
 					std::move(pdrgpexprHashed), pdshashed->FNullsColocated(),
 					std::move(pdshashedEquiv), pdshashed->Opfamilies());
@@ -210,7 +210,7 @@ CPhysicalScan::PdsDerive(CMemoryPool *mp, CExpressionHandle &exprhdl) const
 		}
 	}
 
-	m_pds->AddRef();
+	;
 
 	return m_pds;
 }
@@ -225,13 +225,12 @@ CPhysicalScan::PdsDerive(CMemoryPool *mp, CExpressionHandle &exprhdl) const
 //
 //---------------------------------------------------------------------------
 CEnfdProp::EPropEnforcingType
-CPhysicalScan::EpetDistribution(
-	CExpressionHandle & /*exprhdl*/,
-	gpos::pointer<const CEnfdDistribution *> ped) const
+CPhysicalScan::EpetDistribution(CExpressionHandle & /*exprhdl*/,
+								const CEnfdDistribution *ped) const
 {
 	GPOS_ASSERT(nullptr != ped);
 
-	if (ped->FCompatible(m_pds))
+	if (ped->FCompatible(m_pds.get()))
 	{
 		// required distribution will be established by the operator
 		return CEnfdProp::EpetUnnecessary;
@@ -256,17 +255,17 @@ CPhysicalScan::ComputeTableStats(CMemoryPool *mp)
 {
 	GPOS_ASSERT(nullptr == m_pstatsBaseTable);
 
-	gpos::owner<CColRefSet *> pcrsHist = GPOS_NEW(mp) CColRefSet(mp);
-	gpos::owner<CColRefSet *> pcrsWidth =
-		GPOS_NEW(mp) CColRefSet(mp, m_pdrgpcrOutput);
+	gpos::Ref<CColRefSet> pcrsHist = GPOS_NEW(mp) CColRefSet(mp);
+	gpos::Ref<CColRefSet> pcrsWidth =
+		GPOS_NEW(mp) CColRefSet(mp, m_pdrgpcrOutput.get());
 
 	CMDAccessor *md_accessor = COptCtxt::PoctxtFromTLS()->Pmda();
-	m_pstatsBaseTable =
-		md_accessor->Pstats(mp, m_ptabdesc->MDId(), pcrsHist, pcrsWidth);
+	m_pstatsBaseTable = md_accessor->Pstats(mp, m_ptabdesc->MDId(),
+											pcrsHist.get(), pcrsWidth.get());
 	GPOS_ASSERT(nullptr != m_pstatsBaseTable);
 
-	pcrsHist->Release();
-	pcrsWidth->Release();
+	;
+	;
 }
 
 
@@ -278,7 +277,7 @@ CPhysicalScan::ComputeTableStats(CMemoryPool *mp)
 //		Conversion function
 //
 //---------------------------------------------------------------------------
-gpos::cast_func<CPhysicalScan *>
+CPhysicalScan *
 CPhysicalScan::PopConvert(COperator *pop)
 {
 	GPOS_ASSERT(nullptr != pop);

@@ -301,7 +301,7 @@ public:
 	// print function
 	IOstream &OsPrint(IOstream &os) const override;
 
-	BOOL Equals(gpos::pointer<ICostModelParams *> pcm) const override;
+	BOOL Equals(ICostModelParams *pcm) const override;
 
 	const CHAR *SzNameLookup(ULONG id) const override;
 

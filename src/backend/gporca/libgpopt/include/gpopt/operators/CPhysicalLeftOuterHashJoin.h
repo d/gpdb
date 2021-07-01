@@ -33,10 +33,10 @@ public:
 	CPhysicalLeftOuterHashJoin(const CPhysicalLeftOuterHashJoin &) = delete;
 
 	// ctor
-	CPhysicalLeftOuterHashJoin(
-		CMemoryPool *mp, gpos::owner<CExpressionArray *> pdrgpexprOuterKeys,
-		gpos::owner<CExpressionArray *> pdrgpexprInnerKeys,
-		gpos::owner<IMdIdArray *> hash_opfamilies);
+	CPhysicalLeftOuterHashJoin(CMemoryPool *mp,
+							   gpos::Ref<CExpressionArray> pdrgpexprOuterKeys,
+							   gpos::Ref<CExpressionArray> pdrgpexprInnerKeys,
+							   gpos::Ref<IMdIdArray> hash_opfamilies);
 
 	// dtor
 	~CPhysicalLeftOuterHashJoin() override;
@@ -56,7 +56,7 @@ public:
 	}
 
 	// conversion function
-	static gpos::cast_func<CPhysicalLeftOuterHashJoin *>
+	static CPhysicalLeftOuterHashJoin *
 	PopConvert(COperator *pop)
 	{
 		GPOS_ASSERT(nullptr != pop);

@@ -29,9 +29,9 @@ using namespace gpopt;
 //
 //---------------------------------------------------------------------------
 CPhysicalLeftOuterHashJoin::CPhysicalLeftOuterHashJoin(
-	CMemoryPool *mp, gpos::owner<CExpressionArray *> pdrgpexprOuterKeys,
-	gpos::owner<CExpressionArray *> pdrgpexprInnerKeys,
-	gpos::owner<IMdIdArray *> hash_opfamilies)
+	CMemoryPool *mp, gpos::Ref<CExpressionArray> pdrgpexprOuterKeys,
+	gpos::Ref<CExpressionArray> pdrgpexprInnerKeys,
+	gpos::Ref<IMdIdArray> hash_opfamilies)
 	: CPhysicalHashJoin(mp, std::move(pdrgpexprOuterKeys),
 						std::move(pdrgpexprInnerKeys),
 						std::move(hash_opfamilies))

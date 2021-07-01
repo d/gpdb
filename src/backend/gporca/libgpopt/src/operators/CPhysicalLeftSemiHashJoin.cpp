@@ -30,9 +30,9 @@ using namespace gpopt;
 //
 //---------------------------------------------------------------------------
 CPhysicalLeftSemiHashJoin::CPhysicalLeftSemiHashJoin(
-	CMemoryPool *mp, gpos::owner<CExpressionArray *> pdrgpexprOuterKeys,
-	gpos::owner<CExpressionArray *> pdrgpexprInnerKeys,
-	gpos::owner<IMdIdArray *> hash_opfamilies)
+	CMemoryPool *mp, gpos::Ref<CExpressionArray> pdrgpexprOuterKeys,
+	gpos::Ref<CExpressionArray> pdrgpexprInnerKeys,
+	gpos::Ref<IMdIdArray> hash_opfamilies)
 	: CPhysicalHashJoin(mp, std::move(pdrgpexprOuterKeys),
 						std::move(pdrgpexprInnerKeys),
 						std::move(hash_opfamilies))
@@ -60,9 +60,9 @@ CPhysicalLeftSemiHashJoin::~CPhysicalLeftSemiHashJoin() = default;
 //
 //---------------------------------------------------------------------------
 BOOL
-CPhysicalLeftSemiHashJoin::FProvidesReqdCols(
-	CExpressionHandle &exprhdl, gpos::pointer<CColRefSet *> pcrsRequired,
-	ULONG  // ulOptReq
+CPhysicalLeftSemiHashJoin::FProvidesReqdCols(CExpressionHandle &exprhdl,
+											 CColRefSet *pcrsRequired,
+											 ULONG	// ulOptReq
 ) const
 {
 	// left semi join only propagates columns from left child

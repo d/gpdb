@@ -57,8 +57,8 @@ CDistributionSpecNonSingleton::CDistributionSpecNonSingleton(
 //		Check if this distribution spec satisfies the given one
 //
 //---------------------------------------------------------------------------
-BOOL CDistributionSpecNonSingleton::FSatisfies(
-	gpos::pointer<const CDistributionSpec *>  // pds
+BOOL
+CDistributionSpecNonSingleton::FSatisfies(const CDistributionSpec *	 // pds
 ) const
 {
 	GPOS_ASSERT(!"Non-Singleton distribution cannot be derived");
@@ -77,16 +77,15 @@ BOOL CDistributionSpecNonSingleton::FSatisfies(
 //
 //---------------------------------------------------------------------------
 void
-CDistributionSpecNonSingleton::AppendEnforcers(
-	CMemoryPool *mp,
-	CExpressionHandle &,  // exprhdl
-	gpos::pointer<CReqdPropPlan *>
+CDistributionSpecNonSingleton::AppendEnforcers(CMemoryPool *mp,
+											   CExpressionHandle &,	 // exprhdl
+											   CReqdPropPlan *
 #ifdef GPOS_DEBUG
-		prpp
+												   prpp
 #endif	// GPOS_DEBUG
-	,
-	gpos::pointer<CExpressionArray *> pdrgpexpr,
-	gpos::pointer<CExpression *> pexpr)
+											   ,
+											   CExpressionArray *pdrgpexpr,
+											   CExpression *pexpr)
 {
 	GPOS_ASSERT(nullptr != mp);
 	GPOS_ASSERT(nullptr != prpp);
@@ -105,10 +104,10 @@ CDistributionSpecNonSingleton::AppendEnforcers(
 	}
 
 	// add a random distribution enforcer
-	gpos::owner<CDistributionSpecStrictRandom *> pdsrandom =
+	gpos::Ref<CDistributionSpecStrictRandom> pdsrandom =
 		GPOS_NEW(mp) CDistributionSpecStrictRandom();
-	pexpr->AddRef();
-	gpos::owner<CExpression *> pexprMotion = GPOS_NEW(mp) CExpression(
+	;
+	gpos::Ref<CExpression> pexprMotion = GPOS_NEW(mp) CExpression(
 		mp, GPOS_NEW(mp) CPhysicalMotionRandom(mp, std::move(pdsrandom)),
 		pexpr);
 	pdrgpexpr->Append(std::move(pexprMotion));

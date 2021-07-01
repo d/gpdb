@@ -35,9 +35,9 @@ public:
 
 	// ctor
 	CPhysicalLeftAntiSemiHashJoin(
-		CMemoryPool *mp, gpos::owner<CExpressionArray *> pdrgpexprOuterKeys,
-		gpos::owner<CExpressionArray *> pdrgpexprInnerKeys,
-		gpos::owner<IMdIdArray *> hash_opfamilies);
+		CMemoryPool *mp, gpos::Ref<CExpressionArray> pdrgpexprOuterKeys,
+		gpos::Ref<CExpressionArray> pdrgpexprInnerKeys,
+		gpos::Ref<IMdIdArray> hash_opfamilies);
 
 	// dtor
 	~CPhysicalLeftAntiSemiHashJoin() override;
@@ -57,12 +57,11 @@ public:
 	}
 
 	// check if required columns are included in output columns
-	BOOL FProvidesReqdCols(CExpressionHandle &exprhdl,
-						   gpos::pointer<CColRefSet *> pcrsRequired,
+	BOOL FProvidesReqdCols(CExpressionHandle &exprhdl, CColRefSet *pcrsRequired,
 						   ULONG ulOptReq) const override;
 
 	// conversion function
-	static gpos::cast_func<CPhysicalLeftAntiSemiHashJoin *>
+	static CPhysicalLeftAntiSemiHashJoin *
 	PopConvert(COperator *pop)
 	{
 		GPOS_ASSERT(EopPhysicalLeftAntiSemiHashJoin == pop->Eopid());

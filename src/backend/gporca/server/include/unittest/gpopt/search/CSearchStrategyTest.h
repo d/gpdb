@@ -31,23 +31,22 @@ class CSearchStrategyTest
 {
 private:
 	// type definition for of expression generator
-	typedef gpos::owner<CExpression *> (*Pfpexpr)(CMemoryPool *);
+	typedef gpos::Ref<CExpression> (*Pfpexpr)(CMemoryPool *);
 
 	// type definition for of optimize function
-	typedef void (*PfnOptimize)(CMemoryPool *, gpos::pointer<CExpression *>,
-								gpos::owner<CSearchStageArray *>);
+	typedef void (*PfnOptimize)(CMemoryPool *, CExpression *,
+								gpos::Ref<CSearchStageArray>);
 
 	// generate random search strategy
-	static gpos::owner<CSearchStageArray *> PdrgpssRandom(CMemoryPool *mp);
+	static gpos::Ref<CSearchStageArray> PdrgpssRandom(CMemoryPool *mp);
 
 	// run optimize function on given expression
 	static void Optimize(CMemoryPool *mp, Pfpexpr pfnGenerator,
-						 gpos::owner<CSearchStageArray *> search_stage_array,
+						 gpos::Ref<CSearchStageArray> search_stage_array,
 						 PfnOptimize pfnOptimize);
 
-	static void BuildMemo(CMemoryPool *mp,
-						  gpos::pointer<CExpression *> pexprInput,
-						  gpos::owner<CSearchStageArray *> search_stage_array);
+	static void BuildMemo(CMemoryPool *mp, CExpression *pexprInput,
+						  gpos::Ref<CSearchStageArray> search_stage_array);
 
 public:
 	// unittests driver

@@ -71,10 +71,9 @@ CXformRightOuterJoin2HashJoin::Exfp(CExpressionHandle &exprhdl) const
 //
 //---------------------------------------------------------------------------
 void
-CXformRightOuterJoin2HashJoin::Transform(
-	gpos::pointer<CXformContext *> pxfctxt,
-	gpos::pointer<CXformResult *> pxfres,
-	gpos::pointer<CExpression *> pexpr) const
+CXformRightOuterJoin2HashJoin::Transform(CXformContext *pxfctxt,
+										 CXformResult *pxfres,
+										 CExpression *pexpr) const
 {
 	GPOS_ASSERT(nullptr != pxfctxt);
 	GPOS_ASSERT(FPromising(pxfctxt->Pmp(), this, pexpr));

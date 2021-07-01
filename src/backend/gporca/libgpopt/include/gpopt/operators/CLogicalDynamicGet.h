@@ -38,16 +38,14 @@ public:
 	explicit CLogicalDynamicGet(CMemoryPool *mp);
 
 	CLogicalDynamicGet(CMemoryPool *mp, const CName *pnameAlias,
-					   gpos::owner<CTableDescriptor *> ptabdesc,
-					   ULONG ulPartIndex,
-					   gpos::owner<CColRefArray *> pdrgpcrOutput,
-					   gpos::owner<CColRef2dArray *> pdrgpdrgpcrPart,
-					   gpos::owner<IMdIdArray *> partition_mdids);
+					   gpos::Ref<CTableDescriptor> ptabdesc, ULONG ulPartIndex,
+					   gpos::Ref<CColRefArray> pdrgpcrOutput,
+					   gpos::Ref<CColRef2dArray> pdrgpdrgpcrPart,
+					   gpos::Ref<IMdIdArray> partition_mdids);
 
 	CLogicalDynamicGet(CMemoryPool *mp, const CName *pnameAlias,
-					   gpos::owner<CTableDescriptor *> ptabdesc,
-					   ULONG ulPartIndex,
-					   gpos::owner<IMdIdArray *> partition_mdids);
+					   gpos::Ref<CTableDescriptor> ptabdesc, ULONG ulPartIndex,
+					   gpos::Ref<IMdIdArray> partition_mdids);
 
 	// dtor
 	~CLogicalDynamicGet() override;
@@ -70,14 +68,14 @@ public:
 	ULONG HashValue() const override;
 
 	// match function
-	BOOL Matches(gpos::pointer<COperator *> pop) const override;
+	BOOL Matches(COperator *pop) const override;
 
 	// sensitivity to order of inputs
 	BOOL FInputOrderSensitive() const override;
 
 	// return a copy of the operator with remapped columns
-	gpos::owner<COperator *> PopCopyWithRemappedColumns(
-		CMemoryPool *mp, gpos::pointer<UlongToColRefMap *> colref_mapping,
+	gpos::Ref<COperator> PopCopyWithRemappedColumns(
+		CMemoryPool *mp, UlongToColRefMap *colref_mapping,
 		BOOL must_exist) override;
 
 	//-------------------------------------------------------------------------------------
@@ -95,12 +93,12 @@ public:
 	}
 
 	// derive table descriptor
-	gpos::pointer<CTableDescriptor *>
+	CTableDescriptor *
 	DeriveTableDescriptor(CMemoryPool *,	   // mp
 						  CExpressionHandle &  // exprhdl
 	) const override
 	{
-		return m_ptabdesc;
+		return m_ptabdesc.get();
 	}
 
 	// derive max card
@@ -113,11 +111,11 @@ public:
 	//-------------------------------------------------------------------------------------
 
 	// compute required stat columns of the n-th child
-	gpos::owner<CColRefSet *>
-	PcrsStat(CMemoryPool *,				   // mp,
-			 CExpressionHandle &,		   // exprhdl
-			 gpos::pointer<CColRefSet *>,  //pcrsInput
-			 ULONG						   // child_index
+	gpos::Ref<CColRefSet>
+	PcrsStat(CMemoryPool *,		   // mp,
+			 CExpressionHandle &,  // exprhdl
+			 CColRefSet *,		   //pcrsInput
+			 ULONG				   // child_index
 	) const override
 	{
 		GPOS_ASSERT(!"CLogicalDynamicGet has no children");
@@ -129,16 +127,16 @@ public:
 	//-------------------------------------------------------------------------------------
 
 	// candidate set of xforms
-	gpos::owner<CXformSet *> PxfsCandidates(CMemoryPool *mp) const override;
+	gpos::Ref<CXformSet> PxfsCandidates(CMemoryPool *mp) const override;
 
 	//-------------------------------------------------------------------------------------
 	// Statistics
 	//-------------------------------------------------------------------------------------
 
 	// derive statistics
-	gpos::owner<IStatistics *> PstatsDerive(
+	gpos::Ref<IStatistics> PstatsDerive(
 		CMemoryPool *mp, CExpressionHandle &exprhdl,
-		gpos::pointer<IStatisticsArray *> stats_ctxt) const override;
+		IStatisticsArray *stats_ctxt) const override;
 
 	// stat promise
 	EStatPromise
@@ -152,7 +150,7 @@ public:
 	//-------------------------------------------------------------------------------------
 
 	// conversion function
-	static gpos::cast_func<CLogicalDynamicGet *>
+	static CLogicalDynamicGet *
 	PopConvert(COperator *pop)
 	{
 		GPOS_ASSERT(nullptr != pop);
